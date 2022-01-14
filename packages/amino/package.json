@@ -1,9 +1,9 @@
 {
-  "name": "@cosmjs/cosmwasm-stargate",
-  "version": "0.27.0",
-  "description": "CosmWasm SDK",
+  "name": "@cosmjs/amino",
+  "version": "0.27.0-rc2",
+  "description": "Helpers for Amino based signing which are shared between @cosmjs/launchpad and @cosmjs/stargate.",
   "contributors": [
-    "Will Clark <willclarktech@users.noreply.github.com>"
+    "Simon Warta <webmaster128@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/cosmwasm-stargate"
+    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/amino"
   },
   "publishConfig": {
     "access": "public",
@@ -24,32 +24,26 @@
   },
   "scripts": {
     "docs": "typedoc --options typedoc.js",
-    "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
-    "format-text": "prettier --write \"./*.md\"",
     "lint": "eslint --max-warnings 0 \"./**/*.ts\" \"./*.js\"",
     "lint-fix": "eslint --fix --max-warnings 0 \"./**/*.ts\" \"./*.js\"",
-    "build": "rm -rf ./build && tsc",
-    "build-or-skip": "[ -n \"$SKIP_BUILD\" ] || yarn build",
+    "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
+    "format-text": "prettier --write \"./*.md\"",
     "test-node": "yarn node jasmine-testrunner.js",
+    "test-edge": "yarn pack-web && karma start --single-run --browsers Edge",
     "test-firefox": "yarn pack-web && karma start --single-run --browsers Firefox",
     "test-chrome": "yarn pack-web && karma start --single-run --browsers ChromeHeadless",
+    "test-safari": "yarn pack-web && karma start --single-run --browsers Safari",
     "test": "yarn build-or-skip && yarn test-node",
     "coverage": "nyc --reporter=text --reporter=lcov yarn test --quiet",
+    "build": "rm -rf ./build && tsc",
+    "build-or-skip": "[ -n \"$SKIP_BUILD\" ] || yarn build",
     "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
   },
   "dependencies": {
-    "@cosmjs/amino": "workspace:packages/amino",
     "@cosmjs/crypto": "0.27.0-rc2",
     "@cosmjs/encoding": "0.27.0-rc2",
     "@cosmjs/math": "0.27.0-rc2",
-    "@cosmjs/proto-signing": "0.27.0-rc2",
-    "@cosmjs/stargate": "workspace:packages/stargate",
-    "@cosmjs/tendermint-rpc": "workspace:packages/tendermint-rpc",
-    "@cosmjs/utils": "0.27.0-rc2",
-    "cosmjs-types": "^0.4.0",
-    "long": "^4.0.0",
-    "pako": "^2.0.2",
-    "protobufjs": "~6.10.2"
+    "@cosmjs/utils": "0.27.0-rc2"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -58,9 +52,6 @@
     "@types/karma-firefox-launcher": "^2",
     "@types/karma-jasmine": "^4",
     "@types/karma-jasmine-html-reporter": "^1",
-    "@types/long": "^4.0.1",
-    "@types/node": "^15.0.1",
-    "@types/pako": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^4.28",
     "@typescript-eslint/parser": "^4.28",
     "eslint": "^7.5",
@@ -81,7 +72,6 @@
     "karma-jasmine-html-reporter": "^1.5.4",
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
-    "readonly-date": "^1.0.0",
     "ses": "^0.11.0",
     "source-map-support": "^0.5.19",
     "stream-browserify": "^3.0.0",
@@ -90,5 +80,6 @@
     "typescript": "~4.4",
     "webpack": "^5.32.0",
     "webpack-cli": "^4.6.0"
-  }
+  },
+  "stableVersion": "0.26.5"
 }

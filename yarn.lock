@@ -286,23 +286,56 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/amino@npm:0.27.0-rc2":
-  version: 0.27.0-rc2
-  resolution: "@cosmjs/amino@npm:0.27.0-rc2"
+"@cosmjs/amino@0.27.0-rc2, @cosmjs/amino@workspace:packages/amino":
+  version: 0.0.0-use.local
+  resolution: "@cosmjs/amino@workspace:packages/amino"
   dependencies:
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
-  checksum: 7b817931c8ef621e98d4621d05070e88977a6b6986fb529f67f9690b120e78370d663ecf68c8ef4abe75856b912222164b0d7a6d37d7cc4c0c12d9737ceaede5
-  languageName: node
-  linkType: hard
+    "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@types/eslint-plugin-prettier": ^3
+    "@types/jasmine": ^3.8
+    "@types/karma-firefox-launcher": ^2
+    "@types/karma-jasmine": ^4
+    "@types/karma-jasmine-html-reporter": ^1
+    "@typescript-eslint/eslint-plugin": ^4.28
+    "@typescript-eslint/parser": ^4.28
+    eslint: ^7.5
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-node: ^0.3.4
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    eslint-plugin-simple-import-sort: ^7.0.0
+    esm: ^3.2.25
+    glob: ^7.1.6
+    jasmine: ^3.8
+    jasmine-core: ^3.7.1
+    jasmine-spec-reporter: ^6
+    karma: ^6.1.1
+    karma-chrome-launcher: ^3.1.0
+    karma-firefox-launcher: ^2.1.0
+    karma-jasmine: ^4.0.1
+    karma-jasmine-html-reporter: ^1.5.4
+    nyc: ^15.1.0
+    prettier: ^2.4.1
+    ses: ^0.11.0
+    source-map-support: ^0.5.19
+    stream-browserify: ^3.0.0
+    ts-node: ^8
+    typedoc: ^0.22
+    typescript: ~4.4
+    webpack: ^5.32.0
+    webpack-cli: ^4.6.0
+  languageName: unknown
+  linkType: soft
 
 "@cosmjs/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@cosmjs/cli@workspace:packages/cli"
   dependencies:
-    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/amino": "workspace:packages/amino"
     "@cosmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate"
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
@@ -352,7 +385,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmjs/cosmwasm-stargate@workspace:packages/cosmwasm-stargate"
   dependencies:
-    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/amino": "workspace:packages/amino"
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
@@ -570,7 +603,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@cosmjs/proto-signing@workspace:packages/proto-signing"
   dependencies:
-    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/amino": "workspace:packages/amino"
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
@@ -635,7 +668,7 @@ __metadata:
   resolution: "@cosmjs/stargate@workspace:packages/stargate"
   dependencies:
     "@confio/ics23": ^0.6.3
-    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/amino": "workspace:packages/amino"
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
@@ -2416,7 +2449,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cosmjs-monorepo-root@workspace:."
   dependencies:
-    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/amino": "workspace:packages/amino"
     "@cosmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate"
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
