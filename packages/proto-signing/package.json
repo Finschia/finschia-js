@@ -39,16 +39,17 @@
     "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
   },
   "dependencies": {
-    "@cosmjs/amino": "workspace:packages/amino",
-    "@cosmjs/crypto": "workspace:packages/crypto",
-    "@cosmjs/math": "workspace:packages/math",
+    "@cosmjs/amino": "0.27.0-rc2",
+    "@cosmjs/crypto": "0.27.0-rc2",
+    "@cosmjs/math": "0.27.0-rc2",
     "cosmjs-types": "^0.4.0",
+    "lbmjs-types": "^0.43.1",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2"
   },
   "devDependencies": {
-    "@cosmjs/encoding": "workspace:packages/encoding",
-    "@cosmjs/utils": "workspace:packages/utils",
+    "@cosmjs/encoding": "0.27.0-rc2",
+    "@cosmjs/utils": "0.27.0-rc2",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
