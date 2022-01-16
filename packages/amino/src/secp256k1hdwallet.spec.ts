@@ -2,18 +2,18 @@
 import { Secp256k1, Secp256k1Signature, sha256 } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 
-import { makeCosmoshubPath } from "./paths";
+import { makeLinkPath } from "./paths";
 import { extractKdfConfiguration, Secp256k1HdWallet } from "./secp256k1hdwallet";
 import { serializeSignDoc, StdSignDoc } from "./signdoc";
 import { base64Matcher } from "./testutils.spec";
 import { executeKdf, KdfConfiguration } from "./wallet";
 
 describe("Secp256k1HdWallet", () => {
-  // m/44'/118'/0'/0/0
-  // pubkey: 02baa4ef93f2ce84592a49b1d729c074eab640112522a7a89f7d03ebab21ded7b6
+  // m/44'/438'/0'/0/0
+  // pubkey: 03b2788d880a6103e37bb7f92fb43d590190e8e549fc250a6115ac5a17b2e2ad8a
   const defaultMnemonic = "special sign fit simple patrol salute grocery chicken wheat radar tonight ceiling";
-  const defaultPubkey = fromHex("02baa4ef93f2ce84592a49b1d729c074eab640112522a7a89f7d03ebab21ded7b6");
-  const defaultAddress = "cosmos1jhg0e7s6gn44tfc5k37kr04sznyhedtc9rzys5";
+  const defaultPubkey = fromHex("03b2788d880a6103e37bb7f92fb43d590190e8e549fc250a6115ac5a17b2e2ad8a");
+  const defaultAddress = "link16wjhpz2h4anh6p8haezmry2aj3psxekr30ltw0";
 
   describe("fromMnemonic", () => {
     it("works", async () => {
@@ -25,7 +25,7 @@ describe("Secp256k1HdWallet", () => {
     it("works with options", async () => {
       const wallet = await Secp256k1HdWallet.fromMnemonic(defaultMnemonic, {
         bip39Password: "password123",
-        hdPaths: [makeCosmoshubPath(123)],
+        hdPaths: [makeLinkPath(123)],
         prefix: "yolo",
       });
       expect(wallet.mnemonic).toEqual(defaultMnemonic);
@@ -85,7 +85,7 @@ describe("Secp256k1HdWallet", () => {
         "economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone";
       const prefix = "wasm";
       const accountNumbers = [0, 1, 2, 3, 4];
-      const hdPaths = accountNumbers.map(makeCosmoshubPath);
+      const hdPaths = accountNumbers.map(makeLinkPath);
       const original = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
         hdPaths: hdPaths,
         prefix: prefix,
@@ -100,28 +100,28 @@ describe("Secp256k1HdWallet", () => {
       expect(accounts).toEqual([
         {
           algo: "secp256k1",
-          pubkey: fromBase64("A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ"),
-          address: "wasm1pkptre7fdkl6gfrzlesjjvhxhlc3r4gm32kke3",
+          pubkey: fromBase64("Av5a6+1yql0DfiZ5MUZvAUYm7NcOA0PVI9cK2Vvo1GQV"),
+          address: "wasm1xzyh64ze36dc5xv30np8a8lhzz8aqerp5tztkq",
         },
         {
           algo: "secp256k1",
-          pubkey: fromBase64("AiDosfIbBi54XJ1QjCeApumcy/FjdtF+YhywPf3DKTx7"),
-          address: "wasm10dyr9899g6t0pelew4nvf4j5c3jcgv0r5d3a5l",
+          pubkey: fromBase64("A9ISSVVDtbe6n0BuJJzDRqgjPN1rSpOgDRT49R4a/t+S"),
+          address: "wasm19rxarjv9mjs6vjpgggxycaaqcq4f5vcnnjtwr8",
         },
         {
           algo: "secp256k1",
-          pubkey: fromBase64("AzQg33JZqH7vSsm09esZY5bZvmzYwE/SY78cA0iLxpD7"),
-          address: "wasm1xy4yqngt0nlkdcenxymg8tenrghmek4n3u2lwa",
+          pubkey: fromBase64("AlfQ6KU1IEFcEoerKUXwSG8rkrcvW6hm53igOrMYd8k2"),
+          address: "wasm19e0vej36r9ykh5ag4f9q4x0kzulfcsc0gqlqsd",
         },
         {
           algo: "secp256k1",
-          pubkey: fromBase64("A3gOAlB6aiRTCPvWMQg2+ZbGYNsLd8qlvV28m8p2UhY2"),
-          address: "wasm142u9fgcjdlycfcez3lw8x6x5h7rfjlnfaallkd",
+          pubkey: fromBase64("AgMF2XGIV1G2OkK9PhfEjifBSe/jazEWhAysB6WU+8R3"),
+          address: "wasm1apvgvdjxtnmvh9j23pwh4xsuwhsaef5nf6q88f",
         },
         {
           algo: "secp256k1",
-          pubkey: fromBase64("Aum2063ub/ErUnIUB36sK55LktGUStgcbSiaAnL1wadu"),
-          address: "wasm1hsm76p4ahyhl5yh3ve9ur49r5kemhp2r93f89d",
+          pubkey: fromBase64("AmMobOwPjuWkZDKvJJ5QZ61X0J8V0/rCUDNoKx77eiLH"),
+          address: "wasm1jk0fyfks54yz8spcd6h93n44cqdyzctc0fwnp9",
         },
       ]);
     });
@@ -166,7 +166,7 @@ describe("Secp256k1HdWallet", () => {
       const prefix = "wasm";
       const password = "123";
       const accountNumbers = [0, 1, 2, 3, 4];
-      const hdPaths = accountNumbers.map(makeCosmoshubPath);
+      const hdPaths = accountNumbers.map(makeLinkPath);
       let serialized: string;
       {
         const original = await Secp256k1HdWallet.fromMnemonic(mnemonic, { prefix: prefix, hdPaths: hdPaths });
@@ -194,28 +194,28 @@ describe("Secp256k1HdWallet", () => {
         expect(accounts).toEqual([
           {
             algo: "secp256k1",
-            pubkey: fromBase64("A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ"),
-            address: "wasm1pkptre7fdkl6gfrzlesjjvhxhlc3r4gm32kke3",
+            pubkey: fromBase64("Av5a6+1yql0DfiZ5MUZvAUYm7NcOA0PVI9cK2Vvo1GQV"),
+            address: "wasm1xzyh64ze36dc5xv30np8a8lhzz8aqerp5tztkq",
           },
           {
             algo: "secp256k1",
-            pubkey: fromBase64("AiDosfIbBi54XJ1QjCeApumcy/FjdtF+YhywPf3DKTx7"),
-            address: "wasm10dyr9899g6t0pelew4nvf4j5c3jcgv0r5d3a5l",
+            pubkey: fromBase64("A9ISSVVDtbe6n0BuJJzDRqgjPN1rSpOgDRT49R4a/t+S"),
+            address: "wasm19rxarjv9mjs6vjpgggxycaaqcq4f5vcnnjtwr8",
           },
           {
             algo: "secp256k1",
-            pubkey: fromBase64("AzQg33JZqH7vSsm09esZY5bZvmzYwE/SY78cA0iLxpD7"),
-            address: "wasm1xy4yqngt0nlkdcenxymg8tenrghmek4n3u2lwa",
+            pubkey: fromBase64("AlfQ6KU1IEFcEoerKUXwSG8rkrcvW6hm53igOrMYd8k2"),
+            address: "wasm19e0vej36r9ykh5ag4f9q4x0kzulfcsc0gqlqsd",
           },
           {
             algo: "secp256k1",
-            pubkey: fromBase64("A3gOAlB6aiRTCPvWMQg2+ZbGYNsLd8qlvV28m8p2UhY2"),
-            address: "wasm142u9fgcjdlycfcez3lw8x6x5h7rfjlnfaallkd",
+            pubkey: fromBase64("AgMF2XGIV1G2OkK9PhfEjifBSe/jazEWhAysB6WU+8R3"),
+            address: "wasm1apvgvdjxtnmvh9j23pwh4xsuwhsaef5nf6q88f",
           },
           {
             algo: "secp256k1",
-            pubkey: fromBase64("Aum2063ub/ErUnIUB36sK55LktGUStgcbSiaAnL1wadu"),
-            address: "wasm1hsm76p4ahyhl5yh3ve9ur49r5kemhp2r93f89d",
+            pubkey: fromBase64("AmMobOwPjuWkZDKvJJ5QZ61X0J8V0/rCUDNoKx77eiLH"),
+            address: "wasm1jk0fyfks54yz8spcd6h93n44cqdyzctc0fwnp9",
           },
         ]);
       }
@@ -239,7 +239,7 @@ describe("Secp256k1HdWallet", () => {
         "oyster design unusual machine spread century engine gravity focus cave carry slot",
       );
       const [{ address }] = await wallet.getAccounts();
-      expect(address).toEqual("cosmos1cjsxept9rkggzxztslae9ndgpdyt2408lk850u");
+      expect(address).toEqual("link1m74nj9caexugrtdexx4f6wdrgy59jrlf06xrsu");
     });
   });
 

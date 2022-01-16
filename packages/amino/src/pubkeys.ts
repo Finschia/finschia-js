@@ -7,31 +7,31 @@ export interface Pubkey {
 }
 
 export interface Ed25519Pubkey extends SinglePubkey {
-  readonly type: "tendermint/PubKeyEd25519";
+  readonly type: "ostracon/PubKeyEd25519";
   readonly value: string;
 }
 
 export function isEd25519Pubkey(pubkey: Pubkey): pubkey is Ed25519Pubkey {
-  return (pubkey as Ed25519Pubkey).type === "tendermint/PubKeyEd25519";
+  return (pubkey as Ed25519Pubkey).type === "ostracon/PubKeyEd25519";
 }
 
 export interface Secp256k1Pubkey extends SinglePubkey {
-  readonly type: "tendermint/PubKeySecp256k1";
+  readonly type: "ostracon/PubKeySecp256k1";
   readonly value: string;
 }
 
 export function isSecp256k1Pubkey(pubkey: Pubkey): pubkey is Secp256k1Pubkey {
-  return (pubkey as Secp256k1Pubkey).type === "tendermint/PubKeySecp256k1";
+  return (pubkey as Secp256k1Pubkey).type === "ostracon/PubKeySecp256k1";
 }
 
 export const pubkeyType = {
-  /** @see https://github.com/tendermint/tendermint/blob/v0.33.0/crypto/ed25519/ed25519.go#L22 */
-  secp256k1: "tendermint/PubKeySecp256k1" as const,
-  /** @see https://github.com/tendermint/tendermint/blob/v0.33.0/crypto/secp256k1/secp256k1.go#L23 */
-  ed25519: "tendermint/PubKeyEd25519" as const,
-  /** @see https://github.com/tendermint/tendermint/blob/v0.33.0/crypto/sr25519/codec.go#L12 */
-  sr25519: "tendermint/PubKeySr25519" as const,
-  multisigThreshold: "tendermint/PubKeyMultisigThreshold" as const,
+  /** @see https://github.com/line/ostracon/blob/530dbec427cf89feb0104f045c39e17360b71c7b/crypto/ed25519/ed25519.go#L24 */
+  secp256k1: "ostracon/PubKeySecp256k1" as const,
+  /** @see https://github.com/line/ostracon/blob/530dbec427cf89feb0104f045c39e17360b71c7b/crypto/secp256k1/secp256k1.go#L21 */
+  ed25519: "ostracon/PubKeyEd25519" as const,
+  /** @see https://github.com/line/ostracon/blob/530dbec427cf89feb0104f045c39e17360b71c7b/crypto/sr25519/encoding.go#L12 */
+  sr25519: "ostracon/PubKeySr25519" as const,
+  multisigThreshold: "ostracon/PubKeyMultisigThreshold" as const,
 };
 
 /**
@@ -58,7 +58,7 @@ export function isSinglePubkey(pubkey: Pubkey): pubkey is SinglePubkey {
 }
 
 export interface MultisigThresholdPubkey extends Pubkey {
-  readonly type: "tendermint/PubKeyMultisigThreshold";
+  readonly type: "ostracon/PubKeyMultisigThreshold";
   readonly value: {
     /** A string-encoded integer */
     readonly threshold: string;
@@ -67,5 +67,5 @@ export interface MultisigThresholdPubkey extends Pubkey {
 }
 
 export function isMultisigThresholdPubkey(pubkey: Pubkey): pubkey is MultisigThresholdPubkey {
-  return (pubkey as MultisigThresholdPubkey).type === "tendermint/PubKeyMultisigThreshold";
+  return (pubkey as MultisigThresholdPubkey).type === "ostracon/PubKeyMultisigThreshold";
 }

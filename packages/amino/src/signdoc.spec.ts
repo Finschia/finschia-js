@@ -62,7 +62,7 @@ describe("encoding", () => {
     it("works", () => {
       const chainId = "testspace-12";
       const msg1: AminoMsg = {
-        type: "cosmos-sdk/MsgDelegate",
+        type: "lbm-sdk/MsgDelegate",
         value: {
           delegator_address: testAddress,
           validator_address: testValidatorAddress,
