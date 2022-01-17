@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromHex } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
-import { MsgSend as IMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { Any } from "cosmjs-types/google/protobuf/any";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgSend as IMsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 import { Field, Type } from "protobufjs";
 
@@ -12,25 +12,25 @@ import { isPbjsGeneratedType, isTsProtoGeneratedType, Registry } from "./registr
 describe("registry demo", () => {
   it("works with a default msg", () => {
     const registry = new Registry();
-    const Coin = registry.lookupType("/cosmos.base.v1beta1.Coin");
-    const MsgSend = registry.lookupType("/cosmos.bank.v1beta1.MsgSend");
+    const Coin = registry.lookupType("/lbm.base.v1.Coin");
+    const MsgSend = registry.lookupType("/lbm.bank.v1.MsgSend");
     assert(Coin);
     assert(MsgSend);
     assert(isTsProtoGeneratedType(Coin));
     assert(isTsProtoGeneratedType(MsgSend));
 
     const coin = Coin.fromPartial({
-      denom: "ucosm",
+      denom: "cony",
       amount: "1234567890",
     });
     const msgSend = MsgSend.fromPartial({
-      fromAddress: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
-      toAddress: "cosmos1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc5lzv7xu",
+      fromAddress: "link1xzyh64ze36dc5xv30np8a8lhzz8aqerptenuyr",
+      toAddress: "link16wjhpz2h4anh6p8haezmry2aj3psxekr30ltw0",
       amount: [coin],
     }) as unknown as IMsgSend;
     const msgSendBytes = MsgSend.encode(msgSend).finish();
     const msgSendWrapped = Any.fromPartial({
-      typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+      typeUrl: "/lbm.bank.v1.MsgSend",
       value: msgSendBytes,
     });
     const txBody = TxBody.fromPartial({

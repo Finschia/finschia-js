@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, SignDoc, SignerInfo } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { Any } from "cosmjs-types/google/protobuf/any";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
+import { AuthInfo, SignDoc, SignerInfo } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 
 /**
@@ -50,19 +50,18 @@ export function makeSignDoc(
   bodyBytes: Uint8Array,
   authInfoBytes: Uint8Array,
   chainId: string,
-  accountNumber: number,
+  // accountNumber: number,
 ): SignDoc {
   return {
     bodyBytes: bodyBytes,
     authInfoBytes: authInfoBytes,
     chainId: chainId,
-    accountNumber: Long.fromNumber(accountNumber),
+    // accountNumber: Long.fromNumber(accountNumber),
   };
 }
 
-export function makeSignBytes({ accountNumber, authInfoBytes, bodyBytes, chainId }: SignDoc): Uint8Array {
+export function makeSignBytes({ authInfoBytes, bodyBytes, chainId }: SignDoc): Uint8Array {
   const signDoc = SignDoc.fromPartial({
-    accountNumber: accountNumber,
     authInfoBytes: authInfoBytes,
     bodyBytes: bodyBytes,
     chainId: chainId,

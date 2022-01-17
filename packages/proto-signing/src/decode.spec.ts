@@ -1,8 +1,8 @@
 import { fromBase64, fromHex } from "@cosmjs/encoding";
-import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { Any } from "cosmjs-types/google/protobuf/any";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { PubKey } from "lbmjs-types/lbm/crypto/secp256k1/keys";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
 import Long from "long";
 
 import { decodeTxRaw } from "./decode";
@@ -16,14 +16,14 @@ describe("decode", () => {
       const testVector = testVectors[0];
 
       const expectedMsg: Any = {
-        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+        typeUrl: "/lbm.bank.v1.MsgSend",
         value: Uint8Array.from(
           MsgSend.encode({
-            fromAddress: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
-            toAddress: "cosmos1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc5lzv7xu",
+            fromAddress: "link1xzyh64ze36dc5xv30np8a8lhzz8aqerptenuyr",
+            toAddress: "link1twsfmuj28ndph54k4nw8crwu8h9c8mh3rtx705",
             amount: [
               {
-                denom: "ucosm",
+                denom: "cony",
                 amount: "1234567",
               },
             ],
@@ -37,13 +37,14 @@ describe("decode", () => {
           signerInfos: [
             {
               publicKey: {
-                typeUrl: "/cosmos.crypto.secp256k1.PubKey",
+                typeUrl: "/lbm.crypto.secp256k1.PubKey",
                 value: prefixedPubkeyBytes,
               },
               modeInfo: {
                 single: {
                   mode: SignMode.SIGN_MODE_DIRECT,
                 },
+                multi: undefined,
               },
               sequence: Long.fromNumber(0, true),
             },
@@ -52,8 +53,9 @@ describe("decode", () => {
             gasLimit: Long.fromNumber(200000, true),
             payer: "",
             granter: "",
-            amount: [{ amount: "2000", denom: "ucosm" }],
+            amount: [{ amount: "2000", denom: "cony" }],
           },
+          sigBlockHeight: Long.fromNumber(0, true),
         },
         body: {
           memo: "",

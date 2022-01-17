@@ -40,13 +40,14 @@
     "publish-latest": "yarn workspaces foreach --no-private exec yarn npm publish"
   },
   "devDependencies": {
-    "@cosmjs/amino": "workspace:packages/amino",
+    "@cosmjs/amino": "0.27.0-rc2",
     "@cosmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate",
     "@cosmjs/crypto": "0.27.0-rc2",
     "@cosmjs/encoding": "0.27.0-rc2",
     "@cosmjs/launchpad": "0.27.0-rc2",
     "@cosmjs/proto-signing": "0.27.0-rc2",
     "@cosmjs/stargate": "workspace:packages/stargate",
+    "@lbmjs/amino": "workspace:packages/amino",
     "eslint": "^7.5",
     "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^4.0.1",

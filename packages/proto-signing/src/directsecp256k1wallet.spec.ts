@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coins } from "@cosmjs/amino";
 import { Secp256k1, Secp256k1Signature, sha256 } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
+import { coins } from "@lbmjs/amino";
 
 import { DirectSecp256k1Wallet } from "./directsecp256k1wallet";
 import { makeAuthInfoBytes, makeSignBytes, makeSignDoc } from "./signing";
@@ -9,7 +9,7 @@ import { testVectors } from "./testutils.spec";
 
 describe("DirectSecp256k1Wallet", () => {
   const defaultPrivkey = fromHex("b8c462d2bb0c1a92edf44f735021f16c270f28ee2c3d1cb49943a5e70a3c763e");
-  const defaultAddress = "cosmos1kxt5x5q2l57ma2d434pqpafxdm0mgeg9c8cvtx";
+  const defaultAddress = "link1kxt5x5q2l57ma2d434pqpafxdm0mgeg9dfcwsw";
   const defaultPubkey = fromHex("03f146c27639179e5b67b8646108f48e1a78b146c74939e34afaa5414ad5c93f8a");
 
   describe("fromKey", () => {
@@ -34,21 +34,21 @@ describe("DirectSecp256k1Wallet", () => {
 
   describe("signDirect", () => {
     it("resolves to valid signature", async () => {
-      const { accountNumber, sequence, bodyBytes } = testVectors[1].inputs;
+      const { sequence, bodyBytes } = testVectors[1].inputs;
       const wallet = await DirectSecp256k1Wallet.fromKey(defaultPrivkey);
       const accounts = await wallet.getAccounts();
       const pubkey = {
-        typeUrl: "/cosmos.crypto.secp256k1.PubKey",
+        typeUrl: "/lbm.crypto.secp256k1.PubKey",
         value: accounts[0].pubkey,
       };
-      const fee = coins(2000, "ucosm");
+      const fee = coins(2000, "cony");
       const gasLimit = 200000;
       const chainId = "simd-testing";
       const signDoc = makeSignDoc(
         fromHex(bodyBytes),
         makeAuthInfoBytes([{ pubkey, sequence }], fee, gasLimit),
         chainId,
-        accountNumber,
+        // accountNumber,
       );
       const signDocBytes = makeSignBytes(signDoc);
       const { signature } = await wallet.signDirect(accounts[0].address, signDoc);

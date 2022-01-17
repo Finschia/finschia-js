@@ -1,5 +1,5 @@
-import { OfflineAminoSigner, StdSignature } from "@cosmjs/amino";
-import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { OfflineAminoSigner, StdSignature } from "@lbmjs/amino";
+import { SignDoc } from "lbmjs-types/lbm/tx/v1/tx";
 
 /**
  * This is the same as Algo from @cosmjs/launchpad but those might diverge in the future.

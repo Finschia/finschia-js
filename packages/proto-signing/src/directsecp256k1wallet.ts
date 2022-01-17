@@ -1,7 +1,7 @@
-import { encodeSecp256k1Signature, rawSecp256k1PubkeyToRawAddress } from "@cosmjs/amino";
 import { Secp256k1, sha256 } from "@cosmjs/crypto";
 import { Bech32 } from "@cosmjs/encoding";
-import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { encodeSecp256k1Signature, rawSecp256k1PubkeyToRawAddress } from "@lbmjs/amino";
+import { SignDoc } from "lbmjs-types/lbm/tx/v1/tx";
 
 import { AccountData, DirectSignResponse, OfflineDirectSigner } from "./signer";
 import { makeSignBytes } from "./signing";
@@ -16,9 +16,9 @@ export class DirectSecp256k1Wallet implements OfflineDirectSigner {
    * Creates a DirectSecp256k1Wallet from the given private key
    *
    * @param privkey The private key.
-   * @param prefix The bech32 address prefix (human readable part). Defaults to "cosmos".
+   * @param prefix The bech32 address prefix (human readable part). Defaults to "link".
    */
-  public static async fromKey(privkey: Uint8Array, prefix = "cosmos"): Promise<DirectSecp256k1Wallet> {
+  public static async fromKey(privkey: Uint8Array, prefix = "link"): Promise<DirectSecp256k1Wallet> {
     const uncompressed = (await Secp256k1.makeKeypair(privkey)).pubkey;
     return new DirectSecp256k1Wallet(privkey, Secp256k1.compressPubkey(uncompressed), prefix);
   }

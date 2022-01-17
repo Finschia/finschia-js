@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { Any } from "cosmjs-types/google/protobuf/any";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 import protobuf from "protobufjs";
 
@@ -40,9 +40,9 @@ export function isPbjsGeneratedType(type: GeneratedType): type is PbjsGeneratedT
 }
 
 const defaultTypeUrls = {
-  cosmosCoin: "/cosmos.base.v1beta1.Coin",
-  cosmosMsgSend: "/cosmos.bank.v1beta1.MsgSend",
-  cosmosTxBody: "/cosmos.tx.v1beta1.TxBody",
+  linkCoin: "/lbm.base.v1.Coin",
+  linkMsgSend: "/lbm.bank.v1.MsgSend",
+  linkTxBody: "/lbm.tx.v1.TxBody",
   googleAny: "/google.protobuf.Any",
 };
 
@@ -65,24 +65,20 @@ interface TxBodyValue {
 }
 
 export interface TxBodyEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.tx.v1beta1.TxBody";
+  readonly typeUrl: "/lbm.tx.v1.TxBody";
   readonly value: TxBodyValue;
 }
 
 export function isTxBodyEncodeObject(encodeObject: EncodeObject): encodeObject is TxBodyEncodeObject {
-  return (encodeObject as TxBodyEncodeObject).typeUrl === "/cosmos.tx.v1beta1.TxBody";
+  return (encodeObject as TxBodyEncodeObject).typeUrl === "/lbm.tx.v1.TxBody";
 }
 
 export class Registry {
   private readonly types: Map<string, GeneratedType>;
 
   public constructor(customTypes: Iterable<[string, GeneratedType]> = []) {
-    const { cosmosCoin, cosmosMsgSend } = defaultTypeUrls;
-    this.types = new Map<string, GeneratedType>([
-      [cosmosCoin, Coin],
-      [cosmosMsgSend, MsgSend],
-      ...customTypes,
-    ]);
+    const { linkCoin, linkMsgSend } = defaultTypeUrls;
+    this.types = new Map<string, GeneratedType>([[linkCoin, Coin], [linkMsgSend, MsgSend], ...customTypes]);
   }
 
   public register(typeUrl: string, type: GeneratedType): void {
@@ -98,7 +94,7 @@ export class Registry {
    * ```
    * import { assert } from "@cosmjs/utils";
    *
-   * const Coin = registry.lookupType("/cosmos.base.v1beta1.Coin");
+   * const Coin = registry.lookupType("/lbm.base.v1.Coin");
    * assert(Coin); // Ensures not unset
    * assert(isTsProtoGeneratedType(Coin)); // Ensures this is the type we expect
    *
@@ -156,7 +152,7 @@ export class Registry {
   }
 
   public decode({ typeUrl, value }: DecodeObject): any {
-    if (typeUrl === defaultTypeUrls.cosmosTxBody) {
+    if (typeUrl === defaultTypeUrls.linkTxBody) {
       return this.decodeTxBody(value);
     }
     const type = this.lookupTypeWithError(typeUrl);
