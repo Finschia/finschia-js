@@ -310,7 +310,7 @@ __metadata:
     "@cosmjs/launchpad": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
+    "@cosmjs/stargate": 0.27.0-rc2
     "@cosmjs/tendermint-rpc": "workspace:packages/tendermint-rpc"
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
@@ -357,8 +357,8 @@ __metadata:
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
-    "@cosmjs/tendermint-rpc": "workspace:packages/tendermint-rpc"
+    "@cosmjs/stargate": 0.27.0-rc2
+    "@cosmjs/tendermint-rpc": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@types/eslint-plugin-prettier": ^3
@@ -485,7 +485,7 @@ __metadata:
     "@cosmjs/launchpad": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
+    "@cosmjs/stargate": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@koa/cors": ^3.0.0
@@ -578,6 +578,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/stargate@npm:0.27.0-rc2":
+  version: 0.27.0-rc2
+  resolution: "@cosmjs/stargate@npm:0.27.0-rc2"
+  dependencies:
+    "@confio/ics23": ^0.6.3
+    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/encoding": 0.27.0-rc2
+    "@cosmjs/math": 0.27.0-rc2
+    "@cosmjs/proto-signing": 0.27.0-rc2
+    "@cosmjs/stream": 0.27.0-rc2
+    "@cosmjs/tendermint-rpc": 0.27.0-rc2
+    "@cosmjs/utils": 0.27.0-rc2
+    cosmjs-types: ^0.4.0
+    long: ^4.0.0
+    protobufjs: ~6.10.2
+    xstream: ^11.14.0
+  checksum: 31635ea0a565b4c79e5011eb8fc0d348fd24aeade65b424259a1d3738e3fff0c66e75083ad7e3ca6b53a03848f564480c515dc5c5b3a8050a270c11e93d54873
+  languageName: node
+  linkType: hard
+
 "@cosmjs/stargate@workspace:packages/stargate":
   version: 0.0.0-use.local
   resolution: "@cosmjs/stargate@workspace:packages/stargate"
@@ -593,6 +613,7 @@ __metadata:
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@lbmjs/amino": "workspace:packages/amino"
+    "@lbmjs/proto-signing": "workspace:packages/proto-signing"
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8
     "@types/karma-firefox-launcher": ^2
@@ -619,6 +640,9 @@ __metadata:
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
     karma-jasmine-html-reporter: ^1.5.4
+    karma-spec-reporter: ^0.0.33
+    karma-typescript: ^5.5.3
+    lbmjs-types: ^0.43.2
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -642,6 +666,23 @@ __metadata:
   dependencies:
     xstream: ^11.14.0
   checksum: e07acfc7e0e56c2a18eee27fe17a664ac3262bba726e8333245aada79914ad39edffe75ef1d07666a5324a1f66208082095283b4a37f90a15144aa9706ebf69f
+  languageName: node
+  linkType: hard
+
+"@cosmjs/tendermint-rpc@npm:0.27.0-rc2":
+  version: 0.27.0-rc2
+  resolution: "@cosmjs/tendermint-rpc@npm:0.27.0-rc2"
+  dependencies:
+    "@cosmjs/crypto": 0.27.0-rc2
+    "@cosmjs/encoding": 0.27.0-rc2
+    "@cosmjs/json-rpc": 0.27.0-rc2
+    "@cosmjs/math": 0.27.0-rc2
+    "@cosmjs/socket": 0.27.0-rc2
+    "@cosmjs/stream": 0.27.0-rc2
+    axios: ^0.21.2
+    readonly-date: ^1.0.0
+    xstream: ^11.14.0
+  checksum: b14712193f609aae33fa56c9429e5b94484dcfbf7fffe288069105cf7079744353c939ae532d2c642f87a96838810742d9b748979ade80fda7c461ca014d6fb4
   languageName: node
   linkType: hard
 
@@ -854,7 +895,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.43.1
+    lbmjs-types: ^0.43.2
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -2672,9 +2713,10 @@ __metadata:
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/launchpad": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
+    "@cosmjs/stargate": 0.27.0-rc2
     "@lbmjs/amino": "workspace:packages/amino"
     eslint: ^7.5
+    isexe: ^2.0.0
     karma-chrome-launcher: ^3.1.0
     karma-jasmine: ^4.0.1
     karma-spec-reporter: ^0.0.33
@@ -5071,13 +5113,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"lbmjs-types@npm:^0.43.1":
-  version: 0.43.1
-  resolution: "lbmjs-types@npm:0.43.1"
+"lbmjs-types@npm:^0.43.2":
+  version: 0.43.2
+  resolution: "lbmjs-types@npm:0.43.2"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: a4f6bb7f772cf0a81091f980badc0f0a3b99a0066017b794048811ef53c3de18bacf631f76d60051e0c120dfbe5ec0ff670468bcb7b13b279f89f5ba412e0881
+  checksum: 2765b84a8468b19780566ffdd354fa7b84fbc3c7f41fb4d56282baf02811f14f6f58ea2ab46a42d23ff2f162f1fcc09e3b4c90d5383b173889931e33fe253ab1
   languageName: node
   linkType: hard
 

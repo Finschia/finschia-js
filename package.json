@@ -46,7 +46,7 @@
     "@cosmjs/encoding": "0.27.0-rc2",
     "@cosmjs/launchpad": "0.27.0-rc2",
     "@cosmjs/proto-signing": "0.27.0-rc2",
-    "@cosmjs/stargate": "workspace:packages/stargate",
+    "@cosmjs/stargate": "0.27.0-rc2",
     "@lbmjs/amino": "workspace:packages/amino",
     "eslint": "^7.5",
     "karma-chrome-launcher": "^3.1.0",

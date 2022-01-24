@@ -3,7 +3,7 @@
 
 # NOTE: Any path below can be absolute (e.g. "/var/myawesomeapp/data") or
 # relative to the home directory (e.g. "data"). The home directory is
-# "$HOME/.tendermint" by default, but could be changed via $TMHOME env variable
+# "$HOME/.ostracon" by default, but could be changed via $OCHOME env variable
 # or --home cmd flag.
 
 #######################################################################
@@ -11,7 +11,7 @@
 #######################################################################
 
 # TCP or UNIX socket address of the ABCI application,
-# or the name of an ABCI application compiled in with the Tendermint binary
+# or the name of an ABCI application compiled in with the Ostracon binary
 proxy_app = "tcp://127.0.0.1:26658"
 
 # A custom human readable name for this node
@@ -63,7 +63,7 @@ priv_validator_key_file = "config/priv_validator_key.json"
 # Path to the JSON file containing the last sign state of a validator
 priv_validator_state_file = "data/priv_validator_state.json"
 
-# TCP or UNIX socket address for Tendermint to listen on for
+# TCP or UNIX socket address for Ostracon to listen on for
 # connections from an external PrivValidator process
 priv_validator_laddr = ""
 
@@ -88,12 +88,12 @@ filter_peers = false
 [rpc]
 
 # TCP or UNIX socket address for the RPC server to listen on
-laddr = "tcp://127.0.0.1:26657"
+laddr = "tcp://0.0.0.0:26657"
 
 # A list of origins a cross-domain request can be executed from
 # Default value '[]' disables cors support
 # Use '["*"]' to allow any origin
-cors_allowed_origins = ["*"]
+cors_allowed_origins = []
 
 # A list of methods the client is allowed to use with cross-domain requests
 cors_allowed_methods = ["HEAD", "GET", "POST", ]
@@ -126,6 +126,29 @@ unsafe = false
 # 1024 - 40 - 10 - 50 = 924 = ~900
 max_open_connections = 900
 
+# mirrors http.Server#ReadTimeout
+# ReadTimeout is the maximum duration for reading the entire
+# request, including the body.
+# Because ReadTimeout does not let Handlers make per-request
+# decisions on each request body's acceptable deadline or
+# upload rate, most users will prefer to use
+# ReadHeaderTimeout. It is valid to use them both.
+read_timeout = "10s"
+
+# mirrors http.Server#WriteTimeout
+# WriteTimeout is the maximum duration before timing out
+# writes of the response. It is reset whenever a new
+# request's header is read. Like ReadTimeout, it does not
+# let Handlers make decisions on a per-request basis.
+write_timeout = "10s"
+
+# mirrors http.Server#IdleTimeout
+# IdleTimeout is the maximum amount of time to wait for the
+# next request when keep-alives are enabled. If IdleTimeout
+# is zero, the value of ReadTimeout is used. If both are
+# zero, there is no timeout.
+idle_timeout = "1m0s"
+
 # Maximum number of unique clientIDs that can /subscribe
 # If you're using /broadcast_tx_commit, set to the estimated maximum number
 # of broadcast_tx_commit calls per block.
@@ -137,9 +160,9 @@ max_subscription_clients = 100
 max_subscriptions_per_client = 5
 
 # How long to wait for a tx to be committed during /broadcast_tx_commit.
-# WARNING: Using a value larger than 10s will result in increasing the
+# WARNING: Using a value larger than 'WriteTimeout' will result in increasing the
 # global HTTP write timeout, which applies to all connections and endpoints.
-# See https://github.com/tendermint/tendermint/issues/3435
+# See https://github.com/line/ostracon/issues/3435
 timeout_broadcast_tx_commit = "10s"
 
 # Maximum size of request body, in bytes
@@ -149,17 +172,17 @@ max_body_bytes = 1000000
 max_header_bytes = 1048576
 
 # The path to a file containing certificate that is used to create the HTTPS server.
-# Might be either absolute path or path related to Tendermint's config directory.
+# Might be either absolute path or path related to Ostracon's config directory.
 # If the certificate is signed by a certificate authority,
 # the certFile should be the concatenation of the server's certificate, any intermediates,
 # and the CA's certificate.
-# NOTE: both tls_cert_file and tls_key_file must be present for Tendermint to create HTTPS server.
+# NOTE: both tls_cert_file and tls_key_file must be present for Ostracon to create HTTPS server.
 # Otherwise, HTTP server is run.
 tls_cert_file = ""
 
 # The path to a file containing matching private key that is used to create the HTTPS server.
-# Might be either absolute path or path related to Tendermint's config directory.
-# NOTE: both tls-cert-file and tls-key-file must be present for Tendermint to create HTTPS server.
+# Might be either absolute path or path related to Ostracon's config directory.
+# NOTE: both tls-cert-file and tls-key-file must be present for Ostracon to create HTTPS server.
 # Otherwise, HTTP server is run.
 tls_key_file = ""
 
@@ -194,7 +217,7 @@ addr_book_file = "config/addrbook.json"
 
 # Set true for strict address routability rules
 # Set false for private or local networks
-addr_book_strict = true
+addr_book_strict = false
 
 # Maximum number of inbound peers
 max_num_inbound_peers = 40
@@ -233,11 +256,22 @@ seed_mode = false
 private_peer_ids = ""
 
 # Toggle to disable guard against peers connecting from the same ip.
-allow_duplicate_ip = false
+allow_duplicate_ip = true
 
 # Peer connection configuration.
 handshake_timeout = "20s"
 dial_timeout = "3s"
+
+# Sync/async of reactor's receive function
+recv_async = true
+
+# Size of channel buffer of reactor
+pex_recv_buf_size = 10000
+mempool_recv_buf_size = 100000
+evidence_recv_buf_size = 10000
+consensus_recv_buf_size = 10000
+blockchain_recv_buf_size = 10000
+statesync_recv_buf_size = 1000
 
 #######################################################
 ###          Mempool Configuration Option          ###
@@ -270,7 +304,7 @@ max_tx_bytes = 1048576
 
 # Maximum size of a batch of transactions to send to a peer
 # Including space needed by encoding (one varint per transaction).
-# XXX: Unused due to https://github.com/tendermint/tendermint/issues/5796
+# XXX: Unused due to https://github.com/line/ostracon/issues/5796
 max_batch_bytes = 0
 
 #######################################################
@@ -350,6 +384,9 @@ skip_timeout_commit = false
 create_empty_blocks = true
 create_empty_blocks_interval = "0s"
 
+# Max transactions per block. No limit if <= 0.
+max_txs = 0
+
 # Reactor sleep duration parameters
 peer_gossip_sleep_duration = "100ms"
 peer_query_maj23_sleep_duration = "2s"
@@ -390,4 +427,4 @@ prometheus_listen_addr = ":26660"
 max_open_connections = 3
 
 # Instrumentation namespace
-namespace = "tendermint"
+namespace = "ostracon"
