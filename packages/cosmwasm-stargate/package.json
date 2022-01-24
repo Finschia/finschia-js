@@ -44,7 +44,7 @@
     "@cosmjs/math": "0.27.0-rc2",
     "@cosmjs/proto-signing": "0.27.0-rc2",
     "@cosmjs/stargate": "workspace:packages/stargate",
-    "@cosmjs/tendermint-rpc": "workspace:packages/tendermint-rpc",
+    "@cosmjs/tendermint-rpc": "0.27.0-rc2",
     "@cosmjs/utils": "0.27.0-rc2",
     "cosmjs-types": "^0.4.0",
     "long": "^4.0.0",

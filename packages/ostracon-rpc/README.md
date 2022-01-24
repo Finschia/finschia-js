@@ -1,6 +1,9 @@
-# @cosmjs/tendermint-rpc
+# @lbmjs/ostracon-rpc
+
 
 [![npm version](https://img.shields.io/npm/v/@cosmjs/tendermint-rpc.svg)](https://www.npmjs.com/package/@cosmjs/tendermint-rpc)
+
+This package forked from @cosmjs/tendermint-rpc.
 
 This package provides a type-safe wrapper around
 [Tendermint RPC](https://docs.tendermint.com/master/rpc/). Notably, all binary

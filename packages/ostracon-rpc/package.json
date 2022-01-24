@@ -1,11 +1,12 @@
 {
-  "name": "@cosmjs/tendermint-rpc",
+  "name": "@lbmjs/ostracon-rpc",
   "version": "0.27.0",
   "description": "Tendermint RPC clients",
   "contributors": [
     "IOV SAS <admin@iov.one>",
     "Confio OÜ <hello@confio.tech>",
-    "Will Clark <willclarktech@users.noreply.github.com>"
+    "Will Clark <willclarktech@users.noreply.github.com>",
+    "zemyblue <zemyblue@users.noreply.github.com"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
@@ -16,14 +17,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/tendermint-rpc"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
   "scripts": {
     "docs": "typedoc --options typedoc.js",
     "lint": "eslint --max-warnings 0 \"./**/*.ts\" \"./*.js\"",

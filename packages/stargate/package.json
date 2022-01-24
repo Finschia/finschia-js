@@ -44,7 +44,7 @@
     "@cosmjs/math": "0.27.0-rc2",
     "@cosmjs/proto-signing": "0.27.0-rc2",
     "@cosmjs/stream": "0.27.0-rc2",
-    "@cosmjs/tendermint-rpc": "workspace:packages/tendermint-rpc",
+    "@cosmjs/tendermint-rpc": "0.27.0-rc2",
     "@cosmjs/utils": "0.27.0-rc2",
     "@lbmjs/amino": "workspace:packages/amino",
     "cosmjs-types": "^0.4.0",
