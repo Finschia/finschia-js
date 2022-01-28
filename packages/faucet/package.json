@@ -44,7 +44,7 @@
     "@cosmjs/launchpad": "0.27.0-rc2",
     "@cosmjs/math": "0.27.0-rc2",
     "@cosmjs/proto-signing": "0.27.0-rc2",
-    "@cosmjs/stargate": "workspace:packages/stargate",
+    "@cosmjs/stargate": "0.27.0-rc2",
     "@cosmjs/utils": "0.27.0-rc2",
     "@koa/cors": "^3.0.0",
     "koa": "^2.11.0",

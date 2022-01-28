@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AminoMsg, decodeBech32Pubkey, encodeBech32Pubkey } from "@cosmjs/amino";
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
-import { EncodeObject } from "@cosmjs/proto-signing";
 import { assert, assertDefinedAndNotNull, isNonNullObject } from "@cosmjs/utils";
-import { MsgMultiSend, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { AminoMsg, decodeBech32Pubkey, encodeBech32Pubkey } from "@lbmjs/amino";
+import { EncodeObject } from "@lbmjs/proto-signing";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
+import { MsgMultiSend, MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
 import {
   MsgFundCommunityPool,
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "cosmjs-types/cosmos/distribution/v1beta1/tx";
-import { TextProposal, voteOptionFromJSON } from "cosmjs-types/cosmos/gov/v1beta1/gov";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "cosmjs-types/cosmos/gov/v1beta1/tx";
+} from "lbmjs-types/lbm/distribution/v1/tx";
+import { TextProposal, voteOptionFromJSON } from "lbmjs-types/lbm/gov/v1/gov";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/lbm/gov/v1/tx";
 import {
   MsgBeginRedelegate,
   MsgCreateValidator,
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { Any } from "cosmjs-types/google/protobuf/any";
-import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
+} from "lbmjs-types/lbm/staking/v1/tx";
 import Long from "long";
 
 import {
@@ -67,8 +67,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
   return {
     // bank
 
-    "/cosmos.bank.v1beta1.MsgSend": {
-      aminoType: "cosmos-sdk/MsgSend",
+    "/lbm.bank.v1.MsgSend": {
+      aminoType: "lbm-sdk/MsgSend",
       toAmino: ({ fromAddress, toAddress, amount }: MsgSend): AminoMsgSend["value"] => ({
         from_address: fromAddress,
         to_address: toAddress,
@@ -80,8 +80,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         amount: [...amount],
       }),
     },
-    "/cosmos.bank.v1beta1.MsgMultiSend": {
-      aminoType: "cosmos-sdk/MsgMultiSend",
+    "/lbm.bank.v1.MsgMultiSend": {
+      aminoType: "lbm-sdk/MsgMultiSend",
       toAmino: ({ inputs, outputs }: MsgMultiSend): AminoMsgMultiSend["value"] => ({
         inputs: inputs.map((input) => ({
           address: input.address,
@@ -106,8 +106,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
 
     // distribution
 
-    "/cosmos.distribution.v1beta1.MsgFundCommunityPool": {
-      aminoType: "cosmos-sdk/MsgFundCommunityPool",
+    "/lbm.distribution.v1.MsgFundCommunityPool": {
+      aminoType: "lbm-sdk/MsgFundCommunityPool",
       toAmino: ({ amount, depositor }: MsgFundCommunityPool): AminoMsgFundCommunityPool["value"] => ({
         amount: [...amount],
         depositor: depositor,
@@ -117,8 +117,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         depositor: depositor,
       }),
     },
-    "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress": {
-      aminoType: "cosmos-sdk/MsgModifyWithdrawAddress",
+    "/lbm.distribution.v1.MsgSetWithdrawAddress": {
+      aminoType: "lbm-sdk/MsgModifyWithdrawAddress",
       toAmino: ({
         delegatorAddress,
         withdrawAddress,
@@ -134,8 +134,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         withdrawAddress: withdraw_address,
       }),
     },
-    "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward": {
-      aminoType: "cosmos-sdk/MsgWithdrawDelegationReward",
+    "/lbm.distribution.v1.MsgWithdrawDelegatorReward": {
+      aminoType: "lbm-sdk/MsgWithdrawDelegationReward",
       toAmino: ({
         delegatorAddress,
         validatorAddress,
@@ -151,8 +151,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         validatorAddress: validator_address,
       }),
     },
-    "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission": {
-      aminoType: "cosmos-sdk/MsgWithdrawValidatorCommission",
+    "/lbm.distribution.v1.MsgWithdrawValidatorCommission": {
+      aminoType: "lbm-sdk/MsgWithdrawValidatorCommission",
       toAmino: ({
         validatorAddress,
       }: MsgWithdrawValidatorCommission): AminoMsgWithdrawValidatorCommission["value"] => ({
@@ -167,8 +167,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
 
     // gov
 
-    "/cosmos.gov.v1beta1.MsgDeposit": {
-      aminoType: "cosmos-sdk/MsgDeposit",
+    "/lbm.gov.v1.MsgDeposit": {
+      aminoType: "lbm-sdk/MsgDeposit",
       toAmino: ({ amount, depositor, proposalId }: MsgDeposit): AminoMsgDeposit["value"] => {
         return {
           amount,
@@ -184,8 +184,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         };
       },
     },
-    "/cosmos.gov.v1beta1.MsgVote": {
-      aminoType: "cosmos-sdk/MsgVote",
+    "/lbm.gov.v1.MsgVote": {
+      aminoType: "lbm-sdk/MsgVote",
       toAmino: ({ option, proposalId, voter }: MsgVote): AminoMsgVote["value"] => {
         return {
           option: option,
@@ -201,8 +201,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         };
       },
     },
-    "/cosmos.gov.v1beta1.MsgSubmitProposal": {
-      aminoType: "cosmos-sdk/MsgSubmitProposal",
+    "/lbm.gov.v1.MsgSubmitProposal": {
+      aminoType: "lbm-sdk/MsgSubmitProposal",
       toAmino: ({
         initialDeposit,
         proposer,
@@ -211,10 +211,10 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         assertDefinedAndNotNull(content);
         let proposal: any;
         switch (content.typeUrl) {
-          case "/cosmos.gov.v1beta1.TextProposal": {
+          case "/lbm.gov.v1.TextProposal": {
             const textProposal = TextProposal.decode(content.value);
             proposal = {
-              type: "cosmos-sdk/TextProposal",
+              type: "lbm-sdk/TextProposal",
               value: {
                 description: textProposal.description,
                 title: textProposal.title,
@@ -238,14 +238,14 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
       }: AminoMsgSubmitProposal["value"]): MsgSubmitProposal => {
         let any_content: Any;
         switch (content.type) {
-          case "cosmos-sdk/TextProposal": {
+          case "lbm-sdk/TextProposal": {
             const { value } = content;
             assert(isNonNullObject(value));
             const { title, description } = value as any;
             assert(typeof title === "string");
             assert(typeof description === "string");
             any_content = Any.fromPartial({
-              typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+              typeUrl: "/lbm.gov.v1.TextProposal",
               value: TextProposal.encode(
                 TextProposal.fromPartial({
                   title: title,
@@ -268,8 +268,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
 
     // staking
 
-    "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
-      aminoType: "cosmos-sdk/MsgBeginRedelegate",
+    "/lbm.staking.v1.MsgBeginRedelegate": {
+      aminoType: "lbm-sdk/MsgBeginRedelegate",
       toAmino: ({
         delegatorAddress,
         validatorSrcAddress,
@@ -296,8 +296,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         amount: amount,
       }),
     },
-    "/cosmos.staking.v1beta1.MsgCreateValidator": {
-      aminoType: "cosmos-sdk/MsgCreateValidator",
+    "/lbm.staking.v1.MsgCreateValidator": {
+      aminoType: "lbm-sdk/MsgCreateValidator",
       toAmino: ({
         description,
         commission,
@@ -329,7 +329,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
           validator_address: validatorAddress,
           pubkey: encodeBech32Pubkey(
             {
-              type: "tendermint/PubKeySecp256k1",
+              type: "ostracon/PubKeySecp256k1",
               value: toBase64(pubkey.value),
             },
             prefix,
@@ -347,7 +347,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         value,
       }: AminoMsgCreateValidator["value"]): MsgCreateValidator => {
         const decodedPubkey = decodeBech32Pubkey(pubkey);
-        if (decodedPubkey.type !== "tendermint/PubKeySecp256k1") {
+        if (decodedPubkey.type !== "ostracon/PubKeySecp256k1") {
           throw new Error("Only Secp256k1 public keys are supported");
         }
         return {
@@ -367,15 +367,15 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
           delegatorAddress: delegator_address,
           validatorAddress: validator_address,
           pubkey: {
-            typeUrl: "/cosmos.crypto.secp256k1.PubKey",
+            typeUrl: "/lbm.crypto.secp256k1.PubKey",
             value: fromBase64(decodedPubkey.value),
           },
           value: value,
         };
       },
     },
-    "/cosmos.staking.v1beta1.MsgDelegate": {
-      aminoType: "cosmos-sdk/MsgDelegate",
+    "/lbm.staking.v1.MsgDelegate": {
+      aminoType: "lbm-sdk/MsgDelegate",
       toAmino: ({ delegatorAddress, validatorAddress, amount }: MsgDelegate): AminoMsgDelegate["value"] => {
         assertDefinedAndNotNull(amount, "missing amount");
         return {
@@ -394,8 +394,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         amount: amount,
       }),
     },
-    "/cosmos.staking.v1beta1.MsgEditValidator": {
-      aminoType: "cosmos-sdk/MsgEditValidator",
+    "/lbm.staking.v1.MsgEditValidator": {
+      aminoType: "lbm-sdk/MsgEditValidator",
       toAmino: ({
         description,
         commissionRate,
@@ -434,8 +434,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         validatorAddress: validator_address,
       }),
     },
-    "/cosmos.staking.v1beta1.MsgUndelegate": {
-      aminoType: "cosmos-sdk/MsgUndelegate",
+    "/lbm.staking.v1.MsgUndelegate": {
+      aminoType: "lbm-sdk/MsgUndelegate",
       toAmino: ({
         delegatorAddress,
         validatorAddress,
@@ -462,7 +462,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
     // ibc
 
     "/ibc.applications.transfer.v1.MsgTransfer": {
-      aminoType: "cosmos-sdk/MsgTransfer",
+      aminoType: "lbm-sdk/MsgTransfer",
       toAmino: ({
         sourcePort,
         sourceChannel,
@@ -523,7 +523,7 @@ interface AminoTypesOptions {
 export class AminoTypes {
   private readonly register: Record<string, AminoConverter>;
 
-  public constructor({ additions = {}, prefix = "cosmos" }: AminoTypesOptions = {}) {
+  public constructor({ additions = {}, prefix = "link" }: AminoTypesOptions = {}) {
     const additionalAminoTypes = Object.values(additions);
     const filteredDefaultTypes = Object.entries(createDefaultTypes(prefix)).reduce(
       (acc, [key, value]) =>

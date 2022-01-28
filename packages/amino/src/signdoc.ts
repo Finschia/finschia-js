@@ -21,7 +21,7 @@ export interface StdFee {
  */
 export interface StdSignDoc {
   readonly chain_id: string;
-  readonly account_number: string;
+  readonly sig_block_height: string;
   readonly sequence: string;
   readonly fee: StdFee;
   readonly msgs: readonly AminoMsg[];
@@ -55,12 +55,12 @@ export function makeSignDoc(
   fee: StdFee,
   chainId: string,
   memo: string | undefined,
-  accountNumber: number | string,
+  sigBlockHeight: number | string,
   sequence: number | string,
 ): StdSignDoc {
   return {
     chain_id: chainId,
-    account_number: Uint53.fromString(accountNumber.toString()).toString(),
+    sig_block_height: Uint53.fromString(sigBlockHeight.toString()).toString(),
     sequence: Uint53.fromString(sequence.toString()).toString(),
     fee: fee,
     msgs: msgs,

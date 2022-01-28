@@ -262,11 +262,11 @@ describe("DirectSecp256k1HdWallet", () => {
       const fee = coins(2000, "cony");
       const gasLimit = 200000;
       const chainId = "simd-testing";
+      const sigBlockHeight = 12;
       const signDoc = makeSignDoc(
         fromHex(bodyBytes),
-        makeAuthInfoBytes([{ pubkey, sequence }], fee, gasLimit),
+        makeAuthInfoBytes([{ pubkey, sequence }], fee, gasLimit, sigBlockHeight),
         chainId,
-        // accountNumber,
       );
       const signDocBytes = makeSignBytes(signDoc);
       const { signature } = await wallet.signDirect(faucet.address, signDoc);

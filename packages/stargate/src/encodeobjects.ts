@@ -1,43 +1,43 @@
 import { EncodeObject } from "@cosmjs/proto-signing";
-import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "cosmjs-types/cosmos/gov/v1beta1/tx";
-import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
+import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
+import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { MsgWithdrawDelegatorReward } from "lbmjs-types/lbm/distribution/v1/tx";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/lbm/gov/v1/tx";
+import { MsgDelegate, MsgUndelegate } from "lbmjs-types/lbm/staking/v1/tx";
 
 export interface MsgSendEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.bank.v1beta1.MsgSend";
+  readonly typeUrl: "/lbm.bank.v1.MsgSend";
   readonly value: Partial<MsgSend>;
 }
 
 export function isMsgSendEncodeObject(encodeObject: EncodeObject): encodeObject is MsgSendEncodeObject {
-  return (encodeObject as MsgSendEncodeObject).typeUrl === "/cosmos.bank.v1beta1.MsgSend";
+  return (encodeObject as MsgSendEncodeObject).typeUrl === "/lbm.bank.v1.MsgSend";
 }
 
 export interface MsgDelegateEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.staking.v1beta1.MsgDelegate";
+  readonly typeUrl: "/lbm.staking.v1.MsgDelegate";
   readonly value: Partial<MsgDelegate>;
 }
 
 export function isMsgDelegateEncodeObject(
   encodeObject: EncodeObject,
 ): encodeObject is MsgDelegateEncodeObject {
-  return (encodeObject as MsgDelegateEncodeObject).typeUrl === "/cosmos.staking.v1beta1.MsgDelegate";
+  return (encodeObject as MsgDelegateEncodeObject).typeUrl === "/lbm.staking.v1.MsgDelegate";
 }
 
 export interface MsgUndelegateEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate";
+  readonly typeUrl: "/lbm.staking.v1.MsgUndelegate";
   readonly value: Partial<MsgUndelegate>;
 }
 
 export function isMsgUndelegateEncodeObject(
   encodeObject: EncodeObject,
 ): encodeObject is MsgUndelegateEncodeObject {
-  return (encodeObject as MsgUndelegateEncodeObject).typeUrl === "/cosmos.staking.v1beta1.MsgUndelegate";
+  return (encodeObject as MsgUndelegateEncodeObject).typeUrl === "/lbm.staking.v1.MsgUndelegate";
 }
 
 export interface MsgWithdrawDelegatorRewardEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
+  readonly typeUrl: "/lbm.distribution.v1.MsgWithdrawDelegatorReward";
   readonly value: Partial<MsgWithdrawDelegatorReward>;
 }
 
@@ -46,7 +46,7 @@ export function isMsgWithdrawDelegatorRewardEncodeObject(
 ): encodeObject is MsgWithdrawDelegatorRewardEncodeObject {
   return (
     (encodeObject as MsgWithdrawDelegatorRewardEncodeObject).typeUrl ===
-    "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward"
+    "/lbm.distribution.v1.MsgWithdrawDelegatorReward"
   );
 }
 
@@ -62,32 +62,32 @@ export function isMsgTransferEncodeObject(
 }
 
 export interface MsgDepositEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.gov.v1beta1.MsgDeposit";
+  readonly typeUrl: "/lbm.gov.v1.MsgDeposit";
   readonly value: Partial<MsgDeposit>;
 }
 
 export function isMsgDepositEncodeObject(
   encodeObject: EncodeObject,
 ): encodeObject is MsgSubmitProposalEncodeObject {
-  return (encodeObject as MsgDepositEncodeObject).typeUrl === "/cosmos.gov.v1beta1.MsgDeposit";
+  return (encodeObject as MsgDepositEncodeObject).typeUrl === "/lbm.gov.v1.MsgDeposit";
 }
 
 export interface MsgSubmitProposalEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal";
+  readonly typeUrl: "/lbm.gov.v1.MsgSubmitProposal";
   readonly value: Partial<MsgSubmitProposal>;
 }
 
 export function isMsgSubmitProposalEncodeObject(
   encodeObject: EncodeObject,
 ): encodeObject is MsgSubmitProposalEncodeObject {
-  return (encodeObject as MsgSubmitProposalEncodeObject).typeUrl === "/cosmos.gov.v1beta1.MsgSubmitProposal";
+  return (encodeObject as MsgSubmitProposalEncodeObject).typeUrl === "/lbm.gov.v1.MsgSubmitProposal";
 }
 
 export interface MsgVoteEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmos.gov.v1beta1.MsgVote";
+  readonly typeUrl: "/lbm.gov.v1.MsgVote";
   readonly value: Partial<MsgVote>;
 }
 
 export function isMsgVoteEncodeObject(encodeObject: EncodeObject): encodeObject is MsgVoteEncodeObject {
-  return (encodeObject as MsgVoteEncodeObject).typeUrl === "/cosmos.gov.v1beta1.MsgVote";
+  return (encodeObject as MsgVoteEncodeObject).typeUrl === "/lbm.gov.v1.MsgVote";
 }

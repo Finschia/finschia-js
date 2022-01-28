@@ -1,4 +1,5 @@
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
+import { assert, sleep } from "@cosmjs/utils";
 import {
   coins,
   decodeTxRaw,
@@ -8,10 +9,9 @@ import {
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@cosmjs/proto-signing";
-import { assert, sleep } from "@cosmjs/utils";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "@lbmjs/proto-signing";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 
 import { isMsgSendEncodeObject } from "./encodeobjects";
 import { DeliverTxResponse, isDeliverTxFailure, isDeliverTxSuccess, StargateClient } from "./stargateclient";
@@ -46,15 +46,15 @@ async function sendTokens(
 }> {
   const [{ address: walletAddress, pubkey: pubkeyBytes }] = await wallet.getAccounts();
   const pubkey = encodePubkey({
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: toBase64(pubkeyBytes),
   });
   const txBodyFields: TxBodyEncodeObject = {
-    typeUrl: "/cosmos.tx.v1beta1.TxBody",
+    typeUrl: "/lbm.tx.v1.TxBody",
     value: {
       messages: [
         {
-          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+          typeUrl: "/lbm.bank.v1.MsgSend",
           value: {
             fromAddress: walletAddress,
             toAddress: recipient,
@@ -66,18 +66,19 @@ async function sendTokens(
     },
   };
   const txBodyBytes = registry.encode(txBodyFields);
-  const { accountNumber, sequence } = (await client.getSequence(walletAddress))!;
+  const sequence = (await client.getSequence(walletAddress))!;
   const feeAmount = [
     {
       amount: "2000",
-      denom: "ucosm",
+      denom: "cony",
     },
   ];
   const gasLimit = 200000;
-  const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit);
+  const sigBlockHeight = (await client.getHeight())!;
+  const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit, sigBlockHeight);
 
   const chainId = await client.getChainId();
-  const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
+  const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
   const { signature } = await wallet.signDirect(walletAddress, signDoc);
   const txRaw = TxRaw.fromPartial({
     bodyBytes: txBodyBytes,
@@ -114,7 +115,7 @@ describe("StargateClient.getTx and .searchTx", () => {
         registry,
         wallet,
         unsuccessfulRecipient,
-        coins(123456700000000, "ucosm"),
+        coins(123456700000000, "cony"),
         "Sending more than I can afford",
       );
       if (isDeliverTxFailure(unsuccessfulResult.broadcastResponse)) {
@@ -131,7 +132,7 @@ describe("StargateClient.getTx and .searchTx", () => {
         registry,
         wallet,
         successfulRecipient,
-        coins(1234567, "ucosm"),
+        coins(1234567, "cony"),
         "Something I can afford",
       );
       if (isDeliverTxSuccess(successfulResult.broadcastResponse)) {
@@ -348,7 +349,7 @@ describe("StargateClient.getTx and .searchTx", () => {
       for (const result of results) {
         const tx = decodeTxRaw(result.tx);
         const msg = fromOneElementArray(tx.body.messages);
-        expect(msg.typeUrl).toEqual("/cosmos.bank.v1beta1.MsgSend");
+        expect(msg.typeUrl).toEqual("/lbm.bank.v1.MsgSend");
         const decoded = registry.decode(msg);
         expect(decoded.toAddress).toEqual(sendSuccessful.recipient);
       }

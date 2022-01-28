@@ -35,7 +35,7 @@
     "@cosmjs/math": "0.27.0-rc2",
     "@lbmjs/amino": "workspace:packages/amino",
     "cosmjs-types": "^0.4.0",
-    "lbmjs-types": "^0.43.1",
+    "lbmjs-types": "^0.43.2",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2"
   },

@@ -107,7 +107,7 @@
             "type": 0,
             "key": null
           },
-          "sequence": "0"
+          "sequence": "1"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
@@ -121,6 +121,15 @@
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link146asaycmtydq45kxc8evntqfgepagygelel00h",
+          "pub_key": {
+            "type": 0,
+            "key": null
+          },
+          "sequence": "0"
+        },
+        {
+          "@type": "/lbm.auth.v1.BaseAccount",
+          "address": "link164fvwlqv6actq6tvzqwmxjnu3ry7vr4rpskl8p",
           "pub_key": {
             "type": 0,
             "key": null
@@ -264,16 +273,29 @@
               "amount": "20000000000"
             }
           ]
+        },
+        {
+          "address": "link164fvwlqv6actq6tvzqwmxjnu3ry7vr4rpskl8p",
+          "coins": [
+            {
+              "denom": "cony",
+              "amount": "100000000000"
+            },
+            {
+              "denom": "stake",
+              "amount": "20000000000"
+            }
+          ]
         }
       ],
       "supply": [
         {
           "denom": "cony",
-          "amount": "1000000000000"
+          "amount": "1100000000000"
         },
         {
           "denom": "stake",
-          "amount": "200000000000"
+          "amount": "220000000000"
         }
       ],
       "denom_metadata": [
@@ -428,9 +450,186 @@
     },
     "ibc": {
       "client_genesis": {
-        "clients": [],
-        "clients_consensus": [],
-        "clients_metadata": [],
+        "clients": [
+          {
+            "client_id": "99-ostracon-0",
+            "client_state": {
+              "@type": "/ibc.lightclients.ostracon.v1.ClientState",
+              "allow_update_after_expiry": false,
+              "allow_update_after_misbehaviour": false,
+              "chain_id": "ibc-1",
+              "frozen_height": {
+                "revision_height": "0",
+                "revision_number": "0"
+              },
+              "latest_height": {
+                "revision_height": "274",
+                "revision_number": "1"
+              },
+              "max_clock_drift": "600s",
+              "proof_specs": [
+                {
+                  "inner_spec": {
+                    "child_order": [
+                      0,
+                      1
+                    ],
+                    "child_size": 33,
+                    "empty_child": null,
+                    "hash": "SHA256",
+                    "max_prefix_length": 12,
+                    "min_prefix_length": 4
+                  },
+                  "leaf_spec": {
+                    "hash": "SHA256",
+                    "length": "VAR_PROTO",
+                    "prefix": "AA==",
+                    "prehash_key": "NO_HASH",
+                    "prehash_value": "SHA256"
+                  },
+                  "max_depth": 0,
+                  "min_depth": 0
+                },
+                {
+                  "inner_spec": {
+                    "child_order": [
+                      0,
+                      1
+                    ],
+                    "child_size": 32,
+                    "empty_child": null,
+                    "hash": "SHA256",
+                    "max_prefix_length": 1,
+                    "min_prefix_length": 1
+                  },
+                  "leaf_spec": {
+                    "hash": "SHA256",
+                    "length": "VAR_PROTO",
+                    "prefix": "AA==",
+                    "prehash_key": "NO_HASH",
+                    "prehash_value": "SHA256"
+                  },
+                  "max_depth": 0,
+                  "min_depth": 0
+                }
+              ],
+              "trust_level": {
+                "denominator": "3",
+                "numerator": "1"
+              },
+              "trusting_period": "1209600s",
+              "unbonding_period": "1814400s",
+              "upgrade_path": [
+                "upgrade",
+                "upgradedIBCState"
+              ]
+            }
+          }
+        ],
+        "clients_consensus": [
+          {
+            "client_id": "99-ostracon-0",
+            "consensus_states": [
+              {
+                "consensus_state": {
+                  "@type": "/ibc.lightclients.ostracon.v1.ConsensusState",
+                  "next_validators_hash": "3491D4ECEB5323868C3AB846A12E923151E12BC4CE69F84DE9E8B7AB1CD15075",
+                  "root": {
+                    "hash": "7PmRnufr0ItJMAtq3GOJEtupU93W9fh9utvgKL+2DX0="
+                  },
+                  "timestamp": "2021-01-11T11:02:53.837998Z"
+                },
+                "height": {
+                  "revision_height": "258",
+                  "revision_number": "1"
+                }
+              },
+              {
+                "consensus_state": {
+                  "@type": "/ibc.lightclients.ostracon.v1.ConsensusState",
+                  "next_validators_hash": "3491D4ECEB5323868C3AB846A12E923151E12BC4CE69F84DE9E8B7AB1CD15075",
+                  "root": {
+                    "hash": "l4c9z7RZNTXk+tNM1BClb0MLnR5sWHdoofjPNyb2u7s="
+                  },
+                  "timestamp": "2021-01-11T11:02:56.184633Z"
+                },
+                "height": {
+                  "revision_height": "260",
+                  "revision_number": "1"
+                }
+              },
+              {
+                "consensus_state": {
+                  "@type": "/ibc.lightclients.ostracon.v1.ConsensusState",
+                  "next_validators_hash": "3491D4ECEB5323868C3AB846A12E923151E12BC4CE69F84DE9E8B7AB1CD15075",
+                  "root": {
+                    "hash": "4Z4hxSmijgVvMR//if6aJFhYIBW6w9rYYtEqs+eIUcg="
+                  },
+                  "timestamp": "2021-01-11T11:03:02.268862Z"
+                },
+                "height": {
+                  "revision_height": "265",
+                  "revision_number": "1"
+                }
+              },
+              {
+                "consensus_state": {
+                  "@type": "/ibc.lightclients.ostracon.v1.ConsensusState",
+                  "next_validators_hash": "3491D4ECEB5323868C3AB846A12E923151E12BC4CE69F84DE9E8B7AB1CD15075",
+                  "root": {
+                    "hash": "xFOoMvBw80wWTHqqrNpWb/Hv8+zKsTsbam8MFA9Gor4="
+                  },
+                  "timestamp": "2021-01-11T11:03:07.123191Z"
+                },
+                "height": {
+                  "revision_height": "269",
+                  "revision_number": "1"
+                }
+              },
+              {
+                "consensus_state": {
+                  "@type": "/ibc.lightclients.ostracon.v1.ConsensusState",
+                  "next_validators_hash": "3491D4ECEB5323868C3AB846A12E923151E12BC4CE69F84DE9E8B7AB1CD15075",
+                  "root": {
+                    "hash": "0s6RbgtxLkZ51lJJCq1iZuhvSqn/DsAQs9jEMhShv3A="
+                  },
+                  "timestamp": "2021-01-11T11:03:13.075754Z"
+                },
+                "height": {
+                  "revision_height": "274",
+                  "revision_number": "1"
+                }
+              }
+            ]
+          }
+        ],
+        "clients_metadata": [
+          {
+            "client_id": "99-ostracon-0",
+            "client_metadata": [
+              {
+                "key": "Y29uc2Vuc3VzU3RhdGVzLzEtMjU4L3Byb2Nlc3NlZFRpbWU=",
+                "value": "FlkomBj7tMA="
+              },
+              {
+                "key": "Y29uc2Vuc3VzU3RhdGVzLzEtMjYwL3Byb2Nlc3NlZFRpbWU=",
+                "value": "FlkomLBGmiA="
+              },
+              {
+                "key": "Y29uc2Vuc3VzU3RhdGVzLzEtMjY1L3Byb2Nlc3NlZFRpbWU=",
+                "value": "FlkomhjrK/g="
+              },
+              {
+                "key": "Y29uc2Vuc3VzU3RhdGVzLzEtMjY5L3Byb2Nlc3NlZFRpbWU=",
+                "value": "Flkomzng9Qg="
+              },
+              {
+                "key": "Y29uc2Vuc3VzU3RhdGVzLzEtMjc0L3Byb2Nlc3NlZFRpbWU=",
+                "value": "FlkonJ5n5Gg="
+              }
+            ]
+          }
+        ],
         "params": {
           "allowed_clients": [
             "06-solomachine",
@@ -446,13 +645,53 @@
         "next_connection_sequence": "0"
       },
       "channel_genesis": {
-        "channels": [],
+        "channels": [
+          {
+            "channel_id": "channel-0",
+            "connection_hops": [
+              "connection-0"
+            ],
+            "counterparty": {
+              "channel_id": "channel-0",
+              "port_id": "transfer"
+            },
+            "ordering": "ORDER_UNORDERED",
+            "port_id": "transfer",
+            "state": "STATE_OPEN",
+            "version": "ics20-1"
+          }
+        ],
         "acknowledgements": [],
-        "commitments": [],
+        "commitments": [
+          {
+            "channel_id": "channel-0",
+            "data": "hYz5Dx6o09DcSEWZR6xlJYwLgYUnLithsXMGtujic4I=",
+            "port_id": "transfer",
+            "sequence": "1"
+          }
+        ],
         "receipts": [],
-        "send_sequences": [],
-        "recv_sequences": [],
-        "ack_sequences": [],
+        "send_sequences": [
+          {
+            "channel_id": "channel-0",
+            "port_id": "transfer",
+            "sequence": "2"
+          }
+        ],
+        "recv_sequences": [
+          {
+            "channel_id": "channel-0",
+            "port_id": "transfer",
+            "sequence": "1"
+          }
+        ],
+        "ack_sequences": [
+          {
+            "channel_id": "channel-0",
+            "port_id": "transfer",
+            "sequence": "1"
+          }
+        ],
         "next_channel_sequence": "0"
       }
     },

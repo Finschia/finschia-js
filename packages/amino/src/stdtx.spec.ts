@@ -20,6 +20,7 @@ describe("makeStdTx", () => {
       msg: [],
       memo: "hello",
       fee: fee,
+      sigBlockHeight: "3",
       signatures: [signature],
     });
   });
@@ -46,6 +47,7 @@ describe("makeStdTx", () => {
       msg: [],
       memo: "hello",
       fee: fee,
+      sigBlockHeight: "3",
       signatures: [signature1, signature2],
     });
   });

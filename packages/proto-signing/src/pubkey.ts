@@ -71,3 +71,37 @@ export function decodePubkey(pubkey?: Any | null): Pubkey | null {
       throw new Error(`Pubkey type_url ${pubkey.typeUrl} not recognized`);
   }
 }
+
+export interface PubkeyValue {
+  readonly key: Uint8Array;
+}
+
+export interface MultisigThresholdPubkeyValue {
+  readonly threshold: string;
+  readonly pubkeys: readonly PubkeyValue[];
+}
+
+function decodeSinglePubkeyValue(pubkey: Any): PubkeyValue {
+  switch (pubkey.typeUrl) {
+    case "/lbm.crypto.secp256k1.PubKey": {
+      const { key } = PubKey.decode(pubkey.value);
+      if (key.length !== 33 || (key[0] !== 0x02 && key[0] !== 0x03)) {
+        throw new Error("Public key must be compressed secp256k1, i.e. 33 bytes starting with 0x02 or 0x03");
+      }
+      return { key: key };
+    }
+    default:
+      throw new Error(`Pubkey type_url ${pubkey.typeUrl} not recognized as single public key type`);
+  }
+}
+
+export function decodeMultisigPubkey(pubkey?: LegacyAminoPubKey | null): MultisigThresholdPubkeyValue | null {
+  if (!pubkey || !pubkey.publicKeys) {
+    return null;
+  }
+
+  return {
+    threshold: pubkey.threshold.toString(),
+    pubkeys: pubkey.publicKeys.map(decodeSinglePubkeyValue),
+  };
+}

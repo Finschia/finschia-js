@@ -1,22 +1,22 @@
-import { Pubkey } from "@cosmjs/amino";
 import { Uint64 } from "@cosmjs/math";
-import { decodePubkey } from "@cosmjs/proto-signing";
 import { assert } from "@cosmjs/utils";
-import { BaseAccount, ModuleAccount } from "cosmjs-types/cosmos/auth/v1beta1/auth";
+import { decodeMultisigPubkey, MultisigThresholdPubkeyValue, PubkeyValue } from "@lbmjs/proto-signing";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { BaseAccount, ModuleAccount } from "lbmjs-types/lbm/auth/v1/auth";
 import {
   BaseVestingAccount,
   ContinuousVestingAccount,
   DelayedVestingAccount,
   PeriodicVestingAccount,
-} from "cosmjs-types/cosmos/vesting/v1beta1/vesting";
-import { Any } from "cosmjs-types/google/protobuf/any";
+} from "lbmjs-types/lbm/vesting/v1/vesting";
 import Long from "long";
 
 export interface Account {
   /** Bech32 account address */
   readonly address: string;
-  readonly pubkey: Pubkey | null;
-  readonly accountNumber: number;
+  readonly ed25519PubKey: PubkeyValue | null;
+  readonly secp256k1PubKey: PubkeyValue | null;
+  readonly multisigPubKey: MultisigThresholdPubkeyValue | null;
   readonly sequence: number;
 }
 
@@ -25,12 +25,12 @@ function uint64FromProto(input: number | Long): Uint64 {
 }
 
 function accountFromBaseAccount(input: BaseAccount): Account {
-  const { address, pubKey, accountNumber, sequence } = input;
-  const pubkey = decodePubkey(pubKey);
+  const { address, ed25519PubKey, secp256k1PubKey, multisigPubKey, sequence } = input;
   return {
     address: address,
-    pubkey: pubkey,
-    accountNumber: uint64FromProto(accountNumber).toNumber(),
+    ed25519PubKey: ed25519PubKey || null,
+    secp256k1PubKey: secp256k1PubKey || null,
+    multisigPubKey: decodeMultisigPubkey(multisigPubKey) || null,
     sequence: uint64FromProto(sequence).toNumber(),
   };
 }
@@ -47,9 +47,9 @@ export function accountFromAny(input: Any): Account {
   switch (typeUrl) {
     // auth
 
-    case "/cosmos.auth.v1beta1.BaseAccount":
+    case "/lbm.auth.v1.BaseAccount":
       return accountFromBaseAccount(BaseAccount.decode(value));
-    case "/cosmos.auth.v1beta1.ModuleAccount": {
+    case "/lbm.auth.v1.ModuleAccount": {
       const baseAccount = ModuleAccount.decode(value).baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
@@ -57,22 +57,22 @@ export function accountFromAny(input: Any): Account {
 
     // vesting
 
-    case "/cosmos.vesting.v1beta1.BaseVestingAccount": {
+    case "/lbm.vesting.v1.BaseVestingAccount": {
       const baseAccount = BaseVestingAccount.decode(value)?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
     }
-    case "/cosmos.vesting.v1beta1.ContinuousVestingAccount": {
+    case "/lbm.vesting.v1.ContinuousVestingAccount": {
       const baseAccount = ContinuousVestingAccount.decode(value)?.baseVestingAccount?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
     }
-    case "/cosmos.vesting.v1beta1.DelayedVestingAccount": {
+    case "/lbm.vesting.v1.DelayedVestingAccount": {
       const baseAccount = DelayedVestingAccount.decode(value)?.baseVestingAccount?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
     }
-    case "/cosmos.vesting.v1beta1.PeriodicVestingAccount": {
+    case "/lbm.vesting.v1.PeriodicVestingAccount": {
       const baseAccount = PeriodicVestingAccount.decode(value)?.baseVestingAccount?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);

@@ -34,6 +34,7 @@ export function makeAuthInfoBytes(
   signers: ReadonlyArray<{ readonly pubkey: Any; readonly sequence: number }>,
   feeAmount: readonly Coin[],
   gasLimit: number,
+  sigBlockHeight: number | string,
   signMode = SignMode.SIGN_MODE_DIRECT,
 ): Uint8Array {
   const authInfo = {
@@ -42,21 +43,16 @@ export function makeAuthInfoBytes(
       amount: [...feeAmount],
       gasLimit: Long.fromNumber(gasLimit),
     },
+    sigBlockHeight: sigBlockHeight.toString(),
   };
   return AuthInfo.encode(AuthInfo.fromPartial(authInfo)).finish();
 }
 
-export function makeSignDoc(
-  bodyBytes: Uint8Array,
-  authInfoBytes: Uint8Array,
-  chainId: string,
-  // accountNumber: number,
-): SignDoc {
+export function makeSignDoc(bodyBytes: Uint8Array, authInfoBytes: Uint8Array, chainId: string): SignDoc {
   return {
     bodyBytes: bodyBytes,
     authInfoBytes: authInfoBytes,
     chainId: chainId,
-    // accountNumber: Long.fromNumber(accountNumber),
   };
 }
 

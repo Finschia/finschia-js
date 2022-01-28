@@ -8,7 +8,13 @@ export {
 } from "./directsecp256k1hdwallet";
 export { DirectSecp256k1Wallet } from "./directsecp256k1wallet";
 export { makeLinkPath } from "./paths";
-export { decodePubkey, encodePubkey } from "./pubkey";
+export {
+  decodeMultisigPubkey,
+  decodePubkey,
+  encodePubkey,
+  MultisigThresholdPubkeyValue,
+  PubkeyValue,
+} from "./pubkey";
 export {
   DecodeObject,
   EncodeObject,

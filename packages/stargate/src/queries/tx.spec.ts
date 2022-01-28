@@ -1,7 +1,7 @@
-import { coin, coins, DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { assertDefined, sleep } from "@cosmjs/utils";
-import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { coin, coins, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
+import { MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
 import Long from "long";
 
 import { defaultRegistryTypes, SigningStargateClient } from "../signingstargateclient";
@@ -26,7 +26,7 @@ async function makeClientWithTx(rpcUrl: string): Promise<[QueryClient & TxExtens
 
 describe("TxExtension", () => {
   const defaultFee = {
-    amount: coins(25000, "ucosm"),
+    amount: coins(25000, "cony"),
     gas: "1500000", // 1.5 million
   };
   let txHash: string | undefined;
@@ -47,7 +47,7 @@ describe("TxExtension", () => {
         const result = await client.sendTokens(
           faucet.address0,
           recipient,
-          coins(25000, "ucosm"),
+          coins(25000, "cony"),
           defaultFee,
           memo,
         );
@@ -85,14 +85,14 @@ describe("TxExtension", () => {
       const msg: MsgDelegate = {
         delegatorAddress: faucet.address0,
         validatorAddress: validator.validatorAddress,
-        amount: coin(25000, "ustake"),
+        amount: coin(25000, "stake"),
       };
       const msgAny = registry.encodeAsAny({
-        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        typeUrl: "/lbm.staking.v1.MsgDelegate",
         value: msg,
       });
 
-      const { sequence } = await sequenceClient.getSequence(faucet.address0);
+      const sequence = await sequenceClient.getSequence(faucet.address0);
       const response = await client.tx.simulate([msgAny], "foo", faucet.pubkey0, sequence);
       expect(response.gasInfo?.gasUsed.toNumber()).toBeGreaterThanOrEqual(101_000);
       expect(response.gasInfo?.gasUsed.toNumber()).toBeLessThanOrEqual(150_000);

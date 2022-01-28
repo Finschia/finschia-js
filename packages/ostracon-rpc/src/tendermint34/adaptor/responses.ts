@@ -533,13 +533,13 @@ interface RpcValidatorInfo {
   /** hex encoded */
   readonly address: string;
   readonly pub_key: RpcPubkey;
-  readonly voting_power: string;
+  readonly staking_power: string;
 }
 
 function decodeValidatorInfo(data: RpcValidatorInfo): responses.Validator {
   return {
     pubkey: decodePubkey(assertObject(data.pub_key)),
-    votingPower: Integer.parse(assertNotEmpty(data.voting_power)),
+    votingPower: Integer.parse(assertNotEmpty(data.staking_power)),
     address: fromHex(assertNotEmpty(data.address)),
   };
 }

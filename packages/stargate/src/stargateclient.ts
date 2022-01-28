@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
-import { Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
-import { MsgData } from "cosmjs-types/cosmos/base/abci/v1beta1/abci";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
+import { MsgData } from "lbmjs-types/lbm/base/abci/v1/abci";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
 
 import { Account, accountFromAny } from "./accounts";
 import {
@@ -88,7 +88,6 @@ export interface IndexedTx {
 }
 
 export interface SequenceResponse {
-  readonly accountNumber: number;
   readonly sequence: number;
 }
 
@@ -225,17 +224,14 @@ export class StargateClient {
     }
   }
 
-  public async getSequence(address: string): Promise<SequenceResponse> {
+  public async getSequence(address: string): Promise<number> {
     const account = await this.getAccount(address);
     if (!account) {
       throw new Error(
         "Account does not exist on chain. Send some tokens there before trying to query sequence.",
       );
     }
-    return {
-      accountNumber: account.accountNumber,
-      sequence: account.sequence,
-    };
+    return account.sequence;
   }
 
   public async getBlock(height?: number): Promise<Block> {

@@ -310,7 +310,7 @@ __metadata:
     "@cosmjs/launchpad": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
+    "@cosmjs/stargate": 0.27.0-rc2
     "@cosmjs/tendermint-rpc": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
@@ -357,7 +357,7 @@ __metadata:
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
+    "@cosmjs/stargate": 0.27.0-rc2
     "@cosmjs/tendermint-rpc": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
@@ -485,7 +485,7 @@ __metadata:
     "@cosmjs/launchpad": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
     "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stargate": "workspace:packages/stargate"
+    "@cosmjs/stargate": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@koa/cors": ^3.0.0
@@ -597,64 +597,6 @@ __metadata:
   checksum: 31635ea0a565b4c79e5011eb8fc0d348fd24aeade65b424259a1d3738e3fff0c66e75083ad7e3ca6b53a03848f564480c515dc5c5b3a8050a270c11e93d54873
   languageName: node
   linkType: hard
-
-"@cosmjs/stargate@workspace:packages/stargate":
-  version: 0.0.0-use.local
-  resolution: "@cosmjs/stargate@workspace:packages/stargate"
-  dependencies:
-    "@confio/ics23": ^0.6.3
-    "@cosmjs/amino": 0.27.0-rc2
-    "@cosmjs/crypto": 0.27.0-rc2
-    "@cosmjs/encoding": 0.27.0-rc2
-    "@cosmjs/math": 0.27.0-rc2
-    "@cosmjs/proto-signing": 0.27.0-rc2
-    "@cosmjs/stream": 0.27.0-rc2
-    "@cosmjs/tendermint-rpc": 0.27.0-rc2
-    "@cosmjs/utils": 0.27.0-rc2
-    "@istanbuljs/nyc-config-typescript": ^1.0.1
-    "@lbmjs/amino": "workspace:packages/amino"
-    "@types/eslint-plugin-prettier": ^3
-    "@types/jasmine": ^3.8
-    "@types/karma-firefox-launcher": ^2
-    "@types/karma-jasmine": ^4
-    "@types/karma-jasmine-html-reporter": ^1
-    "@types/long": ^4.0.1
-    "@types/node": ^15.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
-    cosmjs-types: ^0.4.0
-    eslint: ^7.5
-    eslint-config-prettier: ^8.3.0
-    eslint-import-resolver-node: ^0.3.4
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-prettier: ^3.4.0
-    eslint-plugin-simple-import-sort: ^7.0.0
-    esm: ^3.2.25
-    glob: ^7.1.6
-    jasmine: ^3.8
-    jasmine-core: ^3.7.1
-    jasmine-spec-reporter: ^6
-    karma: ^6.1.1
-    karma-chrome-launcher: ^3.1.0
-    karma-firefox-launcher: ^2.1.0
-    karma-jasmine: ^4.0.1
-    karma-jasmine-html-reporter: ^1.5.4
-    long: ^4.0.0
-    nyc: ^15.1.0
-    prettier: ^2.4.1
-    protobufjs: ~6.10.2
-    readonly-date: ^1.0.0
-    ses: ^0.11.0
-    source-map-support: ^0.5.19
-    stream-browserify: ^3.0.0
-    ts-node: ^8
-    typedoc: ^0.22
-    typescript: ~4.4
-    webpack: ^5.32.0
-    webpack-cli: ^4.6.0
-    xstream: ^11.14.0
-  languageName: unknown
-  linkType: soft
 
 "@cosmjs/stream@npm:0.27.0-rc2":
   version: 0.27.0-rc2
@@ -891,7 +833,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.43.1
+    lbmjs-types: ^0.43.2
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -904,6 +846,69 @@ __metadata:
     typescript: ~4.4
     webpack: ^5.32.0
     webpack-cli: ^4.6.0
+  languageName: unknown
+  linkType: soft
+
+"@lbmjs/stargate@workspace:packages/stargate":
+  version: 0.0.0-use.local
+  resolution: "@lbmjs/stargate@workspace:packages/stargate"
+  dependencies:
+    "@confio/ics23": ^0.6.3
+    "@cosmjs/amino": 0.27.0-rc2
+    "@cosmjs/crypto": 0.27.0-rc2
+    "@cosmjs/encoding": 0.27.0-rc2
+    "@cosmjs/math": 0.27.0-rc2
+    "@cosmjs/proto-signing": 0.27.0-rc2
+    "@cosmjs/stream": 0.27.0-rc2
+    "@cosmjs/tendermint-rpc": 0.27.0-rc2
+    "@cosmjs/utils": 0.27.0-rc2
+    "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@lbmjs/amino": "workspace:packages/amino"
+    "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc"
+    "@lbmjs/proto-signing": "workspace:packages/proto-signing"
+    "@types/eslint-plugin-prettier": ^3
+    "@types/jasmine": ^3.8
+    "@types/karma-firefox-launcher": ^2
+    "@types/karma-jasmine": ^4
+    "@types/karma-jasmine-html-reporter": ^1
+    "@types/long": ^4.0.1
+    "@types/node": ^15.0.1
+    "@typescript-eslint/eslint-plugin": ^4.28
+    "@typescript-eslint/parser": ^4.28
+    cosmjs-types: ^0.4.0
+    eslint: ^7.5
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-node: ^0.3.4
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    eslint-plugin-simple-import-sort: ^7.0.0
+    esm: ^3.2.25
+    glob: ^7.1.6
+    jasmine: ^3.8
+    jasmine-core: ^3.7.1
+    jasmine-spec-reporter: ^6
+    karma: ^6.1.1
+    karma-chrome-launcher: ^3.1.0
+    karma-firefox-launcher: ^2.1.0
+    karma-jasmine: ^4.0.1
+    karma-jasmine-html-reporter: ^1.5.4
+    karma-spec-reporter: ^0.0.33
+    karma-typescript: ^5.5.3
+    lbmjs-types: ^0.43.2
+    long: ^4.0.0
+    nyc: ^15.1.0
+    prettier: ^2.4.1
+    protobufjs: ~6.10.2
+    readonly-date: ^1.0.0
+    ses: ^0.11.0
+    source-map-support: ^0.5.19
+    stream-browserify: ^3.0.0
+    ts-node: ^8
+    typedoc: ^0.22
+    typescript: ~4.4
+    webpack: ^5.32.0
+    webpack-cli: ^4.6.0
+    xstream: ^11.14.0
   languageName: unknown
   linkType: soft
 
@@ -5108,7 +5113,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"lbmjs-types@npm:^0.43.1":
+"lbmjs-types@npm:^0.43.2":
   version: 0.43.2
   resolution: "lbmjs-types@npm:0.43.2"
   dependencies:

@@ -82,15 +82,15 @@ describe("encoding", () => {
         gas: "180000", // 180k
       };
       const memo = "Use your power wisely";
-      const accountNumber = 15;
+      const sigBlockHeight = 10;
       const sequence = 16;
 
-      const signDoc = makeSignDoc([msg1, msg2], fee, chainId, memo, accountNumber, sequence);
+      const signDoc = makeSignDoc([msg1, msg2], fee, chainId, memo, sigBlockHeight, sequence);
       expect(signDoc).toEqual({
         msgs: [msg1, msg2],
         fee: fee,
         chain_id: chainId,
-        account_number: accountNumber.toString(),
+        sig_block_height: sigBlockHeight.toString(),
         sequence: sequence.toString(),
         memo: memo,
       });
@@ -118,15 +118,15 @@ describe("encoding", () => {
         amount: [{ amount: "2000", denom: "ucosm" }],
         gas: "180000", // 180k
       };
-      const accountNumber = 15;
+      const sigBlockHeight = 10;
       const sequence = 16;
 
-      const signDoc = makeSignDoc([msg1, msg2], fee, chainId, undefined, accountNumber, sequence);
+      const signDoc = makeSignDoc([msg1, msg2], fee, chainId, undefined, sigBlockHeight, sequence);
       expect(signDoc).toEqual({
         msgs: [msg1, msg2],
         fee: fee,
         chain_id: chainId,
-        account_number: accountNumber.toString(),
+        sig_block_height: sigBlockHeight.toString(),
         sequence: sequence.toString(),
         memo: "",
       });

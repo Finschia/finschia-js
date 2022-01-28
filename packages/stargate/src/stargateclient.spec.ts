@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
+import { assert, sleep } from "@cosmjs/utils";
 import {
   coins,
   DirectSecp256k1HdWallet,
@@ -8,9 +9,8 @@ import {
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@cosmjs/proto-signing";
-import { assert, sleep } from "@cosmjs/utils";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "@lbmjs/proto-signing";
+import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import {
@@ -125,8 +125,9 @@ describe("StargateClient", () => {
       assert(account);
       expect(account).toEqual({
         address: unused.address,
-        pubkey: null,
-        accountNumber: unused.accountNumber,
+        ed25519PubKey: null,
+        secp256k1PubKey: null,
+        multisigPubKey: null,
         sequence: unused.sequence,
       });
 
@@ -141,8 +142,9 @@ describe("StargateClient", () => {
       assert(account);
       expect(account).toEqual({
         address: validator.delegatorAddress,
-        pubkey: validator.pubkey,
-        accountNumber: validator.accountNumber,
+        ed25519PubKey: null,
+        secp256k1PubKey: { key: fromBase64(validator.pubkey.value) },
+        multisigPubKey: null,
         sequence: validator.sequence,
       });
 
@@ -166,11 +168,7 @@ describe("StargateClient", () => {
       const client = await StargateClient.connect(simapp.tendermintUrl);
 
       const account = await client.getSequence(unused.address);
-      assert(account);
-      expect(account).toEqual({
-        accountNumber: unused.accountNumber,
-        sequence: unused.sequence,
-      });
+      expect(account).toEqual(unused.sequence);
 
       client.disconnect();
     });
@@ -322,22 +320,22 @@ describe("StargateClient", () => {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: toBase64(pubkeyBytes),
       });
       const registry = new Registry();
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/cosmos.tx.v1beta1.TxBody",
+        typeUrl: "/lbm.tx.v1.TxBody",
         value: {
           messages: [
             {
-              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+              typeUrl: "/lbm.bank.v1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: makeRandomAddress(),
                 amount: [
                   {
-                    denom: "ucosm",
+                    denom: "cony",
                     amount: "1234567",
                   },
                 ],
@@ -347,13 +345,14 @@ describe("StargateClient", () => {
         },
       };
       const txBodyBytes = registry.encode(txBodyFields);
-      const { accountNumber, sequence } = (await client.getSequence(address))!;
-      const feeAmount = coins(2000, "ucosm");
+      const sequence = (await client.getSequence(address))!;
+      const feeAmount = coins(2000, "cony");
       const gasLimit = 200000;
-      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit);
+      const sigBlockHeight = (await client.getHeight())!;
+      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit, sigBlockHeight);
 
       const chainId = await client.getChainId();
-      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
+      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
       const { signature } = await wallet.signDirect(address, signDoc);
       const txRaw = TxRaw.fromPartial({
         bodyBytes: txBodyBytes,
@@ -366,7 +365,7 @@ describe("StargateClient", () => {
 
       const { gasUsed, rawLog, transactionHash } = txResult;
       expect(gasUsed).toBeGreaterThan(0);
-      expect(rawLog).toMatch(/{"key":"amount","value":"1234567ucosm"}/);
+      expect(rawLog).toMatch(/{"key":"amount","value":"1234567cony"}/);
       expect(transactionHash).toMatch(/^[0-9A-F]{64}$/);
 
       client.disconnect();
@@ -378,23 +377,23 @@ describe("StargateClient", () => {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: toBase64(pubkeyBytes),
       });
       const registry = new Registry();
       const invalidRecipientAddress = "tgrade1z363ulwcrxged4z5jswyt5dn5v3lzsemwz9ewj"; // wrong bech32 prefix
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/cosmos.tx.v1beta1.TxBody",
+        typeUrl: "/lbm.tx.v1.TxBody",
         value: {
           messages: [
             {
-              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+              typeUrl: "/lbm.bank.v1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: invalidRecipientAddress,
                 amount: [
                   {
-                    denom: "ucosm",
+                    denom: "cony",
                     amount: "1234567",
                   },
                 ],
@@ -404,13 +403,13 @@ describe("StargateClient", () => {
         },
       };
       const txBodyBytes = registry.encode(txBodyFields);
-      const { accountNumber, sequence } = (await client.getSequence(address))!;
-      const feeAmount = coins(2000, "ucosm");
+      const sequence = (await client.getSequence(address))!;
+      const feeAmount = coins(2000, "cony");
       const gasLimit = 200000;
       const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit, sequence);
 
       const chainId = await client.getChainId();
-      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
+      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
       const { signature } = await wallet.signDirect(address, signDoc);
       const txRaw = TxRaw.fromPartial({
         bodyBytes: txBodyBytes,
@@ -430,22 +429,22 @@ describe("StargateClient", () => {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: toBase64(pubkeyBytes),
       });
       const registry = new Registry();
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/cosmos.tx.v1beta1.TxBody",
+        typeUrl: "/lbm.tx.v1.TxBody",
         value: {
           messages: [
             {
-              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+              typeUrl: "/lbm.bank.v1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: makeRandomAddress(),
                 amount: [
                   {
-                    denom: "ucosm",
+                    denom: "cony",
                     amount: "1234567",
                   },
                 ],
@@ -456,12 +455,18 @@ describe("StargateClient", () => {
       };
       const txBodyBytes = registry.encode(txBodyFields);
       const chainId = await client.getChainId();
-      const feeAmount = coins(2000, "ucosm");
+      const feeAmount = coins(2000, "cony");
       const gasLimit = 200000;
+      const sigBlockHeight = 51;
 
-      const { accountNumber: accountNumber1, sequence: sequence1 } = (await client.getSequence(address))!;
-      const authInfoBytes1 = makeAuthInfoBytes([{ pubkey, sequence: sequence1 }], feeAmount, gasLimit);
-      const signDoc1 = makeSignDoc(txBodyBytes, authInfoBytes1, chainId, accountNumber1);
+      const sequence1 = (await client.getSequence(address))!;
+      const authInfoBytes1 = makeAuthInfoBytes(
+        [{ pubkey, sequence: sequence1 }],
+        feeAmount,
+        gasLimit,
+        sigBlockHeight,
+      );
+      const signDoc1 = makeSignDoc(txBodyBytes, authInfoBytes1, chainId);
       const { signature: signature1 } = await wallet.signDirect(address, signDoc1);
       const txRaw1 = TxRaw.fromPartial({
         bodyBytes: txBodyBytes,
@@ -473,9 +478,14 @@ describe("StargateClient", () => {
       const txResult = await client.broadcastTx(txRawBytes1, largeTimeoutMs);
       assertIsDeliverTxSuccess(txResult);
 
-      const { accountNumber: accountNumber2, sequence: sequence2 } = (await client.getSequence(address))!;
-      const authInfoBytes2 = makeAuthInfoBytes([{ pubkey, sequence: sequence2 }], feeAmount, gasLimit);
-      const signDoc2 = makeSignDoc(txBodyBytes, authInfoBytes2, chainId, accountNumber2);
+      const sequence2 = (await client.getSequence(address))!;
+      const authInfoBytes2 = makeAuthInfoBytes(
+        [{ pubkey, sequence: sequence2 }],
+        feeAmount,
+        gasLimit,
+        sigBlockHeight,
+      );
+      const signDoc2 = makeSignDoc(txBodyBytes, authInfoBytes2, chainId);
       const { signature: signature2 } = await wallet.signDirect(address, signDoc2);
       const txRaw2 = TxRaw.fromPartial({
         bodyBytes: txBodyBytes,

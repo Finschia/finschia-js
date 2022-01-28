@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@cosmjs/amino";
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
 import { Bech32 } from "@cosmjs/encoding";
+import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@lbmjs/amino";
 import {
   coins,
   DirectSecp256k1HdWallet,
   DirectSecp256k1HdWalletOptions,
   DirectSignResponse,
   makeAuthInfoBytes,
-} from "@cosmjs/proto-signing";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "@lbmjs/proto-signing";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
+import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 
 import { calculateFee, GasPrice } from "./fee";
 import { SigningStargateClientOptions } from "./signingstargateclient";
 
 export function simapp42Enabled(): boolean {
-  return !!process.env.SIMAPP42_ENABLED;
+  // return !!process.env.SIMAPP42_ENABLED;
+  return true;
 }
 
 export function simapp44Enabled(): boolean {
@@ -24,7 +25,8 @@ export function simapp44Enabled(): boolean {
 }
 
 export function simappEnabled(): boolean {
-  return simapp42Enabled() || simapp44Enabled();
+  // return simapp42Enabled() || simapp44Enabled();
+  return true;
 }
 
 export function pendingWithoutSimapp42(): void {
@@ -54,7 +56,7 @@ export function makeRandomAddressBytes(): Uint8Array {
 }
 
 export function makeRandomAddress(): string {
-  return Bech32.encode("cosmos", makeRandomAddressBytes());
+  return Bech32.encode("link", makeRandomAddressBytes());
 }
 
 /** Returns first element. Throws if array has a different length than 1. */
@@ -63,7 +65,7 @@ export function fromOneElementArray<T>(elements: ArrayLike<T>): T {
   return elements[0];
 }
 
-export const defaultGasPrice = GasPrice.fromString("0.025ucosm");
+export const defaultGasPrice = GasPrice.fromString("0.025cony");
 export const defaultSendFee = calculateFee(80_000, defaultGasPrice);
 
 export const simapp = {
@@ -71,11 +73,11 @@ export const simapp = {
   tendermintUrlWs: "ws://localhost:26658",
   tendermintUrlHttp: "http://localhost:26658",
   chainId: "simd-testing",
-  denomStaking: "ustake",
-  denomFee: "ucosm",
+  denomStaking: "stake",
+  denomFee: "cony",
   blockTime: 1_000, // ms
-  totalSupply: 21000000000, // ucosm
-  govMinDeposit: coins(10000000, "ustake"),
+  totalSupply: 1100000000000, // cony
+  govMinDeposit: coins(10000000, "stake"),
 };
 
 export const slowSimapp = {
@@ -84,7 +86,7 @@ export const slowSimapp = {
   tendermintUrlHttp: "http://localhost:26660",
   chainId: "simd-testing",
   denomStaking: "ustake",
-  denomFee: "ucosm",
+  denomFee: "cony",
   blockTime: 10_000, // ms
   totalSupply: 21000000000, // ucosm
 };
@@ -97,45 +99,49 @@ export const defaultSigningClientOptions: SigningStargateClientOptions = {
 
 export const faucet = {
   mnemonic:
-    "economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone",
+    "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have",
   pubkey0: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+    type: "ostracon/PubKeySecp256k1",
+    value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
   pubkey1: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "AiDosfIbBi54XJ1QjCeApumcy/FjdtF+YhywPf3DKTx7",
+    type: "ostracon/PubKeySecp256k1",
+    value: "Au7fdDpmcXLbuxH5z6PvvzUaKQI6EeDY5GNt9e17cYxk",
   },
   pubkey2: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "AzQg33JZqH7vSsm09esZY5bZvmzYwE/SY78cA0iLxpD7",
+    type: "ostracon/PubKeySecp256k1",
+    value: "A45xEMprNuuMDvoSyN35OFzMSjgN3JfU0JrtDigGL1li",
   },
   pubkey3: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "A3gOAlB6aiRTCPvWMQg2+ZbGYNsLd8qlvV28m8p2UhY2",
+    type: "ostracon/PubKeySecp256k1",
+    value: "A++1IDp1lAwqi1/nSxjRwsUAgMuabMHaOaxEgszpHH3O",
   },
   pubkey4: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "Aum2063ub/ErUnIUB36sK55LktGUStgcbSiaAnL1wadu",
+    type: "ostracon/PubKeySecp256k1",
+    value: "AiprmR/HER1JI4/kF49WNZUND57MygR4myw1HrqlJ8if",
   },
-  address0: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
-  address1: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
-  address2: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
-  address3: "cosmos142u9fgcjdlycfcez3lw8x6x5h7rfjlnfhpw2lx",
-  address4: "cosmos1hsm76p4ahyhl5yh3ve9ur49r5kemhp2r0dcjvx",
+  pubkey5: {
+    type: "ostracon/PubKeySecp256k1",
+    value: "A/sRpmP7Bk1LIkax7HA6DxegTIxmstJXH6xkmAzSxzXO",
+  },
+  address0: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
+  address1: "link1aaffxdz4dwcnjzumjm7h89yjw5c5wul88zvzuu",
+  address2: "link1ey0w0xj9v48vk82ht6mhqdlh9wqkx8enkpjwpr",
+  address3: "link1dfyywjglcfptn72axxhsslpy8ep6wq7wujasma",
+  address4: "link1equ4n3uwyhapak5g3leq0avz85k0q6jcdy5w0f",
+  address5: "link14nvvrk4dz3k695t8740vqzjnvrwszwm69hw0ls",
 };
 
 /** Unused account */
 export const unused = {
   pubkey: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "ArkCaFUJ/IH+vKBmNRCdUVl3mCAhbopk9jjW4Ko4OfRQ",
+    type: "ostracon/PubKeySecp256k1",
+    value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
-  address: "cosmos1cjsxept9rkggzxztslae9ndgpdyt2408lk850u",
-  accountNumber: 16,
+  address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
   sequence: 0,
-  balanceStaking: "2000000000", // 2000 STAKE
-  balanceFee: "1000000000", // 1000 COSM
+  balanceStaking: "20000000000", // 100000 STAKE
+  balanceFee: "100000000000", // 1000 CONY
 };
 
 export const validator = {
@@ -147,8 +153,8 @@ export const validator = {
    * ```
    */
   pubkey: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "AtDcuH4cX1eaxZrJ5shheLG3tXPAoV4awoIZmNQtQxmf",
+    type: "ostracon/PubKeySecp256k1",
+    value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
   /**
    * delegator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
@@ -157,7 +163,7 @@ export const validator = {
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/simapp42/template/.simapp/config/genesis.json
    * ```
    */
-  delegatorAddress: "cosmos1urk9gy7cfws0ak9x5nu7lx4un9n6gqkry79679",
+  delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   /**
    * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
    *
@@ -165,12 +171,12 @@ export const validator = {
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/simapp42/template/.simapp/config/genesis.json
    * ```
    */
-  validatorAddress: "cosmosvaloper1urk9gy7cfws0ak9x5nu7lx4un9n6gqkrp230jk",
-  accountNumber: 0,
+  validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
+  // accountNumber: 0,
   sequence: 1,
 };
 
-export const nonExistentAddress = "cosmos1p79apjaufyphcmsn4g07cynqf0wyjuezqu84hd";
+export const nonExistentAddress = "link1hvuxwh9sp2zlc3ee5nnhngln6auv4ak4kyuspq";
 
 export const nonNegativeIntegerMatcher = /^[0-9]+$/;
 export const tendermintIdMatcher = /^[0-9A-F]{64}$/;
@@ -192,7 +198,7 @@ export class ModifyingSecp256k1HdWallet extends Secp256k1HdWallet {
     const modifiedSignDoc = {
       ...signDoc,
       fee: {
-        amount: coins(3000, "ucosm"),
+        amount: coins(3000, "cony"),
         gas: "333333",
       },
       memo: "This was modified",
@@ -225,7 +231,7 @@ export class ModifyingDirectSecp256k1HdWallet extends DirectSecp256k1HdWallet {
       pubkey: signerInfo.publicKey!,
       sequence: signerInfo.sequence.toNumber(),
     }));
-    const modifiedFeeAmount = coins(3000, "ucosm");
+    const modifiedFeeAmount = coins(3000, "cony");
     const modifiedGasLimit = 333333;
     const modifiedSignDoc = {
       ...signDoc,
