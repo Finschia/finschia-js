@@ -1,7 +1,7 @@
 {
   "name": "@lbmjs/ostracon-rpc",
-  "version": "0.27.0",
-  "description": "Tendermint RPC clients",
+  "version": "0.1.0-rc1",
+  "description": "Ostracon RPC clients",
   "contributors": [
     "IOV SAS <admin@iov.one>",
     "Confio OÜ <hello@confio.tech>",
@@ -17,6 +17,10 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "docs": "typedoc --options typedoc.js",
     "lint": "eslint --max-warnings 0 \"./**/*.ts\" \"./*.js\"",

@@ -874,13 +874,10 @@ __metadata:
   resolution: "@lbmjs/stargate@workspace:packages/stargate"
   dependencies:
     "@confio/ics23": ^0.6.3
-    "@cosmjs/amino": 0.27.0-rc2
     "@cosmjs/crypto": 0.27.0-rc2
     "@cosmjs/encoding": 0.27.0-rc2
     "@cosmjs/math": 0.27.0-rc2
-    "@cosmjs/proto-signing": 0.27.0-rc2
     "@cosmjs/stream": 0.27.0-rc2
-    "@cosmjs/tendermint-rpc": 0.27.0-rc2
     "@cosmjs/utils": 0.27.0-rc2
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@lbmjs/amino": "workspace:packages/amino"
@@ -895,7 +892,6 @@ __metadata:
     "@types/node": ^15.0.1
     "@typescript-eslint/eslint-plugin": ^4.28
     "@typescript-eslint/parser": ^4.28
-    cosmjs-types: ^0.4.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4

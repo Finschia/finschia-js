@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/stargate",
-  "version": "0.27.0",
+  "version": "0.1.0-rc1",
   "description": "Utilities for LBM SDK 0.43.1",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
@@ -15,6 +15,10 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "docs": "typedoc --options typedoc.js",
     "lint": "eslint --max-warnings 0 \"./**/*.ts\" \"./*.js\"",
@@ -32,17 +36,13 @@
   },
   "dependencies": {
     "@confio/ics23": "^0.6.3",
-    "@cosmjs/amino": "0.27.0-rc2",
     "@cosmjs/encoding": "0.27.0-rc2",
     "@cosmjs/math": "0.27.0-rc2",
-    "@cosmjs/proto-signing": "0.27.0-rc2",
     "@cosmjs/stream": "0.27.0-rc2",
-    "@cosmjs/tendermint-rpc": "0.27.0-rc2",
     "@cosmjs/utils": "0.27.0-rc2",
     "@lbmjs/amino": "workspace:packages/amino",
     "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",
-    "cosmjs-types": "^0.4.0",
     "lbmjs-types": "^0.43.2",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2",

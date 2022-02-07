@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/proto-signing",
-  "version": "0.27.0",
+  "version": "0.1.0-rc1",
   "description": "Utilities for protobuf based signing (LBM SDK 0.43.1)",
   "contributors": [
     "zemyblue<zemyblue@users.noreply.github.com>"
@@ -14,6 +14,10 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "docs": "typedoc --options typedoc.js",
     "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",

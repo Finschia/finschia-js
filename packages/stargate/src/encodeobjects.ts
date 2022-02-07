@@ -1,4 +1,4 @@
-import { EncodeObject } from "@cosmjs/proto-signing";
+import { EncodeObject } from "@lbmjs/proto-signing";
 import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
 import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
 import { MsgWithdrawDelegatorReward } from "lbmjs-types/lbm/distribution/v1/tx";
