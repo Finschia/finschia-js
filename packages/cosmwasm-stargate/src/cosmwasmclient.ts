@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromAscii, toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
+import { assert, sleep } from "@cosmjs/utils";
+import { Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
 import {
   Account,
   accountFromAny,
@@ -16,17 +18,14 @@ import {
   QueryClient,
   SearchTxFilter,
   SearchTxQuery,
-  SequenceResponse,
   setupAuthExtension,
   setupBankExtension,
   setupTxExtension,
   TimeoutError,
   TxExtension,
-} from "@cosmjs/stargate";
-import { Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
-import { assert, sleep } from "@cosmjs/utils";
-import { CodeInfoResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
-import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+} from "@lbmjs/stargate";
+import { CodeInfoResponse } from "lbmjs-types/lbm/wasm/v1/query";
+import { ContractCodeHistoryOperationType } from "lbmjs-types/lbm/wasm/v1/types";
 
 import { JsonObject, setupWasmExtension, WasmExtension } from "./queries";
 
@@ -162,17 +161,14 @@ export class CosmWasmClient {
     }
   }
 
-  public async getSequence(address: string): Promise<SequenceResponse> {
+  public async getSequence(address: string): Promise<number> {
     const account = await this.getAccount(address);
     if (!account) {
       throw new Error(
         "Account does not exist on chain. Send some tokens there before trying to query sequence.",
       );
     }
-    return {
-      accountNumber: account.accountNumber,
-      sequence: account.sequence,
-    };
+    return account.sequence;
   }
 
   public async getBlock(height?: number): Promise<Block> {

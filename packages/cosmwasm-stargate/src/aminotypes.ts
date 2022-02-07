@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
-import { AminoConverter, Coin } from "@cosmjs/stargate";
+import { AminoConverter, Coin } from "@lbmjs/stargate";
 import {
   MsgClearAdmin,
   MsgExecuteContract,
@@ -8,7 +8,7 @@ import {
   MsgMigrateContract,
   MsgStoreCode,
   MsgUpdateAdmin,
-} from "cosmjs-types/cosmwasm/wasm/v1/tx";
+} from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 
 // TODO: implement
@@ -66,7 +66,7 @@ export interface AminoMsgInstantiateContract {
     /** Human-readable label for this contract */
     readonly label: string;
     /** Instantiate message as JavaScript object */
-    readonly msg: any;
+    readonly init_msg: any;
     readonly funds: readonly Coin[];
     /** Bech32-encoded admin address */
     readonly admin?: string;
@@ -88,7 +88,7 @@ export interface AminoMsgMigrateContract {
     /** The new code */
     readonly code_id: string;
     /** Migrate message as JavaScript object */
-    readonly msg: any;
+    readonly migrate_msg: any;
   };
 }
 
@@ -125,7 +125,7 @@ export interface AminoMsgClearAdmin {
 }
 
 export const cosmWasmTypes: Record<string, AminoConverter> = {
-  "/cosmwasm.wasm.v1.MsgStoreCode": {
+  "/lbm.wasm.v1.MsgStoreCode": {
     aminoType: "wasm/MsgStoreCode",
     toAmino: ({ sender, wasmByteCode }: MsgStoreCode): AminoMsgStoreCode["value"] => ({
       sender: sender,
@@ -134,23 +134,25 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
     fromAmino: ({ sender, wasm_byte_code }: AminoMsgStoreCode["value"]): MsgStoreCode => ({
       sender: sender,
       wasmByteCode: fromBase64(wasm_byte_code),
+      source: "",
+      builder: "",
       instantiatePermission: undefined,
     }),
   },
-  "/cosmwasm.wasm.v1.MsgInstantiateContract": {
+  "/lbm.wasm.v1.MsgInstantiateContract": {
     aminoType: "wasm/MsgInstantiateContract",
     toAmino: ({
       sender,
       codeId,
       label,
-      msg,
+      initMsg,
       funds,
       admin,
     }: MsgInstantiateContract): AminoMsgInstantiateContract["value"] => ({
       sender: sender,
       code_id: codeId.toString(),
       label: label,
-      msg: JSON.parse(fromUtf8(msg)),
+      init_msg: JSON.parse(fromUtf8(initMsg)),
       funds: funds,
       admin: admin || undefined,
     }),
@@ -158,19 +160,19 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender,
       code_id,
       label,
-      msg,
+      init_msg,
       funds,
       admin,
     }: AminoMsgInstantiateContract["value"]): MsgInstantiateContract => ({
       sender: sender,
       codeId: Long.fromString(code_id),
       label: label,
-      msg: toUtf8(JSON.stringify(msg)),
+      initMsg: toUtf8(JSON.stringify(init_msg)),
       funds: [...funds],
       admin: admin ?? "",
     }),
   },
-  "/cosmwasm.wasm.v1.MsgUpdateAdmin": {
+  "/lbm.wasm.v1.MsgUpdateAdmin": {
     aminoType: "wasm/MsgUpdateAdmin",
     toAmino: ({ sender, newAdmin, contract }: MsgUpdateAdmin): AminoMsgUpdateAdmin["value"] => ({
       sender: sender,
@@ -183,7 +185,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       contract: contract,
     }),
   },
-  "/cosmwasm.wasm.v1.MsgClearAdmin": {
+  "/lbm.wasm.v1.MsgClearAdmin": {
     aminoType: "wasm/MsgClearAdmin",
     toAmino: ({ sender, contract }: MsgClearAdmin): AminoMsgClearAdmin["value"] => ({
       sender: sender,
@@ -194,7 +196,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       contract: contract,
     }),
   },
-  "/cosmwasm.wasm.v1.MsgExecuteContract": {
+  "/lbm.wasm.v1.MsgExecuteContract": {
     aminoType: "wasm/MsgExecuteContract",
     toAmino: ({ sender, contract, msg, funds }: MsgExecuteContract): AminoMsgExecuteContract["value"] => ({
       sender: sender,
@@ -209,24 +211,29 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       funds: [...funds],
     }),
   },
-  "/cosmwasm.wasm.v1.MsgMigrateContract": {
+  "/lbm.wasm.v1.MsgMigrateContract": {
     aminoType: "wasm/MsgMigrateContract",
-    toAmino: ({ sender, contract, codeId, msg }: MsgMigrateContract): AminoMsgMigrateContract["value"] => ({
+    toAmino: ({
+      sender,
+      contract,
+      codeId,
+      migrateMsg,
+    }: MsgMigrateContract): AminoMsgMigrateContract["value"] => ({
       sender: sender,
       contract: contract,
       code_id: codeId.toString(),
-      msg: JSON.parse(fromUtf8(msg)),
+      migrate_msg: JSON.parse(fromUtf8(migrateMsg)),
     }),
     fromAmino: ({
       sender,
       contract,
       code_id,
-      msg,
+      migrate_msg,
     }: AminoMsgMigrateContract["value"]): MsgMigrateContract => ({
       sender: sender,
       contract: contract,
       codeId: Long.fromString(code_id),
-      msg: toUtf8(JSON.stringify(msg)),
+      migrateMsg: toUtf8(JSON.stringify(migrate_msg)),
     }),
   },
 };

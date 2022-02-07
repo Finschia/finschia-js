@@ -1,6 +1,7 @@
-import { Any } from "lbmjs-types/google/protobuf/any";
-import { accountFromAny } from "./accounts";
 import { fromBase64 } from "@cosmjs/encoding";
+import { Any } from "lbmjs-types/google/protobuf/any";
+
+import { accountFromAny } from "./accounts";
 
 describe("accounts", () => {
   describe("accountFromAny", () => {

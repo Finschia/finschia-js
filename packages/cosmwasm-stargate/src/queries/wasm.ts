@@ -1,5 +1,5 @@
 import { fromUtf8, toAscii } from "@cosmjs/encoding";
-import { createPagination, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
+import { createPagination, createProtobufRpcClient, QueryClient } from "@lbmjs/stargate";
 import {
   QueryAllContractStateResponse,
   QueryClientImpl,
@@ -9,7 +9,7 @@ import {
   QueryContractInfoResponse,
   QueryContractsByCodeResponse,
   QueryRawContractStateResponse,
-} from "cosmjs-types/cosmwasm/wasm/v1/query";
+} from "lbmjs-types/lbm/wasm/v1/query";
 import Long from "long";
 
 /**

@@ -2,6 +2,7 @@
 import { sha256 } from "@cosmjs/crypto";
 import { fromAscii, fromBase64, fromHex, toAscii } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
+import { assert, sleep } from "@cosmjs/utils";
 import {
   DirectSecp256k1HdWallet,
   encodePubkey,
@@ -9,10 +10,9 @@ import {
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@cosmjs/proto-signing";
-import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@cosmjs/stargate";
-import { assert, sleep } from "@cosmjs/utils";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "@lbmjs/proto-signing";
+import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@lbmjs/stargate";
+import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import { Code, CosmWasmClient, PrivateCosmWasmClient } from "./cosmwasmclient";
@@ -91,9 +91,10 @@ describe("CosmWasmClient", () => {
       const client = await CosmWasmClient.connect(wasmd.endpoint);
       expect(await client.getAccount(unused.address)).toEqual({
         address: unused.address,
-        accountNumber: unused.accountNumber,
         sequence: unused.sequence,
-        pubkey: null,
+        ed25519PubKey: null,
+        secp256k1PubKey: null,
+        multisigPubKey: null,
       });
     });
 
@@ -109,10 +110,7 @@ describe("CosmWasmClient", () => {
     it("works", async () => {
       pendingWithoutWasmd();
       const client = await CosmWasmClient.connect(wasmd.endpoint);
-      expect(await client.getSequence(unused.address)).toEqual({
-        accountNumber: unused.accountNumber,
-        sequence: unused.sequence,
-      });
+      expect(await client.getSequence(unused.address)).toEqual(unused.sequence);
     });
 
     it("rejects for missing accounts", async () => {
@@ -177,25 +175,23 @@ describe("CosmWasmClient", () => {
 
       const memo = "My first contract on chain";
       const sendMsg: MsgSendEncodeObject = {
-        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+        typeUrl: "/lbm.bank.v1.MsgSend",
         value: {
           fromAddress: alice.address0,
           toAddress: makeRandomAddress(),
-          amount: coins(1234567, "ucosm"),
+          amount: coins(1234567, "cony"),
         },
       };
       const fee: StdFee = {
-        amount: coins(5000, "ucosm"),
+        amount: coins(5000, "cony"),
         gas: "890000",
       };
 
       const chainId = await client.getChainId();
-      const sequenceResponse = await client.getSequence(alice.address0);
-      assert(sequenceResponse);
-      const { accountNumber, sequence } = sequenceResponse;
+      const sequence = await client.getSequence(alice.address0);
       const pubkey = encodePubkey(alice.pubkey0);
       const txBody: TxBodyEncodeObject = {
-        typeUrl: "/cosmos.tx.v1beta1.TxBody",
+        typeUrl: "/lbm.tx.v1.TxBody",
         value: {
           messages: [sendMsg],
           memo: memo,
@@ -203,8 +199,9 @@ describe("CosmWasmClient", () => {
       };
       const txBodyBytes = registry.encode(txBody);
       const gasLimit = Int53.fromString(fee.gas).toNumber();
-      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit);
-      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
+      const sigBlockHeight = (await client.getHeight())!;
+      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit, sigBlockHeight);
+      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
       const { signed, signature } = await wallet.signDirect(alice.address0, signDoc);
       const txRaw = TxRaw.fromPartial({
         bodyBytes: signed.bodyBytes,
@@ -215,7 +212,7 @@ describe("CosmWasmClient", () => {
       const result = await client.broadcastTx(signedTx);
       assertIsDeliverTxSuccess(result);
       const amountAttr = logs.findAttribute(logs.parseRawLog(result.rawLog), "transfer", "amount");
-      expect(amountAttr.value).toEqual("1234567ucosm");
+      expect(amountAttr.value).toEqual("1234567cony");
       expect(result.transactionHash).toMatch(/^[0-9A-F]{64}$/);
     });
   });

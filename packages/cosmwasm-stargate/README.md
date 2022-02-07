@@ -1,8 +1,8 @@
-# @cosmjs/cosmwasm-stargate
+# @lbmjs/cosmwasm-stargate
 
 [![npm version](https://img.shields.io/npm/v/@cosmjs/cosmwasm-stargate.svg)](https://www.npmjs.com/package/@cosmjs/cosmwasm-stargate)
 
-An SDK to build CosmWasm clients.
+An SDK to build LBM(CosmWasm) clients.
 
 ## Compatibility
 

@@ -1,9 +1,10 @@
 {
-  "name": "@cosmjs/cosmwasm-stargate",
+  "name": "@lbmjs/cosmwasm-stargate",
   "version": "0.27.0",
-  "description": "CosmWasm SDK",
+  "description": "LBM(CosmWasm) SDK",
   "contributors": [
-    "Will Clark <willclarktech@users.noreply.github.com>"
+    "Will Clark <willclarktech@users.noreply.github.com>",
+    "zemyblue <zemyblue@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
@@ -14,14 +15,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/cosmwasm-stargate"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
-  },
   "scripts": {
     "docs": "typedoc --options typedoc.js",
     "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
@@ -38,15 +31,15 @@
     "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
   },
   "dependencies": {
-    "@cosmjs/amino": "0.27.0-rc2",
     "@cosmjs/crypto": "0.27.0-rc2",
     "@cosmjs/encoding": "0.27.0-rc2",
     "@cosmjs/math": "0.27.0-rc2",
-    "@cosmjs/proto-signing": "0.27.0-rc2",
-    "@cosmjs/stargate": "0.27.0-rc2",
-    "@cosmjs/tendermint-rpc": "0.27.0-rc2",
     "@cosmjs/utils": "0.27.0-rc2",
-    "cosmjs-types": "^0.4.0",
+    "@lbmjs/amino": "workspace:packages/amino",
+    "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc",
+    "@lbmjs/proto-signing": "workspace:packages/proto-signing",
+    "@lbmjs/stargate": "workspace:packages/stargate",
+    "lbmjs-types": "^0.43.2",
     "long": "^4.0.0",
     "pako": "^2.0.2",
     "protobufjs": "~6.10.2"

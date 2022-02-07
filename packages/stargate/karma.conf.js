@@ -4,7 +4,6 @@ const travisLaunchers = {
   chrome_travis: {
     base: "Chrome",
     flags: ["--no-sandbox"],
-    // flags: ["--remote-debugging-port=9222"],
   },
 };
 

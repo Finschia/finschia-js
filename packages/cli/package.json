@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@cosmjs/amino": "0.27.0-rc2",
-    "@cosmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate",
+    "@cosmjs/cosmwasm-stargate": "0.27.0-rc2",
     "@cosmjs/crypto": "0.27.0-rc2",
     "@cosmjs/encoding": "0.27.0-rc2",
     "@cosmjs/faucet-client": "workspace:packages/faucet-client",

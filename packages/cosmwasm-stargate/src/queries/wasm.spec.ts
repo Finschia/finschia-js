@@ -1,6 +1,7 @@
 import { sha256 } from "@cosmjs/crypto";
 import { fromAscii, fromHex, toAscii, toHex } from "@cosmjs/encoding";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
+import { assert } from "@cosmjs/utils";
+import { DirectSecp256k1HdWallet, OfflineDirectSigner, Registry } from "@lbmjs/proto-signing";
 import {
   assertIsDeliverTxSuccess,
   Coin,
@@ -10,10 +11,9 @@ import {
   logs,
   SigningStargateClient,
   StdFee,
-} from "@cosmjs/stargate";
-import { assert } from "@cosmjs/utils";
-import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+} from "@lbmjs/stargate";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "lbmjs-types/lbm/wasm/v1/tx";
+import { ContractCodeHistoryOperationType, ContractStatus } from "lbmjs-types/lbm/wasm/v1/types";
 import Long from "long";
 
 import {
@@ -36,9 +36,9 @@ import {
 } from "../testutils.spec";
 
 const registry = new Registry([
-  ["/cosmwasm.wasm.v1.MsgExecuteContract", MsgExecuteContract],
-  ["/cosmwasm.wasm.v1.MsgStoreCode", MsgStoreCode],
-  ["/cosmwasm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
+  ["/lbm.wasm.v1.MsgExecuteContract", MsgExecuteContract],
+  ["/lbm.wasm.v1.MsgStoreCode", MsgStoreCode],
+  ["/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
 ]);
 
 async function uploadContract(
@@ -47,14 +47,14 @@ async function uploadContract(
 ): Promise<DeliverTxResponse> {
   const memo = "My first contract on chain";
   const theMsg: MsgStoreCodeEncodeObject = {
-    typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
+    typeUrl: "/lbm.wasm.v1.MsgStoreCode",
     value: MsgStoreCode.fromPartial({
       sender: alice.address0,
       wasmByteCode: contract.data,
     }),
   };
   const fee: StdFee = {
-    amount: coins(5000000, "ucosm"),
+    amount: coins(5000000, "cony"),
     gas: "89000000",
   };
   const firstAddress = (await signer.getAccounts())[0].address;
@@ -73,12 +73,12 @@ async function instantiateContract(
 ): Promise<DeliverTxResponse> {
   const memo = "Create an escrow instance";
   const theMsg: MsgInstantiateContractEncodeObject = {
-    typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
+    typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
     value: MsgInstantiateContract.fromPartial({
       sender: alice.address0,
       codeId: Long.fromNumber(codeId),
       label: "my escrow",
-      msg: toAscii(
+      initMsg: toAscii(
         JSON.stringify({
           verifier: alice.address0,
           beneficiary: beneficiaryAddress,
@@ -88,7 +88,7 @@ async function instantiateContract(
     }),
   };
   const fee: StdFee = {
-    amount: coins(5000000, "ucosm"),
+    amount: coins(5000000, "cony"),
     gas: "89000000",
   };
 
@@ -107,7 +107,7 @@ async function executeContract(
 ): Promise<DeliverTxResponse> {
   const memo = "Time for action";
   const theMsg: MsgExecuteContractEncodeObject = {
-    typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+    typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
     value: MsgExecuteContract.fromPartial({
       sender: alice.address0,
       contract: contractAddress,
@@ -116,7 +116,7 @@ async function executeContract(
     }),
   };
   const fee: StdFee = {
-    amount: coins(5000000, "ucosm"),
+    amount: coins(5000000, "cony"),
     gas: "89000000",
   };
 
@@ -198,7 +198,7 @@ describe("WasmExtension", () => {
       }
 
       const beneficiaryAddress = makeRandomAddress();
-      const funds = coins(707707, "ucosm");
+      const funds = coins(707707, "cony");
       const result = await instantiateContract(wallet, hackatomCodeId, beneficiaryAddress, funds);
       assertIsDeliverTxSuccess(result);
       const myAddress = JSON.parse(result.rawLog!)[0]
@@ -219,6 +219,7 @@ describe("WasmExtension", () => {
         label: "my escrow",
         admin: "",
         ibcPortId: "",
+        status: ContractStatus.CONTRACT_STATUS_ACTIVE,
       });
       expect(contractInfo.admin).toEqual("");
     });
@@ -241,7 +242,7 @@ describe("WasmExtension", () => {
 
       // create new instance and compare before and after
       const beneficiaryAddress = makeRandomAddress();
-      const funds = coins(707707, "ucosm");
+      const funds = coins(707707, "cony");
       const result = await instantiateContract(wallet, hackatomCodeId, beneficiaryAddress, funds);
       assertIsDeliverTxSuccess(result);
 
@@ -367,7 +368,7 @@ describe("WasmExtension", () => {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
       const client = await makeWasmClient(wasmd.endpoint);
 
-      const funds = [coin(1234, "ucosm"), coin(321, "ustake")];
+      const funds = [coin(1234, "cony"), coin(321, "stake")];
       const beneficiaryAddress = makeRandomAddress();
 
       let codeId: number;
@@ -395,13 +396,13 @@ describe("WasmExtension", () => {
         const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
         contractAddress = contractAddressAttr.value;
         const amountAttr = logs.findAttribute(parsedLogs, "transfer", "amount");
-        expect(amountAttr.value).toEqual("1234ucosm,321ustake");
+        expect(amountAttr.value).toEqual("1234cony,321stake");
         const actionAttr = logs.findAttribute(parsedLogs, "message", "module");
         expect(actionAttr.value).toEqual("wasm");
 
-        const balanceUcosm = await client.bank.balance(contractAddress, "ucosm");
-        expect(balanceUcosm).toEqual(funds[0]);
-        const balanceUstake = await client.bank.balance(contractAddress, "ustake");
+        const balanceCony = await client.bank.balance(contractAddress, "cony");
+        expect(balanceCony).toEqual(funds[0]);
+        const balanceUstake = await client.bank.balance(contractAddress, "stake");
         expect(balanceUstake).toEqual(funds[1]);
       }
 
@@ -419,9 +420,9 @@ describe("WasmExtension", () => {
         });
 
         // Verify token transfer from contract to beneficiary
-        const beneficiaryBalanceUcosm = await client.bank.balance(beneficiaryAddress, "ucosm");
-        expect(beneficiaryBalanceUcosm).toEqual(funds[0]);
-        const beneficiaryBalanceUstake = await client.bank.balance(beneficiaryAddress, "ustake");
+        const beneficiaryBalanceCony = await client.bank.balance(beneficiaryAddress, "cony");
+        expect(beneficiaryBalanceCony).toEqual(funds[0]);
+        const beneficiaryBalanceUstake = await client.bank.balance(beneficiaryAddress, "stake");
         expect(beneficiaryBalanceUstake).toEqual(funds[1]);
       }
     });
