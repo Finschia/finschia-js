@@ -29,11 +29,6 @@ import { ContractCodeHistoryOperationType } from "lbmjs-types/lbm/wasm/v1/types"
 
 import { JsonObject, setupWasmExtension, WasmExtension } from "./queries";
 
-// Re-exports that belong to public CosmWasmClient interfaces
-export {
-  JsonObject, // returned by CosmWasmClient.queryContractSmart
-};
-
 export interface Code {
   readonly id: number;
   /** Bech32 account address */

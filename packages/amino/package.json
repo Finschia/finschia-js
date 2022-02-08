@@ -36,10 +36,10 @@
     "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
   },
   "dependencies": {
-    "@cosmjs/crypto": "0.27.0-rc2",
-    "@cosmjs/encoding": "0.27.0-rc2",
-    "@cosmjs/math": "0.27.0-rc2",
-    "@cosmjs/utils": "0.27.0-rc2"
+    "@cosmjs/crypto": "0.27.1",
+    "@cosmjs/encoding": "0.27.1",
+    "@cosmjs/math": "0.27.1",
+    "@cosmjs/utils": "0.27.1"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

@@ -19,7 +19,7 @@ import {
   AminoTypes,
   calculateFee,
   Coin,
-  defaultRegistryTypes,
+  defaultRegistryTypes as defaultStargateTypes,
   DeliverTxResponse,
   GasPrice,
   isDeliverTxFailure,
@@ -128,15 +128,14 @@ function createDeliverTxResponseErrorMessage(result: DeliverTxResponse): string 
 }
 
 function createDefaultRegistry(): Registry {
-  return new Registry([
-    ...defaultRegistryTypes,
-    ["/lbm.wasm.v1.MsgClearAdmin", MsgClearAdmin],
-    ["/lbm.wasm.v1.MsgExecuteContract", MsgExecuteContract],
-    ["/lbm.wasm.v1.MsgMigrateContract", MsgMigrateContract],
-    ["/lbm.wasm.v1.MsgStoreCode", MsgStoreCode],
-    ["/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
-    ["/lbm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin],
-  ]);
+  const registry = new Registry(defaultStargateTypes);
+  registry.register("/lbm.wasm.v1.MsgClearAdmin", MsgClearAdmin);
+  registry.register("/lbm.wasm.v1.MsgExecuteContract", MsgExecuteContract);
+  registry.register("/lbm.wasm.v1.MsgMigrateContract", MsgMigrateContract);
+  registry.register("/lbm.wasm.v1.MsgStoreCode", MsgStoreCode);
+  registry.register("/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract);
+  registry.register("/lbm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin);
+  return registry;
 }
 
 export interface SigningCosmWasmClientOptions {
