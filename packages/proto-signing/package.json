@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/proto-signing",
-  "version": "0.1.0-rc1",
+  "version": "0.1.0-rc2",
   "description": "Utilities for protobuf based signing (LBM SDK 0.43.1)",
   "contributors": [
     "zemyblue<zemyblue@users.noreply.github.com>"
