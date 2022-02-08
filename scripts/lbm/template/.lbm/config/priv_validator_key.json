@@ -1,0 +1,11 @@
+{
+  "address": "F9D007F4F86836FD37B93F48590878E7EB07F371",
+  "pub_key": {
+    "type": "ostracon/PubKeyEd25519",
+    "value": "fTsz0zNrjTQGL6PQnJ7Ra7/DHQlMNEkq4azeowMAH9c="
+  },
+  "priv_key": {
+    "type": "ostracon/PrivKeyEd25519",
+    "value": "a9d04HYXZZzXtNC8kHHDXd7Nqi4qxxml/EUhCk20WSV9OzPTM2uNNAYvo9CcntFrv8MdCUw0SSrhrN6jAwAf1w=="
+  }
+}

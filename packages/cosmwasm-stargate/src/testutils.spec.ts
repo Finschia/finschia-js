@@ -43,7 +43,7 @@ export interface ContractUploadInstructions {
 
 export const wasmd = {
   blockTime: 1_000, // ms
-  chainId: "simd-testing",
+  chainId: "lbm-testing",
   endpoint: "localhost:26658",
   prefix: "link",
   validator: {
