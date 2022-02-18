@@ -60,7 +60,7 @@ describe("signing", () => {
           fromHex(inputs.bodyBytes),
           fromHex(inputs.authInfoBytes),
           chainId,
-          // inputs.accountNumber,
+          inputs.accountNumber,
         );
         const signDocBytes = makeSignBytes(signDoc);
         expect(toHex(signDocBytes)).toEqual(outputs.signBytes);

@@ -28,7 +28,6 @@ export function makeMultisignedTx(
   fee: StdFee,
   bodyBytes: Uint8Array,
   signatures: Map<string, Uint8Array>,
-  sigBlockHeight: number | string,
 ): TxRaw {
   const addresses = Array.from(signatures.keys());
   const prefix = Bech32.decode(addresses[0]).prefix;
@@ -61,7 +60,6 @@ export function makeMultisignedTx(
       amount: [...fee.amount],
       gasLimit: Long.fromString(fee.gas),
     },
-    sigBlockHeight: sigBlockHeight.toString(),
   });
 
   const authInfoBytes = AuthInfo.encode(authInfo).finish();

@@ -24,7 +24,8 @@ export function simapp44Enabled(): boolean {
 }
 
 export function simappEnabled(): boolean {
-  return simapp42Enabled() || simapp44Enabled();
+  // return simapp42Enabled() || simapp44Enabled();
+  return true;
 }
 
 export function pendingWithoutSimapp42(): void {
@@ -137,6 +138,7 @@ export const unused = {
     value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
   address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
+  accountNumber: 8,
   sequence: 0,
   balanceStaking: "20000000000", // 100000 STAKE
   balanceFee: "100000000000", // 1000 CONY
@@ -170,7 +172,7 @@ export const validator = {
    * ```
    */
   validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
-  // accountNumber: 0,
+  accountNumber: 9,
   sequence: 1,
 };
 

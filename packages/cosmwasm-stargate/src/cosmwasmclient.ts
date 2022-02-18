@@ -18,6 +18,7 @@ import {
   QueryClient,
   SearchTxFilter,
   SearchTxQuery,
+  SequenceResponse,
   setupAuthExtension,
   setupBankExtension,
   setupTxExtension,
@@ -156,14 +157,17 @@ export class CosmWasmClient {
     }
   }
 
-  public async getSequence(address: string): Promise<number> {
+  public async getSequence(address: string): Promise<SequenceResponse> {
     const account = await this.getAccount(address);
     if (!account) {
       throw new Error(
         "Account does not exist on chain. Send some tokens there before trying to query sequence.",
       );
     }
-    return account.sequence;
+    return {
+      accountNumber: account.accountNumber,
+      sequence: account.sequence
+    };
   }
 
   public async getBlock(height?: number): Promise<Block> {

@@ -72,7 +72,7 @@ async function sendTokens(
     },
   };
   const txBodyBytes = registry.encode(txBodyFields);
-  const sequence = (await client.getSequence(walletAddress))!;
+  const { accountNumber, sequence } = (await client.getSequence(walletAddress))!;
   const feeAmount = [
     {
       amount: "2000",
@@ -80,11 +80,10 @@ async function sendTokens(
     },
   ];
   const gasLimit = 200000;
-  const sigBlockHeight = (await client.getHeight())!;
-  const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit, sigBlockHeight);
+  const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit);
 
   const chainId = await client.getChainId();
-  const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
+  const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
   const { signature } = await wallet.signDirect(walletAddress, signDoc);
   const txRaw = TxRaw.fromPartial({
     bodyBytes: txBodyBytes,

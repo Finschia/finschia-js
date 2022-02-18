@@ -1,4 +1,4 @@
-import { fromBase64, fromHex } from "@cosmjs/encoding";
+import { fromBase64, fromHex, toHex } from "@cosmjs/encoding";
 import { Any } from "lbmjs-types/google/protobuf/any";
 import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
 import { PubKey } from "lbmjs-types/lbm/crypto/secp256k1/keys";
@@ -55,7 +55,6 @@ describe("decode", () => {
             granter: "",
             amount: [{ amount: "2000", denom: "cony" }],
           },
-          sigBlockHeight: Long.fromNumber(0, true),
         },
         body: {
           memo: "",

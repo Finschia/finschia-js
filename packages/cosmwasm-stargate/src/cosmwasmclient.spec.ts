@@ -92,6 +92,7 @@ describe("CosmWasmClient", () => {
       const client = await CosmWasmClient.connect(wasmd.endpoint);
       expect(await client.getAccount(unused.address)).toEqual({
         address: unused.address,
+        accountNumber: unused.accountNumber,
         sequence: unused.sequence,
         ed25519PubKey: null,
         secp256k1PubKey: null,
@@ -111,7 +112,10 @@ describe("CosmWasmClient", () => {
     it("works", async () => {
       pendingWithoutWasmd();
       const client = await CosmWasmClient.connect(wasmd.endpoint);
-      expect(await client.getSequence(unused.address)).toEqual(unused.sequence);
+      expect(await client.getSequence(unused.address)).toEqual({
+        accountNumber: unused.accountNumber,
+        sequence: unused.sequence,
+      });
     });
 
     it("rejects for missing accounts", async () => {
@@ -189,7 +193,9 @@ describe("CosmWasmClient", () => {
       };
 
       const chainId = await client.getChainId();
-      const sequence = await client.getSequence(alice.address0);
+      const sequenceResponse = await client.getSequence(alice.address0);
+      assert(sequenceResponse);
+      const { accountNumber, sequence } = sequenceResponse;
       const pubkey = encodePubkey(alice.pubkey0);
       const txBody: TxBodyEncodeObject = {
         typeUrl: "/lbm.tx.v1.TxBody",
@@ -200,9 +206,8 @@ describe("CosmWasmClient", () => {
       };
       const txBodyBytes = registry.encode(txBody);
       const gasLimit = Int53.fromString(fee.gas).toNumber();
-      const sigBlockHeight = (await client.getHeight())!;
-      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit, sigBlockHeight);
-      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
+      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit);
+      const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
       const { signed, signature } = await wallet.signDirect(alice.address0, signDoc);
       const txRaw = TxRaw.fromPartial({
         bodyBytes: signed.bodyBytes,

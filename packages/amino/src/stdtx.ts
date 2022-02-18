@@ -10,30 +10,24 @@ export interface StdTx {
   readonly msg: readonly AminoMsg[];
   readonly fee: StdFee;
   readonly signatures: readonly StdSignature[];
-  readonly sigBlockHeight: string;
   readonly memo: string | undefined;
 }
 
 export function isStdTx(txValue: unknown): txValue is StdTx {
-  const { memo, msg, fee, signatures, sigBlockHeight } = txValue as StdTx;
+  const { memo, msg, fee, signatures } = txValue as StdTx;
   return (
-    typeof memo === "string" &&
-    Array.isArray(msg) &&
-    typeof fee === "object" &&
-    Array.isArray(signatures) &&
-    sigBlockHeight === "string"
+    typeof memo === "string" && Array.isArray(msg) && typeof fee === "object" && Array.isArray(signatures)
   );
 }
 
 export function makeStdTx(
-  content: Pick<StdSignDoc, "msgs" | "fee" | "memo" | "sig_block_height">,
+  content: Pick<StdSignDoc, "msgs" | "fee" | "memo">,
   signatures: StdSignature | readonly StdSignature[],
 ): StdTx {
   return {
     msg: content.msgs,
     fee: content.fee,
     memo: content.memo,
-    sigBlockHeight: content.sig_block_height,
     signatures: Array.isArray(signatures) ? signatures : [signatures],
   };
 }

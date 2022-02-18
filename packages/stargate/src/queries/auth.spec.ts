@@ -31,6 +31,7 @@ describe("AuthExtension", () => {
         ed25519PubKey: undefined,
         secp256k1PubKey: undefined,
         multisigPubKey: undefined,
+        accountNumber: Long.fromNumber(unused.accountNumber, true),
         sequence: Long.fromNumber(0, true),
       });
 
@@ -49,6 +50,7 @@ describe("AuthExtension", () => {
         ed25519PubKey: undefined,
         secp256k1PubKey: { key: fromBase64(validator.pubkey.value) },
         multisigPubKey: undefined,
+        accountNumber: Long.fromNumber(validator.accountNumber, true),
         sequence: Long.fromNumber(validator.sequence, true),
       });
 

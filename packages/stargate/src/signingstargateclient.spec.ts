@@ -305,7 +305,7 @@ describe("SigningStargateClient", () => {
         expect(result.gasWanted).toEqual(99_000);
         expect(result.gasUsed).toBeLessThanOrEqual(99_000);
         // todo: I don't know why fail.
-        // expect(result.gasUsed).toBeGreaterThan(40_000);
+        expect(result.gasUsed).toBeGreaterThan(28_000);
       });
 
       it("works with auto gas", async () => {

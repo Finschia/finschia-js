@@ -90,8 +90,8 @@ describe("SigningCosmWasmClient", () => {
       };
       const memo = "Go go go";
       const gasUsed = await client.simulate(alice.address0, [executeContractMsg], memo);
-      expect(gasUsed).toBeGreaterThanOrEqual(101_000);
-      expect(gasUsed).toBeLessThanOrEqual(150_000);
+      expect(gasUsed).toBeGreaterThanOrEqual(61_000);
+      expect(gasUsed).toBeLessThanOrEqual(65_000);
       client.disconnect();
     });
   });

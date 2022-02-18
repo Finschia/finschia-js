@@ -88,6 +88,7 @@ export interface IndexedTx {
 }
 
 export interface SequenceResponse {
+  readonly accountNumber: number;
   readonly sequence: number;
 }
 
@@ -224,14 +225,17 @@ export class StargateClient {
     }
   }
 
-  public async getSequence(address: string): Promise<number> {
+  public async getSequence(address: string): Promise<SequenceResponse> {
     const account = await this.getAccount(address);
     if (!account) {
       throw new Error(
         "Account does not exist on chain. Send some tokens there before trying to query sequence.",
       );
     }
-    return account.sequence;
+    return {
+      accountNumber: account.accountNumber,
+      sequence: account.sequence,
+    };
   }
 
   public async getBlock(height?: number): Promise<Block> {

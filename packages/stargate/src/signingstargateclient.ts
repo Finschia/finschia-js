@@ -116,6 +116,7 @@ function createDefaultRegistry(): Registry {
  * @see https://github.com/cosmos/cosmos-sdk/blob/v0.42.2/x/auth/signing/sign_mode_handler.go#L23-L37
  */
 export interface SignerData {
+  readonly accountNumber: number;
   readonly sequence: number;
   readonly chainId: string;
 }
@@ -197,7 +198,7 @@ export class SigningStargateClient extends StargateClient {
       throw new Error("Failed to retrieve account from signer");
     }
     const pubkey = encodeSecp256k1Pubkey(accountFromSigner.pubkey);
-    const sequence = await this.getSequence(signerAddress);
+    const { sequence } = await this.getSequence(signerAddress);
     const { gasInfo } = await this.forceGetQueryClient().tx.simulate(anyMsgs, memo, pubkey, sequence);
     assertDefined(gasInfo);
     return Uint53.fromString(gasInfo.gasUsed.toString()).toNumber();
@@ -338,32 +339,24 @@ export class SigningStargateClient extends StargateClient {
     messages: readonly EncodeObject[],
     fee: StdFee,
     memo: string,
-    sigBlockHeight?: number | string,
     explicitSignerData?: SignerData,
   ): Promise<TxRaw> {
-    let usedSigBlockHeight: number | string;
-    if (!sigBlockHeight) {
-      const latestBlockHeight = await this.getHeight();
-      usedSigBlockHeight = latestBlockHeight.toString();
-    } else {
-      usedSigBlockHeight = sigBlockHeight;
-    }
-
     let signerData: SignerData;
     if (explicitSignerData) {
       signerData = explicitSignerData;
     } else {
-      const sequence = await this.getSequence(signerAddress);
+      const { accountNumber, sequence } = await this.getSequence(signerAddress);
       const chainId = await this.getChainId();
       signerData = {
+        accountNumber: accountNumber,
         sequence: sequence,
         chainId: chainId,
       };
     }
 
     return isOfflineDirectSigner(this.signer)
-      ? this.signDirect(signerAddress, messages, fee, memo, usedSigBlockHeight, signerData)
-      : this.signAmino(signerAddress, messages, fee, memo, usedSigBlockHeight, 0, signerData);
+      ? this.signDirect(signerAddress, messages, fee, memo, signerData)
+      : this.signAmino(signerAddress, messages, fee, memo, signerData);
   }
 
   private async signAmino(
@@ -371,9 +364,7 @@ export class SigningStargateClient extends StargateClient {
     messages: readonly EncodeObject[],
     fee: StdFee,
     memo: string,
-    sigBlockHeight: number | string,
-    timeoutHeight: number | string,
-    { sequence, chainId }: SignerData,
+    { accountNumber, sequence, chainId }: SignerData,
   ): Promise<TxRaw> {
     assert(!isOfflineDirectSigner(this.signer));
     const accountFromSigner = (await this.signer.getAccounts()).find(
@@ -385,12 +376,11 @@ export class SigningStargateClient extends StargateClient {
     const pubkey = encodePubkey(encodeSecp256k1Pubkey(accountFromSigner.pubkey));
     const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
     const msgs = messages.map((msg) => this.aminoTypes.toAmino(msg));
-    const signDoc = makeSignDocAmino(msgs, fee, chainId, memo, sigBlockHeight, sequence);
+    const signDoc = makeSignDocAmino(msgs, fee, chainId, memo, accountNumber, sequence);
     const { signature, signed } = await this.signer.signAmino(signerAddress, signDoc);
     const signedTxBody = {
       messages: signed.msgs.map((msg) => this.aminoTypes.fromAmino(msg)),
       memo: signed.memo,
-      timeoutHeight: Long.fromValue(timeoutHeight),
     };
     const signedTxBodyEncodeObject: TxBodyEncodeObject = {
       typeUrl: "/lbm.tx.v1.TxBody",
@@ -403,7 +393,6 @@ export class SigningStargateClient extends StargateClient {
       [{ pubkey, sequence: signedSequence }],
       signed.fee.amount,
       signedGasLimit,
-      sigBlockHeight,
       signMode,
     );
     return TxRaw.fromPartial({
@@ -418,8 +407,7 @@ export class SigningStargateClient extends StargateClient {
     messages: readonly EncodeObject[],
     fee: StdFee,
     memo: string,
-    sigBlockHeight: number | string,
-    { sequence, chainId }: SignerData,
+    { accountNumber, sequence, chainId }: SignerData,
   ): Promise<TxRaw> {
     assert(isOfflineDirectSigner(this.signer));
     const accountFromSigner = (await this.signer.getAccounts()).find(
@@ -438,8 +426,8 @@ export class SigningStargateClient extends StargateClient {
     };
     const txBodyBytes = this.registry.encode(txBodyEncodeObject);
     const gasLimit = Int53.fromString(fee.gas).toNumber();
-    const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit, sigBlockHeight);
-    const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId);
+    const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit);
+    const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
     const { signature, signed } = await this.signer.signDirect(signerAddress, signDoc);
     return TxRaw.fromPartial({
       bodyBytes: signed.bodyBytes,

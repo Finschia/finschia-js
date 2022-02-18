@@ -22,7 +22,8 @@ describe("accounts", () => {
           key: fromBase64("AstbMBd9y9Hpr4LS0M4+4uDfWZc3XkozII9kHuDcYW/q"),
         },
         multisigPubKey: null,
-        sequence: 50,
+        accountNumber: 50,
+        sequence: 0,
       });
     });
   });

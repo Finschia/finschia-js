@@ -253,7 +253,7 @@ describe("DirectSecp256k1HdWallet", () => {
 
   describe("signDirect", () => {
     it("resolves to valid signature", async () => {
-      const { sequence, bodyBytes } = testVectors[1].inputs;
+      const { accountNumber, sequence, bodyBytes } = testVectors[1].inputs;
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
       const pubkey = {
         typeUrl: "/lbm.crypto.secp256k1.PubKey",
@@ -262,11 +262,11 @@ describe("DirectSecp256k1HdWallet", () => {
       const fee = coins(2000, "cony");
       const gasLimit = 200000;
       const chainId = "simd-testing";
-      const sigBlockHeight = 12;
       const signDoc = makeSignDoc(
         fromHex(bodyBytes),
-        makeAuthInfoBytes([{ pubkey, sequence }], fee, gasLimit, sigBlockHeight),
+        makeAuthInfoBytes([{ pubkey, sequence }], fee, gasLimit),
         chainId,
+        accountNumber,
       );
       const signDocBytes = makeSignBytes(signDoc);
       const { signature } = await wallet.signDirect(faucet.address, signDoc);

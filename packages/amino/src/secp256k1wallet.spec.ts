@@ -38,7 +38,7 @@ describe("Secp256k1Wallet", () => {
         fee: { amount: [], gas: "23" },
         chain_id: "foochain",
         memo: "hello, world",
-        sig_block_height: "10",
+        account_number: "10",
         sequence: "54",
       };
       const { signed, signature } = await signer.signAmino(defaultAddress, signDoc);

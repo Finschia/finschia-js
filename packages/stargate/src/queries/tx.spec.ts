@@ -92,7 +92,7 @@ describe("TxExtension", () => {
         value: msg,
       });
 
-      const sequence = await sequenceClient.getSequence(faucet.address0);
+      const { sequence } = await sequenceClient.getSequence(faucet.address0);
       const response = await client.tx.simulate([msgAny], "foo", faucet.pubkey0, sequence);
       expect(response.gasInfo?.gasUsed.toNumber()).toBeGreaterThanOrEqual(101_000);
       expect(response.gasInfo?.gasUsed.toNumber()).toBeLessThanOrEqual(150_000);

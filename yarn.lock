@@ -792,7 +792,7 @@ __metadata:
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
     karma-jasmine-html-reporter: ^1.5.4
-    lbmjs-types: ^0.43.2
+    lbmjs-types: ^0.44.0-rc0
     long: ^4.0.0
     nyc: ^15.1.0
     pako: ^2.0.2
@@ -899,7 +899,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.43.2
+    lbmjs-types: ^0.44.0-rc0
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -956,7 +956,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.43.2
+    lbmjs-types: ^0.44.0-rc0
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -4974,13 +4974,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lbmjs-types@npm:^0.43.2":
-  version: 0.43.2
-  resolution: "lbmjs-types@npm:0.43.2"
+"lbmjs-types@npm:^0.44.0-rc0":
+  version: 0.44.0-rc0
+  resolution: "lbmjs-types@npm:0.44.0-rc0"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: 2765b84a8468b19780566ffdd354fa7b84fbc3c7f41fb4d56282baf02811f14f6f58ea2ab46a42d23ff2f162f1fcc09e3b4c90d5383b173889931e33fe253ab1
+  checksum: 4ff322a0eaafa8b5570ba2624f44591e16dd6efe22a67534bb0ececfc007b7eb50f0f368cab4fe0fa0ae5c329256d919e5673e3ef7c8d81787da846958e20f65
   languageName: node
   linkType: hard
 

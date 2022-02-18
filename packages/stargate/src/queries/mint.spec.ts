@@ -37,7 +37,7 @@ describe("MintExtension", () => {
 
       const inflation = await client.mint.inflation();
       expect(inflation.toFloatApproximation()).toBeGreaterThan(0.13);
-      expect(inflation.toFloatApproximation()).toBeLessThan(0.1301);
+      expect(inflation.toFloatApproximation()).toBeLessThan(0.1304);
 
       tmClient.disconnect();
     });
