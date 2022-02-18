@@ -275,7 +275,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
       throw new Error(createDeliverTxResponseErrorMessage(result));
     }
     const parsedLogs = logs.parseRawLog(result.rawLog);
-    const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
+    const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate_contract", "contract_address");
     return {
       contractAddress: contractAddressAttr.value,
       logs: parsedLogs,
@@ -483,6 +483,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     let usedSigBlockHeight: number | string;
     if (!sigBlockHeight) {
       const latestBlockHeight = await this.getHeight();
+      console.log("latestBlockHeight(in sign):", latestBlockHeight);
       usedSigBlockHeight = latestBlockHeight.toString();
     } else {
       usedSigBlockHeight = sigBlockHeight;
@@ -521,6 +522,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     if (!accountFromSigner) {
       throw new Error("Failed to retrieve account from signer");
     }
+    console.log("sigBlockHeight(signAmino):", sigBlockHeight);
     const pubkey = encodePubkey(encodeSecp256k1Pubkey(accountFromSigner.pubkey));
     const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
     const msgs = messages.map((msg) => this.aminoTypes.toAmino(msg));
@@ -566,6 +568,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     if (!accountFromSigner) {
       throw new Error("Failed to retrieve account from signer");
     }
+    console.log("sigBlockHeight(signDirect):", sigBlockHeight);
     const pubkey = encodePubkey(encodeSecp256k1Pubkey(accountFromSigner.pubkey));
     const txBody: TxBodyEncodeObject = {
       typeUrl: "/lbm.tx.v1.TxBody",

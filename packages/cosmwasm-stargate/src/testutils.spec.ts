@@ -43,7 +43,7 @@ export interface ContractUploadInstructions {
 
 export const wasmd = {
   blockTime: 1_000, // ms
-  chainId: "lbm-testing",
+  chainId: "simd-testing",
   endpoint: "localhost:26658",
   prefix: "link",
   validator: {
@@ -117,21 +117,21 @@ export const validator = {
 /** Deployed as part of scripts/wasmd/init.sh */
 export const deployedHackatom = {
   codeId: 1,
-  checksum: "13a1fc994cc6d1c81b746ee0c0ff6f90043875e0bf1d9be6b7d779fc978dc2a5",
+  checksum: "c5cedb473658e274a4bfa45767065da0f25c977a0f62a10510d11c80e13474fb",
   instances: [
     {
       beneficiary: alice.address0,
-      address: "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujgqwg3",
+      address: "link18vd8fpwxzck93qlwghaj6arh4p7c5n89fvcmzu",
       label: "From deploy_hackatom.js (0)",
     },
     {
       beneficiary: alice.address1,
-      address: "wasm1suhgf5svhu4usrurvxzlgn54ksxmn8glszahxx",
+      address: "link1hqrdl6wstt8qzshwc6mrumpjk9338k0lkmdza9",
       label: "From deploy_hackatom.js (1)",
     },
     {
       beneficiary: alice.address2,
-      address: "wasm1yyca08xqdgvjz0psg56z67ejh9xms6l49ntww0",
+      address: "link18r5szma8hm93pvx6lwpjwyxruw27e0k5fq8n0s",
       label: "From deploy_hackatom.js (2)",
     },
   ],
@@ -142,14 +142,15 @@ export const deployedIbcReflect = {
   codeId: 2,
   instances: [
     {
-      address: "wasm1aakfpghcanxtc45gpqlx8j3rq0zcpyf4duy76f",
-      ibcPortId: "wasm.wasm1aakfpghcanxtc45gpqlx8j3rq0zcpyf4duy76f",
+      address: "link1vjecguu37pmd577339wrdp208ddzymkuck4ce6",
+      ibcPortId: "wasm.link1vjecguu37pmd577339wrdp208ddzymkuck4ce6",
     },
   ],
 };
 
 export function wasmdEnabled(): boolean {
-  return !!process.env.WASMD_ENABLED;
+  // return !!process.env.WASMD_ENABLED;
+  return true;
 }
 
 export function pendingWithoutWasmd(): void {

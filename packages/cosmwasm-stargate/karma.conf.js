@@ -24,6 +24,9 @@ module.exports = function (config) {
     client: {
       // leave Jasmine Spec Runner output visible in browser
       clearContext: false,
+      jasmine: {
+        timeoutInterval: 15000,
+      },
     },
 
     // list of files / patterns to load in the browser

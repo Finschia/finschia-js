@@ -746,6 +746,27 @@
       }
     },
     "upgrade": {},
-    "vesting": {}
+    "vesting": {},
+    "wasm": {
+      "params": {
+        "code_upload_access": {
+          "permission": "Everybody",
+          "address": ""
+        },
+        "instantiate_default_permission": "Everybody",
+        "contract_status_access": {
+          "permission": "Nobody",
+          "address": ""
+        },
+        "max_wasm_code_size": "614400",
+        "gas_multiplier": "100",
+        "instance_cost": "40000",
+        "compile_cost": "2"
+      },
+      "codes": [],
+      "contracts": [],
+      "sequences": [],
+      "gen_msgs": []
+    }
   }
 }

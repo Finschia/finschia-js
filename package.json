@@ -49,6 +49,8 @@
     "@cosmjs/stargate": "0.27.1",
     "@lbmjs/amino": "workspace:packages/amino",
     "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate",
+    "@lbmjs/proto-signing": "workspace:packages/proto-signing",
+    "@lbmjs/stargate": "workspace:packages/stargate",
     "eslint": "^7.5",
     "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^4.0.1",

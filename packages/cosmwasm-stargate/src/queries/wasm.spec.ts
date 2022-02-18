@@ -41,6 +41,9 @@ const registry = new Registry([
   ["/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
 ]);
 
+const eventTypeInstantiateContract = "instantiate_contract";
+const attributeTypeContractAddress = "contract_address";
+
 async function uploadContract(
   signer: OfflineDirectSigner,
   contract: ContractUploadInstructions,
@@ -149,8 +152,8 @@ describe("WasmExtension", () => {
       const instantiateResult = await instantiateContract(wallet, hackatomCodeId, makeRandomAddress());
       assertIsDeliverTxSuccess(instantiateResult);
       hackatomContractAddress = JSON.parse(instantiateResult.rawLog!)[0]
-        .events.find((event: any) => event.type === "instantiate")
-        .attributes.find((attribute: any) => attribute.key === "_contract_address").value;
+        .events.find((event: any) => event.type === eventTypeInstantiateContract)
+        .attributes.find((attribute: any) => attribute.key === attributeTypeContractAddress).value;
     }
   });
 
@@ -202,8 +205,8 @@ describe("WasmExtension", () => {
       const result = await instantiateContract(wallet, hackatomCodeId, beneficiaryAddress, funds);
       assertIsDeliverTxSuccess(result);
       const myAddress = JSON.parse(result.rawLog!)[0]
-        .events.find((event: any) => event.type === "instantiate")
-        .attributes!.find((attribute: any) => attribute.key === "_contract_address").value;
+        .events.find((event: any) => event.type === eventTypeInstantiateContract)
+        .attributes!.find((attribute: any) => attribute.key === attributeTypeContractAddress).value;
 
       const { contracts: newContracts } = await client.wasm.listContractsByCodeId(hackatomCodeId);
       assert(newContracts);
@@ -220,6 +223,8 @@ describe("WasmExtension", () => {
         admin: "",
         ibcPortId: "",
         status: ContractStatus.CONTRACT_STATUS_ACTIVE,
+        created: undefined,
+        extension: undefined,
       });
       expect(contractInfo.admin).toEqual("");
     });
@@ -247,8 +252,8 @@ describe("WasmExtension", () => {
       assertIsDeliverTxSuccess(result);
 
       const myAddress = JSON.parse(result.rawLog!)[0]
-        .events.find((event: any) => event.type === "instantiate")
-        .attributes!.find((attribute: any) => attribute.key === "_contract_address").value;
+        .events.find((event: any) => event.type === eventTypeInstantiateContract)
+        .attributes!.find((attribute: any) => attribute.key === attributeTypeContractAddress).value;
 
       const history = await client.wasm.getContractCodeHistory(myAddress);
       assert(history.entries);
@@ -393,7 +398,11 @@ describe("WasmExtension", () => {
         const result = await instantiateContract(wallet, codeId, beneficiaryAddress, funds);
         assertIsDeliverTxSuccess(result);
         const parsedLogs = logs.parseLogs(logs.parseRawLog(result.rawLog));
-        const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
+        const contractAddressAttr = logs.findAttribute(
+          parsedLogs,
+          eventTypeInstantiateContract,
+          attributeTypeContractAddress,
+        );
         contractAddress = contractAddressAttr.value;
         const amountAttr = logs.findAttribute(parsedLogs, "transfer", "amount");
         expect(amountAttr.value).toEqual("1234cony,321stake");
