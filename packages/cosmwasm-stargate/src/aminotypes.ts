@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
+import { fromBase64, toBase64 } from "@cosmjs/encoding";
 import { AminoConverter, Coin } from "@lbmjs/stargate";
 import {
   MsgClearAdmin,
@@ -45,8 +45,8 @@ export interface AminoMsgExecuteContract {
     readonly sender: string;
     /** Bech32 account address */
     readonly contract: string;
-    /** Execute message as JavaScript object */
-    readonly msg: any;
+    /** Execute message as base64 encoded JSON */
+    readonly msg: string;
     readonly funds: readonly Coin[];
   };
 }
@@ -65,8 +65,8 @@ export interface AminoMsgInstantiateContract {
     readonly code_id: string;
     /** Human-readable label for this contract */
     readonly label: string;
-    /** Instantiate message as JavaScript object */
-    readonly init_msg: any;
+    /** Instantiate message as base64 encoded JSON */
+    readonly init_msg: string;
     readonly funds: readonly Coin[];
     /** Bech32-encoded admin address */
     readonly admin?: string;
@@ -87,8 +87,8 @@ export interface AminoMsgMigrateContract {
     readonly contract: string;
     /** The new code */
     readonly code_id: string;
-    /** Migrate message as JavaScript object */
-    readonly migrate_msg: any;
+    /** Migrate message as base64 encoded JSON */
+    readonly migrate_msg: string;
   };
 }
 
@@ -152,7 +152,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       code_id: codeId.toString(),
       label: label,
-      init_msg: JSON.parse(fromUtf8(initMsg)),
+      init_msg: toBase64(initMsg),
       funds: funds,
       admin: admin || undefined,
     }),
@@ -167,7 +167,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       codeId: Long.fromString(code_id),
       label: label,
-      initMsg: toUtf8(JSON.stringify(init_msg)),
+      initMsg: fromBase64(init_msg),
       funds: [...funds],
       admin: admin ?? "",
     }),
@@ -201,13 +201,13 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
     toAmino: ({ sender, contract, msg, funds }: MsgExecuteContract): AminoMsgExecuteContract["value"] => ({
       sender: sender,
       contract: contract,
-      msg: JSON.parse(fromUtf8(msg)),
+      msg: toBase64(msg),
       funds: funds,
     }),
     fromAmino: ({ sender, contract, msg, funds }: AminoMsgExecuteContract["value"]): MsgExecuteContract => ({
       sender: sender,
       contract: contract,
-      msg: toUtf8(JSON.stringify(msg)),
+      msg: fromBase64(msg),
       funds: [...funds],
     }),
   },
@@ -222,7 +222,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       contract: contract,
       code_id: codeId.toString(),
-      migrate_msg: JSON.parse(fromUtf8(migrateMsg)),
+      migrate_msg: toBase64(migrateMsg),
     }),
     fromAmino: ({
       sender,
@@ -233,7 +233,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       contract: contract,
       codeId: Long.fromString(code_id),
-      migrateMsg: toUtf8(JSON.stringify(migrate_msg)),
+      migrateMsg: fromBase64(migrate_msg),
     }),
   },
 };
