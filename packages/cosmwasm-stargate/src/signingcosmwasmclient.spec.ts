@@ -433,14 +433,14 @@ describe("SigningCosmWasmClient", () => {
       });
       // Verify token transfer from contract to beneficiary
       const wasmClient = await makeWasmClient(wasmd.endpoint);
-      const beneficiaryBalanceUcosm = await wasmClient.bank.balance(beneficiaryAddress, "cony");
-      expect(beneficiaryBalanceUcosm).toEqual(funds[0]);
-      const beneficiaryBalanceUstake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
-      expect(beneficiaryBalanceUstake).toEqual(funds[1]);
-      const contractBalanceUcosm = await wasmClient.bank.balance(contractAddress, "cony");
-      expect(contractBalanceUcosm).toEqual(coin(0, "cony"));
-      const contractBalanceUstake = await wasmClient.bank.balance(contractAddress, "stake");
-      expect(contractBalanceUstake).toEqual(coin(0, "stake"));
+      const beneficiaryBalanceCony = await wasmClient.bank.balance(beneficiaryAddress, "cony");
+      expect(beneficiaryBalanceCony).toEqual(funds[0]);
+      const beneficiaryBalanceStake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
+      expect(beneficiaryBalanceStake).toEqual(funds[1]);
+      const contractBalanceCony = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(contractBalanceCony).toEqual(coin(0, "cony"));
+      const contractBalanceStake = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(contractBalanceStake).toEqual(coin(0, "stake"));
 
       client.disconnect();
     });
@@ -483,14 +483,14 @@ describe("SigningCosmWasmClient", () => {
       });
       // Verify token transfer from contract to beneficiary
       const wasmClient = await makeWasmClient(wasmd.endpoint);
-      const beneficiaryBalanceUcosm = await wasmClient.bank.balance(beneficiaryAddress, "cony");
-      expect(beneficiaryBalanceUcosm).toEqual(funds[0]);
-      const beneficiaryBalanceUstake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
-      expect(beneficiaryBalanceUstake).toEqual(funds[1]);
-      const contractBalanceUcosm = await wasmClient.bank.balance(contractAddress, "cony");
-      expect(contractBalanceUcosm).toEqual(coin(0, "cony"));
-      const contractBalanceUstake = await wasmClient.bank.balance(contractAddress, "stake");
-      expect(contractBalanceUstake).toEqual(coin(0, "stake"));
+      const beneficiaryBalanceCony = await wasmClient.bank.balance(beneficiaryAddress, "cony");
+      expect(beneficiaryBalanceCony).toEqual(funds[0]);
+      const beneficiaryBalanceStake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
+      expect(beneficiaryBalanceStake).toEqual(funds[1]);
+      const contractBalanceCony = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(contractBalanceCony).toEqual(coin(0, "cony"));
+      const contractBalanceStake = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(contractBalanceStake).toEqual(coin(0, "stake"));
 
       client.disconnect();
     });

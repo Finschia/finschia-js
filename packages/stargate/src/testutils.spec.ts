@@ -86,7 +86,7 @@ export const slowSimapp = {
   denomStaking: "ustake",
   denomFee: "cony",
   blockTime: 10_000, // ms
-  totalSupply: 21000000000, // ucosm
+  totalSupply: 21000000000, // cony
 };
 
 /** Setting to speed up testing */
