@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coin, coins, makeSignDoc, makeStdTx, Secp256k1HdWallet } from "@cosmjs/amino";
 import { Bech32 } from "@cosmjs/encoding";
 import { sleep } from "@cosmjs/utils";
+import { coin, coins, makeSignDoc, makeStdTx, Secp256k1HdWallet } from "@lbmjs/amino";
 
 import { assertIsBroadcastTxSuccess } from "../cosmosclient";
 import { MsgDelegate } from "../msgs";
@@ -34,7 +34,7 @@ describe("DistributionExtension", () => {
 
       const chainId = await client.getChainId();
       const msg: MsgDelegate = {
-        type: "cosmos-sdk/MsgDelegate",
+        type: "lbm-sdk/MsgDelegate",
         value: {
           delegator_address: faucet.address0,
           validator_address: launchpad.validator.address,

@@ -1,4 +1,4 @@
-import { isStdTx, StdTx } from "@cosmjs/amino";
+import { isStdTx, StdTx } from "@lbmjs/amino";
 
 /**
  * An Amino JSON wrapper around the Tx interface
@@ -12,12 +12,12 @@ export interface WrappedTx {
  * An Amino JSON wrapper around StdTx
  */
 export interface WrappedStdTx extends WrappedTx {
-  readonly type: "cosmos-sdk/StdTx";
+  readonly type: "lbm-sdk/StdTx";
   readonly value: StdTx;
 }
 
 export function isWrappedStdTx(wrapped: WrappedTx): wrapped is WrappedStdTx {
-  return (wrapped as WrappedStdTx).type === "cosmos-sdk/StdTx" && isStdTx(wrapped.value);
+  return (wrapped as WrappedStdTx).type === "lbm-sdk/StdTx" && isStdTx(wrapped.value);
 }
 
 /** @deprecated use WrappedStdTx */

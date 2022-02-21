@@ -17,7 +17,7 @@ export {
   extractKdfConfiguration,
   isStdTx,
   KdfConfiguration,
-  makeCosmoshubPath,
+  makeLinkPath,
   makeSignDoc,
   makeStdTx,
   AminoMsg as Msg,
@@ -32,8 +32,8 @@ export {
   StdSignature,
   StdSignDoc,
   StdTx,
-} from "@cosmjs/amino";
-import { SinglePubkey } from "@cosmjs/amino";
+} from "@lbmjs/amino";
+import { SinglePubkey } from "@lbmjs/amino";
 /** @deprecated PubKey is deprecated. Use `SinglePubkey` or the more general `Pubkey` from `@cosmjs/amino`. */
 export type PubKey = SinglePubkey;
 

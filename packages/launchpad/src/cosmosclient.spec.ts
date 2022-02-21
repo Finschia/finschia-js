@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { makeSignDoc, makeStdTx, Secp256k1HdWallet, StdFee } from "@cosmjs/amino";
 import { assert, sleep } from "@cosmjs/utils";
+import { makeSignDoc, makeStdTx, Secp256k1HdWallet, StdFee } from "@lbmjs/amino";
 import { ReadonlyDate } from "readonly-date";
 
 import { assertIsBroadcastTxSuccess, CosmosClient, PrivateCosmosClient } from "./cosmosclient";
@@ -204,7 +204,7 @@ describe("CosmosClient", () => {
 
       const memo = "Test send";
       const sendMsg: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: faucet.address0,
           to_address: makeRandomAddress(),

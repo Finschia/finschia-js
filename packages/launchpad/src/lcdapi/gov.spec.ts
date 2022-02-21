@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coins, makeSignDoc, Secp256k1HdWallet } from "@cosmjs/amino";
 import { sleep } from "@cosmjs/utils";
+import { coins, makeSignDoc, Secp256k1HdWallet } from "@lbmjs/amino";
 
 import { assertIsBroadcastTxSuccess } from "../cosmosclient";
 import { SigningCosmosClient } from "../signingcosmosclient";
@@ -33,10 +33,10 @@ describe("GovExtension", () => {
 
       const chainId = await client.getChainId();
       const proposalMsg = {
-        type: "cosmos-sdk/MsgSubmitProposal",
+        type: "lbm-sdk/MsgSubmitProposal",
         value: {
           content: {
-            type: "cosmos-sdk/TextProposal",
+            type: "lbm-sdk/TextProposal",
             value: {
               description: "This proposal proposes to test whether this proposal passes",
               title: "Test Proposal",
@@ -71,7 +71,7 @@ describe("GovExtension", () => {
         .attributes.find(({ key }) => key === "proposal_id")!.value;
 
       const voteMsg = {
-        type: "cosmos-sdk/MsgVote",
+        type: "lbm-sdk/MsgVote",
         value: {
           proposal_id: proposalId,
           voter: faucet.address0,
@@ -154,7 +154,7 @@ describe("GovExtension", () => {
       expect(response.result.length).toBeGreaterThanOrEqual(1);
       expect(response.result[response.result.length - 1]).toEqual({
         content: {
-          type: "cosmos-sdk/TextProposal",
+          type: "lbm-sdk/TextProposal",
           value: {
             title: "Test Proposal",
             description: "This proposal proposes to test whether this proposal passes",
@@ -181,7 +181,7 @@ describe("GovExtension", () => {
         height: jasmine.stringMatching(nonNegativeIntegerMatcher),
         result: {
           content: {
-            type: "cosmos-sdk/TextProposal",
+            type: "lbm-sdk/TextProposal",
             value: {
               title: "Test Proposal",
               description: "This proposal proposes to test whether this proposal passes",

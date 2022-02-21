@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coin, coins, makeSignDoc, makeStdTx, Secp256k1HdWallet } from "@cosmjs/amino";
 import { assert, sleep } from "@cosmjs/utils";
+import { coin, coins, makeSignDoc, makeStdTx, Secp256k1HdWallet } from "@lbmjs/amino";
 
 import { assertIsBroadcastTxSuccess } from "../cosmosclient";
 import { MsgDelegate, MsgUndelegate } from "../msgs";
@@ -35,7 +35,7 @@ describe("StakingExtension", () => {
       const chainId = await client.getChainId();
       {
         const msg: MsgDelegate = {
-          type: "cosmos-sdk/MsgDelegate",
+          type: "lbm-sdk/MsgDelegate",
           value: {
             delegator_address: faucet.address0,
             validator_address: launchpad.validator.address,
@@ -53,7 +53,7 @@ describe("StakingExtension", () => {
       }
       {
         const msg: MsgUndelegate = {
-          type: "cosmos-sdk/MsgUndelegate",
+          type: "lbm-sdk/MsgUndelegate",
           value: {
             delegator_address: faucet.address0,
             validator_address: launchpad.validator.address,

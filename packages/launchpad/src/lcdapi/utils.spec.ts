@@ -1,4 +1,4 @@
-import { Pubkey } from "@cosmjs/amino";
+import { Pubkey } from "@lbmjs/amino";
 
 import { normalizePubkey, uint64ToNumber, uint64ToString } from "./utils";
 
@@ -75,7 +75,7 @@ describe("utils", () => {
     it("decodes bech32 pubkey", () => {
       const input = "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5";
       expect(normalizePubkey(input)).toEqual({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       });
     });
@@ -86,7 +86,7 @@ describe("utils", () => {
 
     it("passes PubKey unchanged", () => {
       const original: Pubkey = {
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       };
       expect(normalizePubkey(original)).toEqual(original);

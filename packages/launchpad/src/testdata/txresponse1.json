@@ -28,11 +28,11 @@
   "gas_wanted": "200000",
   "gas_used": "65407",
   "tx": {
-    "type": "cosmos-sdk/StdTx",
+    "type": "lbm-sdk/StdTx",
     "value": {
       "msg": [
         {
-          "type": "cosmos-sdk/MsgSend",
+          "type": "lbm-sdk/MsgSend",
           "value": {
             "from_address": "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
             "to_address": "cosmos1t70qnpr0az8tf7py83m4ue5y89w58lkjmx0yq2",
@@ -44,7 +44,7 @@
       "signatures": [
         {
           "pub_key": {
-            "type": "tendermint/PubKeySecp256k1",
+            "type": "ostracon/PubKeySecp256k1",
             "value": "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ"
           },
           "signature": "US7oH8S/8TxVrtBQkOhHxAM+oDB2spNAEawgh6H8CCFLRMOJK+uvQZZ6ceUgUsvDbxwCz7re1RU272fymMYRZQ=="

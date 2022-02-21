@@ -21,7 +21,7 @@ describe("AuthExtension", () => {
     const { height, result } = await client.auth.account(unused.address);
     expect(height).toMatch(nonNegativeIntegerMatcher);
     expect(result).toEqual({
-      type: "cosmos-sdk/Account",
+      type: "lbm-sdk/Account",
       value: {
         address: unused.address,
         public_key: null, // not known to the chain
@@ -60,7 +60,7 @@ describe("AuthExtension", () => {
     const nonExistentAccount = makeRandomAddress();
     const { result } = await client.auth.account(nonExistentAccount);
     expect(result).toEqual({
-      type: "cosmos-sdk/Account",
+      type: "lbm-sdk/Account",
       value: jasmine.objectContaining({ address: "" }),
     });
   });

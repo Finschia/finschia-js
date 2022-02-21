@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coins, makeSignDoc, makeStdTx, Secp256k1HdWallet } from "@cosmjs/amino";
 import { assert, sleep } from "@cosmjs/utils";
+import { coins, makeSignDoc, makeStdTx, Secp256k1HdWallet } from "@lbmjs/amino";
 
 import { CosmosClient, isBroadcastTxFailure } from "./cosmosclient";
 import { LcdClient } from "./lcdapi";
@@ -40,7 +40,7 @@ describe("CosmosClient.getTx and .searchTx", () => {
         const recipient = makeRandomAddress();
         const amount = coins(123456700000000, "ucosm");
         const sendMsg: MsgSend = {
-          type: "cosmos-sdk/MsgSend",
+          type: "lbm-sdk/MsgSend",
           value: {
             from_address: faucet.address0,
             to_address: recipient,
@@ -56,7 +56,7 @@ describe("CosmosClient.getTx and .searchTx", () => {
         const signDoc = makeSignDoc([sendMsg], fee, chainId, memo, accountNumber, sequence);
         const { signed, signature } = await wallet.signAmino(walletAddress, signDoc);
         const tx: WrappedStdTx = {
-          type: "cosmos-sdk/StdTx",
+          type: "lbm-sdk/StdTx",
           value: makeStdTx(signed, signature),
         };
         const transactionId = await client.getIdentifier(tx);

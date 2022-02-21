@@ -2,7 +2,7 @@ import { Random } from "@cosmjs/crypto";
 import { Bech32 } from "@cosmjs/encoding";
 
 export function makeRandomAddress(): string {
-  return Bech32.encode("cosmos", Random.getBytes(20));
+  return Bech32.encode("link", Random.getBytes(20));
 }
 
 export const nonNegativeIntegerMatcher = /^[0-9]+$/;
@@ -40,23 +40,23 @@ export const faucet = {
   mnemonic:
     "economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone",
   pubkey0: {
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
   },
   pubkey1: {
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: "AiDosfIbBi54XJ1QjCeApumcy/FjdtF+YhywPf3DKTx7",
   },
   pubkey2: {
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: "AzQg33JZqH7vSsm09esZY5bZvmzYwE/SY78cA0iLxpD7",
   },
   pubkey3: {
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: "A3gOAlB6aiRTCPvWMQg2+ZbGYNsLd8qlvV28m8p2UhY2",
   },
   pubkey4: {
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: "Aum2063ub/ErUnIUB36sK55LktGUStgcbSiaAnL1wadu",
   },
   address0: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
@@ -69,7 +69,7 @@ export const faucet = {
 /** Unused account */
 export const unused = {
   pubkey: {
-    type: "tendermint/PubKeySecp256k1",
+    type: "ostracon/PubKeySecp256k1",
     value: "ArkCaFUJ/IH+vKBmNRCdUVl3mCAhbopk9jjW4Ko4OfRQ",
   },
   address: "cosmos1cjsxept9rkggzxztslae9ndgpdyt2408lk850u",

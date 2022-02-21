@@ -1,4 +1,4 @@
-import { decodeBech32Pubkey, Pubkey } from "@cosmjs/amino";
+import { decodeBech32Pubkey, Pubkey } from "@lbmjs/amino";
 import { Uint64 } from "@cosmjs/math";
 
 /**

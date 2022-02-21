@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AminoMsg, Coin, makeSignDoc, makeStdTx, OfflineAminoSigner, StdFee, StdTx } from "@cosmjs/amino";
+import { AminoMsg, Coin, makeSignDoc, makeStdTx, OfflineAminoSigner, StdFee, StdTx } from "@lbmjs/amino";
 import equals from "fast-deep-equal";
 
 import { Account, BroadcastTxResult, CosmosClient, GetSequenceResult } from "./cosmosclient";
@@ -70,7 +70,7 @@ export class SigningCosmosClient extends CosmosClient {
     memo = "",
   ): Promise<BroadcastTxResult> {
     const sendMsg: MsgSend = {
-      type: "cosmos-sdk/MsgSend",
+      type: "lbm-sdk/MsgSend",
       value: {
         from_address: this.signerAddress,
         to_address: recipientAddress,

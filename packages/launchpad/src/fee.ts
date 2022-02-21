@@ -1,5 +1,5 @@
-import { coins, StdFee } from "@cosmjs/amino";
 import { Decimal, Uint53 } from "@cosmjs/math";
+import { coins, StdFee } from "@lbmjs/amino";
 
 export type FeeTable = Record<string, StdFee>;
 

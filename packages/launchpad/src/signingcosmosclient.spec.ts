@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coin, coins, makeCosmoshubPath, Secp256k1HdWallet } from "@cosmjs/amino";
 import { assert } from "@cosmjs/utils";
+import { coin, coins, makeLinkPath, Secp256k1HdWallet } from "@lbmjs/amino";
 
 import { assertIsBroadcastTxSuccess, PrivateCosmosClient } from "./cosmosclient";
 import { GasPrice } from "./fee";
@@ -156,7 +156,7 @@ describe("SigningCosmosClient", () => {
       const client = new SigningCosmosClient(launchpad.endpoint, faucet.address0, wallet);
 
       const msg: MsgDelegate = {
-        type: "cosmos-sdk/MsgDelegate",
+        type: "lbm-sdk/MsgDelegate",
         value: {
           delegator_address: faucet.address0,
           validator_address: launchpad.validator.address,
@@ -179,7 +179,7 @@ describe("SigningCosmosClient", () => {
       const client = new SigningCosmosClient(launchpad.endpoint, faucet.address0, wallet);
 
       const msg1: MsgDelegate = {
-        type: "cosmos-sdk/MsgDelegate",
+        type: "lbm-sdk/MsgDelegate",
         value: {
           delegator_address: faucet.address0,
           validator_address: launchpad.validator.address,
@@ -187,7 +187,7 @@ describe("SigningCosmosClient", () => {
         },
       };
       const msg2: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: faucet.address0,
           to_address: makeRandomAddress(),
@@ -220,16 +220,16 @@ describe("SigningCosmosClient", () => {
     it("works", async () => {
       pendingWithoutLaunchpad();
       const wallet0 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(0)],
+        hdPaths: [makeLinkPath(0)],
       });
       const wallet1 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(1)],
+        hdPaths: [makeLinkPath(1)],
       });
       const client0 = new SigningCosmosClient(launchpad.endpoint, faucet.address0, wallet0);
       const client1 = new SigningCosmosClient(launchpad.endpoint, faucet.address1, wallet1);
 
       const msg1: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: faucet.address0,
           to_address: makeRandomAddress(),
@@ -237,7 +237,7 @@ describe("SigningCosmosClient", () => {
         },
       };
       const msg2: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: faucet.address1,
           to_address: makeRandomAddress(),

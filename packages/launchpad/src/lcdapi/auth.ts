@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Coin, Pubkey } from "@cosmjs/amino";
+import { Coin, Pubkey } from "@lbmjs/amino";
 
 import { LcdClient } from "./lcdclient";
 
@@ -51,7 +51,7 @@ export interface BaseAccount {
 export interface AuthAccountsResponse {
   readonly height: string;
   readonly result: {
-    readonly type: "cosmos-sdk/Account";
+    readonly type: "lbm-sdk/Account";
     readonly value: BaseAccount;
   };
 }
@@ -68,7 +68,7 @@ export function setupAuthExtension(base: LcdClient): AuthExtension {
       account: async (address: string) => {
         const path = `/auth/accounts/${address}`;
         const responseData = await base.get(path);
-        if (responseData.result.type !== "cosmos-sdk/Account") {
+        if (responseData.result.type !== "lbm-sdk/Account") {
           throw new Error("Unexpected response data format");
         }
         return responseData as AuthAccountsResponse;

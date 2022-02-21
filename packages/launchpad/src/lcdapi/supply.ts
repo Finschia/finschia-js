@@ -1,4 +1,4 @@
-import { Coin } from "@cosmjs/amino";
+import { Coin } from "@lbmjs/amino";
 
 import { LcdApiArray, LcdClient } from "./lcdclient";
 

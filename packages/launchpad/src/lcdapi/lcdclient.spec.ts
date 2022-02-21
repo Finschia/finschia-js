@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { assert, sleep } from "@cosmjs/utils";
 import {
   Coin,
   coins,
-  makeCosmoshubPath,
+  makeLinkPath,
   makeSignDoc,
   makeStdTx,
   Secp256k1HdWallet,
   StdFee,
   StdTx,
-} from "@cosmjs/amino";
-import { assert, sleep } from "@cosmjs/utils";
+} from "@lbmjs/amino";
 
 import { isBroadcastTxFailure } from "../cosmosclient";
 import { parseLogs } from "../logs";
@@ -218,7 +218,7 @@ describe("LcdClient", () => {
           const recipient = makeRandomAddress();
           const amount = coins(123456700000000, "ucosm");
           const sendMsg: MsgSend = {
-            type: "cosmos-sdk/MsgSend",
+            type: "lbm-sdk/MsgSend",
             value: {
               from_address: faucet.address0,
               to_address: recipient,
@@ -234,7 +234,7 @@ describe("LcdClient", () => {
           const signDoc = makeSignDoc([sendMsg], fee, chainId, memo, accountNumber, sequence);
           const { signed, signature } = await wallet.signAmino(walletAddress, signDoc);
           const signedTx = makeStdTx(signed, signature);
-          const transactionId = await client.getIdentifier({ type: "cosmos-sdk/StdTx", value: signedTx });
+          const transactionId = await client.getIdentifier({ type: "lbm-sdk/StdTx", value: signedTx });
           const result = await client.broadcastTx(signedTx);
           assert(isBroadcastTxFailure(result));
           unsuccessful = {
@@ -494,7 +494,7 @@ describe("LcdClient", () => {
 
       const memo = "My first contract on chain";
       const theMsg: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: faucet.address0,
           to_address: defaultRecipientAddress,
@@ -539,13 +539,13 @@ describe("LcdClient", () => {
     it("can't send transaction with additional signatures", async () => {
       pendingWithoutLaunchpad();
       const account1 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(0)],
+        hdPaths: [makeLinkPath(0)],
       });
       const account2 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(1)],
+        hdPaths: [makeLinkPath(1)],
       });
       const account3 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(2)],
+        hdPaths: [makeLinkPath(2)],
       });
       const [address1, address2, address3] = await Promise.all(
         [account1, account2, account3].map(async (wallet) => {
@@ -555,7 +555,7 @@ describe("LcdClient", () => {
 
       const memo = "My first contract on chain";
       const theMsg: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address1,
           to_address: defaultRecipientAddress,
@@ -608,7 +608,7 @@ describe("LcdClient", () => {
 
       const memo = "My first contract on chain";
       const msg1: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: walletAddress,
           to_address: defaultRecipientAddress,
@@ -621,7 +621,7 @@ describe("LcdClient", () => {
         },
       };
       const msg2: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: walletAddress,
           to_address: defaultRecipientAddress,
@@ -657,10 +657,10 @@ describe("LcdClient", () => {
     it("can send multiple messages with multiple signatures", async () => {
       pendingWithoutLaunchpad();
       const account1 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(0)],
+        hdPaths: [makeLinkPath(0)],
       });
       const account2 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(1)],
+        hdPaths: [makeLinkPath(1)],
       });
       const [address1, address2] = await Promise.all(
         [account1, account2].map(async (wallet) => {
@@ -670,7 +670,7 @@ describe("LcdClient", () => {
 
       const memo = "My first contract on chain";
       const msg1: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address1,
           to_address: defaultRecipientAddress,
@@ -683,7 +683,7 @@ describe("LcdClient", () => {
         },
       };
       const msg2: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address2,
           to_address: defaultRecipientAddress,
@@ -732,10 +732,10 @@ describe("LcdClient", () => {
     it("can't send transaction with wrong signature order (1)", async () => {
       pendingWithoutLaunchpad();
       const account1 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(0)],
+        hdPaths: [makeLinkPath(0)],
       });
       const account2 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(1)],
+        hdPaths: [makeLinkPath(1)],
       });
       const [address1, address2] = await Promise.all(
         [account1, account2].map(async (wallet) => {
@@ -745,7 +745,7 @@ describe("LcdClient", () => {
 
       const memo = "My first contract on chain";
       const msg1: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address1,
           to_address: defaultRecipientAddress,
@@ -758,7 +758,7 @@ describe("LcdClient", () => {
         },
       };
       const msg2: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address2,
           to_address: defaultRecipientAddress,
@@ -802,10 +802,10 @@ describe("LcdClient", () => {
     it("can't send transaction with wrong signature order (2)", async () => {
       pendingWithoutLaunchpad();
       const account1 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(0)],
+        hdPaths: [makeLinkPath(0)],
       });
       const account2 = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeCosmoshubPath(1)],
+        hdPaths: [makeLinkPath(1)],
       });
       const [address1, address2] = await Promise.all(
         [account1, account2].map(async (wallet) => {
@@ -815,7 +815,7 @@ describe("LcdClient", () => {
 
       const memo = "My first contract on chain";
       const msg1: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address1,
           to_address: defaultRecipientAddress,
@@ -828,7 +828,7 @@ describe("LcdClient", () => {
         },
       };
       const msg2: MsgSend = {
-        type: "cosmos-sdk/MsgSend",
+        type: "lbm-sdk/MsgSend",
         value: {
           from_address: address2,
           to_address: defaultRecipientAddress,
