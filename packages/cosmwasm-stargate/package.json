@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/cosmwasm-stargate",
-  "version": "0.1.0-rc3",
+  "version": "0.1.0-rc4",
   "description": "LBM(CosmWasm) SDK",
   "contributors": [
     "Will Clark <willclarktech@users.noreply.github.com>",
