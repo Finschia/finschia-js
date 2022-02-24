@@ -1,12 +1,12 @@
 import { Slip10RawIndex } from "@cosmjs/crypto";
-import { makeCosmoshubPath } from "@cosmjs/proto-signing";
+import { makeLinkPath } from "@lbmjs/proto-signing";
 
 import { makePathBuilder, PathBuilder } from "./pathbuilder";
 
 describe("pathbuilder", () => {
   describe("PathBuilder", () => {
-    it("is compatible to makeCosmoshubPath", () => {
-      const _builder: PathBuilder = makeCosmoshubPath;
+    it("is compatible to makeLinkPath", () => {
+      const _builder: PathBuilder = makeLinkPath;
     });
   });
 

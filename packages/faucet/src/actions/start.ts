@@ -1,5 +1,4 @@
-import { CosmosClient } from "@cosmjs/launchpad";
-import { StargateClient } from "@cosmjs/stargate";
+import { StargateClient } from "@lbmjs/stargate";
 
 import { Webserver } from "../api/webserver";
 import * as constants from "../constants";
@@ -18,13 +17,7 @@ export async function start(args: readonly string[]): Promise<void> {
   const blockchainBaseUrl = args[0];
   console.info(`Connecting to blockchain ${blockchainBaseUrl} ...`);
   let chainId;
-  let stargate = true;
-  try {
-    chainId = await (await StargateClient.connect(blockchainBaseUrl)).getChainId();
-  } catch (_error) {
-    chainId = await new CosmosClient(blockchainBaseUrl).getChainId();
-    stargate = false;
-  }
+  chainId = await (await StargateClient.connect(blockchainBaseUrl)).getChainId();
   console.info(`Connected to network: ${chainId}`);
 
   // Faucet
@@ -38,7 +31,6 @@ export async function start(args: readonly string[]): Promise<void> {
     constants.mnemonic,
     pathBuilder,
     constants.concurrency,
-    stargate,
     logging,
   );
   const chainTokens = faucet.configuredTokens();

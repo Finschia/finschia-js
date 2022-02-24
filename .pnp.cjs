@@ -35,7 +35,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/cosmwasm-stargate"
       },
       {
-        "name": "@cosmjs/faucet",
+        "name": "@lbmjs/faucet",
         "reference": "workspace:packages/faucet"
       },
       {
@@ -59,10 +59,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.{1,2}(?:\\/|$))(?:(?:(?!(?:^|\\/)\\.{1,2}(?:\\/|$)).)*?)|$))$)",
     "fallbackExclusionList": [
       ["@cosmjs/cli", ["workspace:packages/cli"]],
-      ["@cosmjs/faucet", ["workspace:packages/faucet"]],
       ["@cosmjs/faucet-client", ["workspace:packages/faucet-client"]],
       ["@lbmjs/amino", ["workspace:packages/amino"]],
       ["@lbmjs/cosmwasm-stargate", ["workspace:packages/cosmwasm-stargate"]],
+      ["@lbmjs/faucet", ["workspace:packages/faucet"]],
       ["@lbmjs/ostracon-rpc", ["workspace:packages/ostracon-rpc"]],
       ["@lbmjs/proto-signing", ["workspace:packages/proto-signing"]],
       ["@lbmjs/stargate", ["workspace:packages/stargate"]],
@@ -194,10 +194,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:0.27.1"
       ],
       [
-        "@cosmjs/faucet",
-        "workspace:packages/faucet"
-      ],
-      [
         "@cosmjs/faucet-client",
         "workspace:packages/faucet-client"
       ],
@@ -292,6 +288,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "@lbmjs/cosmwasm-stargate",
         "workspace:packages/cosmwasm-stargate"
+      ],
+      [
+        "@lbmjs/faucet",
+        "workspace:packages/faucet"
       ],
       [
         "@lbmjs/ostracon-rpc",
@@ -3275,48 +3275,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@cosmjs/faucet", [
-        ["workspace:packages/faucet", {
-          "packageLocation": "./packages/faucet/",
-          "packageDependencies": [
-            ["@cosmjs/faucet", "workspace:packages/faucet"],
-            ["@cosmjs/crypto", "npm:0.27.1"],
-            ["@cosmjs/encoding", "npm:0.27.1"],
-            ["@cosmjs/launchpad", "npm:0.27.1"],
-            ["@cosmjs/math", "npm:0.27.1"],
-            ["@cosmjs/proto-signing", "npm:0.27.1"],
-            ["@cosmjs/stargate", "npm:0.27.1"],
-            ["@cosmjs/utils", "npm:0.27.1"],
-            ["@istanbuljs/nyc-config-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.0.2"],
-            ["@koa/cors", "npm:3.1.0"],
-            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
-            ["@types/jasmine", "npm:3.10.3"],
-            ["@types/koa", "npm:2.13.4"],
-            ["@types/koa-bodyparser", "npm:4.3.5"],
-            ["@types/koa__cors", "npm:3.1.1"],
-            ["@typescript-eslint/eslint-plugin", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.33.0"],
-            ["@typescript-eslint/parser", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.33.0"],
-            ["eslint", "npm:7.32.0"],
-            ["eslint-config-prettier", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:8.3.0"],
-            ["eslint-import-resolver-node", "npm:0.3.6"],
-            ["eslint-plugin-import", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:2.25.4"],
-            ["eslint-plugin-prettier", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:3.4.1"],
-            ["eslint-plugin-simple-import-sort", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:7.0.0"],
-            ["esm", "npm:3.2.25"],
-            ["jasmine", "npm:3.99.0"],
-            ["jasmine-spec-reporter", "npm:6.0.0"],
-            ["koa", "npm:2.13.4"],
-            ["koa-bodyparser", "npm:4.3.0"],
-            ["nyc", "npm:15.1.0"],
-            ["prettier", "npm:2.5.1"],
-            ["ses", "npm:0.11.1"],
-            ["source-map-support", "npm:0.5.21"],
-            ["ts-node", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:8.10.2"],
-            ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@cosmjs/faucet-client", [
         ["workspace:packages/faucet-client", {
           "packageLocation": "./packages/faucet-client/",
@@ -3730,6 +3688,58 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"],
             ["webpack", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:5.68.0"],
             ["webpack-cli", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:4.9.2"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@lbmjs/faucet", [
+        ["workspace:packages/faucet", {
+          "packageLocation": "./packages/faucet/",
+          "packageDependencies": [
+            ["@lbmjs/faucet", "workspace:packages/faucet"],
+            ["@cosmjs/crypto", "npm:0.27.1"],
+            ["@cosmjs/encoding", "npm:0.27.1"],
+            ["@cosmjs/math", "npm:0.27.1"],
+            ["@cosmjs/utils", "npm:0.27.1"],
+            ["@istanbuljs/nyc-config-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.0.2"],
+            ["@koa/cors", "npm:3.1.0"],
+            ["@lbmjs/proto-signing", "workspace:packages/proto-signing"],
+            ["@lbmjs/stargate", "workspace:packages/stargate"],
+            ["@types/eslint-plugin-prettier", "npm:3.1.0"],
+            ["@types/jasmine", "npm:3.10.3"],
+            ["@types/karma-firefox-launcher", "npm:2.1.1"],
+            ["@types/karma-jasmine", "npm:4.0.2"],
+            ["@types/karma-jasmine-html-reporter", "npm:1.7.0"],
+            ["@types/koa", "npm:2.13.4"],
+            ["@types/koa-bodyparser", "npm:4.3.5"],
+            ["@types/koa__cors", "npm:3.1.1"],
+            ["@typescript-eslint/eslint-plugin", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.33.0"],
+            ["@typescript-eslint/parser", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.33.0"],
+            ["eslint", "npm:7.32.0"],
+            ["eslint-config-prettier", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:8.3.0"],
+            ["eslint-import-resolver-node", "npm:0.3.6"],
+            ["eslint-plugin-import", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:2.25.4"],
+            ["eslint-plugin-prettier", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:3.4.1"],
+            ["eslint-plugin-simple-import-sort", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:7.0.0"],
+            ["esm", "npm:3.2.25"],
+            ["jasmine", "npm:3.99.0"],
+            ["jasmine-core", "npm:3.99.0"],
+            ["jasmine-spec-reporter", "npm:6.0.0"],
+            ["karma", "npm:6.3.15"],
+            ["karma-chrome-launcher", "npm:3.1.0"],
+            ["karma-firefox-launcher", "npm:2.1.2"],
+            ["karma-jasmine", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.0.1"],
+            ["karma-jasmine-html-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.7.0"],
+            ["karma-spec-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:0.0.33"],
+            ["karma-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:5.5.3"],
+            ["koa", "npm:2.13.4"],
+            ["koa-bodyparser", "npm:4.3.0"],
+            ["nyc", "npm:15.1.0"],
+            ["prettier", "npm:2.5.1"],
+            ["ses", "npm:0.11.1"],
+            ["source-map-support", "npm:0.5.21"],
+            ["ts-node", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:8.10.2"],
+            ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"]
           ],
           "linkType": "SOFT",
         }]

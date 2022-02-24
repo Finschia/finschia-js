@@ -8,8 +8,8 @@ FROM node:12.18.3-alpine
 RUN yarn global add @cosmjs/faucet@0.23.0
 
 # Check it exists
-RUN /usr/local/bin/cosmos-faucet version
+RUN /usr/local/bin/lbm-faucet version
 
 EXPOSE 8000
-ENTRYPOINT ["/usr/local/bin/cosmos-faucet"]
+ENTRYPOINT ["/usr/local/bin/lbm-faucet"]
 CMD [""]

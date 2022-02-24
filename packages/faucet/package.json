@@ -1,14 +1,15 @@
 {
-  "name": "@cosmjs/faucet",
+  "name": "@lbmjs/faucet",
   "version": "0.27.1",
   "description": "The faucet",
   "contributors": [
     "Ethan Frey <ethanfrey@users.noreply.github.com>",
-    "Simon Warta <webmaster128@users.noreply.github.com>"
+    "Simon Warta <webmaster128@users.noreply.github.com>",
+    "zemyblue <zemyblue@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
   "bin": {
-    "cosmos-faucet": "bin/cosmos-faucet"
+    "lbm-faucet": "bin/lbm-faucet"
   },
   "files": [
     "build/",
@@ -16,10 +17,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/faucet"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -35,18 +32,16 @@
     "test-node": "yarn node jasmine-testrunner.js",
     "test": "yarn build-or-skip && yarn test-node",
     "coverage": "nyc --reporter=text --reporter=lcov yarn test --quiet",
-    "start-dev": "FAUCET_ADDRESS_PREFIX=wasm FAUCET_CREDIT_AMOUNT_UCOSM=10000000 FAUCET_CREDIT_AMOUNT_USTAKE=100000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone\" ./bin/cosmos-faucet start \"http://localhost:26659\"",
-    "start-coralnet": "FAUCET_ADDRESS_PREFIX=coral FAUCET_TOKENS=\"ushell,ureef\" FAUCET_CREDIT_AMOUNT_USHELL=10000000 FAUCET_CREDIT_AMOUNT_UREEF=2000000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone\" ./bin/cosmos-faucet start \"https://lcd.coralnet.cosmwasm.com\""
+    "start-dev": "FAUCET_ADDRESS_PREFIX=link FAUCET_CREDIT_AMOUNT_CONY=10000000 FAUCET_CREDIT_AMOUNT_STAKE=100000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have\" ./bin/lbm-faucet start \"http://localhost:26659\""
   },
   "dependencies": {
     "@cosmjs/crypto": "0.27.1",
     "@cosmjs/encoding": "0.27.1",
-    "@cosmjs/launchpad": "0.27.1",
     "@cosmjs/math": "0.27.1",
-    "@cosmjs/proto-signing": "0.27.1",
-    "@cosmjs/stargate": "0.27.1",
     "@cosmjs/utils": "0.27.1",
     "@koa/cors": "^3.0.0",
+    "@lbmjs/proto-signing": "workspace:packages/proto-signing",
+    "@lbmjs/stargate": "workspace:packages/stargate",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1"
   },
@@ -54,6 +49,9 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
+    "@types/karma-firefox-launcher": "^2",
+    "@types/karma-jasmine": "^4",
+    "@types/karma-jasmine-html-reporter": "^1",
     "@types/koa": "^2.11.0",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa__cors": "^3.0.1",
@@ -67,7 +65,15 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "esm": "^3.2.25",
     "jasmine": "^3.8",
+    "jasmine-core": "^3.7.1",
     "jasmine-spec-reporter": "^6",
+    "karma": "^6.1.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-firefox-launcher": "^2.1.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-jasmine-html-reporter": "^1.5.4",
+    "karma-spec-reporter": "^0.0.33",
+    "karma-typescript": "^5.5.3",
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
     "ses": "^0.11.0",
