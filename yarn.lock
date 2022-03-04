@@ -658,7 +658,7 @@ __metadata:
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
     karma-jasmine-html-reporter: ^1.5.4
-    lbmjs-types: ^0.44.0-rc0
+    lbmjs-types: ^0.45.0-rc1
     long: ^4.0.0
     nyc: ^15.1.0
     pako: ^2.0.2
@@ -840,7 +840,6 @@ __metadata:
     "@types/node": ^15.0.1
     "@typescript-eslint/eslint-plugin": ^4.28
     "@typescript-eslint/parser": ^4.28
-    cosmjs-types: ^0.4.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -859,7 +858,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.44.0-rc0
+    lbmjs-types: ^0.45.0-rc1
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -916,7 +915,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.44.0-rc0
+    lbmjs-types: ^0.45.0-rc1
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -4877,13 +4876,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lbmjs-types@npm:^0.44.0-rc0":
-  version: 0.44.0-rc0
-  resolution: "lbmjs-types@npm:0.44.0-rc0"
+"lbmjs-types@npm:^0.45.0-rc1":
+  version: 0.45.0-rc1
+  resolution: "lbmjs-types@npm:0.45.0-rc1"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: 4ff322a0eaafa8b5570ba2624f44591e16dd6efe22a67534bb0ececfc007b7eb50f0f368cab4fe0fa0ae5c329256d919e5673e3ef7c8d81787da846958e20f65
+  checksum: abc19915ba24898ced586f8010fab5980e6530cfb8919220ca8526f22911d62ca4c1b1eb6328c8ac102bca267a0a77b7a906d2264956854a90297e79b3fc5d6f
   languageName: node
   linkType: hard
 

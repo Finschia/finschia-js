@@ -265,7 +265,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
         sender: senderAddress,
         codeId: Long.fromString(new Uint53(codeId).toString()),
         label: label,
-        initMsg: toUtf8(JSON.stringify(msg)),
+        msg: toUtf8(JSON.stringify(msg)),
         funds: [...(options.funds || [])],
         admin: options.admin,
       }),
@@ -345,7 +345,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
         sender: senderAddress,
         contract: contractAddress,
         codeId: Long.fromString(new Uint53(codeId).toString()),
-        migrateMsg: toUtf8(JSON.stringify(migrateMsg)),
+        msg: toUtf8(JSON.stringify(migrateMsg)),
       }),
     };
     const result = await this.signAndBroadcast(senderAddress, [migrateContractMsg], fee, memo);

@@ -738,8 +738,6 @@ describe("SigningCosmWasmClient", () => {
         const msgStoreCode: MsgStoreCode = {
           sender: alice.address0,
           wasmByteCode: pako.gzip(data),
-          source: "",
-          builder: "",
           instantiatePermission: undefined,
         };
         const msgAny: MsgStoreCodeEncodeObject = {

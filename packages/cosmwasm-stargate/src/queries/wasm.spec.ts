@@ -81,7 +81,7 @@ async function instantiateContract(
       sender: alice.address0,
       codeId: Long.fromNumber(codeId),
       label: "my escrow",
-      initMsg: toAscii(
+      msg: toAscii(
         JSON.stringify({
           verifier: alice.address0,
           beneficiary: beneficiaryAddress,
