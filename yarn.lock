@@ -297,56 +297,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/cli@workspace:packages/cli":
-  version: 0.0.0-use.local
-  resolution: "@cosmjs/cli@workspace:packages/cli"
-  dependencies:
-    "@cosmjs/amino": 0.27.1
-    "@cosmjs/cosmwasm-stargate": 0.27.1
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/faucet-client": 0.27.1
-    "@cosmjs/launchpad": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/proto-signing": 0.27.1
-    "@cosmjs/stargate": 0.27.1
-    "@cosmjs/tendermint-rpc": 0.27.1
-    "@cosmjs/utils": 0.27.1
-    "@istanbuljs/nyc-config-typescript": ^1.0.1
-    "@types/babylon": ^6.16.3
-    "@types/diff": ^4
-    "@types/eslint-plugin-prettier": ^3
-    "@types/jasmine": ^3.8
-    "@types/node": ^15.0.1
-    "@types/yargs": ^15.0.4
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
-    axios: ^0.21.2
-    babylon: ^6.18.0
-    chalk: ^4
-    cosmjs-types: ^0.4.0
-    diff: ^4
-    eslint: ^7.5
-    eslint-config-prettier: ^8.3.0
-    eslint-import-resolver-node: ^0.3.4
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-prettier: ^3.4.0
-    eslint-plugin-simple-import-sort: ^7.0.0
-    esm: ^3.2.25
-    jasmine: ^3.8
-    jasmine-spec-reporter: ^6
-    nyc: ^15.1.0
-    prettier: ^2.4.1
-    recast: ^0.20
-    source-map-support: ^0.5.19
-    ts-node: ^8
-    typescript: ~4.4
-    yargs: ^15.3.1
-  bin:
-    cosmwasm-cli: bin/cosmwasm-cli
-  languageName: unknown
-  linkType: soft
-
 "@cosmjs/cosmwasm-stargate@npm:0.27.1":
   version: 0.27.1
   resolution: "@cosmjs/cosmwasm-stargate@npm:0.27.1"
@@ -393,15 +343,6 @@ __metadata:
     bech32: ^1.1.4
     readonly-date: ^1.0.0
   checksum: 34dad88ee64b6d3b920daa5e605dafb2722d2f9cf9c44da8e652ebf24d5f76557cdd422be3ea5252186b8ea19d172819f8053749c3e81232a7c2bbff5f24fa81
-  languageName: node
-  linkType: hard
-
-"@cosmjs/faucet-client@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/faucet-client@npm:0.27.1"
-  dependencies:
-    axios: ^0.21.2
-  checksum: e85eff22f5828f19a8c07f7c035bd9d6c3d97757588fc3e47bfbf7590bae92fedfe5552c4c16e8e178524cd3c56f6342dea16e29146b293a32f2c54b6d16ab93
   languageName: node
   linkType: hard
 
@@ -1136,22 +1077,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel-types@npm:*":
-  version: 7.0.11
-  resolution: "@types/babel-types@npm:7.0.11"
-  checksum: 9b02719c7cf5062c9ab656a3b4efe3dd79e7a4ab49b5a2ce18d4ec1cb326588a1b40fc03863c24c9dec962f56762c53ed06cdc2a1c241c84e76e54a37a6195fc
-  languageName: node
-  linkType: hard
-
-"@types/babylon@npm:^6.16.3":
-  version: 6.16.6
-  resolution: "@types/babylon@npm:6.16.6"
-  dependencies:
-    "@types/babel-types": "*"
-  checksum: c011e028bc09457b9a488e5ad8bc081b43c0c7919419343eaef95aeda5e5bb825dc93c323af8e60d97373702d94ae006016e7c641a9be24fef0d9f5ecc2e54c0
-  languageName: node
-  linkType: hard
-
 "@types/body-parser@npm:*":
   version: 1.19.2
   resolution: "@types/body-parser@npm:1.19.2"
@@ -1208,13 +1133,6 @@ __metadata:
   version: 2.8.12
   resolution: "@types/cors@npm:2.8.12"
   checksum: 8c45f112c7d1d2d831b4b266f2e6ed33a1887a35dcbfe2a18b28370751fababb7cd045e745ef84a523c33a25932678097bf79afaa367c6cb3fa0daa7a6438257
-  languageName: node
-  linkType: hard
-
-"@types/diff@npm:^4":
-  version: 4.0.2
-  resolution: "@types/diff@npm:4.0.2"
-  checksum: 80986254f881e29a146c7258654b0c1ddecbb487dc2eca9ad424dab7a17f54d57f91271526661f4c3bf0bb77903d90bc627b63e389a30711adc622865bc30d94
   languageName: node
   linkType: hard
 
@@ -1477,22 +1395,6 @@ __metadata:
     "@types/mime": ^1
     "@types/node": "*"
   checksum: eaca858739483e3ded254cad7d7a679dc2c8b3f52c8bb0cd845b3b7eb1984bde0371fdcb0a5c83aa12e6daf61b6beb762545021f520f08a1fe882a3fa4ea5554
-  languageName: node
-  linkType: hard
-
-"@types/yargs-parser@npm:*":
-  version: 20.2.1
-  resolution: "@types/yargs-parser@npm:20.2.1"
-  checksum: 1d039e64494a7a61ddd278349a3dc60b19f99ff0517425696e796f794e4252452b9d62178e69755ad03f439f9dc0c8c3d7b3a1201b3a24e134bac1a09fa11eaa
-  languageName: node
-  linkType: hard
-
-"@types/yargs@npm:^15.0.4":
-  version: 15.0.14
-  resolution: "@types/yargs@npm:15.0.14"
-  dependencies:
-    "@types/yargs-parser": "*"
-  checksum: 8e358aeb8f0c3758e59e2b8fcfdee5627ab2fe3d92f50f380503d966c7f33287be3322155516a50d27727fde1ad3878f48f60cd6648439126d4b0bbb1a1153ed
   languageName: node
   linkType: hard
 
@@ -2063,15 +1965,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ast-types@npm:0.14.2":
-  version: 0.14.2
-  resolution: "ast-types@npm:0.14.2"
-  dependencies:
-    tslib: ^2.0.1
-  checksum: 8674a77307764979f0a0b2006b7223a4b789abffaa7acbf6a1132650a799252155170173a1ff6a7fb6897f59437fc955f2707bdfc391b0797750898876e6c9ed
-  languageName: node
-  linkType: hard
-
 "astral-regex@npm:^2.0.0":
   version: 2.0.0
   resolution: "astral-regex@npm:2.0.0"
@@ -2099,15 +1992,6 @@ __metadata:
   dependencies:
     follow-redirects: ^1.14.0
   checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
-"babylon@npm:^6.18.0":
-  version: 6.18.0
-  resolution: "babylon@npm:6.18.0"
-  bin:
-    babylon: ./bin/babylon.js
-  checksum: 0777ae0c735ce1cbfc856d627589ed9aae212b84fb0c03c368b55e6c5d3507841780052808d0ad46e18a2ba516e93d55eeed8cd967f3b2938822dfeccfb2a16d
   languageName: node
   linkType: hard
 
@@ -2441,7 +2325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4, chalk@npm:^4.0.0":
+"chalk@npm:^4.0.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -3001,7 +2885,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"diff@npm:^4, diff@npm:^4.0.1":
+"diff@npm:^4.0.1":
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
   checksum: f2c09b0ce4e6b301c221addd83bf3f454c0bc00caa3dd837cf6c127d6edf7223aa2bbe3b688feea110b7f262adbfc845b757c44c8a9f8c0c5b15d8fa9ce9d20d
@@ -3471,7 +3355,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esprima@npm:^4.0.0, esprima@npm:~4.0.0":
+"esprima@npm:^4.0.0":
   version: 4.0.1
   resolution: "esprima@npm:4.0.1"
   bin:
@@ -6111,18 +5995,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recast@npm:^0.20":
-  version: 0.20.5
-  resolution: "recast@npm:0.20.5"
-  dependencies:
-    ast-types: 0.14.2
-    esprima: ~4.0.0
-    source-map: ~0.6.1
-    tslib: ^2.0.1
-  checksum: 14c35115cd9965950724cb2968f069a247fa79ce890643ab6dc3795c705b363f7b92a45238e9f765387c306763be9955f72047bb9d15b5d60b0a55f9e7912d5a
-  languageName: node
-  linkType: hard
-
 "rechoir@npm:^0.7.0":
   version: 0.7.1
   resolution: "rechoir@npm:0.7.1"
@@ -6530,7 +6402,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.1":
+"source-map@npm:^0.6.0, source-map@npm:^0.6.1":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 59ce8640cf3f3124f64ac289012c2b8bd377c238e316fb323ea22fbfe83da07d81e000071d7242cad7a23cd91c7de98e4df8830ec3f133cb6133a5f6e9f67bc2
@@ -6901,13 +6773,6 @@ __metadata:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.0.1":
-  version: 2.3.1
-  resolution: "tslib@npm:2.3.1"
-  checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
   languageName: node
   linkType: hard
 
@@ -7475,7 +7340,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^15.0.2, yargs@npm:^15.3.1":
+"yargs@npm:^15.0.2":
   version: 15.4.1
   resolution: "yargs@npm:15.4.1"
   dependencies:
