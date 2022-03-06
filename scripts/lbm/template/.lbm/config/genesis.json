@@ -33,8 +33,7 @@
         "tx_sig_limit": "7",
         "tx_size_cost_per_byte": "10",
         "sig_verify_cost_ed25519": "590",
-        "sig_verify_cost_secp256k1": "1000",
-        "valid_sig_block_period": "3600"
+        "sig_verify_cost_secp256k1": "1000"
       },
       "accounts": [
         {
@@ -416,8 +415,7 @@
               "gas_limit": "200000",
               "payer": "",
               "granter": ""
-            },
-            "sig_block_height": "0"
+            }
           },
           "signatures": [
             "jPp4IAy9plaEjhDq2AUbqoa/3Xq0mslxje2DkgbzA4IN9wVsmxUcsMMoIU8kKgaqYNNY2qCkScnIIEYFPXmJfg=="
