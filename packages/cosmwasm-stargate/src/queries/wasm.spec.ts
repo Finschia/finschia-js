@@ -41,8 +41,8 @@ const registry = new Registry([
   ["/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
 ]);
 
-const eventTypeInstantiateContract = "instantiate_contract";
-const attributeTypeContractAddress = "contract_address";
+const eventTypeInstantiateContract = "instantiate";
+const attributeTypeContractAddress = "_contract_address";
 
 async function uploadContract(
   signer: OfflineDirectSigner,

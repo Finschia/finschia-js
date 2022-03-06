@@ -118,21 +118,21 @@ export const validator = {
 /** Deployed as part of scripts/wasmd/init.sh */
 export const deployedHackatom = {
   codeId: 1,
-  checksum: "c5cedb473658e274a4bfa45767065da0f25c977a0f62a10510d11c80e13474fb",
+  checksum: "7e1c540fc892e708a5b7e9ba5d8e05ca4f86ff32869a60a0a8a71f05064f4af6",
   instances: [
     {
       beneficiary: alice.address0,
-      address: "link18vd8fpwxzck93qlwghaj6arh4p7c5n89fvcmzu",
+      address: "link14hj2tavq8fpesdwxxcu44rty3hh90vhud63e6j",
       label: "From deploy_hackatom.js (0)",
     },
     {
       beneficiary: alice.address1,
-      address: "link1hqrdl6wstt8qzshwc6mrumpjk9338k0lkmdza9",
+      address: "link1suhgf5svhu4usrurvxzlgn54ksxmn8gl0svq59",
       label: "From deploy_hackatom.js (1)",
     },
     {
       beneficiary: alice.address2,
-      address: "link18r5szma8hm93pvx6lwpjwyxruw27e0k5fq8n0s",
+      address: "link1yyca08xqdgvjz0psg56z67ejh9xms6l46p6euv",
       label: "From deploy_hackatom.js (2)",
     },
   ],
