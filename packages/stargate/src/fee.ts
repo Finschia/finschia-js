@@ -33,7 +33,7 @@ export class GasPrice {
    * Parses a gas price formatted as `<amount><denom>`, e.g. `GasPrice.fromString("0.012utoken")`.
    *
    * The denom must match the Cosmos SDK 0.42 pattern (https://github.com/cosmos/cosmos-sdk/blob/v0.42.4/types/coin.go#L599-L601).
-   * See `GasPrice` in @cosmjs/stargate for a more generic matcher.
+   * See `GasPrice` in @lbmjs/stargate for a more generic matcher.
    *
    * Separators are not yet supported.
    */

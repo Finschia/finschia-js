@@ -56,6 +56,18 @@ import {
   MsgEditValidator,
   MsgUndelegate,
 } from "lbmjs-types/lbm/staking/v1/tx";
+import {
+  MsgApprove as TokenMsgApprove,
+  MsgBurn as TokenMsgBurn,
+  MsgBurnFrom as TokenMsgBurnFrom,
+  MsgGrant as TokenMsgGrant,
+  MsgIssue as TokenMsgIssue,
+  MsgMint as TokenMsgMint,
+  MsgModify as TokenMsgModify,
+  MsgRevoke as TokenMsgRevoke,
+  MsgTransfer as TokenMsgTransfer,
+  MsgTransferFrom as TokenMsgTransferFrom,
+} from "lbmjs-types/lbm/token/v1/tx";
 import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
 import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
@@ -85,6 +97,16 @@ export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.staking.v1.MsgDelegate", MsgDelegate],
   ["/lbm.staking.v1.MsgEditValidator", MsgEditValidator],
   ["/lbm.staking.v1.MsgUndelegate", MsgUndelegate],
+  ["/lbm.token.v1.MsgTransfer", TokenMsgTransfer],
+  ["/lbm.token.v1.MsgTransferFrom", TokenMsgTransferFrom],
+  ["/lbm.token.v1.MsgApprove", TokenMsgApprove],
+  ["/lbm.token.v1.MsgIssue", TokenMsgIssue],
+  ["/lbm.token.v1.MsgGrant", TokenMsgGrant],
+  ["/lbm.token.v1.MsgRevoke", TokenMsgRevoke],
+  ["/lbm.token.v1.MsgMint", TokenMsgMint],
+  ["/lbm.token.v1.MsgBurn", TokenMsgBurn],
+  ["/lbm.token.v1.MsgBurnFrom", TokenMsgBurnFrom],
+  ["/lbm.token.v1.MsgModify", TokenMsgModify],
   ["/ibc.core.channel.v1.MsgChannelOpenInit", MsgChannelOpenInit],
   ["/ibc.core.channel.v1.MsgChannelOpenTry", MsgChannelOpenTry],
   ["/ibc.core.channel.v1.MsgChannelOpenAck", MsgChannelOpenAck],

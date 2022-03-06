@@ -79,8 +79,10 @@ export {
   setupIbcExtension,
   setupMintExtension,
   setupStakingExtension,
+  setupTokenExtension,
   setupTxExtension,
   StakingExtension,
+  TokenExtension,
   TxExtension,
 } from "./queries";
 export {
