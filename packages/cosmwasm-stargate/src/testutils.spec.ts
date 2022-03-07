@@ -150,7 +150,8 @@ export const deployedIbcReflect = {
 };
 
 export function wasmdEnabled(): boolean {
-  return !!process.env.WASMD_ENABLED;
+  // return !!process.env.WASMD_ENABLED;
+  return true;
 }
 
 export function pendingWithoutWasmd(): void {

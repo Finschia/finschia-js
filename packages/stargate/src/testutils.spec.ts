@@ -16,11 +16,13 @@ import { calculateFee, GasPrice } from "./fee";
 import { SigningStargateClientOptions } from "./signingstargateclient";
 
 export function simapp42Enabled(): boolean {
-  return !!process.env.SIMAPP42_ENABLED;
+  // return !!process.env.SIMAPP42_ENABLED;
+  return true;
 }
 
 export function simapp44Enabled(): boolean {
-  return !!process.env.SIMAPP44_ENABLED;
+  // return !!process.env.SIMAPP44_ENABLED;
+  return true;
 }
 
 export function simappEnabled(): boolean {
