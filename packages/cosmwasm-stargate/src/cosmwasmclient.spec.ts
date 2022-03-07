@@ -31,7 +31,6 @@ import {
   wasmd,
   wasmdEnabled,
 } from "./testutils.spec";
-import * as console from "console";
 
 interface HackatomInstance {
   readonly instantiateMsg: {

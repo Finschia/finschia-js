@@ -64,7 +64,7 @@ describe("AminoTypes", () => {
             sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
             code_id: "12345",
             label: "sticky",
-            msg: { foo: "bar" },
+            msg: toBase64(toUtf8(`{"foo":"bar"}`)),
             funds: coins(1234, "cony"),
             admin: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
           },
@@ -92,7 +92,7 @@ describe("AminoTypes", () => {
             sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
             code_id: "12345",
             label: "sticky",
-            msg: { foo: "bar" },
+            msg: toBase64(toUtf8(`{"foo":"bar"}`)),
             funds: coins(1234, "cony"),
             admin: undefined,
           },
@@ -181,7 +181,7 @@ describe("AminoTypes", () => {
           sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
           code_id: "98765",
-          msg: { foo: "bar" },
+          msg: toBase64(toUtf8(`{"foo":"bar"}`)),
         },
       };
       expect(aminoMsg).toEqual(expected);
@@ -218,7 +218,7 @@ describe("AminoTypes", () => {
             sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
             code_id: "12345",
             label: "sticky",
-            msg: { foo: "bar" },
+            msg: toBase64(toUtf8(`{"foo":"bar"}`)),
             funds: coins(1234, "cony"),
             admin: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
           },
@@ -246,7 +246,7 @@ describe("AminoTypes", () => {
             sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
             code_id: "12345",
             label: "sticky",
-            msg: { foo: "bar" },
+            msg: toBase64(toUtf8(`{"foo":"bar"}`)),
             funds: coins(1234, "cony"),
           },
         };
@@ -312,7 +312,7 @@ describe("AminoTypes", () => {
         value: {
           sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
-          msg: { foo: "bar" },
+          msg: toBase64(toUtf8(`{"foo":"bar"}`)),
           funds: coins(1234, "cony"),
         },
       };
@@ -336,7 +336,7 @@ describe("AminoTypes", () => {
           sender: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
           code_id: "98765",
-          msg: { foo: "bar" },
+          msg: toBase64(toUtf8(`{"foo":"bar"}`)),
         },
       };
       const msg = new AminoTypes({ additions: cosmWasmTypes }).fromAmino(aminoMsg);
