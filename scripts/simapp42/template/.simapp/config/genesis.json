@@ -735,6 +735,20 @@
       "redelegations": [],
       "exported": false
     },
+    "token": {
+      "params": {},
+      "class_state": {
+        "nonce": "0",
+        "ids": []
+      },
+      "balances": [],
+      "classes": [],
+      "grants": [],
+      "approves": [],
+      "supplies": [],
+      "mints": [],
+      "burns": []
+    },
     "transfer": {
       "port_id": "transfer",
       "denom_traces": [],
