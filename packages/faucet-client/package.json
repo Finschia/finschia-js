@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/faucet-client",
-  "version": "0.1.0-rc5",
+  "version": "0.1.0-rc6",
   "description": "The faucet client",
   "contributors": [
     "Will Clark <willclarktech@users.noreply.github.com>",

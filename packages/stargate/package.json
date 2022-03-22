@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/stargate",
-  "version": "0.1.0-rc5",
+  "version": "0.1.0-rc6",
   "description": "Utilities for LBM SDK 0.45.0-rc0",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
