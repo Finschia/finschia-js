@@ -41,8 +41,11 @@ import {
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
+  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
+  MsgUpdateContractStatus,
 } from "lbmjs-types/lbm/wasm/v1/tx";
+import { AccessType } from "lbmjs-types/lbm/wasm/v1/types";
 import Long from "long";
 import pako from "pako";
 
@@ -102,6 +105,23 @@ export interface InstantiateResult {
   readonly transactionHash: string;
 }
 
+export interface UploadAndInstantiateResult {
+  /** Size of the original wasm code in bytes */
+  readonly originalSize: number;
+  /** A hex encoded sha256 checksum of the original wasm code (that is stored on chain) */
+  readonly originalChecksum: string;
+  /** Size of the compressed wasm code in bytes */
+  readonly compressedSize: number;
+  /** A hex encoded sha256 checksum of the compressed wasm code (that stored in the transaction) */
+  readonly compressedChecksum: string;
+  readonly codeId: number;
+  /** The address of the newly instantiated contract */
+  readonly contractAddress: string;
+  readonly logs: readonly logs.Log[];
+  /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
+  readonly transactionHash: string;
+}
+
 /**
  * Result type of updateAdmin and clearAdmin
  */
@@ -134,7 +154,9 @@ function createDefaultRegistry(): Registry {
   registry.register("/lbm.wasm.v1.MsgMigrateContract", MsgMigrateContract);
   registry.register("/lbm.wasm.v1.MsgStoreCode", MsgStoreCode);
   registry.register("/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract);
+  registry.register("/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract", MsgStoreCodeAndInstantiateContract);
   registry.register("/lbm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin);
+  registry.register("/lbm.wasm.v1.MsgUpdateContractStatus", MsgUpdateContractStatus);
   return registry;
 }
 
@@ -277,6 +299,53 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     const parsedLogs = logs.parseRawLog(result.rawLog);
     const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
     return {
+      contractAddress: contractAddressAttr.value,
+      logs: parsedLogs,
+      transactionHash: result.transactionHash,
+    };
+  }
+
+  public async uploadAndInstantiate(
+    signerAddress: string,
+    wasmCode: Uint8Array,
+    msg: Record<string, unknown>,
+    labal: string,
+    fee: StdFee | "auto" | number,
+    options: InstantiateOptions = {},
+  ): Promise<UploadAndInstantiateResult> {
+    const compressed = pako.gzip(wasmCode, { level: 9 });
+    const storeCodeAndInstantiateMsg: EncodeObject = {
+      typeUrl: "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract",
+      value: MsgStoreCodeAndInstantiateContract.fromPartial({
+        sender: signerAddress,
+        wasmByteCode: compressed,
+        instantiatePermission: {
+          permission: AccessType.ACCESS_TYPE_EVERYBODY,
+        },
+        admin: options.admin,
+        label: labal,
+        initMsg: toUtf8(JSON.stringify(msg)),
+        funds: [...(options.funds || [])],
+      }),
+    };
+    const result = await this.signAndBroadcast(
+      signerAddress,
+      [storeCodeAndInstantiateMsg],
+      fee,
+      options.memo,
+    );
+    if (isDeliverTxFailure(result)) {
+      throw new Error(createDeliverTxResponseErrorMessage(result));
+    }
+    const parsedLogs = logs.parseRawLog(result.rawLog);
+    const codeIdAttr = logs.findAttribute(parsedLogs, "store_code", "code_id");
+    const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
+    return {
+      originalSize: wasmCode.length,
+      originalChecksum: toHex(sha256(wasmCode)),
+      compressedSize: compressed.length,
+      compressedChecksum: toHex(sha256(compressed)),
+      codeId: Number.parseInt(codeIdAttr.value, 10),
       contractAddress: contractAddressAttr.value,
       logs: parsedLogs,
       transactionHash: result.transactionHash,

@@ -7,6 +7,7 @@ import {
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
+  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
 } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
@@ -30,6 +31,23 @@ export interface AminoMsgStoreCode {
     /** Base64 encoded Wasm */
     readonly wasm_byte_code: string;
     readonly instantiate_permission?: AccessConfig;
+  };
+}
+
+export interface AminoMsgStoreCodeAndInstantiateContract {
+  type: "wasm/MsgStoreCodeAndInstantiateContract";
+  value: {
+    /** Bech32 account address */
+    readonly sender: string;
+    /** Base64 encoded Wasm */
+    readonly wasm_byte_code: string;
+    readonly instantiate_permission?: AccessConfig;
+    readonly label: string;
+    /** Instantiate message as JavaScript object */
+    readonly init_msg: any;
+    readonly funds: readonly Coin[];
+    /** Bech32-encoded admin address */
+    readonly admin?: string;
   };
 }
 
@@ -168,6 +186,40 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       msg: fromBase64(msg),
       funds: [...funds],
       admin: admin ?? "",
+    }),
+  },
+  "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract": {
+    aminoType: "wasm/MsgStoreCodeAndInstantiateContract",
+    toAmino: ({
+      sender,
+      wasmByteCode,
+      label,
+      initMsg,
+      funds,
+      admin,
+    }: MsgStoreCodeAndInstantiateContract): AminoMsgStoreCodeAndInstantiateContract["value"] => ({
+      sender: sender,
+      wasm_byte_code: toBase64(wasmByteCode),
+      label: label,
+      init_msg: JSON.parse(fromUtf8(initMsg)),
+      funds: funds,
+      admin: admin || undefined,
+    }),
+    fromAmino: ({
+      sender,
+      wasm_byte_code,
+      label,
+      init_msg,
+      funds,
+      admin,
+    }: AminoMsgStoreCodeAndInstantiateContract["value"]): MsgStoreCodeAndInstantiateContract => ({
+      sender: sender,
+      wasmByteCode: fromBase64(wasm_byte_code),
+      label: label,
+      initMsg: toUtf8(JSON.stringify(init_msg)),
+      funds: [...funds],
+      admin: admin ?? "",
+      instantiatePermission: undefined,
     }),
   },
   "/lbm.wasm.v1.MsgUpdateAdmin": {

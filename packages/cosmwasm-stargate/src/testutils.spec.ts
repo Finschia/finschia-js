@@ -143,15 +143,14 @@ export const deployedIbcReflect = {
   codeId: 2,
   instances: [
     {
-      address: "link1vjecguu37pmd577339wrdp208ddzymkuck4ce6",
-      ibcPortId: "wasm.link1vjecguu37pmd577339wrdp208ddzymkuck4ce6",
+      address: "link1aakfpghcanxtc45gpqlx8j3rq0zcpyf4jw4fg2",
+      ibcPortId: "wasm.link1aakfpghcanxtc45gpqlx8j3rq0zcpyf4jw4fg2",
     },
   ],
 };
 
 export function wasmdEnabled(): boolean {
-  // return !!process.env.WASMD_ENABLED;
-  return true;
+  return !!process.env.WASMD_ENABLED;
 }
 
 export function pendingWithoutWasmd(): void {

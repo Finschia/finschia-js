@@ -235,6 +235,66 @@ describe("SigningCosmWasmClient", () => {
     });
   });
 
+  describe("uploadAndInstantiate", () => {
+    it("works with transfer amount", async () => {
+      pendingWithoutWasmd();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
+      const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
+      const wasm = getHackatom().data;
+      const funds = [coin(1234, "cony"), coin(321, "stake")];
+      const beneficiaryAddress = makeRandomAddress();
+      const { originalSize, originalChecksum, compressedSize, compressedChecksum, codeId, contractAddress } =
+        await client.uploadAndInstantiate(
+          alice.address0,
+          wasm,
+          {
+            verifier: alice.address0,
+            beneficiary: beneficiaryAddress,
+          },
+          "My Test label",
+          defaultUploadFee,
+          {
+            memo: "Let's see if the memo is used",
+            funds: funds,
+          },
+        );
+      expect(originalChecksum).toEqual(toHex(sha256(wasm)));
+      expect(originalSize).toEqual(wasm.length);
+      expect(compressedChecksum).toMatch(/^[0-9a-f]{64}$/);
+      expect(compressedSize).toBeLessThan(wasm.length * 0.5);
+      expect(codeId).toBeGreaterThanOrEqual(1);
+      const wasmClient = await makeWasmClient(wasmd.endpoint);
+      const conyBalance = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(conyBalance).toEqual(funds[0]);
+      const stakeBalance = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(stakeBalance).toEqual(funds[1]);
+      client.disconnect();
+    });
+
+    it("works with admin", async () => {
+      pendingWithoutWasmd();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
+      const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
+      const wasm = getHackatom().data;
+      const beneficiaryAddress = makeRandomAddress();
+      const { contractAddress } = await client.uploadAndInstantiate(
+        alice.address0,
+        wasm,
+        { verifier: alice.address0, beneficiary: beneficiaryAddress },
+        "My test label",
+        defaultUploadFee,
+        { admin: unused.address },
+      );
+      const wasmClient = await makeWasmClient(wasmd.endpoint);
+      const { contractInfo } = await wasmClient.wasm.getContractInfo(contractAddress);
+      assert(contractInfo);
+      expect(contractInfo.admin).toEqual(unused.address);
+      client.disconnect();
+    });
+  });
+
   describe("updateAdmin", () => {
     it("can update an admin", async () => {
       pendingWithoutWasmd();
