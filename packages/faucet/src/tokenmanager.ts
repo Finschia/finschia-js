@@ -1,15 +1,15 @@
 import { Coin } from "@cosmjs/launchpad";
-import { Decimal, Uint53 } from "@cosmjs/math";
+import { Decimal, Uint64 } from "@cosmjs/math";
 
 import { MinimalAccount } from "./types";
 
-const defaultCreditAmount = 10_000_000;
+const defaultCreditAmount = Uint64.fromNumber(10_000_000);
 
 /** Send `factor` times credit amount on refilling */
-const defaultRefillFactor = 20;
+const defaultRefillFactor = Uint64.fromNumber(20);
 
 /** refill when balance gets below `factor` times credit amount */
-const defaultRefillThresholdFactor = 8;
+const defaultRefillThresholdFactor = Uint64.fromNumber(8);
 
 export interface TokenConfiguration {
   /** Supported tokens of the Cosmos SDK bank module */
@@ -24,10 +24,10 @@ export class TokenManager {
   }
 
   /** The amount of tokens that will be sent to the user */
-  public creditAmount(denom: string, factor: Uint53 = new Uint53(1)): Coin {
+  public creditAmount(denom: string, factor: Uint64 = Uint64.fromNumber(1)): Coin {
     const amountFromEnv = process.env[`FAUCET_CREDIT_AMOUNT_${denom.toUpperCase()}`];
-    const amount = amountFromEnv ? Uint53.fromString(amountFromEnv).toNumber() : defaultCreditAmount;
-    const value = new Uint53(amount * factor.toNumber());
+    const amount = amountFromEnv ? Uint64.fromString(amountFromEnv) : defaultCreditAmount;
+    const value = amount.mul(factor);
     return {
       amount: value.toString(),
       denom: denom,
@@ -35,14 +35,14 @@ export class TokenManager {
   }
 
   public refillAmount(denom: string): Coin {
-    const factorFromEnv = Number.parseInt(process.env.FAUCET_REFILL_FACTOR || "0", 10) || undefined;
-    const factor = new Uint53(factorFromEnv || defaultRefillFactor);
+    const factorFromEnv = Uint64.fromString(process.env.FAUCET_REFILL_FACTOR || "0");
+    const factor = factorFromEnv.toBN().isZero() ? defaultRefillFactor : factorFromEnv;
     return this.creditAmount(denom, factor);
   }
 
   public refillThreshold(denom: string): Coin {
-    const factorFromEnv = Number.parseInt(process.env.FAUCET_REFILL_THRESHOLD || "0", 10) || undefined;
-    const factor = new Uint53(factorFromEnv || defaultRefillThresholdFactor);
+    const factorFromEnv = Uint64.fromString(process.env.FAUCET_REFILL_THRESHOLD || "0");
+    const factor = factorFromEnv.toBN().isZero() ? defaultRefillThresholdFactor : factorFromEnv;
     return this.creditAmount(denom, factor);
   }
 

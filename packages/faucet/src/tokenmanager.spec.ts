@@ -16,6 +16,10 @@ describe("TokenManager", () => {
   describe("creditAmount", () => {
     const tm = new TokenManager(dummyConfig);
 
+    beforeEach(() => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
+    });
+
     it("returns 10_000_000 base tokens by default", () => {
       expect(tm.creditAmount("utokenz")).toEqual({
         amount: "10000000",
@@ -33,7 +37,6 @@ describe("TokenManager", () => {
         amount: "22",
         denom: "mtrash",
       });
-      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
     });
 
     it("returns default when env variable is set to empty", () => {
@@ -42,7 +45,19 @@ describe("TokenManager", () => {
         amount: "10000000",
         denom: "mtrash",
       });
-      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
+    });
+
+    it("returns vlaue from env variable when set max value", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "18446744073709551615";
+      expect(tm.creditAmount("mtrash")).toEqual({
+        amount: "18446744073709551615",
+        denom: "mtrash",
+      });
+    });
+
+    it("errors when set bigger than uint64 value", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "18446744073709551616";
+      expect(() => tm.creditAmount("mtrash")).toThrowError(/Input exceeds uint64 range/i);
     });
   });
 
@@ -85,6 +100,19 @@ describe("TokenManager", () => {
         denom: "mtrash",
       });
     });
+
+    it("returns vlaue from env variable when set big value", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "922337203685477580";
+      expect(tm.refillAmount("mtrash")).toEqual({
+        amount: "18446744073709551600",
+        denom: "mtrash",
+      });
+    });
+
+    it("errors when the result is bigger than uint64 value", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "922337203685477581";
+      expect(() => tm.refillAmount("mtrash")).toThrowError(/Result of multiplying exceedes uint64 range/i);
+    });
   });
 
   describe("refillThreshold", () => {
@@ -125,6 +153,19 @@ describe("TokenManager", () => {
         amount: "110",
         denom: "mtrash",
       });
+    });
+
+    it("returns vlaue from env variable when set big value", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "2305843009213693951";
+      expect(tm.refillThreshold("mtrash")).toEqual({
+        amount: "18446744073709551608",
+        denom: "mtrash",
+      });
+    });
+
+    it("errors when the result is bigger than uint64 value", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "2305843009213693952";
+      expect(() => tm.refillThreshold("mtrash")).toThrowError(/Result of multiplying exceedes uint64 range/i);
     });
   });
 
