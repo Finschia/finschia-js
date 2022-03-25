@@ -248,6 +248,19 @@ export class Uint64 implements Integer, WithByteConverters {
   public toNumber(): number {
     return this.data.toNumber();
   }
+
+  public toBN(): BN {
+    return this.data;
+  }
+
+  public mul(a: Uint64): Uint64 {
+    let res: BN;
+    res = this.data.mul(a.toBN())
+    if (res.gt(uint64MaxValue)) {
+      throw new Error("Result of multiplying exceedes uint64 range");
+    }
+    return new Uint64(res);
+  }
 }
 
 // Assign classes to unused variables in order to verify static interface conformance at compile time.

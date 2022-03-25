@@ -505,5 +505,17 @@ describe("Integers", () => {
         expect(() => a.toNumber()).toThrowError(/number can only safely store up to 53 bits/i);
       }
     });
+
+    it("multiplying succeeds", () => {
+      const a = Uint64.fromString("3689348814741910323");
+      const b = Uint64.fromString("5");
+      expect(a.mul(b).toString()).toEqual("18446744073709551615");
+    })
+
+    it("multiplying throws error when the result exceeds uint64 range", () => {
+      const a = Uint64.fromString("3689348814741910323");
+      const b = Uint64.fromString("6");
+      expect(() => a.mul(b)).toThrowError(/Result of multiplying exceedes uint64 range/i);
+    })
   });
 });
