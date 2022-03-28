@@ -54,6 +54,11 @@ describe("TokenManager", () => {
         denom: "mtrash",
       });
     });
+
+    it("error when env variable is set to negative", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "-42";
+      expect(() => tm.creditAmount("mtrash")).toThrowError(/Invalid amount: negative value/i)
+    })
   });
 
   describe("refillAmount", () => {
@@ -102,6 +107,11 @@ describe("TokenManager", () => {
         amount: "20000000000000000000000000000000",
         denom: "mtrash",
       });
+    });
+
+    it("error when env variable is set to negative", () => {
+      process.env.FAUCET_REFILL_FACTOR = "-42";
+      expect(() => tm.refillAmount("mtrash")).toThrowError(/Invalid refill factor: negative value/i)
     });
   });
 
@@ -152,10 +162,20 @@ describe("TokenManager", () => {
         denom: "mtrash",
       });
     });
+
+    it("error when env variable is set to negative", () => {
+      process.env.FAUCET_REFILL_THRESHOLD = "-42";
+      expect(() => tm.refillThreshold("mtrash")).toThrowError(/Invalid refill threshold factor: negative value/i)
+    });
   });
 
   describe("needsRefill", () => {
     const tm = new TokenManager(dummyConfig);
+
+    beforeAll(() =>{
+      process.env.FAUCET_REFILL_FACTOR = "";
+      process.env.FAUCET_REFILL_THRESHOLD = "";
+    });
 
     it("works for sufficient/insufficient balance", () => {
       const brokeAccount: MinimalAccount = {

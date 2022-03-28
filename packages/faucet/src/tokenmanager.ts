@@ -30,6 +30,9 @@ export class TokenManager {
     const amountFromEnv = process.env[`FAUCET_CREDIT_AMOUNT_${denom.toUpperCase()}`];
     const amount = amountFromEnv ? new BN(amountFromEnv, 10) : defaultCreditAmount;
     const value = amount.mul(factor);
+    if (value.isNeg()) {
+      throw new Error("Invalid amount: negative value")
+    };
     return {
       amount: value.toString(10),
       denom: denom,
@@ -39,13 +42,18 @@ export class TokenManager {
   public refillAmount(denom: string): Coin {
     const factorFromEnv = new BN(process.env.FAUCET_REFILL_FACTOR || "0", 10);
     const factor = factorFromEnv.isZero() ? defaultRefillFactor : factorFromEnv;
+    if (factor.isNeg()) {
+      throw new Error("Invalid refill factor: negative value")
+    };
     return this.creditAmount(denom, factor);
   }
 
   public refillThreshold(denom: string): Coin {
     const factorFromEnv = new BN(process.env.FAUCET_REFILL_THRESHOLD || "0", 10);
     const factor = factorFromEnv.isZero() ? defaultRefillThresholdFactor : factorFromEnv;
-
+    if (factor.isNeg()) {
+      throw new Error("Invalid refill threshold factor: negative value")
+    };
     return this.creditAmount(denom, factor);
   }
 
