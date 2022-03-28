@@ -515,7 +515,7 @@ describe("Integers", () => {
     it("multiplying throws error when the result exceeds uint64 range", () => {
       const a = Uint64.fromString("3689348814741910323");
       const b = Uint64.fromString("6");
-      expect(() => a.mul(b)).toThrowError(/Result of multiplying exceedes uint64 range/i);
+      expect(() => a.mul(b)).toThrowError(/Result of multiplying exceeds uint64 range/i);
     })
   });
 });

@@ -111,7 +111,7 @@ describe("TokenManager", () => {
 
     it("errors when the result is bigger than uint64 value", () => {
       process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "922337203685477581";
-      expect(() => tm.refillAmount("mtrash")).toThrowError(/Result of multiplying exceedes uint64 range/i);
+      expect(() => tm.refillAmount("mtrash")).toThrowError(/Result of multiplying exceeds uint64 range/i);
     });
   });
 
@@ -165,7 +165,7 @@ describe("TokenManager", () => {
 
     it("errors when the result is bigger than uint64 value", () => {
       process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "2305843009213693952";
-      expect(() => tm.refillThreshold("mtrash")).toThrowError(/Result of multiplying exceedes uint64 range/i);
+      expect(() => tm.refillThreshold("mtrash")).toThrowError(/Result of multiplying exceeds uint64 range/i);
     });
   });
 

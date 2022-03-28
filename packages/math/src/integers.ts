@@ -257,7 +257,7 @@ export class Uint64 implements Integer, WithByteConverters {
     let res: BN;
     res = this.data.mul(a.toBN())
     if (res.gt(uint64MaxValue)) {
-      throw new Error("Result of multiplying exceedes uint64 range");
+      throw new Error("Result of multiplying exceeds uint64 range");
     }
     return new Uint64(res);
   }
