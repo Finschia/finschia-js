@@ -47,7 +47,7 @@ describe("TokenManager", () => {
       });
     });
 
-    it("returns vlaue from env variable when set max value", () => {
+    it("returns value from env variable when set max value", () => {
       process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "18446744073709551615";
       expect(tm.creditAmount("mtrash")).toEqual({
         amount: "18446744073709551615",
@@ -101,7 +101,7 @@ describe("TokenManager", () => {
       });
     });
 
-    it("returns vlaue from env variable when set big value", () => {
+    it("returns value from env variable when set big value", () => {
       process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "922337203685477580";
       expect(tm.refillAmount("mtrash")).toEqual({
         amount: "18446744073709551600",
@@ -155,7 +155,7 @@ describe("TokenManager", () => {
       });
     });
 
-    it("returns vlaue from env variable when set big value", () => {
+    it("returns value from env variable when set big value", () => {
       process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "2305843009213693951";
       expect(tm.refillThreshold("mtrash")).toEqual({
         amount: "18446744073709551608",
