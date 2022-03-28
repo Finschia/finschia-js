@@ -16,6 +16,10 @@ describe("TokenManager", () => {
   describe("creditAmount", () => {
     const tm = new TokenManager(dummyConfig);
 
+    beforeEach(() => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
+    });
+
     it("returns 10_000_000 base tokens by default", () => {
       expect(tm.creditAmount("utokenz")).toEqual({
         amount: "10000000",
@@ -33,16 +37,22 @@ describe("TokenManager", () => {
         amount: "22",
         denom: "mtrash",
       });
-      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
     });
 
     it("returns default when env variable is set to empty", () => {
-      process.env.FAUCET_CREDIT_AMOUNT_TRASH = "";
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
       expect(tm.creditAmount("mtrash")).toEqual({
         amount: "10000000",
         denom: "mtrash",
       });
-      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "";
+    });
+
+    it("returns big value (10^30) correctly when env variable is set to it", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "1000000000000000000000000000000";
+      expect(tm.creditAmount("mtrash")).toEqual({
+        amount: "1000000000000000000000000000000",
+        denom: "mtrash",
+      });
     });
   });
 
@@ -85,6 +95,14 @@ describe("TokenManager", () => {
         denom: "mtrash",
       });
     });
+
+    it("returns big value (20*10^30) correctly when env variable is set to 10^30", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "1000000000000000000000000000000";
+      expect(tm.refillAmount("mtrash")).toEqual({
+        amount: "20000000000000000000000000000000",
+        denom: "mtrash",
+      });
+    });
   });
 
   describe("refillThreshold", () => {
@@ -123,6 +141,14 @@ describe("TokenManager", () => {
       process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "22";
       expect(tm.refillThreshold("mtrash")).toEqual({
         amount: "110",
+        denom: "mtrash",
+      });
+    });
+
+    it("returns big value (8*10^30) correctly when env variable is set to 10^30", () => {
+      process.env.FAUCET_CREDIT_AMOUNT_MTRASH = "1000000000000000000000000000000";
+      expect(tm.refillThreshold("mtrash")).toEqual({
+        amount: "8000000000000000000000000000000",
         denom: "mtrash",
       });
     });
