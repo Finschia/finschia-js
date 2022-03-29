@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@cosmjs/amino";
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
 import { Bech32, fromBase64 } from "@cosmjs/encoding";
+import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@lbmjs/amino";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import {
   DirectSecp256k1HdWallet,
   DirectSecp256k1HdWalletOptions,
   DirectSignResponse,
   makeAuthInfoBytes,
-} from "@cosmjs/proto-signing";
+} from "@lbmjs/proto-signing";
 import {
   AuthExtension,
   BankExtension,
@@ -17,16 +18,15 @@ import {
   QueryClient,
   setupAuthExtension,
   setupBankExtension,
-} from "@cosmjs/stargate";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+} from "@lbmjs/stargate";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
+import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 
 import { setupWasmExtension, WasmExtension } from "./queries";
 import { SigningCosmWasmClientOptions } from "./signingcosmwasmclient";
 import hackatom from "./testdata/contract.json";
 
-export const defaultGasPrice = GasPrice.fromString("0.025ucosm");
+export const defaultGasPrice = GasPrice.fromString("0.025cony");
 export const defaultSendFee = calculateFee(80_000, defaultGasPrice);
 export const defaultUploadFee = calculateFee(1_500_000, defaultGasPrice);
 export const defaultInstantiateFee = calculateFee(500_000, defaultGasPrice);
@@ -43,11 +43,11 @@ export interface ContractUploadInstructions {
 
 export const wasmd = {
   blockTime: 1_000, // ms
-  chainId: "testing",
-  endpoint: "http://localhost:26659",
-  prefix: "wasm",
+  chainId: "simd-testing",
+  endpoint: "localhost:26658",
+  prefix: "link",
   validator: {
-    address: "wasmvaloper1m4vhsgne6u74ff78vf0tvkjq3q4hjf9vjfrmy2",
+    address: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
   },
 };
 
@@ -64,7 +64,7 @@ export function getHackatom(): ContractUploadInstructions {
 }
 
 export function makeRandomAddress(): string {
-  return Bech32.encode("wasm", Random.getBytes(20));
+  return Bech32.encode("link", Random.getBytes(20));
 }
 
 export const tendermintIdMatcher = /^[0-9A-F]{64}$/;
@@ -75,26 +75,27 @@ export const base64Matcher =
 export const bech32AddressMatcher = /^[\x21-\x7e]{1,83}1[02-9ac-hj-np-z]{38}$/;
 
 export const alice = {
-  mnemonic: "enlist hip relief stomach skate base shallow young switch frequent cry park",
+  mnemonic:
+    "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have",
   pubkey0: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "A9cXhWb8ZpqCzkA8dQCPV29KdeRLV3rUYxrkHudLbQtS",
+    type: "ostracon/PubKeySecp256k1",
+    value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
-  address0: "wasm14qemq0vw6y3gc3u3e0aty2e764u4gs5lndxgyk",
-  address1: "wasm1hhg2rlu9jscacku2wwckws7932qqqu8xm5ca8y",
-  address2: "wasm1xv9tklw7d82sezh9haa573wufgy59vmwnxhnsl",
-  address3: "wasm17yg9mssjenmc3jkqth6ulcwj9cxujrxxg9nmzk",
-  address4: "wasm1f7j7ryulwjfe9ljplvhtcaxa6wqgula3nh873j",
+  address0: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
+  address1: "link1aaffxdz4dwcnjzumjm7h89yjw5c5wul88zvzuu",
+  address2: "link1ey0w0xj9v48vk82ht6mhqdlh9wqkx8enkpjwpr",
+  address3: "link1dfyywjglcfptn72axxhsslpy8ep6wq7wujasma",
+  address4: "link1equ4n3uwyhapak5g3leq0avz85k0q6jcdy5w0f",
 };
 
 /** Unused account */
 export const unused = {
   pubkey: {
-    type: "tendermint/PubKeySecp256k1",
-    value: "ArkCaFUJ/IH+vKBmNRCdUVl3mCAhbopk9jjW4Ko4OfRQ",
+    type: "ostracon/PubKeySecp256k1",
+    value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
-  address: "wasm1cjsxept9rkggzxztslae9ndgpdyt240842kpxh",
-  accountNumber: 16,
+  address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
+  accountNumber: 8,
   sequence: 0,
 };
 
@@ -104,35 +105,34 @@ export const validator = {
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */
-  delegatorAddress: "wasm1tjgue6r5kqj5dets24pwaa9u7wuzucpwuva0rv",
+  delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   /**
    * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */
-  validatorAddress: "wasmvaloper1tjgue6r5kqj5dets24pwaa9u7wuzucpwfsgndk",
-  accountNumber: 0,
+  validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
   sequence: 1,
 };
 
 /** Deployed as part of scripts/wasmd/init.sh */
 export const deployedHackatom = {
   codeId: 1,
-  checksum: "13a1fc994cc6d1c81b746ee0c0ff6f90043875e0bf1d9be6b7d779fc978dc2a5",
+  checksum: "7e1c540fc892e708a5b7e9ba5d8e05ca4f86ff32869a60a0a8a71f05064f4af6",
   instances: [
     {
       beneficiary: alice.address0,
-      address: "wasm14hj2tavq8fpesdwxxcu44rty3hh90vhujgqwg3",
+      address: "link14hj2tavq8fpesdwxxcu44rty3hh90vhud63e6j",
       label: "From deploy_hackatom.js (0)",
     },
     {
       beneficiary: alice.address1,
-      address: "wasm1suhgf5svhu4usrurvxzlgn54ksxmn8glszahxx",
+      address: "link1suhgf5svhu4usrurvxzlgn54ksxmn8gl0svq59",
       label: "From deploy_hackatom.js (1)",
     },
     {
       beneficiary: alice.address2,
-      address: "wasm1yyca08xqdgvjz0psg56z67ejh9xms6l49ntww0",
+      address: "link1yyca08xqdgvjz0psg56z67ejh9xms6l46p6euv",
       label: "From deploy_hackatom.js (2)",
     },
   ],
@@ -143,8 +143,8 @@ export const deployedIbcReflect = {
   codeId: 2,
   instances: [
     {
-      address: "wasm1aakfpghcanxtc45gpqlx8j3rq0zcpyf4duy76f",
-      ibcPortId: "wasm.wasm1aakfpghcanxtc45gpqlx8j3rq0zcpyf4duy76f",
+      address: "link1aakfpghcanxtc45gpqlx8j3rq0zcpyf4jw4fg2",
+      ibcPortId: "wasm.link1aakfpghcanxtc45gpqlx8j3rq0zcpyf4jw4fg2",
     },
   ],
 };
@@ -189,7 +189,7 @@ export class ModifyingSecp256k1HdWallet extends Secp256k1HdWallet {
     const modifiedSignDoc = {
       ...signDoc,
       fee: {
-        amount: coins(3000, "ucosm"),
+        amount: coins(3000, "cony"),
         gas: "333333",
       },
       memo: "This was modified",
@@ -222,7 +222,7 @@ export class ModifyingDirectSecp256k1HdWallet extends DirectSecp256k1HdWallet {
       pubkey: signerInfo.publicKey!,
       sequence: signerInfo.sequence.toNumber(),
     }));
-    const modifiedFeeAmount = coins(3000, "ucosm");
+    const modifiedFeeAmount = coins(3000, "cony");
     const modifiedGasLimit = 333333;
     const modifiedSignDoc = {
       ...signDoc,

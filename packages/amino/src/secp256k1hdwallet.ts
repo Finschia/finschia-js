@@ -15,7 +15,7 @@ import { Bech32, fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding
 import { assert, isNonNullObject } from "@cosmjs/utils";
 
 import { rawSecp256k1PubkeyToRawAddress } from "./addresses";
-import { makeCosmoshubPath } from "./paths";
+import { makeLinkPath } from "./paths";
 import { encodeSecp256k1Signature } from "./signature";
 import { serializeSignDoc, StdSignDoc } from "./signdoc";
 import { AccountData, AminoSignResponse, OfflineAminoSigner } from "./signer";
@@ -127,8 +127,8 @@ interface Secp256k1HdWalletConstructorOptions extends Partial<Secp256k1HdWalletO
 
 const defaultOptions: Secp256k1HdWalletOptions = {
   bip39Password: "",
-  hdPaths: [makeCosmoshubPath(0)],
-  prefix: "cosmos",
+  hdPaths: [makeLinkPath(0)],
+  prefix: "link",
 };
 
 export class Secp256k1HdWallet implements OfflineAminoSigner {

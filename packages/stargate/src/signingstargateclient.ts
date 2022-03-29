@@ -1,6 +1,8 @@
-import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino, StdFee } from "@cosmjs/amino";
 import { fromBase64 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
+import { assert, assertDefined } from "@cosmjs/utils";
+import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino, StdFee } from "@lbmjs/amino";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import {
   EncodeObject,
   encodePubkey,
@@ -11,28 +13,8 @@ import {
   OfflineSigner,
   Registry,
   TxBodyEncodeObject,
-} from "@cosmjs/proto-signing";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import { assert, assertDefined } from "@cosmjs/utils";
-import { MsgMultiSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import {
-  MsgFundCommunityPool,
-  MsgSetWithdrawAddress,
-  MsgWithdrawDelegatorReward,
-  MsgWithdrawValidatorCommission,
-} from "cosmjs-types/cosmos/distribution/v1beta1/tx";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "cosmjs-types/cosmos/gov/v1beta1/tx";
-import {
-  MsgBeginRedelegate,
-  MsgCreateValidator,
-  MsgDelegate,
-  MsgEditValidator,
-  MsgUndelegate,
-} from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
+} from "@lbmjs/proto-signing";
+import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
 import {
   MsgAcknowledgement,
   MsgChannelCloseConfirm,
@@ -44,20 +26,50 @@ import {
   MsgRecvPacket,
   MsgTimeout,
   MsgTimeoutOnClose,
-} from "cosmjs-types/ibc/core/channel/v1/tx";
-import { Height } from "cosmjs-types/ibc/core/client/v1/client";
+} from "lbmjs-types/ibc/core/channel/v1/tx";
+import { Height } from "lbmjs-types/ibc/core/client/v1/client";
 import {
   MsgCreateClient,
   MsgSubmitMisbehaviour,
   MsgUpdateClient,
   MsgUpgradeClient,
-} from "cosmjs-types/ibc/core/client/v1/tx";
+} from "lbmjs-types/ibc/core/client/v1/tx";
 import {
   MsgConnectionOpenAck,
   MsgConnectionOpenConfirm,
   MsgConnectionOpenInit,
   MsgConnectionOpenTry,
-} from "cosmjs-types/ibc/core/connection/v1/tx";
+} from "lbmjs-types/ibc/core/connection/v1/tx";
+import { MsgMultiSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import {
+  MsgFundCommunityPool,
+  MsgSetWithdrawAddress,
+  MsgWithdrawDelegatorReward,
+  MsgWithdrawValidatorCommission,
+} from "lbmjs-types/lbm/distribution/v1/tx";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/lbm/gov/v1/tx";
+import {
+  MsgBeginRedelegate,
+  MsgCreateValidator,
+  MsgDelegate,
+  MsgEditValidator,
+  MsgUndelegate,
+} from "lbmjs-types/lbm/staking/v1/tx";
+import {
+  MsgApprove as TokenMsgApprove,
+  MsgBurn as TokenMsgBurn,
+  MsgBurnFrom as TokenMsgBurnFrom,
+  MsgGrant as TokenMsgGrant,
+  MsgIssue as TokenMsgIssue,
+  MsgMint as TokenMsgMint,
+  MsgModify as TokenMsgModify,
+  MsgRevoke as TokenMsgRevoke,
+  MsgTransfer as TokenMsgTransfer,
+  MsgTransferFrom as TokenMsgTransferFrom,
+} from "lbmjs-types/lbm/token/v1/tx";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
+import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 
 import { AminoTypes } from "./aminotypes";
@@ -72,19 +84,29 @@ import { calculateFee, GasPrice } from "./fee";
 import { DeliverTxResponse, StargateClient } from "./stargateclient";
 
 export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/cosmos.bank.v1beta1.MsgMultiSend", MsgMultiSend],
-  ["/cosmos.distribution.v1beta1.MsgFundCommunityPool", MsgFundCommunityPool],
-  ["/cosmos.distribution.v1beta1.MsgSetWithdrawAddress", MsgSetWithdrawAddress],
-  ["/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward", MsgWithdrawDelegatorReward],
-  ["/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission", MsgWithdrawValidatorCommission],
-  ["/cosmos.gov.v1beta1.MsgDeposit", MsgDeposit],
-  ["/cosmos.gov.v1beta1.MsgSubmitProposal", MsgSubmitProposal],
-  ["/cosmos.gov.v1beta1.MsgVote", MsgVote],
-  ["/cosmos.staking.v1beta1.MsgBeginRedelegate", MsgBeginRedelegate],
-  ["/cosmos.staking.v1beta1.MsgCreateValidator", MsgCreateValidator],
-  ["/cosmos.staking.v1beta1.MsgDelegate", MsgDelegate],
-  ["/cosmos.staking.v1beta1.MsgEditValidator", MsgEditValidator],
-  ["/cosmos.staking.v1beta1.MsgUndelegate", MsgUndelegate],
+  ["/lbm.bank.v1.MsgMultiSend", MsgMultiSend],
+  ["/lbm.distribution.v1.MsgFundCommunityPool", MsgFundCommunityPool],
+  ["/lbm.distribution.v1.MsgSetWithdrawAddress", MsgSetWithdrawAddress],
+  ["/lbm.distribution.v1.MsgWithdrawDelegatorReward", MsgWithdrawDelegatorReward],
+  ["/lbm.distribution.v1.MsgWithdrawValidatorCommission", MsgWithdrawValidatorCommission],
+  ["/lbm.gov.v1.MsgDeposit", MsgDeposit],
+  ["/lbm.gov.v1.MsgSubmitProposal", MsgSubmitProposal],
+  ["/lbm.gov.v1.MsgVote", MsgVote],
+  ["/lbm.staking.v1.MsgBeginRedelegate", MsgBeginRedelegate],
+  ["/lbm.staking.v1.MsgCreateValidator", MsgCreateValidator],
+  ["/lbm.staking.v1.MsgDelegate", MsgDelegate],
+  ["/lbm.staking.v1.MsgEditValidator", MsgEditValidator],
+  ["/lbm.staking.v1.MsgUndelegate", MsgUndelegate],
+  ["/lbm.token.v1.MsgTransfer", TokenMsgTransfer],
+  ["/lbm.token.v1.MsgTransferFrom", TokenMsgTransferFrom],
+  ["/lbm.token.v1.MsgApprove", TokenMsgApprove],
+  ["/lbm.token.v1.MsgIssue", TokenMsgIssue],
+  ["/lbm.token.v1.MsgGrant", TokenMsgGrant],
+  ["/lbm.token.v1.MsgRevoke", TokenMsgRevoke],
+  ["/lbm.token.v1.MsgMint", TokenMsgMint],
+  ["/lbm.token.v1.MsgBurn", TokenMsgBurn],
+  ["/lbm.token.v1.MsgBurnFrom", TokenMsgBurnFrom],
+  ["/lbm.token.v1.MsgModify", TokenMsgModify],
   ["/ibc.core.channel.v1.MsgChannelOpenInit", MsgChannelOpenInit],
   ["/ibc.core.channel.v1.MsgChannelOpenTry", MsgChannelOpenTry],
   ["/ibc.core.channel.v1.MsgChannelOpenAck", MsgChannelOpenAck],
@@ -212,7 +234,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const sendMsg: MsgSendEncodeObject = {
-      typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+      typeUrl: "/lbm.bank.v1.MsgSend",
       value: {
         fromAddress: senderAddress,
         toAddress: recipientAddress,
@@ -230,7 +252,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const delegateMsg: MsgDelegateEncodeObject = {
-      typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+      typeUrl: "/lbm.staking.v1.MsgDelegate",
       value: MsgDelegate.fromPartial({
         delegatorAddress: delegatorAddress,
         validatorAddress: validatorAddress,
@@ -248,7 +270,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const undelegateMsg: MsgUndelegateEncodeObject = {
-      typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+      typeUrl: "/lbm.staking.v1.MsgUndelegate",
       value: MsgUndelegate.fromPartial({
         delegatorAddress: delegatorAddress,
         validatorAddress: validatorAddress,
@@ -265,7 +287,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const withdrawMsg: MsgWithdrawDelegatorRewardEncodeObject = {
-      typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+      typeUrl: "/lbm.distribution.v1.MsgWithdrawDelegatorReward",
       value: MsgWithdrawDelegatorReward.fromPartial({
         delegatorAddress: delegatorAddress,
         validatorAddress: validatorAddress,
@@ -314,7 +336,7 @@ export class SigningStargateClient extends StargateClient {
     if (fee == "auto" || typeof fee === "number") {
       assertDefined(this.gasPrice, "Gas price must be set in the client options when auto gas is used.");
       const gasEstimation = await this.simulate(signerAddress, messages, memo);
-      const muliplier = typeof fee === "number" ? fee : 1.3;
+      const muliplier = typeof fee === "number" ? fee : 1.4;
       usedFee = calculateFee(Math.round(gasEstimation * muliplier), this.gasPrice);
     } else {
       usedFee = fee;
@@ -383,7 +405,7 @@ export class SigningStargateClient extends StargateClient {
       memo: signed.memo,
     };
     const signedTxBodyEncodeObject: TxBodyEncodeObject = {
-      typeUrl: "/cosmos.tx.v1beta1.TxBody",
+      typeUrl: "/lbm.tx.v1.TxBody",
       value: signedTxBody,
     };
     const signedTxBodyBytes = this.registry.encode(signedTxBodyEncodeObject);
@@ -418,7 +440,7 @@ export class SigningStargateClient extends StargateClient {
     }
     const pubkey = encodePubkey(encodeSecp256k1Pubkey(accountFromSigner.pubkey));
     const txBodyEncodeObject: TxBodyEncodeObject = {
-      typeUrl: "/cosmos.tx.v1beta1.TxBody",
+      typeUrl: "/lbm.tx.v1.TxBody",
       value: {
         messages: messages,
         memo: memo,

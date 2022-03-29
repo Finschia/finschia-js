@@ -9,8 +9,8 @@ CHAIN_ID=${CHAIN_ID:-simd-testing}
 MONIKER=${MONIKER:-simd-moniker}
 
 # The staking and the fee tokens. The supply of the staking token is low compared to the fee token (factor 100).
-STAKE=${STAKE_TOKEN:-ustake}
-FEE=${FEE_TOKEN:-ucosm}
+STAKE=${STAKE_TOKEN:-stake}
+FEE=${FEE_TOKEN:-cony}
 
 # 2000 STAKE and 1000 COSM
 START_BALANCE="2000000000$STAKE,1000000000$FEE"

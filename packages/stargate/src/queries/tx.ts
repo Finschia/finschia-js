@@ -1,15 +1,15 @@
-import { Pubkey } from "@cosmjs/amino";
-import { encodePubkey } from "@cosmjs/proto-signing";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { Pubkey } from "@lbmjs/amino";
+import { encodePubkey } from "@lbmjs/proto-signing";
+import { Any } from "lbmjs-types/google/protobuf/any";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
 import {
   GetTxRequest,
   GetTxResponse,
   ServiceClientImpl,
   SimulateRequest,
   SimulateResponse,
-} from "cosmjs-types/cosmos/tx/v1beta1/service";
-import { AuthInfo, Fee, Tx, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { Any } from "cosmjs-types/google/protobuf/any";
+} from "lbmjs-types/lbm/tx/v1/service";
+import { AuthInfo, Fee, Tx, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 
 import { QueryClient } from "./queryclient";
@@ -71,7 +71,7 @@ export function setupTxExtension(base: QueryClient): TxExtension {
           }),
           // Sending serialized `txBytes` is the future. But
           // this is not available in Comsos SDK 0.42.
-          txBytes: undefined,
+          // txBytes: undefined,
         });
         const response = await queryService.Simulate(request);
         return response;

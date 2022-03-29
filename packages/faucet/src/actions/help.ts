@@ -21,7 +21,7 @@ FAUCET_CONCURRENCY        Number of distributor accounts. Defaults to 5.
 FAUCET_PORT               Port of the webserver. Defaults to 8000.
 FAUCET_MEMO               Memo for send transactions. Defaults to unset.
 FAUCET_GAS_PRICE          Gas price for transactions as a comma separated list.
-                          Defaults to "0.025ucosm".
+                          Defaults to "0.025cony".
 FAUCET_GAS_LIMIT          Gas limit for send transactions. Defaults to 80000.
 FAUCET_MNEMONIC           Secret mnemonic that serves as the base secret for the
                           faucet HD accounts

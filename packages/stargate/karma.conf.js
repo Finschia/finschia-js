@@ -1,33 +1,47 @@
-const chrome = require("karma-chrome-launcher");
-const firefox = require("karma-firefox-launcher");
-const jasmine = require("karma-jasmine");
-const kjhtml = require("karma-jasmine-html-reporter");
+const realBrowser = String(process.env.BROWSER).match(/^(1|true)$/gi);
+const travisLaunchers = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  chrome_travis: {
+    base: "Chrome",
+    flags: ["--no-sandbox"],
+  },
+};
+
+const localBrowsers = realBrowser ? Object.keys(travisLaunchers) : ["Chrome"];
 
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: ".",
-    // registers plugins but does not activate them
-    plugins: [jasmine, kjhtml, chrome, firefox],
 
     // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["jasmine"],
+    // available frameworks: https://www.npmjs.com/search?q=keywords:karma-adapter
+    frameworks: ["jasmine", "karma-typescript"],
+    plugins: ["karma-jasmine", "karma-chrome-launcher", "karma-typescript", "karma-spec-reporter"],
+    karmaTypescriptConfig: {
+      tsconfig: "./tsconfig.json",
+    },
+    client: {
+      // leave Jasmine Spec Runner output visible in browser
+      clearContext: false,
+    },
 
     // list of files / patterns to load in the browser
-    files: ["dist/web/tests.js"],
+    files: [{ pattern: "src/**/*.ts" }, { pattern: "src/**/*.spec.ts" }],
 
-    client: {
-      jasmine: {
-        random: false,
-        timeoutInterval: 15000,
-      },
+    // list of files / patterns to exclude
+    exclude: [],
+
+    // preprocess matching files before serving them to the browser
+    // available preprocessors: https://www.npmjs.com/search?q=keywords:karma-preprocessor
+    preprocessors: {
+      "src/**/*.ts": ["karma-typescript"],
     },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["progress", "kjhtml"],
+    // available reporters: https://www.npmjs.com/search?q=keywords:karma-reporter
+    reporters: ["spec", "karma-typescript"],
 
     // web server port
     port: 9876,
@@ -40,15 +54,18 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
     // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ["Firefox"],
+    // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
+    browsers: localBrowsers,
 
-    browserNoActivityTimeout: 90000,
+    // Continuous Integration mode
+    // if true, Karma captures browsers, runs the tests and exits
+    singleRun: true,
 
-    // Keep brower open for debugging. This is overridden by yarn scripts
-    singleRun: false,
+    // Concurrency level
+    // how many browser instances should be started simultaneously
+    concurrency: Infinity,
   });
 };

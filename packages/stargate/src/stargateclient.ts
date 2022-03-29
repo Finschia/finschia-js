@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
-import { Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
-import { MsgData } from "cosmjs-types/cosmos/base/abci/v1beta1/abci";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
+import { MsgData } from "lbmjs-types/lbm/base/abci/v1/abci";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
 
 import { Account, accountFromAny } from "./accounts";
 import {
@@ -80,7 +80,7 @@ export interface IndexedTx {
    * const transactionId = toHex(sha256(indexTx.tx)).toUpperCase();
    * ```
    *
-   * Use `decodeTxRaw` from @cosmjs/proto-signing to decode this.
+   * Use `decodeTxRaw` from @lbmjs/proto-signing to decode this.
    */
   readonly tx: Uint8Array;
   readonly gasUsed: number;

@@ -1,9 +1,9 @@
 {
-  "name": "@cosmjs/amino",
-  "version": "0.27.1",
-  "description": "Helpers for Amino based signing which are shared between @cosmjs/launchpad and @cosmjs/stargate.",
+  "name": "@lbmjs/amino",
+  "version": "0.1.0-rc6",
+  "description": "Helpers for Amino based signing which are shared @lbmjs/proto-signing.",
   "contributors": [
-    "Simon Warta <webmaster128@users.noreply.github.com>"
+    "zemyblue<zemyblue@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
@@ -14,10 +14,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/amino"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -40,10 +36,10 @@
     "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
   },
   "dependencies": {
-    "@cosmjs/crypto": "workspace:packages/crypto",
-    "@cosmjs/encoding": "workspace:packages/encoding",
-    "@cosmjs/math": "workspace:packages/math",
-    "@cosmjs/utils": "workspace:packages/utils"
+    "@cosmjs/crypto": "0.27.1",
+    "@cosmjs/encoding": "0.27.1",
+    "@cosmjs/math": "0.27.1",
+    "@cosmjs/utils": "0.27.1"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -70,6 +66,8 @@
     "karma-firefox-launcher": "^2.1.0",
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
+    "karma-spec-reporter": "^0.0.33",
+    "karma-typescript": "^5.5.3",
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
     "ses": "^0.11.0",
@@ -80,5 +78,6 @@
     "typescript": "~4.4",
     "webpack": "^5.32.0",
     "webpack-cli": "^4.6.0"
-  }
+  },
+  "stableVersion": "0.26.5"
 }

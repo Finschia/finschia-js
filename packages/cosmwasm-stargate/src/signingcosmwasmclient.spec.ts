@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Secp256k1HdWallet } from "@cosmjs/amino";
 import { sha256 } from "@cosmjs/crypto";
 import { toHex, toUtf8 } from "@cosmjs/encoding";
-import { decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
+import { assert, sleep } from "@cosmjs/utils";
+import { Secp256k1HdWallet } from "@lbmjs/amino";
+import { decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
 import {
   AminoMsgDelegate,
   AminoTypes,
@@ -11,13 +12,12 @@ import {
   coins,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
-} from "@cosmjs/stargate";
-import { assert, sleep } from "@cosmjs/utils";
-import { DeepPartial, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { MsgExecuteContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+} from "@lbmjs/stargate";
+import { DeepPartial, MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
+import { AuthInfo, TxBody, TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { MsgExecuteContract, MsgStoreCode } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
@@ -80,7 +80,7 @@ describe("SigningCosmWasmClient", () => {
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
 
       const executeContractMsg: MsgExecuteContractEncodeObject = {
-        typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
+        typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
         value: MsgExecuteContract.fromPartial({
           sender: alice.address0,
           contract: deployedHackatom.instances[0].address,
@@ -90,8 +90,8 @@ describe("SigningCosmWasmClient", () => {
       };
       const memo = "Go go go";
       const gasUsed = await client.simulate(alice.address0, [executeContractMsg], memo);
-      expect(gasUsed).toBeGreaterThanOrEqual(101_000);
-      expect(gasUsed).toBeLessThanOrEqual(150_000);
+      expect(gasUsed).toBeGreaterThanOrEqual(61_000);
+      expect(gasUsed).toBeLessThanOrEqual(65_000);
       client.disconnect();
     });
   });
@@ -121,7 +121,7 @@ describe("SigningCosmWasmClient", () => {
       const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
       const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
-      const funds = [coin(1234, "ucosm"), coin(321, "ustake")];
+      const funds = [coin(1234, "cony"), coin(321, "stake")];
       const beneficiaryAddress = makeRandomAddress();
       const { contractAddress } = await client.instantiate(
         alice.address0,
@@ -138,10 +138,10 @@ describe("SigningCosmWasmClient", () => {
         },
       );
       const wasmClient = await makeWasmClient(wasmd.endpoint);
-      const ucosmBalance = await wasmClient.bank.balance(contractAddress, "ucosm");
-      expect(ucosmBalance).toEqual(funds[0]);
-      const ustakeBalance = await wasmClient.bank.balance(contractAddress, "ustake");
-      expect(ustakeBalance).toEqual(funds[1]);
+      const conyBalance = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(conyBalance).toEqual(funds[0]);
+      const stakeBalance = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(stakeBalance).toEqual(funds[1]);
       client.disconnect();
     });
 
@@ -231,6 +231,66 @@ describe("SigningCosmWasmClient", () => {
         defaultInstantiateFee,
       );
 
+      client.disconnect();
+    });
+  });
+
+  describe("uploadAndInstantiate", () => {
+    it("works with transfer amount", async () => {
+      pendingWithoutWasmd();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
+      const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
+      const wasm = getHackatom().data;
+      const funds = [coin(1234, "cony"), coin(321, "stake")];
+      const beneficiaryAddress = makeRandomAddress();
+      const { originalSize, originalChecksum, compressedSize, compressedChecksum, codeId, contractAddress } =
+        await client.uploadAndInstantiate(
+          alice.address0,
+          wasm,
+          {
+            verifier: alice.address0,
+            beneficiary: beneficiaryAddress,
+          },
+          "My Test label",
+          defaultUploadFee,
+          {
+            memo: "Let's see if the memo is used",
+            funds: funds,
+          },
+        );
+      expect(originalChecksum).toEqual(toHex(sha256(wasm)));
+      expect(originalSize).toEqual(wasm.length);
+      expect(compressedChecksum).toMatch(/^[0-9a-f]{64}$/);
+      expect(compressedSize).toBeLessThan(wasm.length * 0.5);
+      expect(codeId).toBeGreaterThanOrEqual(1);
+      const wasmClient = await makeWasmClient(wasmd.endpoint);
+      const conyBalance = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(conyBalance).toEqual(funds[0]);
+      const stakeBalance = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(stakeBalance).toEqual(funds[1]);
+      client.disconnect();
+    });
+
+    it("works with admin", async () => {
+      pendingWithoutWasmd();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
+      const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
+      const wasm = getHackatom().data;
+      const beneficiaryAddress = makeRandomAddress();
+      const { contractAddress } = await client.uploadAndInstantiate(
+        alice.address0,
+        wasm,
+        { verifier: alice.address0, beneficiary: beneficiaryAddress },
+        "My test label",
+        defaultUploadFee,
+        { admin: unused.address },
+      );
+      const wasmClient = await makeWasmClient(wasmd.endpoint);
+      const { contractInfo } = await wasmClient.wasm.getContractInfo(contractAddress);
+      assert(contractInfo);
+      expect(contractInfo.admin).toEqual(unused.address);
       client.disconnect();
     });
   });
@@ -402,7 +462,7 @@ describe("SigningCosmWasmClient", () => {
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
       const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
       // instantiate
-      const funds = [coin(233444, "ucosm"), coin(5454, "ustake")];
+      const funds = [coin(233444, "cony"), coin(5454, "stake")];
       const beneficiaryAddress = makeRandomAddress();
       const { contractAddress } = await client.instantiate(
         alice.address0,
@@ -433,14 +493,14 @@ describe("SigningCosmWasmClient", () => {
       });
       // Verify token transfer from contract to beneficiary
       const wasmClient = await makeWasmClient(wasmd.endpoint);
-      const beneficiaryBalanceUcosm = await wasmClient.bank.balance(beneficiaryAddress, "ucosm");
-      expect(beneficiaryBalanceUcosm).toEqual(funds[0]);
-      const beneficiaryBalanceUstake = await wasmClient.bank.balance(beneficiaryAddress, "ustake");
-      expect(beneficiaryBalanceUstake).toEqual(funds[1]);
-      const contractBalanceUcosm = await wasmClient.bank.balance(contractAddress, "ucosm");
-      expect(contractBalanceUcosm).toEqual(coin(0, "ucosm"));
-      const contractBalanceUstake = await wasmClient.bank.balance(contractAddress, "ustake");
-      expect(contractBalanceUstake).toEqual(coin(0, "ustake"));
+      const beneficiaryBalanceCony = await wasmClient.bank.balance(beneficiaryAddress, "cony");
+      expect(beneficiaryBalanceCony).toEqual(funds[0]);
+      const beneficiaryBalanceStake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
+      expect(beneficiaryBalanceStake).toEqual(funds[1]);
+      const contractBalanceCony = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(contractBalanceCony).toEqual(coin(0, "cony"));
+      const contractBalanceStake = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(contractBalanceStake).toEqual(coin(0, "stake"));
 
       client.disconnect();
     });
@@ -452,7 +512,7 @@ describe("SigningCosmWasmClient", () => {
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
       const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
       // instantiate
-      const funds = [coin(233444, "ucosm"), coin(5454, "ustake")];
+      const funds = [coin(233444, "cony"), coin(5454, "stake")];
       const beneficiaryAddress = makeRandomAddress();
       const { contractAddress } = await client.instantiate(
         alice.address0,
@@ -483,14 +543,14 @@ describe("SigningCosmWasmClient", () => {
       });
       // Verify token transfer from contract to beneficiary
       const wasmClient = await makeWasmClient(wasmd.endpoint);
-      const beneficiaryBalanceUcosm = await wasmClient.bank.balance(beneficiaryAddress, "ucosm");
-      expect(beneficiaryBalanceUcosm).toEqual(funds[0]);
-      const beneficiaryBalanceUstake = await wasmClient.bank.balance(beneficiaryAddress, "ustake");
-      expect(beneficiaryBalanceUstake).toEqual(funds[1]);
-      const contractBalanceUcosm = await wasmClient.bank.balance(contractAddress, "ucosm");
-      expect(contractBalanceUcosm).toEqual(coin(0, "ucosm"));
-      const contractBalanceUstake = await wasmClient.bank.balance(contractAddress, "ustake");
-      expect(contractBalanceUstake).toEqual(coin(0, "ustake"));
+      const beneficiaryBalanceCony = await wasmClient.bank.balance(beneficiaryAddress, "cony");
+      expect(beneficiaryBalanceCony).toEqual(funds[0]);
+      const beneficiaryBalanceStake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
+      expect(beneficiaryBalanceStake).toEqual(funds[1]);
+      const contractBalanceCony = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(contractBalanceCony).toEqual(coin(0, "cony"));
+      const contractBalanceStake = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(contractBalanceStake).toEqual(coin(0, "stake"));
 
       client.disconnect();
     });
@@ -503,14 +563,14 @@ describe("SigningCosmWasmClient", () => {
       const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
 
-      const amount = coins(7890, "ucosm");
+      const amount = coins(7890, "cony");
       const beneficiaryAddress = makeRandomAddress();
       const memo = "for dinner";
 
       // no tokens here
-      const before = await client.getBalance(beneficiaryAddress, "ucosm");
+      const before = await client.getBalance(beneficiaryAddress, "cony");
       expect(before).toEqual({
-        denom: "ucosm",
+        denom: "cony",
         amount: "0",
       });
 
@@ -526,7 +586,7 @@ describe("SigningCosmWasmClient", () => {
       expect(result.rawLog).toBeTruthy();
 
       // got tokens
-      const after = await client.getBalance(beneficiaryAddress, "ucosm");
+      const after = await client.getBalance(beneficiaryAddress, "cony");
       assert(after);
       expect(after).toEqual(amount[0]);
 
@@ -539,14 +599,14 @@ describe("SigningCosmWasmClient", () => {
       const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
 
-      const amount = coins(7890, "ucosm");
+      const amount = coins(7890, "cony");
       const beneficiaryAddress = makeRandomAddress();
       const memo = "for dinner";
 
       // no tokens here
-      const before = await client.getBalance(beneficiaryAddress, "ucosm");
+      const before = await client.getBalance(beneficiaryAddress, "cony");
       expect(before).toEqual({
-        denom: "ucosm",
+        denom: "cony",
         amount: "0",
       });
 
@@ -562,7 +622,7 @@ describe("SigningCosmWasmClient", () => {
       expect(result.rawLog).toBeTruthy();
 
       // got tokens
-      const after = await client.getBalance(beneficiaryAddress, "ucosm");
+      const after = await client.getBalance(beneficiaryAddress, "cony");
       assert(after);
       expect(after).toEqual(amount[0]);
 
@@ -579,19 +639,19 @@ describe("SigningCosmWasmClient", () => {
           ...defaultSigningClientOptions,
           prefix: wasmd.prefix,
         });
-        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
+        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
 
         const msg = MsgDelegate.fromPartial({
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
           typeUrl: msgDelegateTypeUrl,
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -609,12 +669,12 @@ describe("SigningCosmWasmClient", () => {
           prefix: wasmd.prefix,
           gasPrice: defaultGasPrice,
         });
-        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
+        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
 
         const msg = MsgDelegate.fromPartial({
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
           typeUrl: msgDelegateTypeUrl,
@@ -636,19 +696,19 @@ describe("SigningCosmWasmClient", () => {
           ...defaultSigningClientOptions,
           prefix: wasmd.prefix,
         });
-        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
+        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
 
         const msg = MsgDelegate.fromPartial({
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
           typeUrl: msgDelegateTypeUrl,
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -662,7 +722,7 @@ describe("SigningCosmWasmClient", () => {
         const tx = decodeTxRaw(searchResult.tx);
         // From ModifyingDirectSecp256k1HdWallet
         expect(tx.body.memo).toEqual("This was modified");
-        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(3000, "ucosm"));
+        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
         expect(tx.authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         client.disconnect();
@@ -681,14 +741,14 @@ describe("SigningCosmWasmClient", () => {
         const msgSend: MsgSend = {
           fromAddress: alice.address0,
           toAddress: makeRandomAddress(),
-          amount: coins(1234, "ucosm"),
+          amount: coins(1234, "cony"),
         };
         const msgAny: MsgSendEncodeObject = {
-          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+          typeUrl: "/lbm.bank.v1.MsgSend",
           value: msgSend,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -709,14 +769,14 @@ describe("SigningCosmWasmClient", () => {
         const msgDelegate: MsgDelegate = {
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msgDelegate,
         };
         const fee = {
-          amount: coins(2000, "ustake"),
+          amount: coins(2000, "stake"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -741,11 +801,11 @@ describe("SigningCosmWasmClient", () => {
           instantiatePermission: undefined,
         };
         const msgAny: MsgStoreCodeEncodeObject = {
-          typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
+          typeUrl: "/lbm.wasm.v1.MsgStoreCode",
           value: msgStoreCode,
         };
         const fee = {
-          amount: coins(2000, "ustake"),
+          amount: coins(2000, "stake"),
           gas: "1500000",
         };
         const memo = "Use your tokens wisely";
@@ -760,7 +820,7 @@ describe("SigningCosmWasmClient", () => {
         const wallet = await Secp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
 
         const customRegistry = new Registry();
-        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
+        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
         interface CustomMsgDelegate {
           customDelegatorAddress?: string;
           customValidatorAddress?: string;
@@ -778,7 +838,7 @@ describe("SigningCosmWasmClient", () => {
           ): protobuf.Writer {
             writer.uint32(10).string(message.customDelegatorAddress ?? "");
             writer.uint32(18).string(message.customValidatorAddress ?? "");
-            if (message.customAmount !== undefined && message.customAmount !== undefined) {
+            if (message.customAmount !== undefined) {
               Coin.encode(message.customAmount, writer.uint32(26).fork()).ldelim();
             }
             return writer;
@@ -819,8 +879,8 @@ describe("SigningCosmWasmClient", () => {
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
           additions: {
-            "/cosmos.staking.v1beta1.MsgDelegate": {
-              aminoType: "cosmos-sdk/MsgDelegate",
+            "/lbm.staking.v1.MsgDelegate": {
+              aminoType: "lbm-sdk/MsgDelegate",
               toAmino: ({
                 customDelegatorAddress,
                 customValidatorAddress,
@@ -863,14 +923,14 @@ describe("SigningCosmWasmClient", () => {
         const msg = {
           customDelegatorAddress: alice.address0,
           customValidatorAddress: validator.validatorAddress,
-          customAmount: coin(1234, "ustake"),
+          customAmount: coin(1234, "stake"),
         };
         const msgAny = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -893,14 +953,14 @@ describe("SigningCosmWasmClient", () => {
         const msg = {
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -914,7 +974,7 @@ describe("SigningCosmWasmClient", () => {
         const tx = decodeTxRaw(searchResult.tx);
         // From ModifyingSecp256k1HdWallet
         expect(tx.body.memo).toEqual("This was modified");
-        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(3000, "ucosm"));
+        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
         expect(tx.authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         client.disconnect();
@@ -935,14 +995,14 @@ describe("SigningCosmWasmClient", () => {
         const msg = MsgDelegate.fromPartial({
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -968,14 +1028,14 @@ describe("SigningCosmWasmClient", () => {
         const msg = MsgDelegate.fromPartial({
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -985,7 +1045,7 @@ describe("SigningCosmWasmClient", () => {
         const authInfo = AuthInfo.decode(signed.authInfoBytes);
         // From ModifyingDirectSecp256k1HdWallet
         expect(body.memo).toEqual("This was modified");
-        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(3000, "ucosm"));
+        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
         expect(authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         // ensure signature is valid
@@ -1008,14 +1068,14 @@ describe("SigningCosmWasmClient", () => {
         const msgSend: MsgSend = {
           fromAddress: alice.address0,
           toAddress: makeRandomAddress(),
-          amount: coins(1234, "ucosm"),
+          amount: coins(1234, "cony"),
         };
         const msgAny: MsgSendEncodeObject = {
-          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+          typeUrl: "/lbm.bank.v1.MsgSend",
           value: msgSend,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1039,14 +1099,14 @@ describe("SigningCosmWasmClient", () => {
         const msgDelegate: MsgDelegate = {
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msgDelegate,
         };
         const fee = {
-          amount: coins(2000, "ustake"),
+          amount: coins(2000, "stake"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1064,7 +1124,7 @@ describe("SigningCosmWasmClient", () => {
         const wallet = await Secp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
 
         const customRegistry = new Registry();
-        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
+        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
         interface CustomMsgDelegate {
           customDelegatorAddress?: string;
           customValidatorAddress?: string;
@@ -1123,8 +1183,8 @@ describe("SigningCosmWasmClient", () => {
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
           additions: {
-            "/cosmos.staking.v1beta1.MsgDelegate": {
-              aminoType: "cosmos-sdk/MsgDelegate",
+            "/lbm.staking.v1.MsgDelegate": {
+              aminoType: "lbm-sdk/MsgDelegate",
               toAmino: ({
                 customDelegatorAddress,
                 customValidatorAddress,
@@ -1164,14 +1224,14 @@ describe("SigningCosmWasmClient", () => {
         const msg: CustomMsgDelegate = {
           customDelegatorAddress: alice.address0,
           customValidatorAddress: validator.validatorAddress,
-          customAmount: coin(1234, "ustake"),
+          customAmount: coin(1234, "stake"),
         };
         const msgAny = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -1197,14 +1257,14 @@ describe("SigningCosmWasmClient", () => {
         const msg: MsgDelegate = {
           delegatorAddress: alice.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(1234, "ustake"),
+          amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "ucosm"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -1214,7 +1274,7 @@ describe("SigningCosmWasmClient", () => {
         const authInfo = AuthInfo.decode(signed.authInfoBytes);
         // From ModifyingSecp256k1HdWallet
         expect(body.memo).toEqual("This was modified");
-        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(3000, "ucosm"));
+        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
         expect(authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         // ensure signature is valid

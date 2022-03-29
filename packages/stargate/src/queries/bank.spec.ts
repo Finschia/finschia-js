@@ -1,4 +1,4 @@
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 
 import {
   nonExistentAddress,
@@ -149,25 +149,25 @@ describe("BankExtension", () => {
       pendingWithoutSimapp();
       const [client, tmClient] = await makeClientWithBank(simapp.tendermintUrl);
 
-      const metadata = await client.bank.denomMetadata("ucosm");
+      const metadata = await client.bank.denomMetadata("LINK");
       expect(metadata).toEqual({
         description: "The fee token of this test chain",
         denomUnits: [
           {
-            denom: "ucosm",
+            denom: "cony",
             exponent: 0,
             aliases: [],
           },
           {
-            denom: "COSM",
+            denom: "LN",
             exponent: 6,
             aliases: [],
           },
         ],
-        base: "ucosm",
-        display: "COSM",
-        name: "",
-        symbol: "",
+        base: "LINK",
+        display: "LN",
+        // name: "",
+        // symbol: "",
       });
 
       tmClient.disconnect();
@@ -194,20 +194,20 @@ describe("BankExtension", () => {
         description: "The fee token of this test chain",
         denomUnits: [
           {
-            denom: "ucosm",
+            denom: "cony",
             exponent: 0,
             aliases: [],
           },
           {
-            denom: "COSM",
+            denom: "LN",
             exponent: 6,
             aliases: [],
           },
         ],
-        base: "ucosm",
-        display: "COSM",
-        name: "",
-        symbol: "",
+        base: "LINK",
+        display: "LN",
+        // name: "",
+        // symbol: "",
       });
 
       tmClient.disconnect();

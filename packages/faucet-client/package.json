@@ -1,9 +1,10 @@
 {
-  "name": "@cosmjs/faucet-client",
-  "version": "0.27.1",
+  "name": "@lbmjs/faucet-client",
+  "version": "0.1.0-rc6",
   "description": "The faucet client",
   "contributors": [
-    "Will Clark <willclarktech@users.noreply.github.com>"
+    "Will Clark <willclarktech@users.noreply.github.com>",
+    "zemyblue <zemyblue@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
@@ -14,10 +15,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/faucet-client"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"

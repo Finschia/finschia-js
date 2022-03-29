@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { encodePubkey } from "@cosmjs/proto-signing";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { fromBase64 } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
-import { BaseAccount } from "cosmjs-types/cosmos/auth/v1beta1/auth";
-import { Any } from "cosmjs-types/google/protobuf/any";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { BaseAccount } from "lbmjs-types/lbm/auth/v1/auth";
 import Long from "long";
 
 import { nonExistentAddress, pendingWithoutSimapp, simapp, unused, validator } from "../testutils.spec";
@@ -25,10 +24,13 @@ describe("AuthExtension", () => {
       const account = await client.auth.account(unused.address);
       assert(account);
 
-      expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
+      expect(account.typeUrl).toEqual("/lbm.auth.v1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: unused.address,
         // pubKey not set
+        ed25519PubKey: undefined,
+        secp256k1PubKey: undefined,
+        multisigPubKey: undefined,
         accountNumber: Long.fromNumber(unused.accountNumber, true),
         sequence: Long.fromNumber(0, true),
       });
@@ -42,11 +44,13 @@ describe("AuthExtension", () => {
       const account = await client.auth.account(validator.delegatorAddress);
       assert(account);
 
-      expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
+      expect(account.typeUrl).toEqual("/lbm.auth.v1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: validator.delegatorAddress,
-        pubKey: Any.fromPartial(encodePubkey(validator.pubkey)),
-        accountNumber: Long.fromNumber(0, true),
+        ed25519PubKey: undefined,
+        secp256k1PubKey: { key: fromBase64(validator.pubkey.value) },
+        multisigPubKey: undefined,
+        accountNumber: Long.fromNumber(validator.accountNumber, true),
         sequence: Long.fromNumber(validator.sequence, true),
       });
 
@@ -58,7 +62,7 @@ describe("AuthExtension", () => {
       const [client, tmClient] = await makeClientWithAuth(simapp.tendermintUrl);
 
       await expectAsync(client.auth.account(nonExistentAddress)).toBeRejectedWithError(
-        /account cosmos1p79apjaufyphcmsn4g07cynqf0wyjuezqu84hd not found/i,
+        /account link1hvuxwh9sp2zlc3ee5nnhngln6auv4ak4kyuspq not found/i,
       );
 
       tmClient.disconnect();
