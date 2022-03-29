@@ -8,7 +8,7 @@ describe("addresses", () => {
   describe("pubkeyToRawAddress", () => {
     it("works for Secp256k1", () => {
       const pubkey = {
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "AtQaCqFnshaZQp6rIkvAPyzThvCvXSDO+9AzbxVErqJP",
       };
       expect(pubkeyToRawAddress(pubkey)).toEqual(
@@ -18,7 +18,7 @@ describe("addresses", () => {
 
     it("works for Ed25519", () => {
       const pubkey = {
-        type: "tendermint/PubKeyEd25519",
+        type: "ostracon/PubKeyEd25519",
         value: toBase64(fromHex("12ee6f581fe55673a1e9e1382a0829e32075a0aa4763c968bc526e1852e78c95")),
       };
       expect(pubkeyToRawAddress(pubkey)).toEqual(
@@ -38,7 +38,7 @@ describe("addresses", () => {
       );
 
       const testgroup1: MultisigThresholdPubkey = {
-        type: "tendermint/PubKeyMultisigThreshold",
+        type: "ostracon/PubKeyMultisigThreshold",
         value: {
           threshold: "2",
           pubkeys: [test1, test2, test3],
@@ -52,7 +52,7 @@ describe("addresses", () => {
     it("works for Secp256k1", () => {
       const prefix = "cosmos";
       const pubkey = {
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "AtQaCqFnshaZQp6rIkvAPyzThvCvXSDO+9AzbxVErqJP",
       };
       expect(pubkeyToAddress(pubkey, prefix)).toEqual("cosmos1h806c7khnvmjlywdrkdgk2vrayy2mmvf9rxk2r");
@@ -61,7 +61,7 @@ describe("addresses", () => {
     it("works for Ed25519", () => {
       const prefix = "cosmos";
       const pubkey = {
-        type: "tendermint/PubKeyEd25519",
+        type: "ostracon/PubKeyEd25519",
         value: toBase64(fromHex("12ee6f581fe55673a1e9e1382a0829e32075a0aa4763c968bc526e1852e78c95")),
       };
       expect(pubkeyToAddress(pubkey, prefix)).toEqual("cosmos1pfq05em6sfkls66ut4m2257p7qwlk448h8mysz");
@@ -79,7 +79,7 @@ describe("addresses", () => {
       );
 
       const testgroup1: MultisigThresholdPubkey = {
-        type: "tendermint/PubKeyMultisigThreshold",
+        type: "ostracon/PubKeyMultisigThreshold",
         value: {
           threshold: "2",
           pubkeys: [test1, test2, test3],

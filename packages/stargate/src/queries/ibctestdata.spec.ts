@@ -6,15 +6,15 @@ import {
   Order,
   PacketState,
   State as ChannelState,
-} from "cosmjs-types/ibc/core/channel/v1/channel";
-import { MerklePrefix } from "cosmjs-types/ibc/core/commitment/v1/commitment";
+} from "lbmjs-types/ibc/core/channel/v1/channel";
+import { MerklePrefix } from "lbmjs-types/ibc/core/commitment/v1/commitment";
 import {
   ConnectionEnd,
   Counterparty as ConnectionCounterparty,
   IdentifiedConnection,
   State as ConnectionState,
   Version,
-} from "cosmjs-types/ibc/core/connection/v1/connection";
+} from "lbmjs-types/ibc/core/connection/v1/connection";
 import Long from "long";
 
 // From scripts/simapp42/genesis-ibc.json
@@ -22,7 +22,7 @@ import Long from "long";
 export const portId = "transfer";
 export const channelId = "channel-0";
 export const connectionId = "connection-0";
-export const clientId = "07-tendermint-0";
+export const clientId = "99-ostracon-0";
 
 export const channel = Channel.fromPartial({
   state: ChannelState.STATE_OPEN,

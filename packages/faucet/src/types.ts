@@ -1,4 +1,4 @@
-import { Account, Coin } from "@cosmjs/launchpad";
+import { Coin } from "@lbmjs/stargate";
 
 export interface SendJob {
   readonly sender: string;
@@ -6,4 +6,7 @@ export interface SendJob {
   readonly amount: Coin;
 }
 
-export type MinimalAccount = Pick<Account, "address" | "balance">;
+export type MinimalAccount = {
+  readonly address: string;
+  readonly balance: readonly Coin[];
+};

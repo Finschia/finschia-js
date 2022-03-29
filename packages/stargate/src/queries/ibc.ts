@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { toAscii } from "@cosmjs/encoding";
 import { Uint64 } from "@cosmjs/math";
-import { Any } from "cosmjs-types/google/protobuf/any";
+import { Any } from "lbmjs-types/google/protobuf/any";
 import {
   QueryClientImpl as TransferQuery,
   QueryDenomTraceResponse,
   QueryDenomTracesResponse,
   QueryParamsResponse as QueryTransferParamsResponse,
-} from "cosmjs-types/ibc/applications/transfer/v1/query";
-import { Channel } from "cosmjs-types/ibc/core/channel/v1/channel";
+} from "lbmjs-types/ibc/applications/transfer/v1/query";
+import { Channel } from "lbmjs-types/ibc/core/channel/v1/channel";
 import {
   QueryChannelClientStateResponse,
   QueryChannelConsensusStateResponse,
@@ -24,8 +24,8 @@ import {
   QueryPacketReceiptResponse,
   QueryUnreceivedAcksResponse,
   QueryUnreceivedPacketsResponse,
-} from "cosmjs-types/ibc/core/channel/v1/query";
-import { Height } from "cosmjs-types/ibc/core/client/v1/client";
+} from "lbmjs-types/ibc/core/channel/v1/query";
+import { Height } from "lbmjs-types/ibc/core/client/v1/client";
 import {
   QueryClientImpl as ClientQuery,
   QueryClientParamsResponse,
@@ -34,7 +34,7 @@ import {
   QueryConsensusStateRequest,
   QueryConsensusStateResponse,
   QueryConsensusStatesResponse,
-} from "cosmjs-types/ibc/core/client/v1/query";
+} from "lbmjs-types/ibc/core/client/v1/query";
 import {
   QueryClientConnectionsResponse,
   QueryClientImpl as ConnectionQuery,
@@ -43,25 +43,25 @@ import {
   QueryConnectionConsensusStateResponse,
   QueryConnectionResponse,
   QueryConnectionsResponse,
-} from "cosmjs-types/ibc/core/connection/v1/query";
+} from "lbmjs-types/ibc/core/connection/v1/query";
 import {
   ClientState as TendermintClientState,
   ConsensusState as TendermintConsensusState,
-} from "cosmjs-types/ibc/lightclients/tendermint/v1/tendermint";
+} from "lbmjs-types/ibc/lightclients/ostracon/v1/ostracon";
 import Long from "long";
 
 import { QueryClient } from "./queryclient";
 import { createPagination, createProtobufRpcClient } from "./utils";
 
 function decodeTendermintClientStateAny(clientState: Any | undefined): TendermintClientState {
-  if (clientState?.typeUrl !== "/ibc.lightclients.tendermint.v1.ClientState") {
+  if (clientState?.typeUrl !== "/ibc.lightclients.ostracon.v1.ClientState") {
     throw new Error(`Unexpected client state type: ${clientState?.typeUrl}`);
   }
   return TendermintClientState.decode(clientState.value);
 }
 
 function decodeTendermintConsensusStateAny(clientState: Any | undefined): TendermintConsensusState {
-  if (clientState?.typeUrl !== "/ibc.lightclients.tendermint.v1.ConsensusState") {
+  if (clientState?.typeUrl !== "/ibc.lightclients.ostracon.v1.ConsensusState") {
     throw new Error(`Unexpected client state type: ${clientState?.typeUrl}`);
   }
   return TendermintConsensusState.decode(clientState.value);

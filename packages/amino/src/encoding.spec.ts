@@ -24,7 +24,7 @@ describe("encoding", () => {
     it("encodes a compressed pubkey", () => {
       const pubkey = fromBase64("AtQaCqFnshaZQp6rIkvAPyzThvCvXSDO+9AzbxVErqJP");
       expect(encodeSecp256k1Pubkey(pubkey)).toEqual({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "AtQaCqFnshaZQp6rIkvAPyzThvCvXSDO+9AzbxVErqJP",
       });
     });
@@ -43,7 +43,7 @@ describe("encoding", () => {
         "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       });
     });
@@ -55,7 +55,7 @@ describe("encoding", () => {
         "coralvalconspub1zcjduepqvxg72ccnl9r65fv0wn3amlk4sfzqfe2k36l073kjx2qyaf6sk23qw7j8wq",
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
-        type: "tendermint/PubKeyEd25519",
+        type: "ostracon/PubKeyEd25519",
         value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
       });
     });
@@ -69,13 +69,13 @@ describe("encoding", () => {
         "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
       ).data;
       const pubkey = {
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       };
 
       const data1 = fromHex("22C1F7E20805");
       expect(decodeAminoPubkey(data1)).toEqual({
-        type: "tendermint/PubKeyMultisigThreshold",
+        type: "ostracon/PubKeyMultisigThreshold",
         value: {
           threshold: "5",
           pubkeys: [],
@@ -84,7 +84,7 @@ describe("encoding", () => {
 
       const data2 = Uint8Array.from([...fromHex("22C1F7E2081a"), 0x12, pubkeyData.length, ...pubkeyData]);
       expect(decodeAminoPubkey(data2)).toEqual({
-        type: "tendermint/PubKeyMultisigThreshold",
+        type: "ostracon/PubKeyMultisigThreshold",
         value: {
           threshold: "26",
           pubkeys: [pubkey],
@@ -101,7 +101,7 @@ describe("encoding", () => {
         ...pubkeyData,
       ]);
       expect(decodeAminoPubkey(data3)).toEqual({
-        type: "tendermint/PubKeyMultisigThreshold",
+        type: "ostracon/PubKeyMultisigThreshold",
         value: {
           threshold: "26",
           pubkeys: [pubkey, pubkey],
@@ -117,7 +117,7 @@ describe("encoding", () => {
       expect(
         decodeBech32Pubkey("cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5"),
       ).toEqual({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       });
     });
@@ -126,7 +126,7 @@ describe("encoding", () => {
       expect(
         decodeBech32Pubkey("enigmapub1addwnpepqw5k9p439nw0zpg2aundx4umwx4nw233z5prpjqjv5anl5grmnchzp2xwvv"),
       ).toEqual({
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A6lihrEs3PEFCu8m01ebcas3KjEVAjDIEmU7P9ED3PFx",
       });
     });
@@ -138,7 +138,7 @@ describe("encoding", () => {
         "coralvalconspub1zcjduepqvxg72ccnl9r65fv0wn3amlk4sfzqfe2k36l073kjx2qyaf6sk23qw7j8wq",
       );
       expect(decoded).toEqual({
-        type: "tendermint/PubKeyEd25519",
+        type: "ostracon/PubKeyEd25519",
         value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
       });
     });
@@ -153,7 +153,7 @@ describe("encoding", () => {
   describe("encodeAminoPubkey", () => {
     it("works for secp256k1", () => {
       const pubkey: Pubkey = {
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       };
       const expected = Bech32.decode(
@@ -166,7 +166,7 @@ describe("encoding", () => {
       // Decoded from http://localhost:26657/validators
       // Encoded from `corald tendermint show-validator`
       const pubkey: Pubkey = {
-        type: "tendermint/PubKeyEd25519",
+        type: "ostracon/PubKeyEd25519",
         value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
       };
       const expected = Bech32.decode(
@@ -179,7 +179,7 @@ describe("encoding", () => {
   describe("encodeBech32Pubkey", () => {
     it("works for secp256k1", () => {
       const pubkey: Pubkey = {
-        type: "tendermint/PubKeySecp256k1",
+        type: "ostracon/PubKeySecp256k1",
         value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
       };
       expect(encodeBech32Pubkey(pubkey, "cosmospub")).toEqual(
@@ -191,7 +191,7 @@ describe("encoding", () => {
       // Decoded from http://localhost:26657/validators
       // Encoded from `corald tendermint show-validator`
       const pubkey: Pubkey = {
-        type: "tendermint/PubKeyEd25519",
+        type: "ostracon/PubKeyEd25519",
         value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
       };
       expect(encodeBech32Pubkey(pubkey, "coralvalconspub")).toEqual(

@@ -1,6 +1,4 @@
-# @cosmjs/faucet
-
-[![npm version](https://img.shields.io/npm/v/@cosmjs/faucet.svg)](https://www.npmjs.com/package/@cosmjs/faucet)
+# @lbmjs/faucet
 
 The faucet is built as part of the monorepo. In the repo root do:
 
@@ -19,17 +17,17 @@ yarn dev-start
 Advanced users that want to provide their custom config can start as follows:
 
 ```
-FAUCET_CREDIT_AMOUNT_UCOSM=10000000 \
-  FAUCET_CREDIT_AMOUNT_USTAKE=5000000 \
+  FAUCET_CREDIT_AMOUNT_CONY=10000000 \
+  FAUCET_CREDIT_AMOUNT_STAKE=5000000 \
   FAUCET_CONCURRENCY=3 \
-  FAUCET_MNEMONIC="economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone" \
-  ./bin/cosmos-faucet start "http://localhost:1317"
+  FAUCET_MNEMONIC="mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have" \
+  ./bin/lbm-faucet start "http://localhost:1317"
 ```
 
 ## Usage
 
 ```
-Usage: cosmos-faucet action [arguments...]
+Usage: lbm-faucet action [arguments...]
 
 Positional arguments per action are listed below. Arguments in parentheses are optional.
 
@@ -48,7 +46,7 @@ FAUCET_CONCURRENCY        Number of distributor accounts. Defaults to 5.
 FAUCET_PORT               Port of the webserver. Defaults to 8000.
 FAUCET_MEMO               Memo for send transactions. Defaults to unset.
 FAUCET_GAS_PRICE          Gas price for transactions as a comma separated list.
-                          Defaults to "0.025ucosm".
+                          Defaults to "0.025cony".
 FAUCET_GAS_LIMIT          Gas limit for send transactions. Defaults to 80000.
 FAUCET_MNEMONIC           Secret mnemonic that serves as the base secret for the
                           faucet HD accounts
@@ -94,26 +92,26 @@ it up-to-date.
 
 ```sh
 cd docs
-docker build -t local-cosmos-faucet:manual --file faucet.Dockerfile .
+docker build -t local-lbm-faucet:manual --file faucet.Dockerfile .
 ```
 
 - Version and help
 
 ```sh
-docker run --read-only --rm local-cosmos-faucet:manual version
-docker run --read-only --rm local-cosmos-faucet:manual help
+docker run --read-only --rm local-lbm-faucet:manual version
+docker run --read-only --rm local-lbm-faucet:manual help
 ```
 
 - Run faucet locally
 
 ```sh
 DOCKER_HOST_IP=$(docker run --read-only --rm alpine ip route | awk 'NR==1 {print $3}'); \
-  FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC="economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone" \
+  FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC="mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have" \
   docker run --read-only --rm \
   -e FAUCET_MNEMONIC \
   -e FAUCET_CONCURRENCY \
   -p 8000:8000 \
-  local-cosmos-faucet:manual \
+  local-lbm-faucet:manual \
   start "http://$DOCKER_HOST_IP:1317"
 ```
 
@@ -127,7 +125,7 @@ situation is different.
 ```
 curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{"denom":"ucosm","address":"cosmos1yre6ac7qfgyfgvh58ph0rgw627rhw766y430qq"}' \
+  --data '{"denom":"cony","address":"link1x6edq7v697jglu2ch9ntw5ayfd7mkxr5jzu2pu"}' \
   http://localhost:8000/credit
 ```
 

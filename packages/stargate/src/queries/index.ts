@@ -11,6 +11,7 @@ export { GovExtension, GovParamsType, GovProposalId, setupGovExtension } from ".
 export { IbcExtension, setupIbcExtension } from "./ibc";
 export { MintExtension, MintParams, setupMintExtension } from "./mint";
 export { setupStakingExtension, StakingExtension } from "./staking";
+export { setupTokenExtension, TokenExtension } from "./token";
 export { setupTxExtension, TxExtension } from "./tx";
 export {
   createPagination,

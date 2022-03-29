@@ -1,10 +1,9 @@
 {
-  "name": "@cosmjs/proto-signing",
-  "version": "0.27.1",
-  "description": "Utilities for protobuf based signing (Cosmos SDK 0.40+)",
+  "name": "@lbmjs/proto-signing",
+  "version": "0.1.0-rc6",
+  "description": "Utilities for protobuf based signing (LBM SDK 0.45.0-rc0)",
   "contributors": [
-    "Will Clark <willclarktech@users.noreply.github.com>",
-    "Simon Warta <webmaster128@users.noreply.github.com>"
+    "zemyblue<zemyblue@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
@@ -15,10 +14,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/proto-signing"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -36,19 +31,20 @@
     "test-chrome": "yarn pack-web && karma start --single-run --browsers ChromeHeadless",
     "test": "yarn build-or-skip && yarn test-node",
     "coverage": "nyc --reporter=text --reporter=lcov yarn test --quiet",
-    "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
+    "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js",
+    "karma-test": "karma start"
   },
   "dependencies": {
-    "@cosmjs/amino": "workspace:packages/amino",
-    "@cosmjs/crypto": "workspace:packages/crypto",
-    "@cosmjs/math": "workspace:packages/math",
-    "cosmjs-types": "^0.4.0",
+    "@cosmjs/crypto": "0.27.1",
+    "@cosmjs/math": "0.27.1",
+    "@lbmjs/amino": "workspace:packages/amino",
+    "lbmjs-types": "^0.45.0-rc1",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2"
   },
   "devDependencies": {
-    "@cosmjs/encoding": "workspace:packages/encoding",
-    "@cosmjs/utils": "workspace:packages/utils",
+    "@cosmjs/encoding": "0.27.1",
+    "@cosmjs/utils": "0.27.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
@@ -75,6 +71,8 @@
     "karma-firefox-launcher": "^2.1.0",
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
+    "karma-spec-reporter": "^0.0.33",
+    "karma-typescript": "^5.5.3",
     "nyc": "^15.1.0",
     "prettier": "^2.4.1",
     "ses": "^0.11.0",

@@ -79,8 +79,10 @@ export {
   setupIbcExtension,
   setupMintExtension,
   setupStakingExtension,
+  setupTokenExtension,
   setupTxExtension,
   StakingExtension,
+  TokenExtension,
   TxExtension,
 } from "./queries";
 export {
@@ -112,5 +114,5 @@ export {
   StargateClient,
   TimeoutError,
 } from "./stargateclient";
-export { StdFee } from "@cosmjs/amino";
-export { Coin, coin, coins, makeCosmoshubPath, parseCoins } from "@cosmjs/proto-signing";
+export { StdFee } from "@lbmjs/amino";
+export { Coin, coin, coins, makeLinkPath, parseCoins } from "@lbmjs/proto-signing";

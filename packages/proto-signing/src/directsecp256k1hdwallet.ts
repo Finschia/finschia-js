@@ -1,4 +1,3 @@
-import { encodeSecp256k1Signature, makeCosmoshubPath, rawSecp256k1PubkeyToRawAddress } from "@cosmjs/amino";
 import {
   Bip39,
   EnglishMnemonic,
@@ -14,7 +13,8 @@ import {
 } from "@cosmjs/crypto";
 import { Bech32, fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
 import { assert, isNonNullObject } from "@cosmjs/utils";
-import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { encodeSecp256k1Signature, makeLinkPath, rawSecp256k1PubkeyToRawAddress } from "@lbmjs/amino";
+import { SignDoc } from "lbmjs-types/lbm/tx/v1/tx";
 
 import { AccountData, DirectSignResponse, OfflineDirectSigner } from "./signer";
 import { makeSignBytes } from "./signing";
@@ -113,9 +113,9 @@ export function extractKdfConfiguration(serialization: string): KdfConfiguration
 export interface DirectSecp256k1HdWalletOptions {
   /** The password to use when deriving a BIP39 seed from a mnemonic. */
   readonly bip39Password: string;
-  /** The BIP-32/SLIP-10 derivation paths. Defaults to the Cosmos Hub/ATOM path `m/44'/118'/0'/0/0`. */
+  /** The BIP-32/SLIP-10 derivation paths. Defaults to the LINK path `m/44'/438'/0'/0/0`. */
   readonly hdPaths: readonly HdPath[];
-  /** The bech32 address prefix (human readable part). Defaults to "cosmos". */
+  /** The bech32 address prefix (human readable part). Defaults to "link". */
   readonly prefix: string;
 }
 
@@ -125,8 +125,8 @@ interface DirectSecp256k1HdWalletConstructorOptions extends Partial<DirectSecp25
 
 const defaultOptions: DirectSecp256k1HdWalletOptions = {
   bip39Password: "",
-  hdPaths: [makeCosmoshubPath(0)],
-  prefix: "cosmos",
+  hdPaths: [makeLinkPath(0)],
+  prefix: "link",
 };
 
 /** A wallet for protobuf based signing using SIGN_MODE_DIRECT */

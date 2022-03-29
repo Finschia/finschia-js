@@ -1,9 +1,7 @@
 import { pathToString } from "@cosmjs/crypto";
-import { Secp256k1HdWallet, SigningCosmosClient } from "@cosmjs/launchpad";
-import { DirectSecp256k1HdWallet, isOfflineDirectSigner, OfflineSigner } from "@cosmjs/proto-signing";
-import { SigningStargateClient } from "@cosmjs/stargate";
+import { DirectSecp256k1HdWallet, OfflineSigner } from "@lbmjs/proto-signing";
+import { SigningStargateClient } from "@lbmjs/stargate";
 
-import * as constants from "./constants";
 import { PathBuilder } from "./pathbuilder";
 
 export async function createWallets(
@@ -11,10 +9,9 @@ export async function createWallets(
   pathBuilder: PathBuilder,
   addressPrefix: string,
   numberOfDistributors: number,
-  stargate: boolean,
   logging: boolean,
 ): Promise<ReadonlyArray<readonly [string, OfflineSigner]>> {
-  const createWallet = stargate ? DirectSecp256k1HdWallet.fromMnemonic : Secp256k1HdWallet.fromMnemonic;
+  const createWallet = DirectSecp256k1HdWallet.fromMnemonic;
   const wallets = new Array<readonly [string, OfflineSigner]>();
 
   // first account is the token holder
@@ -36,17 +33,15 @@ export async function createWallets(
 export async function createClients(
   apiUrl: string,
   wallets: ReadonlyArray<readonly [string, OfflineSigner]>,
-): Promise<ReadonlyArray<readonly [string, SigningCosmosClient | SigningStargateClient]>> {
+): Promise<ReadonlyArray<readonly [string, SigningStargateClient]>> {
   // we need one client per sender
   return Promise.all(
     wallets.map(
       async ([senderAddress, wallet]): Promise<
-        readonly [string, SigningCosmosClient | SigningStargateClient]
+        readonly [string, SigningStargateClient]
       > => [
         senderAddress,
-        isOfflineDirectSigner(wallet)
-          ? await SigningStargateClient.connectWithSigner(apiUrl, wallet)
-          : new SigningCosmosClient(apiUrl, senderAddress, wallet, constants.gasPrice, constants.gasLimits),
+        await SigningStargateClient.connectWithSigner(apiUrl, wallet),
       ],
     ),
   );

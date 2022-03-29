@@ -7,8 +7,14 @@ export {
   extractKdfConfiguration,
 } from "./directsecp256k1hdwallet";
 export { DirectSecp256k1Wallet } from "./directsecp256k1wallet";
-export { makeCosmoshubPath } from "./paths";
-export { decodePubkey, encodePubkey } from "./pubkey";
+export { makeLinkPath } from "./paths";
+export {
+  decodeMultisigPubkey,
+  decodePubkey,
+  encodePubkey,
+  MultisigThresholdPubkeyValue,
+  PubkeyValue,
+} from "./pubkey";
 export {
   DecodeObject,
   EncodeObject,
@@ -31,4 +37,4 @@ export {
 } from "./signer";
 export { makeAuthInfoBytes, makeSignBytes, makeSignDoc } from "./signing";
 export { executeKdf, KdfConfiguration } from "./wallet";
-export { Coin, coin, coins } from "@cosmjs/amino";
+export { Coin, coin, coins } from "@lbmjs/amino";

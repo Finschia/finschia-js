@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64, fromHex, toHex } from "@cosmjs/encoding";
-import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { PubKey } from "lbmjs-types/lbm/crypto/secp256k1/keys";
+import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
+import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 
 import { decodeTxRaw } from "./decode";
 import { DirectSecp256k1HdWallet } from "./directsecp256k1hdwallet";
@@ -12,10 +12,10 @@ import { faucet, testVectors } from "./testutils.spec";
 
 describe("signing", () => {
   const chainId = "simd-testing";
-  const toAddress = "cosmos1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc5lzv7xu";
+  const toAddress = "link1twsfmuj28ndph54k4nw8crwu8h9c8mh3rtx705";
 
   const sendAmount = "1234567";
-  const sendDenom = "ucosm";
+  const sendDenom = "cony";
   const gasLimit = 200000;
 
   it("correctly parses signed transactions from test vectors", async () => {
@@ -31,7 +31,7 @@ describe("signing", () => {
         prefixedPubkeyBytes,
       );
       expect(parsedTestTx.authInfo.signerInfos[0].modeInfo!.single!.mode).toEqual(SignMode.SIGN_MODE_DIRECT);
-      expect({ ...parsedTestTx.authInfo.fee!.amount[0] }).toEqual({ denom: "ucosm", amount: "2000" });
+      expect({ ...parsedTestTx.authInfo.fee!.amount[0] }).toEqual({ denom: "cony", amount: "2000" });
       expect(parsedTestTx.authInfo.fee!.gasLimit.toString()).toEqual(gasLimit.toString());
       expect(parsedTestTx.body.extensionOptions).toEqual([]);
       expect(parsedTestTx.body.nonCriticalExtensionOptions).toEqual([]);

@@ -36,7 +36,7 @@ export function createMultisigThresholdPubkey(
         return compareArrays(addressLhs, addressRhs);
       });
   return {
-    type: "tendermint/PubKeyMultisigThreshold",
+    type: "ostracon/PubKeyMultisigThreshold",
     value: {
       threshold: uintThreshold.toString(),
       pubkeys: outPubkeys,

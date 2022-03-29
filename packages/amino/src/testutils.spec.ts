@@ -34,7 +34,7 @@ export const test3 = decodeBech32Pubkey(
 
 // 2/3 multisig
 export const testgroup1: MultisigThresholdPubkey = {
-  type: "tendermint/PubKeyMultisigThreshold",
+  type: "ostracon/PubKeyMultisigThreshold",
   value: {
     threshold: "2",
     pubkeys: [test1, test2, test3],
@@ -44,7 +44,7 @@ export const testgroup1PubkeyBech32 =
   "wasmpub1ytql0csgqgfzd666axrjzquvkkvwu4qnp5603cyp3emc02sxzwdqutgqym9dke3t2h83dpv6vufzd666axrjzq5sdudaj5tv3nfm2f3exgkgqxlcwfxplf0g0rqwx2um6mqthzc0dqfzd666axrjzq7vjdge6cdksmdx7r5vl72rrc6kk30ezp376mup77wamzvgtzqq7v7aysdd";
 
 export const testgroup2: MultisigThresholdPubkey = {
-  type: "tendermint/PubKeyMultisigThreshold",
+  type: "ostracon/PubKeyMultisigThreshold",
   value: {
     threshold: "1",
     pubkeys: [test1, test2, test3],
@@ -55,7 +55,7 @@ export const testgroup2PubkeyBech32 =
 
 // 2/2 multisig
 export const testgroup3: MultisigThresholdPubkey = {
-  type: "tendermint/PubKeyMultisigThreshold",
+  type: "ostracon/PubKeyMultisigThreshold",
   value: {
     threshold: "2",
     pubkeys: [test1, test3],
@@ -66,7 +66,7 @@ export const testgroup3PubkeyBech32 =
 
 // 2/2 multisig with custom sorting
 export const testgroup4: MultisigThresholdPubkey = {
-  type: "tendermint/PubKeyMultisigThreshold",
+  type: "ostracon/PubKeyMultisigThreshold",
   value: {
     threshold: "2",
     pubkeys: [test3, test1],

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coin, coins, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { sleep } from "@cosmjs/utils";
-import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { coin, coins, DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
+import { MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
 
 import { MsgDelegateEncodeObject } from "../encodeobjects";
 import { SigningStargateClient } from "../signingstargateclient";
@@ -27,7 +27,7 @@ async function makeClientWithDistribution(
 
 describe("DistributionExtension", () => {
   const defaultFee = {
-    amount: coins(25000, "ucosm"),
+    amount: coins(25000, "cony"),
     gas: "1500000", // 1.5 million
   };
 
@@ -43,10 +43,10 @@ describe("DistributionExtension", () => {
       const msg: MsgDelegate = {
         delegatorAddress: faucet.address0,
         validatorAddress: validator.validatorAddress,
-        amount: coin(25000, "ustake"),
+        amount: coin(25000, "stake"),
       };
       const msgAny: MsgDelegateEncodeObject = {
-        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        typeUrl: "/lbm.staking.v1.MsgDelegate",
         value: msg,
       };
       const memo = "Test delegation for Stargate";
@@ -76,7 +76,7 @@ describe("DistributionExtension", () => {
       const [client, tmClient] = await makeClientWithDistribution(simapp.tendermintUrl);
 
       const response = await client.distribution.delegationRewards(
-        faucet.address0,
+        validator.delegatorAddress,
         validator.validatorAddress,
       );
       expect(response.rewards).toBeDefined();
@@ -91,7 +91,7 @@ describe("DistributionExtension", () => {
       pendingWithoutSimapp();
       const [client, tmClient] = await makeClientWithDistribution(simapp.tendermintUrl);
 
-      const response = await client.distribution.delegationTotalRewards(faucet.address0);
+      const response = await client.distribution.delegationTotalRewards(validator.delegatorAddress);
       expect(response.rewards).toBeDefined();
       expect(response.rewards).not.toBeNull();
 
@@ -104,7 +104,7 @@ describe("DistributionExtension", () => {
       pendingWithoutSimapp();
       const [client, tmClient] = await makeClientWithDistribution(simapp.tendermintUrl);
 
-      const response = await client.distribution.delegatorValidators(faucet.address0);
+      const response = await client.distribution.delegatorValidators(validator.delegatorAddress);
       expect(response.validators).toBeDefined();
       expect(response.validators).not.toBeNull();
 
@@ -117,7 +117,7 @@ describe("DistributionExtension", () => {
       pendingWithoutSimapp();
       const [client, tmClient] = await makeClientWithDistribution(simapp.tendermintUrl);
 
-      const response = await client.distribution.delegatorWithdrawAddress(faucet.address0);
+      const response = await client.distribution.delegatorWithdrawAddress(validator.delegatorAddress);
       expect(response.withdrawAddress).toBeDefined();
       expect(response.withdrawAddress).not.toBeNull();
 

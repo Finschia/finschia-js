@@ -62,7 +62,7 @@ describe("encoding", () => {
     it("works", () => {
       const chainId = "testspace-12";
       const msg1: AminoMsg = {
-        type: "cosmos-sdk/MsgDelegate",
+        type: "lbm-sdk/MsgDelegate",
         value: {
           delegator_address: testAddress,
           validator_address: testValidatorAddress,
@@ -82,7 +82,7 @@ describe("encoding", () => {
         gas: "180000", // 180k
       };
       const memo = "Use your power wisely";
-      const accountNumber = 15;
+      const accountNumber = 10;
       const sequence = 16;
 
       const signDoc = makeSignDoc([msg1, msg2], fee, chainId, memo, accountNumber, sequence);
@@ -118,7 +118,7 @@ describe("encoding", () => {
         amount: [{ amount: "2000", denom: "ucosm" }],
         gas: "180000", // 180k
       };
-      const accountNumber = 15;
+      const accountNumber = 10;
       const sequence = 16;
 
       const signDoc = makeSignDoc([msg1, msg2], fee, chainId, undefined, accountNumber, sequence);

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AminoMsg, Coin } from "@cosmjs/amino";
+import { AminoMsg, Coin } from "@lbmjs/amino";
 
 // auth (no messages) - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/auth/auth.proto
 
@@ -7,7 +7,7 @@ import { AminoMsg, Coin } from "@cosmjs/amino";
 
 /** A high level transaction of the coin module */
 export interface AminoMsgSend extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgSend";
+  readonly type: "lbm-sdk/MsgSend";
   readonly value: {
     /** Bech32 account address */
     readonly from_address: string;
@@ -18,7 +18,7 @@ export interface AminoMsgSend extends AminoMsg {
 }
 
 export function isAminoMsgSend(msg: AminoMsg): msg is AminoMsgSend {
-  return msg.type === "cosmos-sdk/MsgSend";
+  return msg.type === "lbm-sdk/MsgSend";
 }
 
 interface Input {
@@ -35,7 +35,7 @@ interface Output {
 
 /** A high level transaction of the coin module */
 export interface AminoMsgMultiSend extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgMultiSend";
+  readonly type: "lbm-sdk/MsgMultiSend";
   readonly value: {
     readonly inputs: readonly Input[];
     readonly outputs: readonly Output[];
@@ -43,14 +43,14 @@ export interface AminoMsgMultiSend extends AminoMsg {
 }
 
 export function isAminoMsgMultiSend(msg: AminoMsg): msg is AminoMsgMultiSend {
-  return msg.type === "cosmos-sdk/MsgMultiSend";
+  return msg.type === "lbm-sdk/MsgMultiSend";
 }
 
 // crisis - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/crisis/crisis.proto
 
 /** Verifies a particular invariance */
 export interface AminoMsgVerifyInvariant extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgVerifyInvariant";
+  readonly type: "lbm-sdk/MsgVerifyInvariant";
   readonly value: {
     /** Bech32 account address */
     readonly sender: string;
@@ -60,7 +60,7 @@ export interface AminoMsgVerifyInvariant extends AminoMsg {
 }
 
 export function isAminoMsgVerifyInvariant(msg: AminoMsg): msg is AminoMsgVerifyInvariant {
-  return msg.type === "cosmos-sdk/MsgVerifyInvariant";
+  return msg.type === "lbm-sdk/MsgVerifyInvariant";
 }
 
 // distribution - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/distribution/distribution.proto
@@ -68,7 +68,7 @@ export function isAminoMsgVerifyInvariant(msg: AminoMsg): msg is AminoMsgVerifyI
 /** Changes the withdraw address for a delegator (or validator self-delegation) */
 export interface AminoMsgSetWithdrawAddress extends AminoMsg {
   // NOTE: Type string and names diverge here!
-  readonly type: "cosmos-sdk/MsgModifyWithdrawAddress";
+  readonly type: "lbm-sdk/MsgModifyWithdrawAddress";
   readonly value: {
     /** Bech32 account address */
     readonly delegator_address: string;
@@ -79,13 +79,13 @@ export interface AminoMsgSetWithdrawAddress extends AminoMsg {
 
 export function isAminoMsgSetWithdrawAddress(msg: AminoMsg): msg is AminoMsgSetWithdrawAddress {
   // NOTE: Type string and names diverge here!
-  return msg.type === "cosmos-sdk/MsgModifyWithdrawAddress";
+  return msg.type === "lbm-sdk/MsgModifyWithdrawAddress";
 }
 
 /** Message for delegation withdraw from a single validator */
 export interface AminoMsgWithdrawDelegatorReward extends AminoMsg {
   // NOTE: Type string and names diverge here!
-  readonly type: "cosmos-sdk/MsgWithdrawDelegationReward";
+  readonly type: "lbm-sdk/MsgWithdrawDelegationReward";
   readonly value: {
     /** Bech32 account address */
     readonly delegator_address: string;
@@ -96,12 +96,12 @@ export interface AminoMsgWithdrawDelegatorReward extends AminoMsg {
 
 export function isAminoMsgWithdrawDelegatorReward(msg: AminoMsg): msg is AminoMsgWithdrawDelegatorReward {
   // NOTE: Type string and names diverge here!
-  return msg.type === "cosmos-sdk/MsgWithdrawDelegationReward";
+  return msg.type === "lbm-sdk/MsgWithdrawDelegationReward";
 }
 
 /** Message for validator withdraw */
 export interface AminoMsgWithdrawValidatorCommission extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgWithdrawValidatorCommission";
+  readonly type: "lbm-sdk/MsgWithdrawValidatorCommission";
   readonly value: {
     /** Bech32 account address */
     readonly validator_address: string;
@@ -111,12 +111,12 @@ export interface AminoMsgWithdrawValidatorCommission extends AminoMsg {
 export function isAminoMsgWithdrawValidatorCommission(
   msg: AminoMsg,
 ): msg is AminoMsgWithdrawValidatorCommission {
-  return msg.type === "cosmos-sdk/MsgWithdrawValidatorCommission";
+  return msg.type === "lbm-sdk/MsgWithdrawValidatorCommission";
 }
 
 /** Allows an account to directly fund the community pool. */
 export interface AminoMsgFundCommunityPool extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgFundCommunityPool";
+  readonly type: "lbm-sdk/MsgFundCommunityPool";
   readonly value: {
     readonly amount: readonly Coin[];
     /** Bech32 account address */
@@ -125,7 +125,7 @@ export interface AminoMsgFundCommunityPool extends AminoMsg {
 }
 
 export function isAminoMsgFundCommunityPool(msg: AminoMsg): msg is AminoMsgFundCommunityPool {
-  return msg.type === "cosmos-sdk/MsgFundCommunityPool";
+  return msg.type === "lbm-sdk/MsgFundCommunityPool";
 }
 
 // evidence - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/evidence/evidence.proto
@@ -137,7 +137,7 @@ interface Any {
 
 /** Supports submitting arbitrary evidence */
 export interface AminoMsgSubmitEvidence extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgSubmitEvidence";
+  readonly type: "lbm-sdk/MsgSubmitEvidence";
   readonly value: {
     /** Bech32 account address */
     readonly submitter: string;
@@ -146,14 +146,14 @@ export interface AminoMsgSubmitEvidence extends AminoMsg {
 }
 
 export function isAminoMsgSubmitEvidence(msg: AminoMsg): msg is AminoMsgSubmitEvidence {
-  return msg.type === "cosmos-sdk/MsgSubmitEvidence";
+  return msg.type === "lbm-sdk/MsgSubmitEvidence";
 }
 
 // gov - https://github.com/cosmos/cosmos-sdk/blob/efa73c7edb31a7bd65786501da213b294f89267a/proto/cosmos/gov/gov.proto
 
 /** Supports submitting arbitrary proposal content. */
 export interface AminoMsgSubmitProposal extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgSubmitProposal";
+  readonly type: "lbm-sdk/MsgSubmitProposal";
   readonly value: {
     /**
      * A proposal structure, e.g.
@@ -179,12 +179,12 @@ export interface AminoMsgSubmitProposal extends AminoMsg {
 }
 
 export function isAminoMsgSubmitProposal(msg: AminoMsg): msg is AminoMsgSubmitProposal {
-  return msg.type === "cosmos-sdk/MsgSubmitProposal";
+  return msg.type === "lbm-sdk/MsgSubmitProposal";
 }
 
 /** Casts a vote */
 export interface AminoMsgVote extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgVote";
+  readonly type: "lbm-sdk/MsgVote";
   readonly value: {
     readonly proposal_id: string;
     /** Bech32 account address */
@@ -199,12 +199,12 @@ export interface AminoMsgVote extends AminoMsg {
 }
 
 export function isAminoMsgVote(msg: AminoMsg): msg is AminoMsgVote {
-  return msg.type === "cosmos-sdk/MsgVote";
+  return msg.type === "lbm-sdk/MsgVote";
 }
 
 /** Submits a deposit to an existing proposal */
 export interface AminoMsgDeposit extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgDeposit";
+  readonly type: "lbm-sdk/MsgDeposit";
   readonly value: {
     readonly proposal_id: string;
     /** Bech32 account address */
@@ -214,7 +214,7 @@ export interface AminoMsgDeposit extends AminoMsg {
 }
 
 export function isAminoMsgDeposit(msg: AminoMsg): msg is AminoMsgDeposit {
-  return msg.type === "cosmos-sdk/MsgDeposit";
+  return msg.type === "lbm-sdk/MsgDeposit";
 }
 
 // mint (no messages) - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/mint/mint.proto
@@ -225,7 +225,7 @@ export function isAminoMsgDeposit(msg: AminoMsg): msg is AminoMsgDeposit {
 
 /** Unjails a jailed validator */
 export interface AminoMsgUnjail extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgUnjail";
+  readonly type: "lbm-sdk/MsgUnjail";
   readonly value: {
     /** Bech32 account address */
     readonly validator_addr: string;
@@ -233,7 +233,7 @@ export interface AminoMsgUnjail extends AminoMsg {
 }
 
 export function isAminoMsgUnjail(msg: AminoMsg): msg is AminoMsgUnjail {
-  return msg.type === "cosmos-sdk/MsgUnjail";
+  return msg.type === "lbm-sdk/MsgUnjail";
 }
 
 // staking - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/staking/staking.proto
@@ -256,7 +256,7 @@ interface Description {
 
 /** Creates a new validator. */
 export interface AminoMsgCreateValidator extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgCreateValidator";
+  readonly type: "lbm-sdk/MsgCreateValidator";
   readonly value: {
     readonly description: Description;
     readonly commission: CommissionRates;
@@ -272,12 +272,12 @@ export interface AminoMsgCreateValidator extends AminoMsg {
 }
 
 export function isAminoMsgCreateValidator(msg: AminoMsg): msg is AminoMsgCreateValidator {
-  return msg.type === "cosmos-sdk/MsgCreateValidator";
+  return msg.type === "lbm-sdk/MsgCreateValidator";
 }
 
 /** Edits an existing validator. */
 export interface AminoMsgEditValidator extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgEditValidator";
+  readonly type: "lbm-sdk/MsgEditValidator";
   readonly value: {
     readonly description: Description;
     /** Bech32 encoded validator address */
@@ -288,7 +288,7 @@ export interface AminoMsgEditValidator extends AminoMsg {
 }
 
 export function isAminoMsgEditValidator(msg: AminoMsg): msg is AminoMsgEditValidator {
-  return msg.type === "cosmos-sdk/MsgEditValidator";
+  return msg.type === "lbm-sdk/MsgEditValidator";
 }
 
 /**
@@ -297,7 +297,7 @@ export function isAminoMsgEditValidator(msg: AminoMsg): msg is AminoMsgEditValid
  * @see https://docs.cosmos.network/master/modules/staking/03_messages.html#msgdelegate
  */
 export interface AminoMsgDelegate extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgDelegate";
+  readonly type: "lbm-sdk/MsgDelegate";
   readonly value: {
     /** Bech32 encoded delegator address */
     readonly delegator_address: string;
@@ -308,12 +308,12 @@ export interface AminoMsgDelegate extends AminoMsg {
 }
 
 export function isAminoMsgDelegate(msg: AminoMsg): msg is AminoMsgDelegate {
-  return msg.type === "cosmos-sdk/MsgDelegate";
+  return msg.type === "lbm-sdk/MsgDelegate";
 }
 
 /** Performs a redelegation from a delegate and source validator to a destination validator */
 export interface AminoMsgBeginRedelegate extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgBeginRedelegate";
+  readonly type: "lbm-sdk/MsgBeginRedelegate";
   readonly value: {
     /** Bech32 encoded delegator address */
     readonly delegator_address: string;
@@ -326,12 +326,12 @@ export interface AminoMsgBeginRedelegate extends AminoMsg {
 }
 
 export function isAminoMsgBeginRedelegate(msg: AminoMsg): msg is AminoMsgBeginRedelegate {
-  return msg.type === "cosmos-sdk/MsgBeginRedelegate";
+  return msg.type === "lbm-sdk/MsgBeginRedelegate";
 }
 
 /** Performs an undelegation from a delegate and a validator */
 export interface AminoMsgUndelegate extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgUndelegate";
+  readonly type: "lbm-sdk/MsgUndelegate";
   readonly value: {
     /** Bech32 encoded delegator address */
     readonly delegator_address: string;
@@ -342,7 +342,7 @@ export interface AminoMsgUndelegate extends AminoMsg {
 }
 
 export function isAminoMsgUndelegate(msg: AminoMsg): msg is AminoMsgUndelegate {
-  return msg.type === "cosmos-sdk/MsgUndelegate";
+  return msg.type === "lbm-sdk/MsgUndelegate";
 }
 
 // upgrade (no messages) - see https://github.com/cosmos/cosmos-sdk/blob/efa73c7/proto/cosmos/upgrade/upgrade.proto
@@ -360,7 +360,7 @@ interface AminoHeight {
 // https://github.com/cosmos/ibc-go/blob/07b6a97b67d17fd214a83764cbdb2c2c3daef445/modules/apps/transfer/types/tx.pb.go#L33-L53
 /** Transfers fungible tokens (i.e Coins) between ICS20 enabled chains */
 export interface AminoMsgTransfer extends AminoMsg {
-  readonly type: "cosmos-sdk/MsgTransfer";
+  readonly type: "lbm-sdk/MsgTransfer";
   readonly value: {
     readonly source_port: string;
     readonly source_channel: string;
@@ -386,5 +386,5 @@ export interface AminoMsgTransfer extends AminoMsg {
 }
 
 export function isAminoMsgTransfer(msg: AminoMsg): msg is AminoMsgTransfer {
-  return msg.type === "cosmos-sdk/MsgTransfer";
+  return msg.type === "lbm-sdk/MsgTransfer";
 }

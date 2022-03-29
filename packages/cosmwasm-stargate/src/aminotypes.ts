@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
-import { AminoConverter, Coin } from "@cosmjs/stargate";
+import { AminoConverter, Coin } from "@lbmjs/stargate";
 import {
   MsgClearAdmin,
   MsgExecuteContract,
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
+  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
-} from "cosmjs-types/cosmwasm/wasm/v1/tx";
+} from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 
 // TODO: implement
@@ -30,6 +31,23 @@ export interface AminoMsgStoreCode {
     /** Base64 encoded Wasm */
     readonly wasm_byte_code: string;
     readonly instantiate_permission?: AccessConfig;
+  };
+}
+
+export interface AminoMsgStoreCodeAndInstantiateContract {
+  type: "wasm/MsgStoreCodeAndInstantiateContract";
+  value: {
+    /** Bech32 account address */
+    readonly sender: string;
+    /** Base64 encoded Wasm */
+    readonly wasm_byte_code: string;
+    readonly instantiate_permission?: AccessConfig;
+    readonly label: string;
+    /** Instantiate message as JavaScript object */
+    readonly init_msg: any;
+    readonly funds: readonly Coin[];
+    /** Bech32-encoded admin address */
+    readonly admin?: string;
   };
 }
 
@@ -125,7 +143,7 @@ export interface AminoMsgClearAdmin {
 }
 
 export const cosmWasmTypes: Record<string, AminoConverter> = {
-  "/cosmwasm.wasm.v1.MsgStoreCode": {
+  "/lbm.wasm.v1.MsgStoreCode": {
     aminoType: "wasm/MsgStoreCode",
     toAmino: ({ sender, wasmByteCode }: MsgStoreCode): AminoMsgStoreCode["value"] => ({
       sender: sender,
@@ -137,7 +155,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       instantiatePermission: undefined,
     }),
   },
-  "/cosmwasm.wasm.v1.MsgInstantiateContract": {
+  "/lbm.wasm.v1.MsgInstantiateContract": {
     aminoType: "wasm/MsgInstantiateContract",
     toAmino: ({
       sender,
@@ -150,7 +168,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       code_id: codeId.toString(),
       label: label,
-      msg: JSON.parse(fromUtf8(msg)),
+      msg: toBase64(msg),
       funds: funds,
       admin: admin || undefined,
     }),
@@ -165,12 +183,46 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       codeId: Long.fromString(code_id),
       label: label,
-      msg: toUtf8(JSON.stringify(msg)),
+      msg: fromBase64(msg),
       funds: [...funds],
       admin: admin ?? "",
     }),
   },
-  "/cosmwasm.wasm.v1.MsgUpdateAdmin": {
+  "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract": {
+    aminoType: "wasm/MsgStoreCodeAndInstantiateContract",
+    toAmino: ({
+      sender,
+      wasmByteCode,
+      label,
+      initMsg,
+      funds,
+      admin,
+    }: MsgStoreCodeAndInstantiateContract): AminoMsgStoreCodeAndInstantiateContract["value"] => ({
+      sender: sender,
+      wasm_byte_code: toBase64(wasmByteCode),
+      label: label,
+      init_msg: JSON.parse(fromUtf8(initMsg)),
+      funds: funds,
+      admin: admin || undefined,
+    }),
+    fromAmino: ({
+      sender,
+      wasm_byte_code,
+      label,
+      init_msg,
+      funds,
+      admin,
+    }: AminoMsgStoreCodeAndInstantiateContract["value"]): MsgStoreCodeAndInstantiateContract => ({
+      sender: sender,
+      wasmByteCode: fromBase64(wasm_byte_code),
+      label: label,
+      initMsg: toUtf8(JSON.stringify(init_msg)),
+      funds: [...funds],
+      admin: admin ?? "",
+      instantiatePermission: undefined,
+    }),
+  },
+  "/lbm.wasm.v1.MsgUpdateAdmin": {
     aminoType: "wasm/MsgUpdateAdmin",
     toAmino: ({ sender, newAdmin, contract }: MsgUpdateAdmin): AminoMsgUpdateAdmin["value"] => ({
       sender: sender,
@@ -183,7 +235,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       contract: contract,
     }),
   },
-  "/cosmwasm.wasm.v1.MsgClearAdmin": {
+  "/lbm.wasm.v1.MsgClearAdmin": {
     aminoType: "wasm/MsgClearAdmin",
     toAmino: ({ sender, contract }: MsgClearAdmin): AminoMsgClearAdmin["value"] => ({
       sender: sender,
@@ -194,28 +246,28 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       contract: contract,
     }),
   },
-  "/cosmwasm.wasm.v1.MsgExecuteContract": {
+  "/lbm.wasm.v1.MsgExecuteContract": {
     aminoType: "wasm/MsgExecuteContract",
     toAmino: ({ sender, contract, msg, funds }: MsgExecuteContract): AminoMsgExecuteContract["value"] => ({
       sender: sender,
       contract: contract,
-      msg: JSON.parse(fromUtf8(msg)),
+      msg: toBase64(msg),
       funds: funds,
     }),
     fromAmino: ({ sender, contract, msg, funds }: AminoMsgExecuteContract["value"]): MsgExecuteContract => ({
       sender: sender,
       contract: contract,
-      msg: toUtf8(JSON.stringify(msg)),
+      msg: fromBase64(msg),
       funds: [...funds],
     }),
   },
-  "/cosmwasm.wasm.v1.MsgMigrateContract": {
+  "/lbm.wasm.v1.MsgMigrateContract": {
     aminoType: "wasm/MsgMigrateContract",
     toAmino: ({ sender, contract, codeId, msg }: MsgMigrateContract): AminoMsgMigrateContract["value"] => ({
       sender: sender,
       contract: contract,
       code_id: codeId.toString(),
-      msg: JSON.parse(fromUtf8(msg)),
+      msg: toBase64(msg),
     }),
     fromAmino: ({
       sender,
@@ -226,7 +278,7 @@ export const cosmWasmTypes: Record<string, AminoConverter> = {
       sender: sender,
       contract: contract,
       codeId: Long.fromString(code_id),
-      msg: toUtf8(JSON.stringify(msg)),
+      msg: fromBase64(msg),
     }),
   },
 };

@@ -76,20 +76,20 @@ describe("GasPrice", () => {
 describe("calculateFee", () => {
   it("multiplies the gas price by the gas limit", () => {
     const gasLimit = 80000;
-    const gasPrice = GasPrice.fromString("0.025ucosm");
+    const gasPrice = GasPrice.fromString("0.025cony");
     const fee = calculateFee(gasLimit, gasPrice);
     expect(fee).toEqual({
-      amount: [{ amount: "2000", denom: "ucosm" }],
+      amount: [{ amount: "2000", denom: "cony" }],
       gas: "80000",
     });
   });
 
   it("accepts a string gas price", () => {
     const gasLimit = 80000;
-    const gasPrice = "0.025ucosm";
+    const gasPrice = "0.025cony";
     const fee = calculateFee(gasLimit, gasPrice);
     expect(fee).toEqual({
-      amount: [{ amount: "2000", denom: "ucosm" }],
+      amount: [{ amount: "2000", denom: "cony" }],
       gas: "80000",
     });
   });

@@ -12,7 +12,7 @@ describe("signature", () => {
       );
       expect(encodeSecp256k1Signature(pubkey, signature)).toEqual({
         pub_key: {
-          type: "tendermint/PubKeySecp256k1",
+          type: "ostracon/PubKeySecp256k1",
           value: "AtQaCqFnshaZQp6rIkvAPyzThvCvXSDO+9AzbxVErqJP",
         },
         signature: "1nUcIH0CLT0/nQ0mBTDrT6kMG20NY/PsH7P2gc4bpYNGLEYjBmdWevXUJouSE/9A/60QG9cYeqyTe5kFDeIPxQ==",
@@ -49,7 +49,7 @@ describe("signature", () => {
     it("works for secp256k1", () => {
       const signature: StdSignature = {
         pub_key: {
-          type: "tendermint/PubKeySecp256k1",
+          type: "ostracon/PubKeySecp256k1",
           value: "AtQaCqFnshaZQp6rIkvAPyzThvCvXSDO+9AzbxVErqJP",
         },
         signature: "1nUcIH0CLT0/nQ0mBTDrT6kMG20NY/PsH7P2gc4bpYNGLEYjBmdWevXUJouSE/9A/60QG9cYeqyTe5kFDeIPxQ==",

@@ -1,22 +1,22 @@
 import { Slip10RawIndex } from "@cosmjs/crypto";
 
-import { makeCosmoshubPath } from "./paths";
+import { makeLinkPath } from "./paths";
 
 describe("paths", () => {
-  describe("makeCosmoshubPath", () => {
+  describe("makeLinkPath", () => {
     it("works", () => {
-      // m/44'/118'/0'/0/0
-      expect(makeCosmoshubPath(0)).toEqual([
+      // m/44'/438'/0'/0/0
+      expect(makeLinkPath(0)).toEqual([
         Slip10RawIndex.hardened(44),
-        Slip10RawIndex.hardened(118),
+        Slip10RawIndex.hardened(438),
         Slip10RawIndex.hardened(0),
         Slip10RawIndex.normal(0),
         Slip10RawIndex.normal(0),
       ]);
-      // m/44'/118'/0'/0/123
-      expect(makeCosmoshubPath(123)).toEqual([
+      // m/44'/438'/0'/0/123
+      expect(makeLinkPath(123)).toEqual([
         Slip10RawIndex.hardened(44),
-        Slip10RawIndex.hardened(118),
+        Slip10RawIndex.hardened(438),
         Slip10RawIndex.hardened(0),
         Slip10RawIndex.normal(0),
         Slip10RawIndex.normal(123),

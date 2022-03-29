@@ -6,9 +6,9 @@ import { Secp256k1Wallet } from "./secp256k1wallet";
 import { serializeSignDoc, StdSignDoc } from "./signdoc";
 
 describe("Secp256k1Wallet", () => {
-  const defaultPrivkey = fromHex("b8c462d2bb0c1a92edf44f735021f16c270f28ee2c3d1cb49943a5e70a3c763e");
-  const defaultAddress = "cosmos1kxt5x5q2l57ma2d434pqpafxdm0mgeg9c8cvtx";
-  const defaultPubkey = fromHex("03f146c27639179e5b67b8646108f48e1a78b146c74939e34afaa5414ad5c93f8a");
+  const defaultPrivkey = fromHex("8bf5b7d356901536d9e88c5315aa4b0d7e9872a12aceb56a5f819f72625b8f8d");
+  const defaultAddress = "link123457dcx68m8jjg29d2znukpqytmhfq3e5e60s";
+  const defaultPubkey = fromHex("02527dd0228f12a049dbd7d963147da1233ac1c84e9678832644b304e14d073d35");
 
   describe("fromKey", () => {
     it("works", async () => {
@@ -38,7 +38,7 @@ describe("Secp256k1Wallet", () => {
         fee: { amount: [], gas: "23" },
         chain_id: "foochain",
         memo: "hello, world",
-        account_number: "7",
+        account_number: "10",
         sequence: "54",
       };
       const { signed, signature } = await signer.signAmino(defaultAddress, signDoc);

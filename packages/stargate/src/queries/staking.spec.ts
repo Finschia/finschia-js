@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { coin, coins, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
-import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { coin, coins, DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
+import { MsgDelegate, MsgUndelegate } from "lbmjs-types/lbm/staking/v1/tx";
 
 import { MsgDelegateEncodeObject, MsgUndelegateEncodeObject } from "../encodeobjects";
 import { SigningStargateClient } from "../signingstargateclient";
@@ -27,7 +27,7 @@ async function makeClientWithStaking(
 
 describe("StakingExtension", () => {
   const defaultFee = {
-    amount: coins(25000, "ucosm"),
+    amount: coins(25000, "cony"),
     gas: "1500000", // 1.5 million
   };
 
@@ -44,10 +44,10 @@ describe("StakingExtension", () => {
         const msg: MsgDelegate = {
           delegatorAddress: faucet.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(25000, "ustake"),
+          amount: coin(25000, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+          typeUrl: "/lbm.staking.v1.MsgDelegate",
           value: msg,
         };
         const memo = "Test delegation for Stargate";
@@ -58,10 +58,10 @@ describe("StakingExtension", () => {
         const msg: MsgUndelegate = {
           delegatorAddress: faucet.address0,
           validatorAddress: validator.validatorAddress,
-          amount: coin(100, "ustake"),
+          amount: coin(100, "stake"),
         };
         const msgAny: MsgUndelegateEncodeObject = {
-          typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+          typeUrl: "/lbm.staking.v1.MsgUndelegate",
           value: msg,
         };
         const memo = "Test undelegation for Stargate";

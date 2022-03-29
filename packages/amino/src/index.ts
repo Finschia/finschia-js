@@ -13,7 +13,7 @@ export {
   encodeSecp256k1Pubkey,
 } from "./encoding";
 export { createMultisigThresholdPubkey } from "./multisig";
-export { makeCosmoshubPath } from "./paths";
+export { makeLinkPath } from "./paths";
 export {
   Ed25519Pubkey,
   isEd25519Pubkey,

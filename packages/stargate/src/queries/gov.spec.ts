@@ -1,16 +1,16 @@
-import { coin, coins, makeCosmoshubPath } from "@cosmjs/amino";
 import { toAscii } from "@cosmjs/encoding";
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
+import { coin, coins, makeLinkPath } from "@lbmjs/amino";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
+import { Any } from "lbmjs-types/google/protobuf/any";
 import {
   ProposalStatus,
   TextProposal,
   Vote,
   VoteOption,
   WeightedVoteOption,
-} from "cosmjs-types/cosmos/gov/v1beta1/gov";
-import { Any } from "cosmjs-types/google/protobuf/any";
+} from "lbmjs-types/lbm/gov/v1/gov";
 import Long from "long";
 
 import {
@@ -26,7 +26,6 @@ import {
   nonNegativeIntegerMatcher,
   pendingWithoutSimapp,
   simapp,
-  simapp42Enabled,
   simappEnabled,
   validator,
 } from "../testutils.spec";
@@ -41,16 +40,16 @@ async function makeClientWithGov(rpcUrl: string): Promise<[QueryClient & GovExte
 
 describe("GovExtension", () => {
   const defaultFee = {
-    amount: coins(25000, "ucosm"),
+    amount: coins(25000, "cony"),
     gas: "1500000", // 1.5 million
   };
   const textProposal = TextProposal.fromPartial({
     title: "Test Proposal",
     description: "This proposal proposes to test whether this proposal passes",
   });
-  const initialDeposit = coins(12300000, "ustake");
-  const delegationVoter1 = coin(424242, "ustake");
-  const delegationVoter2 = coin(777, "ustake");
+  const initialDeposit = coins(12300000, "stake");
+  const delegationVoter1 = coin(424242, "stake");
+  const delegationVoter2 = coin(777, "stake");
   const voter1Address = faucet.address1;
   const voter2Address = faucet.address2;
   let proposalId: string | undefined;
@@ -60,7 +59,7 @@ describe("GovExtension", () => {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         // Use address 1 and 2 instead of 0 to avoid conflicts with other delegation tests
         // This must match `voterAddress` above.
-        hdPaths: [makeCosmoshubPath(1), makeCosmoshubPath(2)],
+        hdPaths: [makeLinkPath(1), makeLinkPath(2)],
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
@@ -69,10 +68,10 @@ describe("GovExtension", () => {
       );
 
       const proposalMsg: MsgSubmitProposalEncodeObject = {
-        typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+        typeUrl: "/lbm.gov.v1.MsgSubmitProposal",
         value: {
           content: Any.fromPartial({
-            typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+            typeUrl: "/lbm.gov.v1.TextProposal",
             value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
           }),
           proposer: voter1Address,
@@ -98,7 +97,7 @@ describe("GovExtension", () => {
         // My vote only counts when I delegate
         if (!(await client.getDelegation(voter1Address, validator.validatorAddress))) {
           const msgDelegate: MsgDelegateEncodeObject = {
-            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+            typeUrl: "/lbm.staking.v1.MsgDelegate",
             value: {
               delegatorAddress: voter1Address,
               validatorAddress: validator.validatorAddress,
@@ -110,7 +109,7 @@ describe("GovExtension", () => {
         }
 
         const voteMsg: MsgVoteEncodeObject = {
-          typeUrl: "/cosmos.gov.v1beta1.MsgVote",
+          typeUrl: "/lbm.gov.v1.MsgVote",
           value: {
             proposalId: longify(proposalId),
             voter: voter1Address,
@@ -126,7 +125,7 @@ describe("GovExtension", () => {
         // My vote only counts when I delegate
         if (!(await client.getDelegation(voter2Address, validator.validatorAddress))) {
           const msgDelegate: MsgDelegateEncodeObject = {
-            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+            typeUrl: "/lbm.staking.v1.MsgDelegate",
             value: {
               delegatorAddress: voter2Address,
               validatorAddress: validator.validatorAddress,
@@ -138,7 +137,7 @@ describe("GovExtension", () => {
         }
 
         const voteMsg: MsgVoteEncodeObject = {
-          typeUrl: "/cosmos.gov.v1beta1.MsgVote",
+          typeUrl: "/lbm.gov.v1.MsgVote",
           value: {
             proposalId: longify(proposalId),
             voter: voter2Address,
@@ -229,7 +228,7 @@ describe("GovExtension", () => {
       expect(response.proposals.length).toBeGreaterThanOrEqual(1);
       expect(response.proposals[response.proposals.length - 1]).toEqual({
         content: Any.fromPartial({
-          typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+          typeUrl: "/lbm.gov.v1.TextProposal",
           value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
         }),
         proposalId: longify(proposalId),
@@ -255,7 +254,7 @@ describe("GovExtension", () => {
       const response = await client.gov.proposal(proposalId);
       expect(response.proposal).toEqual({
         content: Any.fromPartial({
-          typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+          typeUrl: "/lbm.gov.v1.TextProposal",
           value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
         }),
         proposalId: longify(proposalId),
@@ -333,47 +332,31 @@ describe("GovExtension", () => {
       const [client, tmClient] = await makeClientWithGov(simapp.tendermintUrl);
 
       const response = await client.gov.votes(proposalId);
-      if (simapp42Enabled()) {
-        expect(response.votes).toEqual([
-          // why is vote 2 first?
-          Vote.fromPartial({
-            proposalId: longify(proposalId),
-            voter: voter2Address,
-            option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
-          }),
-          Vote.fromPartial({
-            proposalId: longify(proposalId),
-            voter: voter1Address,
-            option: VoteOption.VOTE_OPTION_YES,
-          }),
-        ]);
-      } else {
-        expect(response.votes).toEqual([
-          // why is vote 2 first?
-          Vote.fromPartial({
-            proposalId: longify(proposalId),
-            voter: voter2Address,
-            option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
-            options: [
-              WeightedVoteOption.fromPartial({
-                option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
-                weight: "1000000000000000000",
-              }),
-            ],
-          }),
-          Vote.fromPartial({
-            proposalId: longify(proposalId),
-            voter: voter1Address,
-            option: VoteOption.VOTE_OPTION_YES,
-            options: [
-              WeightedVoteOption.fromPartial({
-                option: VoteOption.VOTE_OPTION_YES,
-                weight: "1000000000000000000",
-              }),
-            ],
-          }),
-        ]);
-      }
+
+      expect(response.votes).toEqual([
+        Vote.fromPartial({
+          proposalId: longify(proposalId),
+          voter: voter1Address,
+          option: VoteOption.VOTE_OPTION_YES,
+          options: [
+            WeightedVoteOption.fromPartial({
+              option: VoteOption.VOTE_OPTION_YES,
+              weight: "1000000000000000000",
+            }),
+          ],
+        }),
+        Vote.fromPartial({
+          proposalId: longify(proposalId),
+          voter: voter2Address,
+          option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
+          options: [
+            WeightedVoteOption.fromPartial({
+              option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
+              weight: "1000000000000000000",
+            }),
+          ],
+        }),
+      ]);
 
       tmClient.disconnect();
     });
@@ -386,29 +369,19 @@ describe("GovExtension", () => {
       const [client, tmClient] = await makeClientWithGov(simapp.tendermintUrl);
 
       const response = await client.gov.vote(proposalId, voter1Address);
-      if (simapp42Enabled()) {
-        expect(response.vote).toEqual(
-          Vote.fromPartial({
-            voter: voter1Address,
-            proposalId: longify(proposalId),
-            option: VoteOption.VOTE_OPTION_YES,
-          }),
-        );
-      } else {
-        expect(response.vote).toEqual(
-          Vote.fromPartial({
-            voter: voter1Address,
-            proposalId: longify(proposalId),
-            option: VoteOption.VOTE_OPTION_YES,
-            options: [
-              WeightedVoteOption.fromPartial({
-                option: VoteOption.VOTE_OPTION_YES,
-                weight: "1000000000000000000",
-              }),
-            ],
-          }),
-        );
-      }
+      expect(response.vote).toEqual(
+        Vote.fromPartial({
+          voter: voter1Address,
+          proposalId: longify(proposalId),
+          option: VoteOption.VOTE_OPTION_YES,
+          options: [
+            WeightedVoteOption.fromPartial({
+              option: VoteOption.VOTE_OPTION_YES,
+              weight: "1000000000000000000",
+            }),
+          ],
+        }),
+      );
 
       tmClient.disconnect();
     });
