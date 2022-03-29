@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/faucet",
-  "version": "0.1.0-rc6",
+  "version": "0.1.0",
   "description": "The faucet",
   "contributors": [
     "Ethan Frey <ethanfrey@users.noreply.github.com>",
