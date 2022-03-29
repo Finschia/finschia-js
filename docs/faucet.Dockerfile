@@ -5,7 +5,7 @@
 # Coose from https://hub.docker.com/_/node/
 FROM node:12.18.3-alpine
 
-RUN yarn global add @lbmjs/faucet@0.1.0-rc6
+RUN yarn global add @lbmjs/faucet@0.1.0
 
 # Check it exists
 RUN /usr/local/bin/lbm-faucet version
