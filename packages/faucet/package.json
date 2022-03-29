@@ -42,11 +42,13 @@
     "@koa/cors": "^3.0.0",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",
     "@lbmjs/stargate": "workspace:packages/stargate",
+    "bn.js": "^5.2.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/bn.js": "^5",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
     "@types/karma-firefox-launcher": "^2",

@@ -1,15 +1,17 @@
-import { Decimal, Uint53 } from "@cosmjs/math";
+import { Decimal } from "@cosmjs/math";
 import { Coin } from "@lbmjs/stargate";
 
 import { MinimalAccount } from "./types";
 
-const defaultCreditAmount = 10_000_000;
+import BN from "bn.js";
+
+const defaultCreditAmount = new BN(10_000_000, 10);
 
 /** Send `factor` times credit amount on refilling */
-const defaultRefillFactor = 20;
+const defaultRefillFactor = new BN(20, 10);
 
 /** refill when balance gets below `factor` times credit amount */
-const defaultRefillThresholdFactor = 8;
+const defaultRefillThresholdFactor = new BN(8, 10);
 
 export interface TokenConfiguration {
   /** Supported tokens of the Cosmos SDK bank module */
@@ -24,25 +26,34 @@ export class TokenManager {
   }
 
   /** The amount of tokens that will be sent to the user */
-  public creditAmount(denom: string, factor: Uint53 = new Uint53(1)): Coin {
+  public creditAmount(denom: string, factor: BN = new BN(1, 10)): Coin {
     const amountFromEnv = process.env[`FAUCET_CREDIT_AMOUNT_${denom.toUpperCase()}`];
-    const amount = amountFromEnv ? Uint53.fromString(amountFromEnv).toNumber() : defaultCreditAmount;
-    const value = new Uint53(amount * factor.toNumber());
+    const amount = amountFromEnv ? new BN(amountFromEnv, 10) : defaultCreditAmount;
+    const value = amount.mul(factor);
+    if (value.isNeg()) {
+      throw new Error("Invalid amount: negative value")
+    };
     return {
-      amount: value.toString(),
+      amount: value.toString(10),
       denom: denom,
     };
   }
 
   public refillAmount(denom: string): Coin {
-    const factorFromEnv = Number.parseInt(process.env.FAUCET_REFILL_FACTOR || "0", 10) || undefined;
-    const factor = new Uint53(factorFromEnv || defaultRefillFactor);
+    const factorFromEnv = new BN(process.env.FAUCET_REFILL_FACTOR || "0", 10);
+    const factor = factorFromEnv.isZero() ? defaultRefillFactor : factorFromEnv;
+    if (factor.isNeg()) {
+      throw new Error("Invalid refill factor: negative value")
+    };
     return this.creditAmount(denom, factor);
   }
 
   public refillThreshold(denom: string): Coin {
-    const factorFromEnv = Number.parseInt(process.env.FAUCET_REFILL_THRESHOLD || "0", 10) || undefined;
-    const factor = new Uint53(factorFromEnv || defaultRefillThresholdFactor);
+    const factorFromEnv = new BN(process.env.FAUCET_REFILL_THRESHOLD || "0", 10);
+    const factor = factorFromEnv.isZero() ? defaultRefillThresholdFactor : factorFromEnv;
+    if (factor.isNeg()) {
+      throw new Error("Invalid refill threshold factor: negative value")
+    };
     return this.creditAmount(denom, factor);
   }
 
