@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           yarn cache clean --all
-          yarn install --immutable --immutable-cache --check-cache
+          yarn install
         env:
           CI: true
 
