@@ -18,8 +18,11 @@ jobs:
         with:
           node-version: '12.x'
 
+      - name: Version information
+        run: echo "node $(node --version)"; echo "yarn $(yarn --version)"
+
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --immutable --immutable-cache --check-cache
         env:
           CI: true
 
