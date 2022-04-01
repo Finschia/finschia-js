@@ -21,10 +21,9 @@ jobs:
         run: echo "node $(node --version)"; echo "yarn $(yarn --version)"
 
       - name: Install dependencies
-#        run: yarn install --immutable --immutable-cache --check-cache
         run: |
           yarn cache clean --all
-          yarn install
+          yarn install --immutable --immutable-cache --check-cache
         env:
           CI: true
 
