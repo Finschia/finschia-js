@@ -1,0 +1,29 @@
+name: Linter
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: self-hosted
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Install dependencies
+        run: yarn install
+        env:
+          CI: true
+
+      - name: Lint
+        run: yarn lint
+        env:
+          CI: true
