@@ -29,5 +29,8 @@ jobs:
         env:
           CI: true
 
+      - name: Build
+        run: yarn build
+
       - name: Lint
         run: yarn lint
