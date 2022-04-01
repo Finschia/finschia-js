@@ -22,7 +22,9 @@ jobs:
 
       - name: Install dependencies
 #        run: yarn install --immutable --immutable-cache --check-cache
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn cache clean --all
+          yarn install
         env:
           CI: true
 
