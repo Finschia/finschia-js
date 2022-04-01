@@ -9,13 +9,15 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: 14.x
-      - run: if [ ! -x "$(command -v yarn)" ]; then npm install -g yarn; fi
+          node-version: '16'
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+#      - run: if [ ! -x "$(command -v yarn)" ]; then npm install -g yarn; fi
 
       - name: Version information
         run: echo "node $(node --version)"; echo "yarn $(yarn --version)"
