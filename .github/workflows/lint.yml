@@ -17,9 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
-#      - run: if [ ! -x "$(command -v yarn)" ]; then npm install -g yarn; fi
+      - run: if [ ! -x "$(command -v yarn)" ]; then npm install -g yarn; fi
 
       - name: Version information
         run: echo "node $(node --version)"; echo "yarn $(yarn --version)"
