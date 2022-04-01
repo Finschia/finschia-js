@@ -9,10 +9,9 @@ jobs:
 
     steps:
       - name: Check out Git repository
-#        uses: nschloe/action-cached-lfs-checkout@v1
         uses: actions/checkout@v3
-        with:
-          lfs: true
+#        with:
+#          lfs: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
