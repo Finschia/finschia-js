@@ -21,7 +21,8 @@ jobs:
         run: echo "node $(node --version)"; echo "yarn $(yarn --version)"
 
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
+#        run: yarn install --immutable --immutable-cache --check-cache
+        run: yarn install --frozen-lockfile
         env:
           CI: true
 
