@@ -33,4 +33,4 @@ jobs:
         run: yarn build
 
       - name: Lint
-        run: yarn lint
+        run: yarn lint-fix
