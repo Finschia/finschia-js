@@ -9,9 +9,8 @@ import { AuthInfo, TxBody, TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 import protobuf from "protobufjs/minimal";
 
-import { AminoMsgDelegate } from "./aminomsgs";
 import { AminoTypes } from "./aminotypes";
-import { MsgDelegateEncodeObject, MsgSendEncodeObject } from "./encodeobjects";
+import { AminoMsgDelegate, MsgDelegateEncodeObject, MsgSendEncodeObject } from "./modules";
 import { PrivateSigningStargateClient, SigningStargateClient } from "./signingstargateclient";
 import { assertIsDeliverTxFailure, assertIsDeliverTxSuccess, isDeliverTxFailure } from "./stargateclient";
 import {
@@ -83,6 +82,7 @@ describe("SigningStargateClient", () => {
       const amount = coins(7890, "cony");
       const beneficiaryAddress = makeRandomAddress();
       const memo = "for dinner";
+
       // no tokens here
 
       const before = await client.getBalance(beneficiaryAddress, "cony");
@@ -331,7 +331,6 @@ describe("SigningStargateClient", () => {
 
       it("works with a modifying signer", async () => {
         pendingWithoutSimapp();
-        // wallet = DirectSecp256k1HdWallet
         const wallet = await ModifyingDirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
         const client = await SigningStargateClient.connectWithSigner(
           simapp.tendermintUrl,
@@ -486,36 +485,34 @@ describe("SigningStargateClient", () => {
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
-          additions: {
-            "/lbm.staking.v1.MsgDelegate": {
-              aminoType: "lbm-sdk/MsgDelegate",
-              toAmino: ({
-                customDelegatorAddress,
-                customValidatorAddress,
-                customAmount,
-              }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
-                assert(customDelegatorAddress, "missing customDelegatorAddress");
-                assert(customValidatorAddress, "missing validatorAddress");
-                assert(customAmount, "missing amount");
-                return {
-                  delegator_address: customDelegatorAddress,
-                  validator_address: customValidatorAddress,
-                  amount: {
-                    amount: customAmount.amount,
-                    denom: customAmount.denom,
-                  },
-                };
-              },
-              fromAmino: ({
-                delegator_address,
-                validator_address,
-                amount,
-              }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
-                customDelegatorAddress: delegator_address,
-                customValidatorAddress: validator_address,
-                customAmount: Coin.fromPartial(amount),
-              }),
+          "/lbm.staking.v1.MsgDelegate": {
+            aminoType: "lbm-sdk/MsgDelegate",
+            toAmino: ({
+              customDelegatorAddress,
+              customValidatorAddress,
+              customAmount,
+            }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
+              assert(customDelegatorAddress, "missing customDelegatorAddress");
+              assert(customValidatorAddress, "missing validatorAddress");
+              assert(customAmount, "missing amount");
+              return {
+                delegator_address: customDelegatorAddress,
+                validator_address: customValidatorAddress,
+                amount: {
+                  amount: customAmount.amount,
+                  denom: customAmount.denom,
+                },
+              };
             },
+            fromAmino: ({
+              delegator_address,
+              validator_address,
+              amount,
+            }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
+              customDelegatorAddress: delegator_address,
+              customValidatorAddress: validator_address,
+              customAmount: Coin.fromPartial(amount),
+            }),
           },
         });
         const options = {
@@ -776,36 +773,34 @@ describe("SigningStargateClient", () => {
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
-          additions: {
-            "/lbm.staking.v1.MsgDelegate": {
-              aminoType: "lbm-sdk/MsgDelegate",
-              toAmino: ({
-                customDelegatorAddress,
-                customValidatorAddress,
-                customAmount,
-              }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
-                assert(customDelegatorAddress, "missing customDelegatorAddress");
-                assert(customValidatorAddress, "missing validatorAddress");
-                assert(customAmount, "missing amount");
-                return {
-                  delegator_address: customDelegatorAddress,
-                  validator_address: customValidatorAddress,
-                  amount: {
-                    amount: customAmount.amount,
-                    denom: customAmount.denom,
-                  },
-                };
-              },
-              fromAmino: ({
-                delegator_address,
-                validator_address,
-                amount,
-              }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
-                customDelegatorAddress: delegator_address,
-                customValidatorAddress: validator_address,
-                customAmount: Coin.fromPartial(amount),
-              }),
+          "/lbm.staking.v1.MsgDelegate": {
+            aminoType: "lbm-sdk/MsgDelegate",
+            toAmino: ({
+              customDelegatorAddress,
+              customValidatorAddress,
+              customAmount,
+            }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
+              assert(customDelegatorAddress, "missing customDelegatorAddress");
+              assert(customValidatorAddress, "missing validatorAddress");
+              assert(customAmount, "missing amount");
+              return {
+                delegator_address: customDelegatorAddress,
+                validator_address: customValidatorAddress,
+                amount: {
+                  amount: customAmount.amount,
+                  denom: customAmount.denom,
+                },
+              };
             },
+            fromAmino: ({
+              delegator_address,
+              validator_address,
+              amount,
+            }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
+              customDelegatorAddress: delegator_address,
+              customValidatorAddress: validator_address,
+              customAmount: Coin.fromPartial(amount),
+            }),
           },
         });
         const options = {

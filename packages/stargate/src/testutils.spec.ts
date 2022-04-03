@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
-import { Bech32 } from "@cosmjs/encoding";
+import { toBech32 } from "@cosmjs/encoding";
 import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@lbmjs/amino";
 import {
   coins,
@@ -27,9 +27,15 @@ export function simappEnabled(): boolean {
   return simapp42Enabled() || simapp44Enabled();
 }
 
+export function pendingWithoutSimapp44(): void {
+  if (!simapp44Enabled()) {
+    return pending("Set SIMAPP44_ENABLED to enable Simapp based tests");
+  }
+}
+
 export function pendingWithoutSimapp42(): void {
   if (!simapp42Enabled()) {
-    return pending("Set SIMAPP44_ENABLED to enable Simapp based tests");
+    return pending("Set SIMAPP42_ENABLED to enable Simapp based tests");
   }
 }
 
@@ -54,7 +60,7 @@ export function makeRandomAddressBytes(): Uint8Array {
 }
 
 export function makeRandomAddress(): string {
-  return Bech32.encode("link", makeRandomAddressBytes());
+  return toBech32("link", makeRandomAddressBytes());
 }
 
 /** Returns first element. Throws if array has a different length than 1. */
@@ -64,7 +70,7 @@ export function fromOneElementArray<T>(elements: ArrayLike<T>): T {
 }
 
 export const defaultGasPrice = GasPrice.fromString("0.025cony");
-export const defaultSendFee = calculateFee(80_000, defaultGasPrice);
+export const defaultSendFee = calculateFee(100_000, defaultGasPrice);
 
 export const simapp = {
   tendermintUrl: "localhost:26658",
@@ -156,7 +162,7 @@ export const validator = {
     value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
   /**
-   * delegator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
+   * delegator_address from /lbm.staking.v1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
    *
    * ```
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/simapp42/template/.simapp/config/genesis.json
@@ -164,7 +170,7 @@ export const validator = {
    */
   delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   /**
-   * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
+   * validator_address from /lbm.staking.v1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
    *
    * ```
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/simapp42/template/.simapp/config/genesis.json

@@ -6,7 +6,8 @@ export interface SendJob {
   readonly amount: Coin;
 }
 
-export type MinimalAccount = {
+export interface MinimalAccount {
+  /** Bech32 account address */
   readonly address: string;
   readonly balance: readonly Coin[];
-};
+}

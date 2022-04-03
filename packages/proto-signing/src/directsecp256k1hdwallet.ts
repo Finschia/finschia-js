@@ -11,7 +11,7 @@ import {
   Slip10Curve,
   stringToPath,
 } from "@cosmjs/crypto";
-import { Bech32, fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
+import { fromBase64, fromUtf8, toBase64, toBech32, toUtf8 } from "@cosmjs/encoding";
 import { assert, isNonNullObject } from "@cosmjs/utils";
 import { encodeSecp256k1Signature, makeLinkPath, rawSecp256k1PubkeyToRawAddress } from "@lbmjs/amino";
 import { SignDoc } from "lbmjs-types/lbm/tx/v1/tx";
@@ -346,7 +346,7 @@ export class DirectSecp256k1HdWallet implements OfflineDirectSigner {
     return Promise.all(
       this.accounts.map(async ({ hdPath, prefix }) => {
         const { privkey, pubkey } = await this.getKeyPair(hdPath);
-        const address = Bech32.encode(prefix, rawSecp256k1PubkeyToRawAddress(pubkey));
+        const address = toBech32(prefix, rawSecp256k1PubkeyToRawAddress(pubkey));
         return {
           algo: "secp256k1" as const,
           privkey: privkey,

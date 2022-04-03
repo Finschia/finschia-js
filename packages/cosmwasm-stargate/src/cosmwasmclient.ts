@@ -25,10 +25,14 @@ import {
   TimeoutError,
   TxExtension,
 } from "@lbmjs/stargate";
-import { CodeInfoResponse } from "lbmjs-types/lbm/wasm/v1/query";
+import {
+  CodeInfoResponse,
+  QueryCodesResponse,
+  QueryContractsByCodeResponse,
+} from "lbmjs-types/lbm/wasm/v1/query";
 import { ContractCodeHistoryOperationType } from "lbmjs-types/lbm/wasm/v1/types";
 
-import { JsonObject, setupWasmExtension, WasmExtension } from "./queries";
+import { JsonObject, setupWasmExtension, WasmExtension } from "./modules";
 
 export interface Code {
   readonly id: number;
@@ -166,7 +170,7 @@ export class CosmWasmClient {
     }
     return {
       accountNumber: account.accountNumber,
-      sequence: account.sequence
+      sequence: account.sequence,
     };
   }
 
@@ -264,7 +268,9 @@ export class CosmWasmClient {
     const pollForTx = async (txId: string): Promise<DeliverTxResponse> => {
       if (timedOut) {
         throw new TimeoutError(
-          `Transaction with ID ${txId} was submitted but was not yet found on the chain. You might want to check later.`,
+          `Transaction with ID ${txId} was submitted but was not yet found on the chain. You might want to check later. There was a wait of ${
+            timeoutMs / 10000
+          } seconds.`,
           txId,
         );
       }
@@ -303,9 +309,25 @@ export class CosmWasmClient {
     );
   }
 
+  /**
+   * getCodes() returns all codes and is just looping through all pagination pages.
+   *
+   * This is potentially inefficient and advanced apps should consider creating
+   * their own query client to handle pagination together with the app's screens.
+   */
   public async getCodes(): Promise<readonly Code[]> {
-    const { codeInfos } = await this.forceGetQueryClient().wasm.listCodeInfo();
-    return (codeInfos || []).map((entry: CodeInfoResponse): Code => {
+    const allCodes = [];
+
+    let startAtKey: Uint8Array | undefined = undefined;
+    do {
+      const { codeInfos, pagination }: QueryCodesResponse =
+        await this.forceGetQueryClient().wasm.listCodeInfo(startAtKey);
+      const loadedCodes = codeInfos || [];
+      allCodes.push(...loadedCodes);
+      startAtKey = pagination?.nextKey;
+    } while (startAtKey?.length !== 0);
+
+    return allCodes.map((entry: CodeInfoResponse): Code => {
       assert(entry.creator && entry.codeId && entry.dataHash, "entry incomplete");
       return {
         id: entry.codeId.toNumber(),
@@ -334,10 +356,24 @@ export class CosmWasmClient {
     return codeDetails;
   }
 
+  /**
+   * getContracts() returns all contract instances for one code and is just looping through all pagination pages.
+   *
+   * This is potentially inefficient and advanced apps should consider creating
+   * their own query client to handle pagination together with the app's screens.
+   */
   public async getContracts(codeId: number): Promise<readonly string[]> {
-    // TODO: handle pagination - accept as arg or auto-loop
-    const { contracts } = await this.forceGetQueryClient().wasm.listContractsByCodeId(codeId);
-    return contracts;
+    const allContracts = [];
+    let startAtKey: Uint8Array | undefined = undefined;
+    do {
+      const { contracts, pagination }: QueryContractsByCodeResponse =
+        await this.forceGetQueryClient().wasm.listContractsByCodeId(codeId, startAtKey);
+      const loadedContracts = contracts || [];
+      allContracts.push(...loadedContracts);
+      startAtKey = pagination?.nextKey;
+    } while (startAtKey?.length !== 0 && startAtKey !== undefined);
+
+    return allContracts;
   }
 
   /**

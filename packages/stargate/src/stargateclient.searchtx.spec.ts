@@ -13,7 +13,7 @@ import {
 import { Coin } from "lbmjs-types/lbm/base/v1/coin";
 import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 
-import { isMsgSendEncodeObject } from "./encodeobjects";
+import { isMsgSendEncodeObject } from "./modules";
 import { DeliverTxResponse, isDeliverTxFailure, isDeliverTxSuccess, StargateClient } from "./stargateclient";
 import {
   defaultSigningClientOptions,

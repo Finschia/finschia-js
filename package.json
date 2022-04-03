@@ -40,8 +40,8 @@
     "publish-latest": "yarn workspaces foreach --no-private exec yarn npm publish"
   },
   "devDependencies": {
-    "@cosmjs/crypto": "0.27.1",
-    "@cosmjs/encoding": "0.27.1",
+    "@cosmjs/crypto": "0.28.1",
+    "@cosmjs/encoding": "0.28.1",
     "@lbmjs/amino": "workspace:packages/amino",
     "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",

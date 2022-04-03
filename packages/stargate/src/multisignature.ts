@@ -1,4 +1,4 @@
-import { Bech32 } from "@cosmjs/encoding";
+import { fromBech32 } from "@cosmjs/encoding";
 import { MultisigThresholdPubkey, pubkeyToAddress, StdFee } from "@lbmjs/amino";
 import { encodePubkey } from "@lbmjs/proto-signing";
 import { CompactBitArray, MultiSignature } from "lbmjs-types/lbm/crypto/multisig/v1/multisig";
@@ -30,7 +30,7 @@ export function makeMultisignedTx(
   signatures: Map<string, Uint8Array>,
 ): TxRaw {
   const addresses = Array.from(signatures.keys());
-  const prefix = Bech32.decode(addresses[0]).prefix;
+  const prefix = fromBech32(addresses[0]).prefix;
 
   const signers: boolean[] = Array(multisigPubkey.value.pubkeys.length).fill(false);
   const signaturesList = new Array<Uint8Array>();

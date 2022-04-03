@@ -273,91 +273,93 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@confio/ics23@npm:^0.6.3":
-  version: 0.6.5
-  resolution: "@confio/ics23@npm:0.6.5"
-  dependencies:
-    js-sha512: ^0.8.0
-    protobufjs: ^6.8.8
-    ripemd160: ^2.0.2
-    sha.js: ^2.4.11
-  checksum: dc658795ec67ef60e281985463848e9f46e6804a4fa9a96fbb39809bf646b98f7e0e38e3fa4a8c683fd96e1a7e14a29cad5c14e8b3685da2cab3369ed66e7fe8
+"@colors/colors@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@colors/colors@npm:1.5.0"
+  checksum: d64d5260bed1d5012ae3fc617d38d1afc0329fec05342f4e6b838f46998855ba56e0a73833f4a80fa8378c84810da254f76a8a19c39d038260dc06dc4e007425
   languageName: node
   linkType: hard
 
-"@cosmjs/crypto@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/crypto@npm:0.27.1"
+"@confio/ics23@npm:^0.6.8":
+  version: 0.6.8
+  resolution: "@confio/ics23@npm:0.6.8"
   dependencies:
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/utils": 0.27.1
-    bip39: ^3.0.2
+    "@noble/hashes": ^1.0.0
+    protobufjs: ^6.8.8
+  checksum: 376d72f6440db60611b002b00a13e3a5bfd0d3503e7682358dbcf79641e74d8c26c234c321452fb4a758baf66eecef25d950e08bdea270486d9d03ee489e2960
+  languageName: node
+  linkType: hard
+
+"@cosmjs/crypto@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/crypto@npm:0.28.1"
+  dependencies:
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/utils": 0.28.1
+    "@noble/hashes": ^1
     bn.js: ^5.2.0
     elliptic: ^6.5.3
-    js-sha3: ^0.8.0
     libsodium-wrappers: ^0.7.6
-    ripemd160: ^2.0.2
-    sha.js: ^2.4.11
-  checksum: d1773147a4f57da572483d28286983cca4907e18071296c707581461b0fbe8a3bb6d1591a81dc724c19b2ca3c728726a1f7309a74bf9536a261f4cf1098d1508
+  checksum: d34cb8f23f9d57bf31c932c93fe7f8c15a4f4292f9de022e8a4a0184827f21dabd831a4d2a09cebf4093b13f61347b7363cea4705294f18243e2dc1ae1b5810e
   languageName: node
   linkType: hard
 
-"@cosmjs/encoding@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/encoding@npm:0.27.1"
+"@cosmjs/encoding@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/encoding@npm:0.28.1"
   dependencies:
     base64-js: ^1.3.0
     bech32: ^1.1.4
     readonly-date: ^1.0.0
-  checksum: 34dad88ee64b6d3b920daa5e605dafb2722d2f9cf9c44da8e652ebf24d5f76557cdd422be3ea5252186b8ea19d172819f8053749c3e81232a7c2bbff5f24fa81
+  checksum: c6172be33a4aa825d659d73c7a0a64bcadbae34b115d3c169b1e15e7558100d23ea70b85df44f911217f17b093c9e21274a5158f352afb992966d144edc8a38d
   languageName: node
   linkType: hard
 
-"@cosmjs/json-rpc@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/json-rpc@npm:0.27.1"
+"@cosmjs/json-rpc@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/json-rpc@npm:0.28.1"
   dependencies:
-    "@cosmjs/stream": 0.27.1
+    "@cosmjs/stream": 0.28.1
     xstream: ^11.14.0
-  checksum: 344a18682995982ae3c6e52c90d5e080a1f5049135ac417e51bb54a0611738a26b7b9eb751d28d8f5b6cffa631932ed32912d6cb8566b798885896475324bb88
+  checksum: 49ec284ac1864f134de5e50c1c0069f3c9905ec5eb2b0e35f410ed66e7ee461976e46e4beeb736bbdf7de84bb75c3d10ce1ccea1b6d7357437f82905a3b77efa
   languageName: node
   linkType: hard
 
-"@cosmjs/math@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/math@npm:0.27.1"
+"@cosmjs/math@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/math@npm:0.28.1"
   dependencies:
     bn.js: ^5.2.0
-  checksum: 0b1d91eb7c3269636bf0f884220ff1c53ba0c7ca4e80826b382d71a51abc853e845e10651b1bcffd377557d4879dddd7835729e30a4fa824b09ad24cd6ce1ca2
+  checksum: 43582f2e4e9eb9d8a496322f8631f7344ad564e0c50d804f13cbdf28864b58bea6b89ac172765910162859e5807f0de03608471ecfb32bb7d70337015887fbea
   languageName: node
   linkType: hard
 
-"@cosmjs/socket@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/socket@npm:0.27.1"
+"@cosmjs/socket@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/socket@npm:0.28.1"
   dependencies:
-    "@cosmjs/stream": 0.27.1
+    "@cosmjs/stream": 0.28.1
     isomorphic-ws: ^4.0.1
     ws: ^7
     xstream: ^11.14.0
-  checksum: 82d4dff828b6f24e92dfdc28c521628700c10e087e2bd1084532bab9c16bbc90d8717b727d9659b7383152bb05491c3bd16f348e2172fce400729bb7afa39649
+  checksum: f1bae24598c44c65331b6e839bb9809ca2e445bde34dd578e206b0aad9879014ad7981619a2a7adaadc12727f3faaa98c2a83f9e3e38260dd136822c24057d96
   languageName: node
   linkType: hard
 
-"@cosmjs/stream@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/stream@npm:0.27.1"
+"@cosmjs/stream@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/stream@npm:0.28.1"
   dependencies:
     xstream: ^11.14.0
-  checksum: cb476adb6881a6c8953187b994aa4a1b10426a2983b6b6c7b31041facf0e89a84d3a71889faca6cb7eca19211e53761a69d90b338373a0b1c415010cfd19d197
+  checksum: 6da1cd2d1bd8505be2f7a2a88b56f2a3ba3726aa9c73d86fa76069eef3bb1e8d7a7b91ff4eb2e92d59b586b6aecb69dc9cd07d306da8a427738024b98237fde6
   languageName: node
   linkType: hard
 
-"@cosmjs/utils@npm:0.27.1":
-  version: 0.27.1
-  resolution: "@cosmjs/utils@npm:0.27.1"
-  checksum: b48466efd7ec714520fe684e028754a6b5ca5b686d117b2078cac7ed824dd953fac09a9efc2bc5805fa270c151f5a53baa181cfb9f498697152d522d27565205
+"@cosmjs/utils@npm:0.28.1":
+  version: 0.28.1
+  resolution: "@cosmjs/utils@npm:0.28.1"
+  checksum: 08ad4326e8830b71de790e0837f9b1d6fd3c753732d361f50f69201925af552274542b4e6d11e565ffe790d4a0334c8c111091b8529c18ff29c56a9a9971ae26
   languageName: node
   linkType: hard
 
@@ -478,18 +480,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/amino@workspace:packages/amino"
   dependencies:
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/utils": 0.27.1
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/utils": 0.28.1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8
     "@types/karma-firefox-launcher": ^2
     "@types/karma-jasmine": ^4
     "@types/karma-jasmine-html-reporter": ^1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -501,7 +503,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -512,7 +514,6 @@ __metadata:
     prettier: ^2.4.1
     ses: ^0.11.0
     source-map-support: ^0.5.19
-    stream-browserify: ^3.0.0
     ts-node: ^8
     typedoc: ^0.22
     typescript: ~4.4
@@ -525,10 +526,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/cosmwasm-stargate@workspace:packages/cosmwasm-stargate"
   dependencies:
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/utils": 0.27.1
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/utils": 0.28.1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@lbmjs/amino": "workspace:packages/amino"
     "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc"
@@ -542,8 +543,8 @@ __metadata:
     "@types/long": ^4.0.1
     "@types/node": ^15.0.1
     "@types/pako": ^1.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -555,7 +556,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -569,7 +570,6 @@ __metadata:
     readonly-date: ^1.0.0
     ses: ^0.11.0
     source-map-support: ^0.5.19
-    stream-browserify: ^3.0.0
     ts-node: ^8
     typedoc: ^0.22
     typescript: ~4.4
@@ -589,8 +589,8 @@ __metadata:
     "@types/karma-jasmine": ^4
     "@types/karma-jasmine-html-reporter": ^1
     "@types/node": ^15.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     axios: ^0.21.2
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
@@ -603,7 +603,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -624,10 +624,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/faucet@workspace:packages/faucet"
   dependencies:
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/utils": 0.27.1
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/utils": 0.28.1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@koa/cors": ^3.0.0
     "@lbmjs/proto-signing": "workspace:packages/proto-signing"
@@ -641,8 +641,8 @@ __metadata:
     "@types/koa": ^2.11.0
     "@types/koa-bodyparser": ^4.3.0
     "@types/koa__cors": ^3.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     bn.js: ^5.2.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
@@ -654,7 +654,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -678,22 +678,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/ostracon-rpc@workspace:packages/ostracon-rpc"
   dependencies:
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/json-rpc": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/socket": 0.27.1
-    "@cosmjs/stream": 0.27.1
-    "@cosmjs/utils": 0.27.1
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/json-rpc": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/socket": 0.28.1
+    "@cosmjs/stream": 0.28.1
+    "@cosmjs/utils": 0.28.1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@noble/hashes": ^1
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8
     "@types/karma-firefox-launcher": ^2
     "@types/karma-jasmine": ^4
     "@types/karma-jasmine-html-reporter": ^1
     "@types/node": ^15.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     axios: ^0.21.2
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
@@ -706,7 +707,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -729,10 +730,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/proto-signing@workspace:packages/proto-signing"
   dependencies:
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/utils": 0.27.1
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/utils": 0.28.1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@lbmjs/amino": "workspace:packages/amino"
     "@types/eslint-plugin-prettier": ^3
@@ -742,8 +743,8 @@ __metadata:
     "@types/karma-jasmine-html-reporter": ^1
     "@types/long": ^4.0.1
     "@types/node": ^15.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -755,7 +756,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -769,7 +770,6 @@ __metadata:
     protobufjs: ~6.10.2
     ses: ^0.11.0
     source-map-support: ^0.5.19
-    stream-browserify: ^3.0.0
     ts-node: ^8
     typedoc: ^0.22
     typescript: ~4.4
@@ -782,12 +782,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/stargate@workspace:packages/stargate"
   dependencies:
-    "@confio/ics23": ^0.6.3
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
-    "@cosmjs/math": 0.27.1
-    "@cosmjs/stream": 0.27.1
-    "@cosmjs/utils": 0.27.1
+    "@confio/ics23": ^0.6.8
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
+    "@cosmjs/math": 0.28.1
+    "@cosmjs/stream": 0.28.1
+    "@cosmjs/utils": 0.28.1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@lbmjs/amino": "workspace:packages/amino"
     "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc"
@@ -799,8 +799,8 @@ __metadata:
     "@types/karma-jasmine-html-reporter": ^1
     "@types/long": ^4.0.1
     "@types/node": ^15.0.1
-    "@typescript-eslint/eslint-plugin": ^4.28
-    "@typescript-eslint/parser": ^4.28
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -812,7 +812,7 @@ __metadata:
     jasmine: ^3.8
     jasmine-core: ^3.7.1
     jasmine-spec-reporter: ^6
-    karma: ^6.1.1
+    karma: ^6.3.17
     karma-chrome-launcher: ^3.1.0
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
@@ -827,7 +827,6 @@ __metadata:
     readonly-date: ^1.0.0
     ses: ^0.11.0
     source-map-support: ^0.5.19
-    stream-browserify: ^3.0.0
     ts-node: ^8
     typedoc: ^0.22
     typescript: ~4.4
@@ -836,6 +835,13 @@ __metadata:
     xstream: ^11.14.0
   languageName: unknown
   linkType: soft
+
+"@noble/hashes@npm:^1, @noble/hashes@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@noble/hashes@npm:1.0.0"
+  checksum: bdf1c28a4b587e72ec6b0c504903239c6f96680b2c15a6d90d367512f468eeca12f2ee7bd25967a9529be2bedbf3f8d0a50c33368937f8dfef2a973d0661c7b5
+  languageName: node
+  linkType: hard
 
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
@@ -1135,10 +1141,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-schema@npm:*, @types/json-schema@npm:^7.0.7, @types/json-schema@npm:^7.0.8":
+"@types/json-schema@npm:*, @types/json-schema@npm:^7.0.8":
   version: 7.0.9
   resolution: "@types/json-schema@npm:7.0.9"
   checksum: 259d0e25f11a21ba5c708f7ea47196bd396e379fddb79c76f9f4f62c945879dc21657904914313ec2754e443c5018ea8372362f323f30e0792897fdb2098a705
+  languageName: node
+  linkType: hard
+
+"@types/json-schema@npm:^7.0.9":
+  version: 7.0.11
+  resolution: "@types/json-schema@npm:7.0.11"
+  checksum: 527bddfe62db9012fccd7627794bd4c71beb77601861055d87e3ee464f2217c85fca7a4b56ae677478367bbd248dbde13553312b7d4dbc702a2f2bbf60c4018d
   languageName: node
   linkType: hard
 
@@ -1258,13 +1271,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:11.11.6":
-  version: 11.11.6
-  resolution: "@types/node@npm:11.11.6"
-  checksum: 075f1c011cf568e49701419acbcb55c24906b3bb5a34d9412a3b88f228a7a78401a5ad4d3e1cd6855c99aaea5ef96e37fc86ca097e50f06da92cf822befc1fff
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^13.7.0":
   version: 13.13.52
   resolution: "@types/node@npm:13.13.52"
@@ -1310,103 +1316,120 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^4.28":
-  version: 4.33.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:4.33.0"
+"@typescript-eslint/eslint-plugin@npm:^5.13.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/eslint-plugin@npm:5.17.0"
   dependencies:
-    "@typescript-eslint/experimental-utils": 4.33.0
-    "@typescript-eslint/scope-manager": 4.33.0
-    debug: ^4.3.1
+    "@typescript-eslint/scope-manager": 5.17.0
+    "@typescript-eslint/type-utils": 5.17.0
+    "@typescript-eslint/utils": 5.17.0
+    debug: ^4.3.2
     functional-red-black-tree: ^1.0.1
     ignore: ^5.1.8
-    regexpp: ^3.1.0
+    regexpp: ^3.2.0
     semver: ^7.3.5
     tsutils: ^3.21.0
   peerDependencies:
-    "@typescript-eslint/parser": ^4.0.0
-    eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
+    "@typescript-eslint/parser": ^5.0.0
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: d74855d0a5ffe0b2f362ec02fcd9301d39a53fb4155b9bd0cb15a0a31d065143129ebf98df9d86af4b6f74de1d423a4c0d8c0095520844068117453afda5bc4f
+  checksum: 62ec611fb384f27fc5b101fc8a0642ae94b2975618d37d3157c2f887cf89b389624e9d476bff303073d038076c05e6c00f3b205af3b2302967e720e99cd18d38
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/experimental-utils@npm:4.33.0"
+"@typescript-eslint/parser@npm:^5.13.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/parser@npm:5.17.0"
   dependencies:
-    "@types/json-schema": ^7.0.7
-    "@typescript-eslint/scope-manager": 4.33.0
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/typescript-estree": 4.33.0
+    "@typescript-eslint/scope-manager": 5.17.0
+    "@typescript-eslint/types": 5.17.0
+    "@typescript-eslint/typescript-estree": 5.17.0
+    debug: ^4.3.2
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 15b855ea84e44371366d44b5add87ed0dc34b856ca8a6949ecc4066faaf3ea3d7e016ea92db06ab97a637530148c472c38c19cc5eff68b691701ff89dc5c1abc
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/scope-manager@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/scope-manager@npm:5.17.0"
+  dependencies:
+    "@typescript-eslint/types": 5.17.0
+    "@typescript-eslint/visitor-keys": 5.17.0
+  checksum: 8fc28d5742f36994ce05f09b0000f696a600d6f757f39ccae7875c08398b266f21d48ed1dfb027549d9c6692255a1fb3e8482ef94d765bb134371824da7d5ba7
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/type-utils@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/type-utils@npm:5.17.0"
+  dependencies:
+    "@typescript-eslint/utils": 5.17.0
+    debug: ^4.3.2
+    tsutils: ^3.21.0
+  peerDependencies:
+    eslint: "*"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 9aad46ea7a757ec4584b9d9c995e94543bf40af7d85b2f502d66db08d7f03468c858320fccb4942238b0bb9e2d432df3d9861cf21624b0c57660c88b1d91a7d4
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/types@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/types@npm:5.17.0"
+  checksum: 06ed4c3c3f0a05bee9c23b6cb5eb679336c0f4769beb28848e8ce674f726fec88adba059f20e0b0f7271685d7f5480931b3bcafcf6b60044b93da162e29f3f68
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/typescript-estree@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/typescript-estree@npm:5.17.0"
+  dependencies:
+    "@typescript-eslint/types": 5.17.0
+    "@typescript-eslint/visitor-keys": 5.17.0
+    debug: ^4.3.2
+    globby: ^11.0.4
+    is-glob: ^4.0.3
+    semver: ^7.3.5
+    tsutils: ^3.21.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 589829b1bb1d7e704de6a35dd9a39c70a3ca54b0885b68aad54a864bc5e5a11ce43f917c3f15f0afe9bc734a250288efdf03dfbed70b8fe0cc12f759e2e1f8ef
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/utils@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/utils@npm:5.17.0"
+  dependencies:
+    "@types/json-schema": ^7.0.9
+    "@typescript-eslint/scope-manager": 5.17.0
+    "@typescript-eslint/types": 5.17.0
+    "@typescript-eslint/typescript-estree": 5.17.0
     eslint-scope: ^5.1.1
     eslint-utils: ^3.0.0
   peerDependencies:
-    eslint: "*"
-  checksum: f859800ada0884f92db6856f24efcb1d073ac9883ddc2b1aa9339f392215487895bed8447ebce3741e8141bb32e545244abef62b73193ba9a8a0527c523aabae
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+  checksum: 88de02eafb7d39950c520c53aa07ffe63c95ca7ef2262c39d2afd3c6aabcd5d717ba61f74314f5bc9c27588b721ff016b45af6fc1de88801c6ac4bf5ebaf8775
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^4.28":
-  version: 4.33.0
-  resolution: "@typescript-eslint/parser@npm:4.33.0"
+"@typescript-eslint/visitor-keys@npm:5.17.0":
+  version: 5.17.0
+  resolution: "@typescript-eslint/visitor-keys@npm:5.17.0"
   dependencies:
-    "@typescript-eslint/scope-manager": 4.33.0
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/typescript-estree": 4.33.0
-    debug: ^4.3.1
-  peerDependencies:
-    eslint: ^5.0.0 || ^6.0.0 || ^7.0.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 102457eae1acd516211098fea081c8a2ed728522bbda7f5a557b6ef23d88970514f9a0f6285d53fca134d3d4d7d17822b5d5e12438d5918df4d1f89cc9e67d57
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/scope-manager@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/scope-manager@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/visitor-keys": 4.33.0
-  checksum: 9a25fb7ba7c725ea7227a24d315b0f6aacbad002e2549a049edf723c1d3615c22f5c301f0d7d615b377f2cdf2f3519d97e79af0c459de6ef8d2aaf0906dff13e
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/types@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/types@npm:4.33.0"
-  checksum: 3baae1ca35872421b4eb60f5d3f3f32dc1d513f2ae0a67dee28c7d159fd7a43ed0d11a8a5a0f0c2d38507ffa036fc7c511cb0f18a5e8ac524b3ebde77390ec53
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/typescript-estree@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/typescript-estree@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/types": 4.33.0
-    "@typescript-eslint/visitor-keys": 4.33.0
-    debug: ^4.3.1
-    globby: ^11.0.3
-    is-glob: ^4.0.1
-    semver: ^7.3.5
-    tsutils: ^3.21.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 2566984390c76bd95f43240057215c068c69769e406e27aba41e9f21fd300074d6772e4983fa58fe61e80eb5550af1548d2e31e80550d92ba1d051bb00fe6f5c
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/visitor-keys@npm:4.33.0":
-  version: 4.33.0
-  resolution: "@typescript-eslint/visitor-keys@npm:4.33.0"
-  dependencies:
-    "@typescript-eslint/types": 4.33.0
-    eslint-visitor-keys: ^2.0.0
-  checksum: 59953e474ad4610c1aa23b2b1a964445e2c6201521da6367752f37939d854352bbfced5c04ea539274065e012b1337ba3ffa49c2647a240a4e87155378ba9873
+    "@typescript-eslint/types": 5.17.0
+    eslint-visitor-keys: ^3.0.0
+  checksum: 333468277b50e2fc381ba1b99ccb410046c422e0329c791c51bea62e705edd16ba97f75b668c6945a3ea3dc43b89a1739693ea60bfa241c67ce42e8b474e5048
   languageName: node
   linkType: hard
 
@@ -1939,18 +1962,6 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: ccd267956c58d2315f5d3ea6757cf09863c5fc703e50fbeb13a7dc849b812ef76e3cf9ca8f35a0c48498776a7478d7b4a0418e1e2b8cb9cb9731f2922aaad7f8
-  languageName: node
-  linkType: hard
-
-"bip39@npm:^3.0.2":
-  version: 3.0.4
-  resolution: "bip39@npm:3.0.4"
-  dependencies:
-    "@types/node": 11.11.6
-    create-hash: ^1.1.0
-    pbkdf2: ^3.0.9
-    randombytes: ^2.0.1
-  checksum: 79ce1600a03d1ba5053bdd4e6323f9463ec340764c7e52918b6c6b9dca81221940f2d9a65656447f108f9bc2c8d9ae8df319cca83bbd1dad63f53ef2768d9bae
   languageName: node
   linkType: hard
 
@@ -2561,8 +2572,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cosmjs-monorepo-root@workspace:."
   dependencies:
-    "@cosmjs/crypto": 0.27.1
-    "@cosmjs/encoding": 0.27.1
+    "@cosmjs/crypto": 0.28.1
+    "@cosmjs/encoding": 0.28.1
     "@lbmjs/amino": "workspace:packages/amino"
     "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate"
     "@lbmjs/proto-signing": "workspace:packages/proto-signing"
@@ -3184,6 +3195,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-visitor-keys@npm:^3.0.0":
+  version: 3.3.0
+  resolution: "eslint-visitor-keys@npm:3.3.0"
+  checksum: d59e68a7c5a6d0146526b0eec16ce87fbf97fe46b8281e0d41384224375c4e52f5ffb9e16d48f4ea50785cde93f766b0c898e31ab89978d88b0e1720fbfb7808
+  languageName: node
+  linkType: hard
+
 "eslint@npm:^7.5":
   version: 7.32.0
   resolution: "eslint@npm:7.32.0"
@@ -3709,7 +3727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^11.0.3":
+"globby@npm:^11.0.4":
   version: 11.1.0
   resolution: "globby@npm:11.1.0"
   dependencies:
@@ -4441,20 +4459,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-sha3@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "js-sha3@npm:0.8.0"
-  checksum: 75df77c1fc266973f06cce8309ce010e9e9f07ec35ab12022ed29b7f0d9c8757f5a73e1b35aa24840dced0dea7059085aa143d817aea9e188e2a80d569d9adce
-  languageName: node
-  linkType: hard
-
-"js-sha512@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "js-sha512@npm:0.8.0"
-  checksum: 32ca371ebd14c6c5c83360fd8b036cad2211537bef546b199ac8b901917299cab4c68f7f7c26ae72f836bbce0349cb463df9a62cdb4c90e38090fdb4db89ee87
-  languageName: node
-  linkType: hard
-
 "js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -4666,14 +4670,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"karma@npm:^6.1.1":
-  version: 6.3.15
-  resolution: "karma@npm:6.3.15"
+"karma@npm:^6.3.17":
+  version: 6.3.17
+  resolution: "karma@npm:6.3.17"
   dependencies:
+    "@colors/colors": 1.5.0
     body-parser: ^1.19.0
     braces: ^3.0.2
     chokidar: ^3.5.1
-    colors: 1.4.0
     connect: ^3.7.0
     di: ^0.0.1
     dom-serialize: ^2.2.1
@@ -4696,7 +4700,7 @@ __metadata:
     yargs: ^16.1.1
   bin:
     karma: bin/karma
-  checksum: 28736fd4e69f449e9008c3e42cef38af13b860db3b3f9cdfbe84bb32e5570fd0ff29e40dd239946c200f99473d94853a77786f3531575bd7cf5b77581612cbc2
+  checksum: 5d72fd6ce72879071fbbcbd7f469232090a110349f131ddbc52b5df8a43901ef04ac000dda609d4d7f31aab320037fc25f5f1783f1adec74362c87b87865d228
   languageName: node
   linkType: hard
 
@@ -5606,7 +5610,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pbkdf2@npm:^3.0.3, pbkdf2@npm:^3.0.9":
+"pbkdf2@npm:^3.0.3":
   version: 3.1.2
   resolution: "pbkdf2@npm:3.1.2"
   dependencies:
@@ -5901,7 +5905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regexpp@npm:^3.1.0":
+"regexpp@npm:^3.1.0, regexpp@npm:^3.2.0":
   version: 3.2.0
   resolution: "regexpp@npm:3.2.0"
   checksum: a78dc5c7158ad9ddcfe01aa9144f46e192ddbfa7b263895a70a5c6c73edd9ce85faf7c0430e59ac38839e1734e275b9c3de5c57ee3ab6edc0e0b1bdebefccef8
@@ -6026,7 +6030,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ripemd160@npm:^2.0.0, ripemd160@npm:^2.0.1, ripemd160@npm:^2.0.2":
+"ripemd160@npm:^2.0.0, ripemd160@npm:^2.0.1":
   version: 2.0.2
   resolution: "ripemd160@npm:2.0.2"
   dependencies:
@@ -6138,7 +6142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sha.js@npm:^2.4.0, sha.js@npm:^2.4.11, sha.js@npm:^2.4.8":
+"sha.js@npm:^2.4.0, sha.js@npm:^2.4.8":
   version: 2.4.11
   resolution: "sha.js@npm:2.4.11"
   dependencies:
