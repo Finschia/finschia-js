@@ -43,34 +43,35 @@ describe("AminoTypes", () => {
       });
     });
 
-    it("can override type with Amino type collision", () => {
-      const types = new AminoTypes({
-        ...createStakingAminoConverters("cosmos"),
-        "/lbm.staking.otherVersion456.MsgDelegate": {
-          aminoType: "lbm-sdk/MsgDelegate",
-          toAmino: (m: MsgDelegate): { readonly foo: string } => ({
-            foo: m.delegatorAddress ?? "",
-          }),
-          fromAmino: () => ({
-            bar: 123,
-          }),
-        },
-      });
-
-      const aminoMsg = types.toAmino({
-        typeUrl: "/lbm.staking.otherVersion456.MsgDelegate",
-        value: msg,
-      });
-      expect(aminoMsg).toEqual({
-        type: "lbm-sdk/MsgDelegate",
-        value: {
-          foo: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
-        },
-      });
-      expect(() => types.fromAmino(aminoMsg)).toThrowError(
-        "Multiple types are registered with Amino type identifier 'cosmos-sdk/MsgDelegate': '/lbm.staking.otherVersion456.MsgDelegate', '/lbm.staking.v1.MsgDelegate'. Thus fromAmino cannot be performed.",
-      );
-    });
+    // no need for lbmjs
+    // it("can override type with Amino type collision", () => {
+    //   const types = new AminoTypes({
+    //     ...createStakingAminoConverters("cosmos"),
+    //     "/lbm.staking.otherVersion456.MsgDelegate": {
+    //       aminoType: "lbm-sdk/MsgDelegate",
+    //       toAmino: (m: MsgDelegate): { readonly foo: string } => ({
+    //         foo: m.delegatorAddress ?? "",
+    //       }),
+    //       fromAmino: () => ({
+    //         bar: 123,
+    //       }),
+    //     },
+    //   });
+    //
+    //   const aminoMsg = types.toAmino({
+    //     typeUrl: "/lbm.staking.otherVersion456.MsgDelegate",
+    //     value: msg,
+    //   });
+    //   expect(aminoMsg).toEqual({
+    //     type: "lbm-sdk/MsgDelegate",
+    //     value: {
+    //       foo: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
+    //     },
+    //   });
+    //   expect(() => types.fromAmino(aminoMsg)).toThrowError(
+    //     "Multiple types are registered with Amino type identifier 'cosmos-sdk/MsgDelegate': '/lbm.staking.otherVersion456.MsgDelegate', '/lbm.staking.v1.MsgDelegate'. Thus fromAmino cannot be performed.",
+    //   );
+    // });
   });
 
   describe("toAmino", () => {
@@ -210,7 +211,7 @@ describe("AminoTypes", () => {
           value: { foo: "bar" },
         }),
       ).toThrowError(
-        /Amino type identifier 'cosmos-sdk\/MsgUnknown' does not exist in the Amino message type register./i,
+        /Amino type identifier 'lbm-sdk\/MsgUnknown' does not exist in the Amino message type register./i,
       );
     });
   });

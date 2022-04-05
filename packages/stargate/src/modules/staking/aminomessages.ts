@@ -184,7 +184,7 @@ export function createStakingAminoConverters(
           validator_address: validatorAddress,
           pubkey: encodeBech32Pubkey(
             {
-              type: "tendermint/PubKeySecp256k1",
+              type: "ostracon/PubKeySecp256k1",
               value: toBase64(pubkey.value),
             },
             prefix,
@@ -202,7 +202,7 @@ export function createStakingAminoConverters(
         value,
       }: AminoMsgCreateValidator["value"]): MsgCreateValidator => {
         const decodedPubkey = decodeBech32Pubkey(pubkey);
-        if (decodedPubkey.type !== "tendermint/PubKeySecp256k1") {
+        if (decodedPubkey.type !== "ostracon/PubKeySecp256k1") {
           throw new Error("Only Secp256k1 public keys are supported");
         }
         return {

@@ -166,8 +166,8 @@ describe("BankExtension", () => {
         ],
         base: "LINK",
         display: "LN",
-        // name: "",
-        // symbol: "",
+        name: "",
+        symbol: "",
       });
 
       tmClient.disconnect();
@@ -206,8 +206,8 @@ describe("BankExtension", () => {
         ],
         base: "LINK",
         display: "LN",
-        // name: "",
-        // symbol: "",
+        name: "",
+        symbol: "",
       });
 
       tmClient.disconnect();

@@ -25,7 +25,7 @@ export function setupTokenExtension(base: QueryClient): TokenExtension {
   return {
     token: {
       totalBalance: async (classId: string, address: string) => {
-        const { amount } = await queryService.TokenBalance({ classId: classId, address: address });
+        const { amount } = await queryService.Balance({ classId: classId, address: address });
         assert(amount);
         return amount;
       },

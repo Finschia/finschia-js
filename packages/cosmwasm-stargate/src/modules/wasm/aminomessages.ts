@@ -126,7 +126,7 @@ export interface AminoMsgClearAdmin {
 
 export function createWasmAminoConverters(): AminoConverters {
   return {
-    "/cosmwasm.wasm.v1.MsgStoreCode": {
+    "/lbm.wasm.v1.MsgStoreCode": {
       aminoType: "wasm/MsgStoreCode",
       toAmino: ({ sender, wasmByteCode }: MsgStoreCode): AminoMsgStoreCode["value"] => ({
         sender: sender,
@@ -138,7 +138,7 @@ export function createWasmAminoConverters(): AminoConverters {
         instantiatePermission: undefined,
       }),
     },
-    "/cosmwasm.wasm.v1.MsgInstantiateContract": {
+    "/lbm.wasm.v1.MsgInstantiateContract": {
       aminoType: "wasm/MsgInstantiateContract",
       toAmino: ({
         sender,
@@ -171,7 +171,7 @@ export function createWasmAminoConverters(): AminoConverters {
         admin: admin ?? "",
       }),
     },
-    "/cosmwasm.wasm.v1.MsgUpdateAdmin": {
+    "/lbm.wasm.v1.MsgUpdateAdmin": {
       aminoType: "wasm/MsgUpdateAdmin",
       toAmino: ({ sender, newAdmin, contract }: MsgUpdateAdmin): AminoMsgUpdateAdmin["value"] => ({
         sender: sender,
@@ -184,7 +184,7 @@ export function createWasmAminoConverters(): AminoConverters {
         contract: contract,
       }),
     },
-    "/cosmwasm.wasm.v1.MsgClearAdmin": {
+    "/lbm.wasm.v1.MsgClearAdmin": {
       aminoType: "wasm/MsgClearAdmin",
       toAmino: ({ sender, contract }: MsgClearAdmin): AminoMsgClearAdmin["value"] => ({
         sender: sender,
@@ -195,7 +195,7 @@ export function createWasmAminoConverters(): AminoConverters {
         contract: contract,
       }),
     },
-    "/cosmwasm.wasm.v1.MsgExecuteContract": {
+    "/lbm.wasm.v1.MsgExecuteContract": {
       aminoType: "wasm/MsgExecuteContract",
       toAmino: ({ sender, contract, msg, funds }: MsgExecuteContract): AminoMsgExecuteContract["value"] => ({
         sender: sender,
@@ -215,7 +215,7 @@ export function createWasmAminoConverters(): AminoConverters {
         funds: [...funds],
       }),
     },
-    "/cosmwasm.wasm.v1.MsgMigrateContract": {
+    "/lbm.wasm.v1.MsgMigrateContract": {
       aminoType: "wasm/MsgMigrateContract",
       toAmino: ({ sender, contract, codeId, msg }: MsgMigrateContract): AminoMsgMigrateContract["value"] => ({
         sender: sender,
