@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
-#        with:
-#          lfs: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -32,5 +30,5 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Lint
+      - name: Unit Test
         run: yarn test
