@@ -92,7 +92,7 @@ describe("SigningCosmWasmClient", () => {
       const memo = "Go go go";
       const gasUsed = await client.simulate(alice.address0, [executeContractMsg], memo);
       expect(gasUsed).toBeGreaterThanOrEqual(61_000);
-      expect(gasUsed).toBeLessThanOrEqual(65_000);
+      expect(gasUsed).toBeLessThanOrEqual(67_000);
       client.disconnect();
     });
   });

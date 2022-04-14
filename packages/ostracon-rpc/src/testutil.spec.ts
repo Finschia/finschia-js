@@ -36,7 +36,9 @@ export interface TendermintInstance {
  */
 export const tendermintInstances: readonly TendermintInstance[] = [
   {
-    url: "localhost:11134",
+    // this port number was used tendermint 0.34.x version docker's port. We can find the detain information in the ./script/tendermint/all_start.sh
+    // url: "localhost:11134",
+    url: "localhost:26658",
     version: "0.34.x",
     blockTime: 500,
     expected: {

@@ -5,6 +5,7 @@ import {
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
+  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
 } from "lbmjs-types/lbm/wasm/v1/tx";
 
@@ -14,6 +15,7 @@ export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.wasm.v1.MsgMigrateContract", MsgMigrateContract],
   ["/lbm.wasm.v1.MsgStoreCode", MsgStoreCode],
   ["/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
+  ["/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract", MsgStoreCodeAndInstantiateContract],
   ["/lbm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin],
 ];
 
@@ -35,6 +37,20 @@ export function isMsgInstantiateContractEncodeObject(
   object: EncodeObject,
 ): object is MsgInstantiateContractEncodeObject {
   return (object as MsgInstantiateContractEncodeObject).typeUrl === "/lbm.wasm.v1.MsgInstantiateContract";
+}
+
+export interface MsgStoreCodeAndInstantiateContractEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract";
+  readonly value: Partial<MsgStoreCodeAndInstantiateContract>;
+}
+
+export function isMsgStoreCodeAndInstantiateContract(
+  object: EncodeObject,
+): object is MsgStoreCodeAndInstantiateContractEncodeObject {
+  return (
+    (object as MsgStoreCodeAndInstantiateContractEncodeObject).typeUrl ===
+    "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract"
+  );
 }
 
 export interface MsgUpdateAdminEncodeObject extends EncodeObject {
