@@ -26,8 +26,8 @@ export function encodeSecp256k1Pubkey(pubkey: Uint8Array): Secp256k1Pubkey {
 // Prefixes listed here: https://github.com/tendermint/tendermint/blob/d419fffe18531317c28c29a292ad7d253f6cafdf/docs/spec/blockchain/encoding.md#public-key-cryptography
 // Last bytes is varint-encoded length prefix
 const pubkeyAminoPrefixSecp256k1 = fromHex("c03701b7" + "21" /* fixed length */);
-const pubkeyAminoPrefixEd25519 = fromHex("1624de64" + "20" /* fixed length */);
-const pubkeyAminoPrefixSr25519 = fromHex("0dfb1005" + "20" /* fixed length */);
+const pubkeyAminoPrefixEd25519 = fromHex("ca5f2bb0" + "20" /* fixed length */);
+const pubkeyAminoPrefixSr25519 = fromHex("09ef29bd" + "20" /* fixed length */);
 /** See https://github.com/tendermint/tendermint/commit/38b401657e4ad7a7eeb3c30a3cbf512037df3740 */
 const pubkeyAminoPrefixMultisigThreshold = fromHex("77a72198" /* variable length not included */);
 
