@@ -40,11 +40,13 @@ describe("encoding", () => {
   describe("decodeAminoPubkey", () => {
     it("works for secp256k1", () => {
       const amino = Bech32.decode(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        // "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz"
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        // value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF"
       });
     });
 
@@ -65,15 +67,23 @@ describe("encoding", () => {
     });
 
     it("works for multisig", () => {
+      // const pubkeyData = Bech32.decode(
+      //   "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+      // ).data;
+      // const pubkey = {
+      //   type: "ostracon/PubKeySecp256k1",
+      //   value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+      // };
       const pubkeyData = Bech32.decode(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz"
       ).data;
       const pubkey = {
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
-      };
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF"
+      }
 
-      const data1 = fromHex("22C1F7E20805");
+      // const data1 = fromHex("22C1F7E20805");
+      const data1 = fromHex("77A721980805");
       expect(decodeAminoPubkey(data1)).toEqual({
         type: "ostracon/PubKeyMultisigThreshold",
         value: {
@@ -82,7 +92,8 @@ describe("encoding", () => {
         },
       });
 
-      const data2 = Uint8Array.from([...fromHex("22C1F7E2081a"), 0x12, pubkeyData.length, ...pubkeyData]);
+      // const data2 = Uint8Array.from([...fromHex("22C1F7E2081a"), 0x12, pubkeyData.length, ...pubkeyData]);
+      const data2 = Uint8Array.from([...fromHex("77A72198081a"), 0x12, pubkeyData.length, ...pubkeyData]);
       expect(decodeAminoPubkey(data2)).toEqual({
         type: "ostracon/PubKeyMultisigThreshold",
         value: {
@@ -92,7 +103,8 @@ describe("encoding", () => {
       });
 
       const data3 = Uint8Array.from([
-        ...fromHex("22C1F7E2081a"),
+        // ...fromHex("22C1F7E2081a"),
+        ...fromHex("77A72198081a"),
         0x12,
         pubkeyData.length,
         ...pubkeyData,
@@ -108,17 +120,24 @@ describe("encoding", () => {
         },
       });
 
-      expect(() => decodeAminoPubkey(fromHex("22C1F7E20705"))).toThrowError(/expecting 0x08 prefix/i);
+      // expect(() => decodeAminoPubkey(fromHex("22C1F7E20705"))).toThrowError(/expecting 0x08 prefix/i);
+      expect(() => decodeAminoPubkey(fromHex("77A721980705"))).toThrowError(/expecting 0x08 prefix/i);
     });
   });
 
   describe("decodeBech32Pubkey", () => {
     it("works", () => {
+      // expect(
+      //   decodeBech32Pubkey("cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5"),
+      // ).toEqual({
+      //   type: "ostracon/PubKeySecp256k1",
+      //   value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+      // });
       expect(
-        decodeBech32Pubkey("cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5"),
+        decodeBech32Pubkey("linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz"),
       ).toEqual({
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       });
     });
 
@@ -154,10 +173,12 @@ describe("encoding", () => {
     it("works for secp256k1", () => {
       const pubkey: Pubkey = {
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        // value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF"
       };
       const expected = Bech32.decode(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        // "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz"
       ).data;
       expect(encodeAminoPubkey(pubkey)).toEqual(expected);
     });
@@ -180,11 +201,15 @@ describe("encoding", () => {
     it("works for secp256k1", () => {
       const pubkey: Pubkey = {
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        // value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF"
       };
-      expect(encodeBech32Pubkey(pubkey, "cosmospub")).toEqual(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
-      );
+      // expect(encodeBech32Pubkey(pubkey, "cosmospub")).toEqual(
+      //   "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+      // );
+      expect(encodeBech32Pubkey(pubkey, "linkpub")).toEqual(
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz"
+      )
     });
 
     it("works for ed25519", () => {
