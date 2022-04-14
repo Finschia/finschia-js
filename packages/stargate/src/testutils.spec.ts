@@ -143,7 +143,7 @@ export const unused = {
     value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
   address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
-  accountNumber: 8,
+  accountNumber: 12,
   sequence: 0,
   balanceStaking: "20000000000", // 100000 STAKE
   balanceFee: "100000000000", // 1000 CONY
@@ -177,7 +177,7 @@ export const validator = {
    * ```
    */
   validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
-  accountNumber: 9,
+  accountNumber: 13,
   sequence: 1,
 };
 

@@ -85,5 +85,6 @@ export {
   stakingTypes,
 } from "./staking/messages";
 export { setupStakingExtension, StakingExtension } from "./staking/queries";
+export { tokenTypes } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
 export { setupTxExtension, TxExtension } from "./tx/queries";

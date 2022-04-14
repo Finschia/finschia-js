@@ -17,13 +17,8 @@ import {
 import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "lbmjs-types/ibc/core/client/v1/client";
 import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import {
-  MsgWithdrawDelegatorReward,
-} from "lbmjs-types/lbm/distribution/v1/tx";
-import {
-  MsgDelegate,
-  MsgUndelegate,
-} from "lbmjs-types/lbm/staking/v1/tx";
+import { MsgWithdrawDelegatorReward } from "lbmjs-types/lbm/distribution/v1/tx";
+import { MsgDelegate, MsgUndelegate } from "lbmjs-types/lbm/staking/v1/tx";
 import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
 import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
@@ -43,6 +38,7 @@ import {
   MsgUndelegateEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
   stakingTypes,
+  tokenTypes,
 } from "./modules";
 import {
   createAuthzAminoConverters,
@@ -64,6 +60,7 @@ export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...govTypes,
   ...stakingTypes,
   ...ibcTypes,
+  ...tokenTypes,
 ];
 
 function createDefaultRegistry(): Registry {
