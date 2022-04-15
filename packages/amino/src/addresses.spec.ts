@@ -1,7 +1,8 @@
 import { Bech32, fromHex, toBase64 } from "@cosmjs/encoding";
-import { createMultisigThresholdPubkey } from "./multisig";
+
 import { pubkeyToAddress, pubkeyToRawAddress } from "./addresses";
 import { decodeBech32Pubkey } from "./encoding";
+import { createMultisigThresholdPubkey } from "./multisig";
 import { MultisigThresholdPubkey } from "./pubkeys";
 
 describe("addresses", () => {

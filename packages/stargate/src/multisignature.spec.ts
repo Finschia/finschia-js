@@ -175,7 +175,7 @@ describe("multisignature", () => {
       pendingWithoutSimapp();
       // const multisigAccountAddress = "cosmos1h90ml36rcu7yegwduzgzderj2jmq49hcpfclw9";
       const multisigAccountAddress = "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl";
-  
+
       // On the composer's machine signing instructions are created.
       // The composer does not need to be one of the signers.
       const signingInstruction = await (async () => {
@@ -183,7 +183,7 @@ describe("multisignature", () => {
         const accountOnChain = await client.getAccount(multisigAccountAddress);
         const latestBlockHeight = await client.getHeight();
         assert(accountOnChain, "Account does not exist on chain");
-  
+
         const msgSend: MsgSend = {
           fromAddress: multisigAccountAddress,
           toAddress: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
@@ -198,7 +198,7 @@ describe("multisignature", () => {
           amount: coins(2000, "cony"),
           gas: gasLimit.toString(),
         };
-  
+
         return {
           accountNumber: accountOnChain.accountNumber,
           sequence: accountOnChain.sequence,
@@ -209,7 +209,7 @@ describe("multisignature", () => {
           memo: "Use your tokens wisely",
         };
       })();
-  
+
       const [
         [pubkey0, signature0, bodyBytes],
         [pubkey1, signature1],
@@ -241,7 +241,7 @@ describe("multisignature", () => {
           return [pubkey, signatures[0], bb] as const;
         }),
       );
-  
+
       // From here on, no private keys are required anymore. Any anonymous entity
       // can collect, assemble and broadcast.
       {
@@ -250,13 +250,13 @@ describe("multisignature", () => {
           2,
         );
         expect(pubkeyToAddress(multisigPubkey, "link")).toEqual(multisigAccountAddress);
-  
+
         const address0 = pubkeyToAddress(pubkey0, "link");
         const address1 = pubkeyToAddress(pubkey1, "link");
         const address2 = pubkeyToAddress(pubkey2, "link");
         const address3 = pubkeyToAddress(pubkey3, "link");
         const address4 = pubkeyToAddress(pubkey4, "link");
-  
+
         const broadcaster = await StargateClient.connect(simapp.tendermintUrl);
         const signedTx = makeMultisignedTx(
           multisigPubkey,

@@ -33,9 +33,15 @@ export const base64Matcher =
 //   // address data: eeb861aa9b71c0838851fabac83650666f5220b0
 // );
 
-export const test1 = decodeBech32Pubkey("linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz");
-export const test2 = decodeBech32Pubkey("linkpub1cqmsrdepqthd7ap6vech9kamz8uulgl0hu6352gz8gg7pk8yvdkltmtmwxxxg6u0lpy");
-export const test3 = decodeBech32Pubkey("linkpub1cqmsrdepqw88zyx2dvmwhrqwlgfv3h0e8pwvcj3cphwf04xsntksu2qx9avkyu9wprp");
+export const test1 = decodeBech32Pubkey(
+  "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
+);
+export const test2 = decodeBech32Pubkey(
+  "linkpub1cqmsrdepqthd7ap6vech9kamz8uulgl0hu6352gz8gg7pk8yvdkltmtmwxxxg6u0lpy",
+);
+export const test3 = decodeBech32Pubkey(
+  "linkpub1cqmsrdepqw88zyx2dvmwhrqwlgfv3h0e8pwvcj3cphwf04xsntksu2qx9avkyu9wprp",
+);
 
 // 2/3 multisig
 // export const testgroup1: MultisigThresholdPubkey = {
@@ -48,7 +54,8 @@ export const test3 = decodeBech32Pubkey("linkpub1cqmsrdepqw88zyx2dvmwhrqwlgfv3h0
 export const testgroup1: MultisigThresholdPubkey = createMultisigThresholdPubkey([test1, test2, test3], 2);
 // export const testgroup1PubkeyBech32 =
 //   "wasmpub1ytql0csgqgfzd666axrjzquvkkvwu4qnp5603cyp3emc02sxzwdqutgqym9dke3t2h83dpv6vufzd666axrjzq5sdudaj5tv3nfm2f3exgkgqxlcwfxplf0g0rqwx2um6mqthzc0dqfzd666axrjzq7vjdge6cdksmdx7r5vl72rrc6kk30ezp376mup77wamzvgtzqq7v7aysdd";
-export const testgroup1PubkeyBech32 = "linkpub1w7njrxqgqgfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5fzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgfzdsphqxmjzqhwma6r5en3wtdmky0ee737l0e4rg5syws3urvwgcmd7hkhkuvvvs2ultdn";
+export const testgroup1PubkeyBech32 =
+  "linkpub1w7njrxqgqgfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5fzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgfzdsphqxmjzqhwma6r5en3wtdmky0ee737l0e4rg5syws3urvwgcmd7hkhkuvvvs2ultdn";
 
 // export const testgroup2: MultisigThresholdPubkey = {
 //   type: "ostracon/PubKeyMultisigThreshold",
@@ -60,7 +67,8 @@ export const testgroup1PubkeyBech32 = "linkpub1w7njrxqgqgfzdsphqxmjzqsy7eq0fwqja
 export const testgroup2: MultisigThresholdPubkey = createMultisigThresholdPubkey([test1, test2, test3], 1);
 // export const testgroup2PubkeyBech32 =
 //   "wasmpub1ytql0csgqyfzd666axrjzquvkkvwu4qnp5603cyp3emc02sxzwdqutgqym9dke3t2h83dpv6vufzd666axrjzq5sdudaj5tv3nfm2f3exgkgqxlcwfxplf0g0rqwx2um6mqthzc0dqfzd666axrjzq7vjdge6cdksmdx7r5vl72rrc6kk30ezp376mup77wamzvgtzqq7vc4ejke";
-export const testgroup2PubkeyBech32 = "linkpub1w7njrxqgqyfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5fzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgfzdsphqxmjzqhwma6r5en3wtdmky0ee737l0e4rg5syws3urvwgcmd7hkhkuvvvsv5zfk8";
+export const testgroup2PubkeyBech32 =
+  "linkpub1w7njrxqgqyfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5fzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgfzdsphqxmjzqhwma6r5en3wtdmky0ee737l0e4rg5syws3urvwgcmd7hkhkuvvvsv5zfk8";
 
 // 2/2 multisig
 // export const testgroup3: MultisigThresholdPubkey = {
@@ -73,7 +81,8 @@ export const testgroup2PubkeyBech32 = "linkpub1w7njrxqgqyfzdsphqxmjzqsy7eq0fwqja
 export const testgroup3: MultisigThresholdPubkey = createMultisigThresholdPubkey([test1, test3], 2);
 // export const testgroup3PubkeyBech32 =
 //   "wasmpub1ytql0csgqgfzd666axrjzquvkkvwu4qnp5603cyp3emc02sxzwdqutgqym9dke3t2h83dpv6vufzd666axrjzq7vjdge6cdksmdx7r5vl72rrc6kk30ezp376mup77wamzvgtzqq7vzjhugu";
-export const testgroup3PubkeyBech32 = "linkpub1w7njrxqgqgfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5fzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgqhumzn";
+export const testgroup3PubkeyBech32 =
+  "linkpub1w7njrxqgqgfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5fzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgqhumzn";
 
 // 2/2 multisig with custom sorting
 // export const testgroup4: MultisigThresholdPubkey = {
@@ -86,4 +95,5 @@ export const testgroup3PubkeyBech32 = "linkpub1w7njrxqgqgfzdsphqxmjzqsy7eq0fwqja
 export const testgroup4: MultisigThresholdPubkey = createMultisigThresholdPubkey([test3, test1], 2, true);
 // export const testgroup4PubkeyBech32 =
 //   "wasmpub1ytql0csgqgfzd666axrjzq7vjdge6cdksmdx7r5vl72rrc6kk30ezp376mup77wamzvgtzqq7vfzd666axrjzquvkkvwu4qnp5603cyp3emc02sxzwdqutgqym9dke3t2h83dpv6vujvg56k";
-export const testgroup4PubkeyBech32 = "linkpub1w7njrxqgqgfzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5jf2jms";
+export const testgroup4PubkeyBech32 =
+  "linkpub1w7njrxqgqgfzdsphqxmjzquwwygv56ekawxqa7sjerwljwzue39rsrwujl2dpxhdpc5qvt6evgfzdsphqxmjzqsy7eq0fwqja6x0n3780xmtahkm56cvlcf5gpr8fnh8g6ydyegcc5jf2jms";
