@@ -144,10 +144,10 @@ describe("encoding", () => {
 
     it("works for enigma pubkey", () => {
       expect(
-        decodeBech32Pubkey("enigmapub1addwnpepqw5k9p439nw0zpg2aundx4umwx4nw233z5prpjqjv5anl5grmnchzp2xwvv"),
+        decodeBech32Pubkey("enigmapub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2mhvjk4"),
       ).toEqual({
         type: "ostracon/PubKeySecp256k1",
-        value: "A6lihrEs3PEFCu8m01ebcas3KjEVAjDIEmU7P9ED3PFx",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       });
     });
 
