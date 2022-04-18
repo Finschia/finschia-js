@@ -24,6 +24,17 @@ export function encodeSecp256k1Pubkey(pubkey: Uint8Array): Secp256k1Pubkey {
 
 // As discussed in https://github.com/binance-chain/javascript-sdk/issues/163
 // Prefixes listed here: https://github.com/tendermint/tendermint/blob/d419fffe18531317c28c29a292ad7d253f6cafdf/docs/spec/blockchain/encoding.md#public-key-cryptography
+// Prefixes for Ostracon are listed below.
+// | Type | Name | Prefix | Length | Notes |
+// | ---- | ---- | ------ | ----- | ------ |
+// | PrivKeyLedgerSecp256k1 | ostracon/PrivKeyLedgerSecp256k1 | 0x5421414C | variable |  |
+// | PubKey | ostracon/PubKeySr25519 | 0x09EF29BD | variable |  |
+// | PubKey | ostracon/PubKeyEd25519 | 0xCA5F2BB0 | variable |  |
+// | PubKey | ostracon/PubKeySecp256k1 | 0xC03701B7 | variable |  |
+// | LegacyAminoPubKey | ostracon/PubKeyMultisigThreshold | 0x77A72198 | variable |  |
+// | PrivKey | ostracon/PrivKeySr25519 | 0x2C3D3053 | variable |  |
+// | PrivKey | ostracon/PrivKeyEd25519 | 0xF53C89CD | variable |  |
+// | PrivKey | ostracon/PrivKeySecp256k1 | 0x423EB2BA | variable |  |
 // Last bytes is varint-encoded length prefix
 const pubkeyAminoPrefixSecp256k1 = fromHex("c03701b7" + "21" /* fixed length */);
 const pubkeyAminoPrefixEd25519 = fromHex("ca5f2bb0" + "20" /* fixed length */);
