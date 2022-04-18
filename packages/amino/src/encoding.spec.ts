@@ -40,11 +40,11 @@ describe("encoding", () => {
   describe("decodeAminoPubkey", () => {
     it("works for secp256k1", () => {
       const amino = Bech32.decode(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       });
     });
 
@@ -52,11 +52,11 @@ describe("encoding", () => {
       // Encoded from `corald tendermint show-validator`
       // Decoded from http://localhost:26657/validators
       const amino = Bech32.decode(
-        "coralvalconspub1zcjduepqvxg72ccnl9r65fv0wn3amlk4sfzqfe2k36l073kjx2qyaf6sk23qw7j8wq",
+        "linkvalconspub1ef0jhvpq05an85endwxngp3050gfe8k3dwlux8gffs6yj2hp4n02xqcqrlts626zgh",
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
         type: "ostracon/PubKeyEd25519",
-        value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
+        value: "fTsz0zNrjTQGL6PQnJ7Ra7/DHQlMNEkq4azeowMAH9c=",
       });
     });
 
@@ -66,14 +66,14 @@ describe("encoding", () => {
 
     it("works for multisig", () => {
       const pubkeyData = Bech32.decode(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       ).data;
       const pubkey = {
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       };
 
-      const data1 = fromHex("22C1F7E20805");
+      const data1 = fromHex("77A721980805");
       expect(decodeAminoPubkey(data1)).toEqual({
         type: "ostracon/PubKeyMultisigThreshold",
         value: {
@@ -82,7 +82,7 @@ describe("encoding", () => {
         },
       });
 
-      const data2 = Uint8Array.from([...fromHex("22C1F7E2081a"), 0x12, pubkeyData.length, ...pubkeyData]);
+      const data2 = Uint8Array.from([...fromHex("77A72198081a"), 0x12, pubkeyData.length, ...pubkeyData]);
       expect(decodeAminoPubkey(data2)).toEqual({
         type: "ostracon/PubKeyMultisigThreshold",
         value: {
@@ -92,7 +92,7 @@ describe("encoding", () => {
       });
 
       const data3 = Uint8Array.from([
-        ...fromHex("22C1F7E2081a"),
+        ...fromHex("77A72198081a"),
         0x12,
         pubkeyData.length,
         ...pubkeyData,
@@ -108,26 +108,26 @@ describe("encoding", () => {
         },
       });
 
-      expect(() => decodeAminoPubkey(fromHex("22C1F7E20705"))).toThrowError(/expecting 0x08 prefix/i);
+      expect(() => decodeAminoPubkey(fromHex("77A721980705"))).toThrowError(/expecting 0x08 prefix/i);
     });
   });
 
   describe("decodeBech32Pubkey", () => {
     it("works", () => {
       expect(
-        decodeBech32Pubkey("cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5"),
+        decodeBech32Pubkey("linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz"),
       ).toEqual({
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       });
     });
 
     it("works for enigma pubkey", () => {
       expect(
-        decodeBech32Pubkey("enigmapub1addwnpepqw5k9p439nw0zpg2aundx4umwx4nw233z5prpjqjv5anl5grmnchzp2xwvv"),
+        decodeBech32Pubkey("enigmapub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2mhvjk4"),
       ).toEqual({
         type: "ostracon/PubKeySecp256k1",
-        value: "A6lihrEs3PEFCu8m01ebcas3KjEVAjDIEmU7P9ED3PFx",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       });
     });
 
@@ -135,11 +135,11 @@ describe("encoding", () => {
       // Encoded from `corald tendermint show-validator`
       // Decoded from http://localhost:26657/validators
       const decoded = decodeBech32Pubkey(
-        "coralvalconspub1zcjduepqvxg72ccnl9r65fv0wn3amlk4sfzqfe2k36l073kjx2qyaf6sk23qw7j8wq",
+        "linkvalconspub1ef0jhvpq05an85endwxngp3050gfe8k3dwlux8gffs6yj2hp4n02xqcqrlts626zgh",
       );
       expect(decoded).toEqual({
         type: "ostracon/PubKeyEd25519",
-        value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
+        value: "fTsz0zNrjTQGL6PQnJ7Ra7/DHQlMNEkq4azeowMAH9c=",
       });
     });
 
@@ -154,10 +154,10 @@ describe("encoding", () => {
     it("works for secp256k1", () => {
       const pubkey: Pubkey = {
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       };
       const expected = Bech32.decode(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       ).data;
       expect(encodeAminoPubkey(pubkey)).toEqual(expected);
     });
@@ -167,10 +167,10 @@ describe("encoding", () => {
       // Encoded from `corald tendermint show-validator`
       const pubkey: Pubkey = {
         type: "ostracon/PubKeyEd25519",
-        value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
+        value: "fTsz0zNrjTQGL6PQnJ7Ra7/DHQlMNEkq4azeowMAH9c=",
       };
       const expected = Bech32.decode(
-        "coralvalconspub1zcjduepqvxg72ccnl9r65fv0wn3amlk4sfzqfe2k36l073kjx2qyaf6sk23qw7j8wq",
+        "linkvalconspub1ef0jhvpq05an85endwxngp3050gfe8k3dwlux8gffs6yj2hp4n02xqcqrlts626zgh",
       ).data;
       expect(encodeAminoPubkey(pubkey)).toEqual(expected);
     });
@@ -180,10 +180,10 @@ describe("encoding", () => {
     it("works for secp256k1", () => {
       const pubkey: Pubkey = {
         type: "ostracon/PubKeySecp256k1",
-        value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ",
+        value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       };
-      expect(encodeBech32Pubkey(pubkey, "cosmospub")).toEqual(
-        "cosmospub1addwnpepqd8sgxq7aw348ydctp3n5ajufgxp395hksxjzc6565yfp56scupfqhlgyg5",
+      expect(encodeBech32Pubkey(pubkey, "linkpub")).toEqual(
+        "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       );
     });
 
@@ -192,10 +192,10 @@ describe("encoding", () => {
       // Encoded from `corald tendermint show-validator`
       const pubkey: Pubkey = {
         type: "ostracon/PubKeyEd25519",
-        value: "YZHlYxP5R6olj3Tj3f7VgkQE5VaOvv9G0jKATqdQsqI=",
+        value: "fTsz0zNrjTQGL6PQnJ7Ra7/DHQlMNEkq4azeowMAH9c=",
       };
-      expect(encodeBech32Pubkey(pubkey, "coralvalconspub")).toEqual(
-        "coralvalconspub1zcjduepqvxg72ccnl9r65fv0wn3amlk4sfzqfe2k36l073kjx2qyaf6sk23qw7j8wq",
+      expect(encodeBech32Pubkey(pubkey, "linkvalconspub")).toEqual(
+        "linkvalconspub1ef0jhvpq05an85endwxngp3050gfe8k3dwlux8gffs6yj2hp4n02xqcqrlts626zgh",
       );
     });
 
