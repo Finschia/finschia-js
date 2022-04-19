@@ -64,7 +64,7 @@ describe("SigningStargateClient", () => {
       const gasUsed = await client.simulate(faucet.address0, [msgAny], memo);
       expect(gasUsed).toBeGreaterThanOrEqual(101_000);
       // todo: The estimated gas fee is higher than latest version(lbm v0.3.0). We need to check the reason.
-      expect(gasUsed).toBeLessThanOrEqual(152_000);
+      expect(gasUsed).toBeLessThanOrEqual(153_000);
 
       client.disconnect();
     });

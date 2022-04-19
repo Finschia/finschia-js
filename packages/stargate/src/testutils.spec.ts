@@ -80,7 +80,7 @@ export const simapp = {
   denomStaking: "stake",
   denomFee: "cony",
   blockTime: 1_000, // ms
-  totalSupply: 1100000000000, // cony
+  totalSupply: 1200000000000, // cony
   govMinDeposit: coins(10000000, "stake"),
 };
 

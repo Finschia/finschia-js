@@ -145,6 +145,16 @@
           "multisig_pub_key": null,
           "account_number": "0",
           "sequence": "0"
+        },
+        {
+          "@type": "/lbm.auth.v1.BaseAccount",
+          "address": "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl",
+          "ed25519_pub_key": null,
+          "secp256k1_pub_key": null,
+          "secp256r1_pub_key": null,
+          "multisig_pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
         }
       ]
     },
@@ -299,16 +309,29 @@
               "amount": "20000000000"
             }
           ]
+        },
+        {
+          "address": "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl",
+          "coins": [
+            {
+              "denom": "cony",
+              "amount": "100000000000"
+            },
+            {
+              "denom": "stake",
+              "amount": "20000000000"
+            }
+          ]
         }
       ],
       "supply": [
         {
           "denom": "cony",
-          "amount": "1100000000000"
+          "amount": "1200000000000"
         },
         {
           "denom": "stake",
-          "amount": "220000000000"
+          "amount": "240000000000"
         }
       ],
       "denom_metadata": [
