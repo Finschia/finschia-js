@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    name: Run tests
+    runs-on: self-hosted
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: if [ ! -x "$(command -v yarn)" ]; then npm install -g yarn; fi
+
+      - name: Version information
+        run: echo "node $(node --version)"; echo "yarn $(yarn --version)"
+
+      - name: Install dependencies
+        run: |
+          yarn cache clean --all
+          yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Unit Test
+        run: yarn test

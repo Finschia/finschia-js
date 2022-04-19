@@ -128,7 +128,7 @@
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
-          "address": "link164fvwlqv6actq6tvzqwmxjnu3ry7vr4rpskl8p",
+          "address": "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl",
           "pub_key": {
             "type": 0,
             "key": null
@@ -274,7 +274,7 @@
           ]
         },
         {
-          "address": "link164fvwlqv6actq6tvzqwmxjnu3ry7vr4rpskl8p",
+          "address": "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl",
           "coins": [
             {
               "denom": "cony",
