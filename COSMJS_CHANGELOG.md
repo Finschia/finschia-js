@@ -6,6 +6,94 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.28.1] - 2022-03-30
+
+### Added
+
+- @cosmjs/stargate: Added the ability to specify a custom account parser for
+  `StargateClient`
+
+### Fixed
+
+- @cosmjs/proto-signing: Add missing runtime dependencies @cosmjs/encoding and
+  @cosmjs/utils.
+- @cosmjs/tendermint-rpc: Add missing runtime dependency @cosmjs/utils.
+
+## [0.28.0] - 2022-03-17
+
+### Changed
+
+- all: The TypeScript compilation target is now ES2018.
+- @cosmjs/crypto: Add `Secp256k1.uncompressPubkey`.
+- @cosmjs/crypto: Replace hashing implementations with @noble/hashes ([#960]).
+- @cosmjs/faucet: Set default value of `FAUCET_GAS_LIMIT` to 100_000 to better
+  support Cosmos SDK 0.45 chains.
+- @cosmjs/stargate: The `AminoTypes` now always requires an argument of type
+  `AminoTypesOptions`. This is an object with a required `prefix` field. Before
+  the prefix defaulted to "cosmos" but this is almost never the right choice for
+  CosmJS users that need to add Amino types manually. ([#989])
+- @cosmjs/cosmwasm-stargate: `height`, `gasWanted` and `gasUsed` have been added
+  to all result types of `SigningCosmWasmClient`
+- @cosmjs/stargate: `MsgSend` and `Coin` are now parts of
+  `defaultRegistryTypes`. ([#994])
+- @cosmjs/proto-signing: `Registry`'s constructor can now override default
+  types. ([#994])
+- @cosmjs/tendermint-rpc: The property `evidence` in the interface `Block` is
+  now non-optional. ([#1011])
+- @cosmjs/stargate: Added the following message types to stargate's
+  `defaultRegistryTypes`: ([#1026])
+  - cosmos.authz.v1beta1.MsgGrant
+  - cosmos.authz.v1beta1.MsgExec
+  - cosmos.authz.v1beta1.MsgRevoke
+  - cosmos.feegrant.v1beta1.MsgGrantAllowance
+  - cosmos.feegrant.v1beta1.MsgRevokeAllowance
+- @cosmjs/stargate: In `AminoTypes` the uniqueness of the Amino type identifier
+  is checked in `fromAmino` now instead of the constructor. This only affects
+  you if multiple different protobuf type URLs map to the same Amino type
+  identifier which should not be the case anyways.
+- @cosmjs/stargate: Added support for slashing queries ([#927])
+- @cosmjs/ledger-amino: Renamed `LaunchpadLedger` to `LedgerConnector` ([#955])
+- @cosmjs/encoding: Created `toBech32()` and `fromBech32()`. Class Bech32 is now
+  deprecated and should not longer be used. ([#1053])
+- @cosmjs/crypto: Use a custom BIP-39 implementation to reduce external
+  dependencies. This should also reduce the bundle size as only the English
+  wordlist is shipped. ([#966])
+- @cosmjs/cli: Rename binary `cosmwasm-cli` to `cosmjs-cli` ([#1033]).
+- @cosmjs/stargate: Added Authz queries. ([#1080]).
+- @cosmjs/stargate & @cosmjs/cosmwasm-stargate: Removed default types from
+  AminoTypes. ([#1079])
+- @cosmjs/cosmwasm-stargate: getCodes() automatically loops through all
+  pagination pages now. ([#1077])
+- @cosmjs/stargate & @cosmjs/cosmwasm-stargate: Timeout Errors shows more
+  relevant information about the timeout. ([#1066])
+
+[#927]: https://github.com/cosmos/cosmjs/issues/927
+[#955]: https://github.com/cosmos/cosmjs/issues/955
+[#960]: https://github.com/cosmos/cosmjs/pull/960
+[#966]: https://github.com/cosmos/cosmjs/pull/966
+[#989]: https://github.com/cosmos/cosmjs/issues/989
+[#994]: https://github.com/cosmos/cosmjs/issues/994
+[#1011]: https://github.com/cosmos/cosmjs/issues/1011
+[#1026]: https://github.com/cosmos/cosmjs/issues/1026
+[#1033]: https://github.com/cosmos/cosmjs/issues/1033
+[#1053]: https://github.com/cosmos/cosmjs/issues/1053
+[#1066]: https://github.com/cosmos/cosmjs/issues/1066
+[#1077]: https://github.com/cosmos/cosmjs/issues/1077
+[#1078]: https://github.com/cosmos/cosmjs/issues/1078
+[#1079]: https://github.com/cosmos/cosmjs/issues/1079
+[#1080]: https://github.com/cosmos/cosmjs/issues/1080
+
+### Removed
+
+- @cosmjs/crypto: Remove the SHA1 implementation (`Sha1` and `sha1`) as it is
+  not used in the Cosmos tech stack and not implemented in the hashing lib we
+  want to migrate to ([#1003]). Also it has known weaknesses.
+- @cosmjs/launchpad: Package was removed as no support for Cosmos SDK 0.37-0.39
+  is needed anymore ([#947]).
+
+[#947]: https://github.com/cosmos/cosmjs/issues/947
+[#1003]: https://github.com/cosmos/cosmjs/issues/1003
+
 ## [0.27.1] - 2022-01-26
 
 ### Added
@@ -726,7 +814,9 @@ CHANGELOG entries missing. Please see [the diff][0.24.1].
   `FeeTable`. @cosmjs/cosmwasm has its own `FeeTable` with those properties.
 - @cosmjs/sdk38: Rename package to @cosmjs/launchpad.
 
-[unreleased]: https://github.com/cosmos/cosmjs/compare/v0.27.1...HEAD
+[unreleased]: https://github.com/cosmos/cosmjs/compare/v0.28.1...HEAD
+[0.28.1]: https://github.com/cosmos/cosmjs/compare/v0.28.0...v0.28.1
+[0.28.0]: https://github.com/cosmos/cosmjs/compare/v0.27.1...v0.28.0
 [0.27.1]: https://github.com/cosmos/cosmjs/compare/v0.27.0...v0.27.1
 [0.27.0]: https://github.com/cosmos/cosmjs/compare/v0.26.6...v0.27.0
 [0.26.6]: https://github.com/cosmos/cosmjs/compare/v0.26.5...v0.26.6
