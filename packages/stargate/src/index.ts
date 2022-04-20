@@ -1,4 +1,7 @@
-export { Account, accountFromAny } from "./accounts";
+export { Account, accountFromAny, AccountParser } from "./accounts";
+export { AminoConverter, AminoConverters, AminoTypes } from "./aminotypes";
+export { calculateFee, GasPrice } from "./fee";
+export * as logs from "./logs";
 export {
   AminoMsgBeginRedelegate,
   AminoMsgCreateValidator,
@@ -17,6 +20,13 @@ export {
   AminoMsgVote,
   AminoMsgWithdrawDelegatorReward,
   AminoMsgWithdrawValidatorCommission,
+  AuthExtension,
+  BankExtension,
+  DistributionExtension,
+  GovExtension,
+  GovParamsType,
+  GovProposalId,
+  IbcExtension,
   isAminoMsgBeginRedelegate,
   isAminoMsgCreateValidator,
   isAminoMsgDelegate,
@@ -34,9 +44,6 @@ export {
   isAminoMsgVote,
   isAminoMsgWithdrawDelegatorReward,
   isAminoMsgWithdrawValidatorCommission,
-} from "./aminomsgs";
-export { AminoConverter, AminoTypes } from "./aminotypes";
-export {
   isMsgDelegateEncodeObject,
   isMsgDepositEncodeObject,
   isMsgSendEncodeObject,
@@ -45,6 +52,8 @@ export {
   isMsgUndelegateEncodeObject,
   isMsgVoteEncodeObject,
   isMsgWithdrawDelegatorRewardEncodeObject,
+  MintExtension,
+  MintParams,
   MsgDelegateEncodeObject,
   MsgDepositEncodeObject,
   MsgSendEncodeObject,
@@ -53,25 +62,6 @@ export {
   MsgUndelegateEncodeObject,
   MsgVoteEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
-} from "./encodeobjects";
-export { calculateFee, GasPrice } from "./fee";
-export * as logs from "./logs";
-export { makeMultisignedTx } from "./multisignature";
-export {
-  AuthExtension,
-  BankExtension,
-  createPagination,
-  createProtobufRpcClient,
-  decodeCosmosSdkDecFromProto,
-  DistributionExtension,
-  GovExtension,
-  GovParamsType,
-  GovProposalId,
-  IbcExtension,
-  MintExtension,
-  MintParams,
-  ProtobufRpcClient,
-  QueryClient,
   setupAuthExtension,
   setupBankExtension,
   setupDistributionExtension,
@@ -84,7 +74,24 @@ export {
   StakingExtension,
   TokenExtension,
   TxExtension,
-} from "./queries";
+} from "./modules";
+export {
+  createAuthzAminoConverters,
+  createBankAminoConverters,
+  createDistributionAminoConverters,
+  createFreegrantAminoConverters,
+  createGovAminoConverters,
+  createIbcAminoConverters,
+  createStakingAminoConverters,
+} from "./modules";
+export { makeMultisignedTx } from "./multisignature";
+export {
+  createPagination,
+  createProtobufRpcClient,
+  decodeCosmosSdkDecFromProto,
+  ProtobufRpcClient,
+  QueryClient,
+} from "./queryclient";
 export {
   isSearchByHeightQuery,
   isSearchBySentFromOrToQuery,
@@ -112,6 +119,7 @@ export {
   isDeliverTxSuccess,
   SequenceResponse,
   StargateClient,
+  StargateClientOptions,
   TimeoutError,
 } from "./stargateclient";
 export { StdFee } from "@lbmjs/amino";

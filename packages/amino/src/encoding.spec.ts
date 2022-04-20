@@ -1,4 +1,4 @@
-import { Bech32, fromBase64, fromHex } from "@cosmjs/encoding";
+import { fromBase64, fromBech32, fromHex } from "@cosmjs/encoding";
 
 import {
   decodeAminoPubkey,
@@ -39,7 +39,7 @@ describe("encoding", () => {
 
   describe("decodeAminoPubkey", () => {
     it("works for secp256k1", () => {
-      const amino = Bech32.decode(
+      const amino = fromBech32(
         "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
@@ -51,7 +51,7 @@ describe("encoding", () => {
     it("works for ed25519", () => {
       // Encoded from `corald tendermint show-validator`
       // Decoded from http://localhost:26657/validators
-      const amino = Bech32.decode(
+      const amino = fromBech32(
         "linkvalconspub1ef0jhvpq05an85endwxngp3050gfe8k3dwlux8gffs6yj2hp4n02xqcqrlts626zgh",
       ).data;
       expect(decodeAminoPubkey(amino)).toEqual({
@@ -65,7 +65,7 @@ describe("encoding", () => {
     });
 
     it("works for multisig", () => {
-      const pubkeyData = Bech32.decode(
+      const pubkeyData = fromBech32(
         "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       ).data;
       const pubkey = {
@@ -156,7 +156,7 @@ describe("encoding", () => {
         type: "ostracon/PubKeySecp256k1",
         value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
       };
-      const expected = Bech32.decode(
+      const expected = fromBech32(
         "linkpub1cqmsrdepqgz0vs85hqfwar8eclrhnd47mmd6dvx0uy6yq3n5emn5dzxjv5vv2sjn0yz",
       ).data;
       expect(encodeAminoPubkey(pubkey)).toEqual(expected);
@@ -169,7 +169,7 @@ describe("encoding", () => {
         type: "ostracon/PubKeyEd25519",
         value: "fTsz0zNrjTQGL6PQnJ7Ra7/DHQlMNEkq4azeowMAH9c=",
       };
-      const expected = Bech32.decode(
+      const expected = fromBech32(
         "linkvalconspub1ef0jhvpq05an85endwxngp3050gfe8k3dwlux8gffs6yj2hp4n02xqcqrlts626zgh",
       ).data;
       expect(encodeAminoPubkey(pubkey)).toEqual(expected);
@@ -200,16 +200,16 @@ describe("encoding", () => {
     });
 
     it("works for multisig", () => {
-      const expected1 = Bech32.decode(testgroup1PubkeyBech32).data;
+      const expected1 = fromBech32(testgroup1PubkeyBech32).data;
       expect(encodeAminoPubkey(testgroup1)).toEqual(expected1);
 
-      const expected2 = Bech32.decode(testgroup2PubkeyBech32).data;
+      const expected2 = fromBech32(testgroup2PubkeyBech32).data;
       expect(encodeAminoPubkey(testgroup2)).toEqual(expected2);
 
-      const expected3 = Bech32.decode(testgroup3PubkeyBech32).data;
+      const expected3 = fromBech32(testgroup3PubkeyBech32).data;
       expect(encodeAminoPubkey(testgroup3)).toEqual(expected3);
 
-      const expected4 = Bech32.decode(testgroup4PubkeyBech32).data;
+      const expected4 = fromBech32(testgroup4PubkeyBech32).data;
       expect(encodeAminoPubkey(testgroup4)).toEqual(expected4);
     });
   });

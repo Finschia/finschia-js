@@ -10,6 +10,7 @@ import {
   assertIsDeliverTxSuccess,
   coin,
   coins,
+  createStakingAminoConverters,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
 } from "@lbmjs/stargate";
@@ -22,7 +23,7 @@ import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
 
-import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "./encodeobjects";
+import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "./modules";
 import { SigningCosmWasmClient } from "./signingcosmwasmclient";
 import {
   alice,
@@ -91,7 +92,7 @@ describe("SigningCosmWasmClient", () => {
       const memo = "Go go go";
       const gasUsed = await client.simulate(alice.address0, [executeContractMsg], memo);
       expect(gasUsed).toBeGreaterThanOrEqual(61_000);
-      expect(gasUsed).toBeLessThanOrEqual(65_000);
+      expect(gasUsed).toBeLessThanOrEqual(67_000);
       client.disconnect();
     });
   });
@@ -123,7 +124,7 @@ describe("SigningCosmWasmClient", () => {
       const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
       const funds = [coin(1234, "cony"), coin(321, "stake")];
       const beneficiaryAddress = makeRandomAddress();
-      const { contractAddress } = await client.instantiate(
+      const { contractAddress, height, gasWanted, gasUsed } = await client.instantiate(
         alice.address0,
         codeId,
         {
@@ -138,10 +139,13 @@ describe("SigningCosmWasmClient", () => {
         },
       );
       const wasmClient = await makeWasmClient(wasmd.endpoint);
-      const conyBalance = await wasmClient.bank.balance(contractAddress, "cony");
-      expect(conyBalance).toEqual(funds[0]);
-      const stakeBalance = await wasmClient.bank.balance(contractAddress, "stake");
-      expect(stakeBalance).toEqual(funds[1]);
+      const ucosmBalance = await wasmClient.bank.balance(contractAddress, "cony");
+      const ustakeBalance = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(ucosmBalance).toEqual(funds[0]);
+      expect(ustakeBalance).toEqual(funds[1]);
+      expect(height).toBeGreaterThan(0);
+      expect(gasWanted).toBeGreaterThan(0);
+      expect(gasUsed).toBeGreaterThan(0);
       client.disconnect();
     });
 
@@ -152,7 +156,7 @@ describe("SigningCosmWasmClient", () => {
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
       const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
       const beneficiaryAddress = makeRandomAddress();
-      const { contractAddress } = await client.instantiate(
+      const { contractAddress, height, gasWanted, gasUsed } = await client.instantiate(
         alice.address0,
         codeId,
         {
@@ -166,6 +170,9 @@ describe("SigningCosmWasmClient", () => {
       const wasmClient = await makeWasmClient(wasmd.endpoint);
       const { contractInfo } = await wasmClient.wasm.getContractInfo(contractAddress);
       assert(contractInfo);
+      expect(height).toBeGreaterThan(0);
+      expect(gasWanted).toBeGreaterThan(0);
+      expect(gasUsed).toBeGreaterThan(0);
       expect(contractInfo.admin).toEqual(unused.address);
       client.disconnect();
     });
@@ -176,7 +183,12 @@ describe("SigningCosmWasmClient", () => {
       const options = { ...defaultSigningClientOptions, prefix: wasmd.prefix };
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
       const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
-      const { contractAddress: address1 } = await client.instantiate(
+      const {
+        contractAddress: address1,
+        height,
+        gasWanted,
+        gasUsed,
+      } = await client.instantiate(
         alice.address0,
         codeId,
         {
@@ -196,6 +208,9 @@ describe("SigningCosmWasmClient", () => {
         "contract 2",
         defaultInstantiateFee,
       );
+      expect(height).toBeGreaterThan(0);
+      expect(gasWanted).toBeGreaterThan(0);
+      expect(gasUsed).toBeGreaterThan(0);
       expect(address1).not.toEqual(address2);
       client.disconnect();
     });
@@ -322,11 +337,18 @@ describe("SigningCosmWasmClient", () => {
       assert(contractInfo1);
       expect(contractInfo1.admin).toEqual(alice.address0);
 
-      await client.updateAdmin(alice.address0, contractAddress, unused.address, defaultUpdateAdminFee);
+      const { height, gasUsed, gasWanted } = await client.updateAdmin(
+        alice.address0,
+        contractAddress,
+        unused.address,
+        defaultUpdateAdminFee,
+      );
       const { contractInfo: contractInfo2 } = await wasmClient.wasm.getContractInfo(contractAddress);
       assert(contractInfo2);
       expect(contractInfo2.admin).toEqual(unused.address);
-
+      expect(height).toBeGreaterThan(0);
+      expect(gasWanted).toBeGreaterThan(0);
+      expect(gasUsed).toBeGreaterThan(0);
       client.disconnect();
     });
   });
@@ -357,11 +379,17 @@ describe("SigningCosmWasmClient", () => {
       assert(contractInfo1);
       expect(contractInfo1.admin).toEqual(alice.address0);
 
-      await client.clearAdmin(alice.address0, contractAddress, defaultClearAdminFee);
+      const { height, gasUsed, gasWanted } = await client.clearAdmin(
+        alice.address0,
+        contractAddress,
+        defaultClearAdminFee,
+      );
       const { contractInfo: contractInfo2 } = await wasmClient.wasm.getContractInfo(contractAddress);
       assert(contractInfo2);
       expect(contractInfo2.admin).toEqual("");
-
+      expect(height).toBeGreaterThan(0);
+      expect(gasWanted).toBeGreaterThan(0);
+      expect(gasUsed).toBeGreaterThan(0);
       client.disconnect();
     });
   });
@@ -394,13 +422,16 @@ describe("SigningCosmWasmClient", () => {
       expect(contractInfo1.admin).toEqual(alice.address0);
 
       const newVerifier = makeRandomAddress();
-      await client.migrate(
+      const { height, gasUsed, gasWanted } = await client.migrate(
         alice.address0,
         contractAddress,
         codeId2,
         { verifier: newVerifier },
         defaultMigrateFee,
       );
+      expect(height).toBeGreaterThan(0);
+      expect(gasWanted).toBeGreaterThan(0);
+      expect(gasUsed).toBeGreaterThan(0);
       const { contractInfo: contractInfo2 } = await wasmClient.wasm.getContractInfo(contractAddress);
       assert(contractInfo2);
       expect({ ...contractInfo2 }).toEqual({
@@ -484,6 +515,9 @@ describe("SigningCosmWasmClient", () => {
         { release: {} },
         defaultExecuteFee,
       );
+      expect(result.height).toBeGreaterThan(0);
+      expect(result.gasWanted).toBeGreaterThan(0);
+      expect(result.gasUsed).toBeGreaterThan(0);
       const wasmEvent = result.logs[0].events.find((e) => e.type === "wasm");
       assert(wasmEvent, "Event of type wasm expected");
       expect(wasmEvent.attributes).toContain({ key: "action", value: "release" });
@@ -763,6 +797,7 @@ describe("SigningCosmWasmClient", () => {
         const wallet = await Secp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
         const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, {
           ...defaultSigningClientOptions,
+          aminoTypes: new AminoTypes(createStakingAminoConverters(wasmd.prefix)),
           prefix: wasmd.prefix,
         });
 
@@ -878,38 +913,36 @@ describe("SigningCosmWasmClient", () => {
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
-          additions: {
-            "/lbm.staking.v1.MsgDelegate": {
-              aminoType: "lbm-sdk/MsgDelegate",
-              toAmino: ({
-                customDelegatorAddress,
-                customValidatorAddress,
-                customAmount,
-              }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
-                assert(customDelegatorAddress, "missing customDelegatorAddress");
-                assert(customValidatorAddress, "missing validatorAddress");
-                assert(customAmount, "missing amount");
-                assert(customAmount.amount, "missing amount.amount");
-                assert(customAmount.denom, "missing amount.denom");
-                return {
-                  delegator_address: customDelegatorAddress,
-                  validator_address: customValidatorAddress,
-                  amount: {
-                    amount: customAmount.amount,
-                    denom: customAmount.denom,
-                  },
-                };
-              },
-              fromAmino: ({
-                delegator_address,
-                validator_address,
-                amount,
-              }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
-                customDelegatorAddress: delegator_address,
-                customValidatorAddress: validator_address,
-                customAmount: Coin.fromPartial(amount),
-              }),
+          "/lbm.staking.v1.MsgDelegate": {
+            aminoType: "lbm-sdk/MsgDelegate",
+            toAmino: ({
+              customDelegatorAddress,
+              customValidatorAddress,
+              customAmount,
+            }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
+              assert(customDelegatorAddress, "missing customDelegatorAddress");
+              assert(customValidatorAddress, "missing validatorAddress");
+              assert(customAmount, "missing amount");
+              assert(customAmount.amount, "missing amount.amount");
+              assert(customAmount.denom, "missing amount.denom");
+              return {
+                delegator_address: customDelegatorAddress,
+                validator_address: customValidatorAddress,
+                amount: {
+                  amount: customAmount.amount,
+                  denom: customAmount.denom,
+                },
+              };
             },
+            fromAmino: ({
+              delegator_address,
+              validator_address,
+              amount,
+            }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
+              customDelegatorAddress: delegator_address,
+              customValidatorAddress: validator_address,
+              customAmount: Coin.fromPartial(amount),
+            }),
           },
         });
         const options = {
@@ -947,6 +980,7 @@ describe("SigningCosmWasmClient", () => {
         });
         const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, {
           ...defaultSigningClientOptions,
+          aminoTypes: new AminoTypes(createStakingAminoConverters(wasmd.prefix)),
           prefix: wasmd.prefix,
         });
 
@@ -1093,6 +1127,7 @@ describe("SigningCosmWasmClient", () => {
         const wallet = await Secp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
         const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, {
           ...defaultSigningClientOptions,
+          aminoTypes: new AminoTypes(createStakingAminoConverters(wasmd.prefix)),
           prefix: wasmd.prefix,
         });
 
@@ -1182,36 +1217,34 @@ describe("SigningCosmWasmClient", () => {
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
-          additions: {
-            "/lbm.staking.v1.MsgDelegate": {
-              aminoType: "lbm-sdk/MsgDelegate",
-              toAmino: ({
-                customDelegatorAddress,
-                customValidatorAddress,
-                customAmount,
-              }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
-                assert(customDelegatorAddress, "missing customDelegatorAddress");
-                assert(customValidatorAddress, "missing validatorAddress");
-                assert(customAmount, "missing amount");
-                return {
-                  delegator_address: customDelegatorAddress,
-                  validator_address: customValidatorAddress,
-                  amount: {
-                    amount: customAmount.amount,
-                    denom: customAmount.denom,
-                  },
-                };
-              },
-              fromAmino: ({
-                delegator_address,
-                validator_address,
-                amount,
-              }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
-                customDelegatorAddress: delegator_address,
-                customValidatorAddress: validator_address,
-                customAmount: Coin.fromPartial(amount),
-              }),
+          "/lbm.staking.v1.MsgDelegate": {
+            aminoType: "lbm-sdk/MsgDelegate",
+            toAmino: ({
+              customDelegatorAddress,
+              customValidatorAddress,
+              customAmount,
+            }: CustomMsgDelegate): AminoMsgDelegate["value"] => {
+              assert(customDelegatorAddress, "missing customDelegatorAddress");
+              assert(customValidatorAddress, "missing validatorAddress");
+              assert(customAmount, "missing amount");
+              return {
+                delegator_address: customDelegatorAddress,
+                validator_address: customValidatorAddress,
+                amount: {
+                  amount: customAmount.amount,
+                  denom: customAmount.denom,
+                },
+              };
             },
+            fromAmino: ({
+              delegator_address,
+              validator_address,
+              amount,
+            }: AminoMsgDelegate["value"]): CustomMsgDelegate => ({
+              customDelegatorAddress: delegator_address,
+              customValidatorAddress: validator_address,
+              customAmount: Coin.fromPartial(amount),
+            }),
           },
         });
         const options = {
@@ -1251,6 +1284,7 @@ describe("SigningCosmWasmClient", () => {
         });
         const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, {
           ...defaultSigningClientOptions,
+          aminoTypes: new AminoTypes(createStakingAminoConverters(wasmd.prefix)),
           prefix: wasmd.prefix,
         });
 

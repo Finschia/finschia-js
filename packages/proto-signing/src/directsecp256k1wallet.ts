@@ -1,5 +1,5 @@
 import { Secp256k1, sha256 } from "@cosmjs/crypto";
-import { Bech32 } from "@cosmjs/encoding";
+import { toBech32 } from "@cosmjs/encoding";
 import { encodeSecp256k1Signature, rawSecp256k1PubkeyToRawAddress } from "@lbmjs/amino";
 import { SignDoc } from "lbmjs-types/lbm/tx/v1/tx";
 
@@ -34,7 +34,7 @@ export class DirectSecp256k1Wallet implements OfflineDirectSigner {
   }
 
   private get address(): string {
-    return Bech32.encode(this.prefix, rawSecp256k1PubkeyToRawAddress(this.pubkey));
+    return toBech32(this.prefix, rawSecp256k1PubkeyToRawAddress(this.pubkey));
   }
 
   public async getAccounts(): Promise<readonly AccountData[]> {

@@ -1,15 +1,14 @@
 #!/usr/bin/env -S yarn node
 
 /* eslint-disable @typescript-eslint/naming-convention */
-const { coins } = require("@cosmjs/amino");
+const { coins } = require("@lbmjs/amino");
 const { Random } = require("@cosmjs/crypto");
-const { Bech32 } = require("@cosmjs/encoding");
+const { toBech32 } = require("@cosmjs/encoding");
 const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
 const {
   assertIsDeliverTxSuccess,
   SigningStargateClient,
   calculateFee,
-  GasPrice,
 } = require("@cosmjs/stargate");
 
 const rpcUrl = "http://localhost:26659";
@@ -23,9 +22,9 @@ const faucet = {
 async function main() {
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, { prefix: prefix });
   const client = await SigningStargateClient.connectWithSigner(rpcUrl, wallet, { prefix: prefix });
-  const recipient = Bech32.encode(prefix, Random.getBytes(20));
+  const recipient = toBech32(prefix, Random.getBytes(20));
   const amount = coins(226644, "ucosm");
-  const fee = calculateFee(80_000, "0.025ucosm");
+  const fee = calculateFee(100_000, "0.025ucosm");
   const memo = "Ensure chain has my pubkey";
   const sendResult = await client.sendTokens(faucet.address0, recipient, amount, fee, memo);
   assertIsDeliverTxSuccess(sendResult);

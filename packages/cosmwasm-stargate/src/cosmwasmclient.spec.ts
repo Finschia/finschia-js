@@ -95,6 +95,7 @@ describe("CosmWasmClient", () => {
         sequence: unused.sequence,
         ed25519PubKey: null,
         secp256k1PubKey: null,
+        secp256r1PubKey: null,
         multisigPubKey: null,
       });
     });

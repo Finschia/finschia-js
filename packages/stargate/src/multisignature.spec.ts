@@ -10,7 +10,7 @@ import { coins } from "@lbmjs/proto-signing";
 import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
 import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 
-import { MsgSendEncodeObject } from "./encodeobjects";
+import { MsgSendEncodeObject } from "./modules";
 import { makeCompactBitArray, makeMultisignedTx } from "./multisignature";
 import { SignerData, SigningStargateClient } from "./signingstargateclient";
 import { assertIsDeliverTxSuccess, StargateClient } from "./stargateclient";

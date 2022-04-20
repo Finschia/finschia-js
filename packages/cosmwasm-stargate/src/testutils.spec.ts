@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
-import { Bech32, fromBase64 } from "@cosmjs/encoding";
+import { fromBase64, toBech32 } from "@cosmjs/encoding";
 import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@lbmjs/amino";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import {
@@ -22,12 +22,12 @@ import {
 import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
 import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 
-import { setupWasmExtension, WasmExtension } from "./queries";
+import { setupWasmExtension, WasmExtension } from "./modules";
 import { SigningCosmWasmClientOptions } from "./signingcosmwasmclient";
 import hackatom from "./testdata/contract.json";
 
 export const defaultGasPrice = GasPrice.fromString("0.025cony");
-export const defaultSendFee = calculateFee(80_000, defaultGasPrice);
+export const defaultSendFee = calculateFee(100_000, defaultGasPrice);
 export const defaultUploadFee = calculateFee(1_500_000, defaultGasPrice);
 export const defaultInstantiateFee = calculateFee(500_000, defaultGasPrice);
 export const defaultExecuteFee = calculateFee(200_000, defaultGasPrice);
@@ -64,7 +64,7 @@ export function getHackatom(): ContractUploadInstructions {
 }
 
 export function makeRandomAddress(): string {
-  return Bech32.encode("link", Random.getBytes(20));
+  return toBech32("link", Random.getBytes(20));
 }
 
 export const tendermintIdMatcher = /^[0-9A-F]{64}$/;
@@ -72,7 +72,7 @@ export const tendermintIdMatcher = /^[0-9A-F]{64}$/;
 export const base64Matcher =
   /^(?:[a-zA-Z0-9+/]{4})*(?:|(?:[a-zA-Z0-9+/]{3}=)|(?:[a-zA-Z0-9+/]{2}==)|(?:[a-zA-Z0-9+/]{1}===))$/;
 // https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#bech32
-export const bech32AddressMatcher = /^[\x21-\x7e]{1,83}1[02-9ac-hj-np-z]{38}$/;
+export const bech32AddressMatcher = /^[\x21-\x7e]{1,83}1[02-9ac-hj-np-z]{38,58}$/;
 
 export const alice = {
   mnemonic:
@@ -95,19 +95,19 @@ export const unused = {
     value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
   address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
-  accountNumber: 8,
+  accountNumber: 12,
   sequence: 0,
 };
 
 export const validator = {
   /**
-   * delegator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
+   * delegator_address from /lbm.staking.v1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */
   delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   /**
-   * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
+   * validator_address from /lbm.staking.v1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */

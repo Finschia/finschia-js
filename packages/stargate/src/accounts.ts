@@ -16,6 +16,7 @@ export interface Account {
   readonly address: string;
   readonly ed25519PubKey: PubkeyValue | null;
   readonly secp256k1PubKey: PubkeyValue | null;
+  readonly secp256r1PubKey: PubkeyValue | null;
   readonly multisigPubKey: MultisigThresholdPubkeyValue | null;
   readonly accountNumber: number;
   readonly sequence: number;
@@ -26,11 +27,20 @@ function uint64FromProto(input: number | Long): Uint64 {
 }
 
 function accountFromBaseAccount(input: BaseAccount): Account {
-  const { address, ed25519PubKey, secp256k1PubKey, multisigPubKey, accountNumber, sequence } = input;
+  const {
+    address,
+    ed25519PubKey,
+    secp256k1PubKey,
+    secp256r1PubKey,
+    multisigPubKey,
+    accountNumber,
+    sequence,
+  } = input;
   return {
     address: address,
     ed25519PubKey: ed25519PubKey || null,
     secp256k1PubKey: secp256k1PubKey || null,
+    secp256r1PubKey: secp256r1PubKey || null,
     multisigPubKey: decodeMultisigPubkey(multisigPubKey) || null,
     accountNumber: uint64FromProto(accountNumber).toNumber(),
     sequence: uint64FromProto(sequence).toNumber(),
@@ -38,8 +48,13 @@ function accountFromBaseAccount(input: BaseAccount): Account {
 }
 
 /**
- * Takes an `Any` encoded account from the chain and extracts some common
- * `Account` information from it. This is supposed to support the most relevant
+ * Represents a generic function that takes an `Any` encoded account from the chain
+ * and extracts some common `Account` information from it.
+ */
+export type AccountParser = (any: Any) => Account;
+
+/**
+ * Basic implementation of AccountParser. This is supposed to support the most relevant
  * common Cosmos SDK account types. If you need support for exotic account types,
  * you'll need to write your own account decoder.
  */

@@ -15,117 +15,52 @@ import {
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
 import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
-import {
-  MsgAcknowledgement,
-  MsgChannelCloseConfirm,
-  MsgChannelCloseInit,
-  MsgChannelOpenAck,
-  MsgChannelOpenConfirm,
-  MsgChannelOpenInit,
-  MsgChannelOpenTry,
-  MsgRecvPacket,
-  MsgTimeout,
-  MsgTimeoutOnClose,
-} from "lbmjs-types/ibc/core/channel/v1/tx";
 import { Height } from "lbmjs-types/ibc/core/client/v1/client";
-import {
-  MsgCreateClient,
-  MsgSubmitMisbehaviour,
-  MsgUpdateClient,
-  MsgUpgradeClient,
-} from "lbmjs-types/ibc/core/client/v1/tx";
-import {
-  MsgConnectionOpenAck,
-  MsgConnectionOpenConfirm,
-  MsgConnectionOpenInit,
-  MsgConnectionOpenTry,
-} from "lbmjs-types/ibc/core/connection/v1/tx";
-import { MsgMultiSend } from "lbmjs-types/lbm/bank/v1/tx";
 import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import {
-  MsgFundCommunityPool,
-  MsgSetWithdrawAddress,
-  MsgWithdrawDelegatorReward,
-  MsgWithdrawValidatorCommission,
-} from "lbmjs-types/lbm/distribution/v1/tx";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/lbm/gov/v1/tx";
-import {
-  MsgBeginRedelegate,
-  MsgCreateValidator,
-  MsgDelegate,
-  MsgEditValidator,
-  MsgUndelegate,
-} from "lbmjs-types/lbm/staking/v1/tx";
-import {
-  MsgApprove as TokenMsgApprove,
-  MsgBurn as TokenMsgBurn,
-  MsgBurnFrom as TokenMsgBurnFrom,
-  MsgGrant as TokenMsgGrant,
-  MsgIssue as TokenMsgIssue,
-  MsgMint as TokenMsgMint,
-  MsgModify as TokenMsgModify,
-  MsgRevoke as TokenMsgRevoke,
-  MsgTransfer as TokenMsgTransfer,
-  MsgTransferFrom as TokenMsgTransferFrom,
-} from "lbmjs-types/lbm/token/v1/tx";
+import { MsgWithdrawDelegatorReward } from "lbmjs-types/lbm/distribution/v1/tx";
+import { MsgDelegate, MsgUndelegate } from "lbmjs-types/lbm/staking/v1/tx";
 import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
 import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 
-import { AminoTypes } from "./aminotypes";
+import { AminoConverters, AminoTypes } from "./aminotypes";
+import { calculateFee, GasPrice } from "./fee";
 import {
+  authzTypes,
+  bankTypes,
+  distributionTypes,
+  feegrantTypes,
+  govTypes,
+  ibcTypes,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
   MsgTransferEncodeObject,
   MsgUndelegateEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
-} from "./encodeobjects";
-import { calculateFee, GasPrice } from "./fee";
-import { DeliverTxResponse, StargateClient } from "./stargateclient";
+  stakingTypes,
+  tokenTypes,
+} from "./modules";
+import {
+  createAuthzAminoConverters,
+  createBankAminoConverters,
+  createDistributionAminoConverters,
+  createFreegrantAminoConverters,
+  createGovAminoConverters,
+  createIbcAminoConverters,
+  createStakingAminoConverters,
+} from "./modules";
+import { DeliverTxResponse, StargateClient, StargateClientOptions } from "./stargateclient";
 
 export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.bank.v1.MsgMultiSend", MsgMultiSend],
-  ["/lbm.distribution.v1.MsgFundCommunityPool", MsgFundCommunityPool],
-  ["/lbm.distribution.v1.MsgSetWithdrawAddress", MsgSetWithdrawAddress],
-  ["/lbm.distribution.v1.MsgWithdrawDelegatorReward", MsgWithdrawDelegatorReward],
-  ["/lbm.distribution.v1.MsgWithdrawValidatorCommission", MsgWithdrawValidatorCommission],
-  ["/lbm.gov.v1.MsgDeposit", MsgDeposit],
-  ["/lbm.gov.v1.MsgSubmitProposal", MsgSubmitProposal],
-  ["/lbm.gov.v1.MsgVote", MsgVote],
-  ["/lbm.staking.v1.MsgBeginRedelegate", MsgBeginRedelegate],
-  ["/lbm.staking.v1.MsgCreateValidator", MsgCreateValidator],
-  ["/lbm.staking.v1.MsgDelegate", MsgDelegate],
-  ["/lbm.staking.v1.MsgEditValidator", MsgEditValidator],
-  ["/lbm.staking.v1.MsgUndelegate", MsgUndelegate],
-  ["/lbm.token.v1.MsgTransfer", TokenMsgTransfer],
-  ["/lbm.token.v1.MsgTransferFrom", TokenMsgTransferFrom],
-  ["/lbm.token.v1.MsgApprove", TokenMsgApprove],
-  ["/lbm.token.v1.MsgIssue", TokenMsgIssue],
-  ["/lbm.token.v1.MsgGrant", TokenMsgGrant],
-  ["/lbm.token.v1.MsgRevoke", TokenMsgRevoke],
-  ["/lbm.token.v1.MsgMint", TokenMsgMint],
-  ["/lbm.token.v1.MsgBurn", TokenMsgBurn],
-  ["/lbm.token.v1.MsgBurnFrom", TokenMsgBurnFrom],
-  ["/lbm.token.v1.MsgModify", TokenMsgModify],
-  ["/ibc.core.channel.v1.MsgChannelOpenInit", MsgChannelOpenInit],
-  ["/ibc.core.channel.v1.MsgChannelOpenTry", MsgChannelOpenTry],
-  ["/ibc.core.channel.v1.MsgChannelOpenAck", MsgChannelOpenAck],
-  ["/ibc.core.channel.v1.MsgChannelOpenConfirm", MsgChannelOpenConfirm],
-  ["/ibc.core.channel.v1.MsgChannelCloseInit", MsgChannelCloseInit],
-  ["/ibc.core.channel.v1.MsgChannelCloseConfirm", MsgChannelCloseConfirm],
-  ["/ibc.core.channel.v1.MsgRecvPacket", MsgRecvPacket],
-  ["/ibc.core.channel.v1.MsgTimeout", MsgTimeout],
-  ["/ibc.core.channel.v1.MsgTimeoutOnClose", MsgTimeoutOnClose],
-  ["/ibc.core.channel.v1.MsgAcknowledgement", MsgAcknowledgement],
-  ["/ibc.core.client.v1.MsgCreateClient", MsgCreateClient],
-  ["/ibc.core.client.v1.MsgUpdateClient", MsgUpdateClient],
-  ["/ibc.core.client.v1.MsgUpgradeClient", MsgUpgradeClient],
-  ["/ibc.core.client.v1.MsgSubmitMisbehaviour", MsgSubmitMisbehaviour],
-  ["/ibc.core.connection.v1.MsgConnectionOpenInit", MsgConnectionOpenInit],
-  ["/ibc.core.connection.v1.MsgConnectionOpenTry", MsgConnectionOpenTry],
-  ["/ibc.core.connection.v1.MsgConnectionOpenAck", MsgConnectionOpenAck],
-  ["/ibc.core.connection.v1.MsgConnectionOpenConfirm", MsgConnectionOpenConfirm],
-  ["/ibc.applications.transfer.v1.MsgTransfer", MsgTransfer],
+  ["/lbm.base.v1.Coin", Coin],
+  ...authzTypes,
+  ...bankTypes,
+  ...distributionTypes,
+  ...feegrantTypes,
+  ...govTypes,
+  ...stakingTypes,
+  ...ibcTypes,
+  ...tokenTypes,
 ];
 
 function createDefaultRegistry(): Registry {
@@ -148,13 +83,25 @@ export interface PrivateSigningStargateClient {
   readonly registry: Registry;
 }
 
-export interface SigningStargateClientOptions {
+export interface SigningStargateClientOptions extends StargateClientOptions {
   readonly registry?: Registry;
   readonly aminoTypes?: AminoTypes;
   readonly prefix?: string;
   readonly broadcastTimeoutMs?: number;
   readonly broadcastPollIntervalMs?: number;
   readonly gasPrice?: GasPrice;
+}
+
+function createDefaultTypes(prefix: string): AminoConverters {
+  return {
+    ...createAuthzAminoConverters(),
+    ...createBankAminoConverters(),
+    ...createDistributionAminoConverters(),
+    ...createGovAminoConverters(),
+    ...createStakingAminoConverters(prefix),
+    ...createIbcAminoConverters(),
+    ...createFreegrantAminoConverters(),
+  };
 }
 
 export class SigningStargateClient extends StargateClient {
@@ -196,8 +143,10 @@ export class SigningStargateClient extends StargateClient {
     signer: OfflineSigner,
     options: SigningStargateClientOptions,
   ) {
-    super(tmClient);
-    const { registry = createDefaultRegistry(), aminoTypes = new AminoTypes({ prefix: options.prefix }) } =
+    super(tmClient, options);
+    // TODO: do we really want to set a default here? Ideally we could get it from the signer such that users only have to set it once.
+    const prefix = options.prefix ?? "cosmos";
+    const { registry = createDefaultRegistry(), aminoTypes = new AminoTypes(createDefaultTypes(prefix)) } =
       options;
     this.registry = registry;
     this.aminoTypes = aminoTypes;

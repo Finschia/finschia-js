@@ -16,8 +16,8 @@ export async function start(args: readonly string[]): Promise<void> {
   // Connection
   const blockchainBaseUrl = args[0];
   console.info(`Connecting to blockchain ${blockchainBaseUrl} ...`);
-  let chainId;
-  chainId = await (await StargateClient.connect(blockchainBaseUrl)).getChainId();
+  const client = await StargateClient.connect(blockchainBaseUrl);
+  const chainId = await client.getChainId();
   console.info(`Connected to network: ${chainId}`);
 
   // Faucet

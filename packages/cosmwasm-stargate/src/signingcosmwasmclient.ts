@@ -19,6 +19,7 @@ import {
   AminoTypes,
   calculateFee,
   Coin,
+  createBankAminoConverters,
   defaultRegistryTypes as defaultStargateTypes,
   DeliverTxResponse,
   GasPrice,
@@ -43,22 +44,22 @@ import {
   MsgStoreCode,
   MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
-  MsgUpdateContractStatus,
 } from "lbmjs-types/lbm/wasm/v1/tx";
 import { AccessType } from "lbmjs-types/lbm/wasm/v1/types";
 import Long from "long";
 import pako from "pako";
 
-import { cosmWasmTypes } from "./aminotypes";
 import { CosmWasmClient } from "./cosmwasmclient";
 import {
+  createWasmAminoConverters,
   MsgClearAdminEncodeObject,
   MsgExecuteContractEncodeObject,
   MsgInstantiateContractEncodeObject,
   MsgMigrateContractEncodeObject,
   MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
-} from "./encodeobjects";
+  wasmTypes,
+} from "./modules";
 
 export interface UploadResult {
   /** Size of the original wasm code in bytes */
@@ -72,8 +73,12 @@ export interface UploadResult {
   /** The ID of the code asigned by the chain */
   readonly codeId: number;
   readonly logs: readonly logs.Log[];
+  /** Block height in which the transaction is included */
+  readonly height: number;
   /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
   readonly transactionHash: string;
+  readonly gasWanted: number;
+  readonly gasUsed: number;
 }
 
 /**
@@ -101,8 +106,12 @@ export interface InstantiateResult {
   /** The address of the newly instantiated contract */
   readonly contractAddress: string;
   readonly logs: readonly logs.Log[];
+  /** Block height in which the transaction is included */
+  readonly height: number;
   /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
   readonly transactionHash: string;
+  readonly gasWanted: number;
+  readonly gasUsed: number;
 }
 
 export interface UploadAndInstantiateResult {
@@ -120,6 +129,8 @@ export interface UploadAndInstantiateResult {
   readonly logs: readonly logs.Log[];
   /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
   readonly transactionHash: string;
+  readonly gasWanted: number;
+  readonly gasUsed: number;
 }
 
 /**
@@ -127,20 +138,32 @@ export interface UploadAndInstantiateResult {
  */
 export interface ChangeAdminResult {
   readonly logs: readonly logs.Log[];
+  /** Block height in which the transaction is included */
+  readonly height: number;
   /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
   readonly transactionHash: string;
+  readonly gasWanted: number;
+  readonly gasUsed: number;
 }
 
 export interface MigrateResult {
   readonly logs: readonly logs.Log[];
+  /** Block height in which the transaction is included */
+  readonly height: number;
   /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
   readonly transactionHash: string;
+  readonly gasWanted: number;
+  readonly gasUsed: number;
 }
 
 export interface ExecuteResult {
   readonly logs: readonly logs.Log[];
+  /** Block height in which the transaction is included */
+  readonly height: number;
   /** Transaction hash (might be used as transaction ID). Guaranteed to be non-empty upper-case hex */
   readonly transactionHash: string;
+  readonly gasWanted: number;
+  readonly gasUsed: number;
 }
 
 function createDeliverTxResponseErrorMessage(result: DeliverTxResponse): string {
@@ -148,16 +171,7 @@ function createDeliverTxResponseErrorMessage(result: DeliverTxResponse): string 
 }
 
 function createDefaultRegistry(): Registry {
-  const registry = new Registry(defaultStargateTypes);
-  registry.register("/lbm.wasm.v1.MsgClearAdmin", MsgClearAdmin);
-  registry.register("/lbm.wasm.v1.MsgExecuteContract", MsgExecuteContract);
-  registry.register("/lbm.wasm.v1.MsgMigrateContract", MsgMigrateContract);
-  registry.register("/lbm.wasm.v1.MsgStoreCode", MsgStoreCode);
-  registry.register("/lbm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract);
-  registry.register("/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract", MsgStoreCodeAndInstantiateContract);
-  registry.register("/lbm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin);
-  registry.register("/lbm.wasm.v1.MsgUpdateContractStatus", MsgUpdateContractStatus);
-  return registry;
+  return new Registry([...defaultStargateTypes, ...wasmTypes]);
 }
 
 export interface SigningCosmWasmClientOptions {
@@ -211,7 +225,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     super(tmClient);
     const {
       registry = createDefaultRegistry(),
-      aminoTypes = new AminoTypes({ additions: cosmWasmTypes, prefix: options.prefix }),
+      aminoTypes = new AminoTypes({ ...createWasmAminoConverters(), ...createBankAminoConverters() }),
     } = options;
     this.registry = registry;
     this.aminoTypes = aminoTypes;
@@ -269,7 +283,10 @@ export class SigningCosmWasmClient extends CosmWasmClient {
       compressedChecksum: toHex(sha256(compressed)),
       codeId: Number.parseInt(codeIdAttr.value, 10),
       logs: parsedLogs,
+      height: result.height,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -301,7 +318,10 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     return {
       contractAddress: contractAddressAttr.value,
       logs: parsedLogs,
+      height: result.height,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -349,6 +369,8 @@ export class SigningCosmWasmClient extends CosmWasmClient {
       contractAddress: contractAddressAttr.value,
       logs: parsedLogs,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -373,7 +395,10 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     }
     return {
       logs: logs.parseRawLog(result.rawLog),
+      height: result.height,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -396,7 +421,10 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     }
     return {
       logs: logs.parseRawLog(result.rawLog),
+      height: result.height,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -423,7 +451,10 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     }
     return {
       logs: logs.parseRawLog(result.rawLog),
+      height: result.height,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -450,7 +481,10 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     }
     return {
       logs: logs.parseRawLog(result.rawLog),
+      height: result.height,
       transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
     };
   }
 
@@ -531,8 +565,8 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     if (fee == "auto" || typeof fee === "number") {
       assertDefined(this.gasPrice, "Gas price must be set in the client options when auto gas is used.");
       const gasEstimation = await this.simulate(signerAddress, messages, memo);
-      const muliplier = typeof fee === "number" ? fee : 1.4;
-      usedFee = calculateFee(Math.round(gasEstimation * muliplier), this.gasPrice);
+      const multiplier = typeof fee === "number" ? fee : 1.4;
+      usedFee = calculateFee(Math.round(gasEstimation * multiplier), this.gasPrice);
     } else {
       usedFee = fee;
     }

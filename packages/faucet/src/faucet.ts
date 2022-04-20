@@ -27,13 +27,7 @@ export class Faucet {
     numberOfDistributors: number,
     logging = false,
   ): Promise<Faucet> {
-    const wallets = await createWallets(
-      mnemonic,
-      pathBuilder,
-      addressPrefix,
-      numberOfDistributors,
-      logging,
-    );
+    const wallets = await createWallets(mnemonic, pathBuilder, addressPrefix, numberOfDistributors, logging);
     const clients = await createClients(apiUrl, wallets);
     const readonlyClient = await StargateClient.connect(apiUrl);
     return new Faucet(addressPrefix, config, clients, readonlyClient, logging);
@@ -87,7 +81,7 @@ export class Faucet {
    */
   public async send(job: SendJob): Promise<void> {
     const client = this.clients[job.sender];
-    const fee = calculateFee(constants.gasLimits, constants.gasPrice);
+    const fee = calculateFee(constants.gasLimitSend, constants.gasPrice);
     const result = await client.sendTokens(job.sender, job.recipient, [job.amount], fee, constants.memo);
     assertIsDeliverTxSuccessStargate(result);
   }
@@ -112,7 +106,6 @@ export class Faucet {
 
   public async loadAccount(address: string): Promise<MinimalAccount> {
     const balance = await this.readOnlyClient.getAllBalances(address);
-
     return {
       address: address,
       balance: balance,

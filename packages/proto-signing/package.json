@@ -1,7 +1,7 @@
 {
   "name": "@lbmjs/proto-signing",
   "version": "0.1.0",
-  "description": "Utilities for protobuf based signing (LBM SDK 0.45.0-rc0)",
+  "description": "Utilities for protobuf based signing (LBM SDK 0.45.0)",
   "contributors": [
     "zemyblue<zemyblue@users.noreply.github.com>"
   ],
@@ -35,16 +35,16 @@
     "karma-test": "karma start"
   },
   "dependencies": {
-    "@cosmjs/crypto": "0.27.1",
-    "@cosmjs/math": "0.27.1",
+    "@cosmjs/crypto": "0.28.1",
+    "@cosmjs/math": "0.28.1",
     "@lbmjs/amino": "workspace:packages/amino",
-    "lbmjs-types": "^0.45.0-rc1",
+    "lbmjs-types": "^0.46.0-rc0",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2"
   },
   "devDependencies": {
-    "@cosmjs/encoding": "0.27.1",
-    "@cosmjs/utils": "0.27.1",
+    "@cosmjs/encoding": "0.28.1",
+    "@cosmjs/utils": "0.28.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
@@ -53,8 +53,8 @@
     "@types/karma-jasmine-html-reporter": "^1",
     "@types/long": "^4.0.1",
     "@types/node": "^15.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.28",
-    "@typescript-eslint/parser": "^4.28",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
     "eslint": "^7.5",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-node": "^0.3.4",
@@ -66,7 +66,7 @@
     "jasmine": "^3.8",
     "jasmine-core": "^3.7.1",
     "jasmine-spec-reporter": "^6",
-    "karma": "^6.1.1",
+    "karma": "^6.3.17",
     "karma-chrome-launcher": "^3.1.0",
     "karma-firefox-launcher": "^2.1.0",
     "karma-jasmine": "^4.0.1",
@@ -77,7 +77,6 @@
     "prettier": "^2.4.1",
     "ses": "^0.11.0",
     "source-map-support": "^0.5.19",
-    "stream-browserify": "^3.0.0",
     "ts-node": "^8",
     "typedoc": "^0.22",
     "typescript": "~4.4",

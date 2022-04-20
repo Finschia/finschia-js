@@ -1,16 +1,10 @@
 import { Random } from "@cosmjs/crypto";
-import { Bech32 } from "@cosmjs/encoding";
+import { toBech32 } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
 import { makeLinkPath, StargateClient } from "@lbmjs/stargate";
 
 import { Faucet } from "./faucet";
 import { TokenConfiguration } from "./tokenmanager";
-
-function pendingWithoutLaunchpad(): void {
-  if (!process.env.LAUNCHPAD_ENABLED) {
-    return pending("Set LAUNCHPAD_ENABLED to enable Launchpad node-based tests");
-  }
-}
 
 function pendingWithoutSimapp(): void {
   if (!process.env.SIMAPP42_ENABLED && !process.env.SIMAPP44_ENABLED) {
@@ -24,7 +18,7 @@ const defaultTokenConfig: TokenConfiguration = {
 const defaultAddressPrefix = "link";
 
 function makeRandomAddress(): string {
-  return Bech32.encode(defaultAddressPrefix, Random.getBytes(20));
+  return toBech32(defaultAddressPrefix, Random.getBytes(20));
 }
 
 const faucetMnemonic =
@@ -33,20 +27,20 @@ const faucetMnemonic =
 describe("Faucet", () => {
   const pathBuilder = makeLinkPath;
 
+  const apiUrl = "localhost:26658";
+  const stargate = true;
+  let originalEnvVariable: string | undefined;
+
+  beforeAll(() => {
+    originalEnvVariable = process.env.FAUCET_CREDIT_AMOUNT_STAKE;
+    process.env.FAUCET_CREDIT_AMOUNT_STAKE = "100000";
+  });
+
+  afterAll(() => {
+    process.env.FAUCET_CREDIT_AMOUNT_STAKE = originalEnvVariable;
+  });
+
   describe("stargate", () => {
-    const apiUrl = "localhost:26658";
-    const stargate = true;
-    let originalEnvVariable: string | undefined;
-
-    beforeAll(() => {
-      originalEnvVariable = process.env.FAUCET_CREDIT_AMOUNT_STAKE;
-      process.env.FAUCET_CREDIT_AMOUNT_STAKE = "100000";
-    });
-
-    afterAll(() => {
-      process.env.FAUCET_CREDIT_AMOUNT_STAKE = originalEnvVariable;
-    });
-
     describe("constructor", () => {
       it("can be constructed", async () => {
         pendingWithoutSimapp();
