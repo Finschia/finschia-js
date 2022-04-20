@@ -18,6 +18,24 @@ and this project adheres to
 
 ### Security
 
+## [0.4.0-rc0] - 2022-04-20
+
+- bump up @cosmjs v0.28.1
+- support lbm v0.4.0-rc0
+
+### Added
+- ci: add unittest CI ([#18])
+
+### Changed
+- cosmjs: feat: bump up v0.28.1 ([#20])
+
+### Fixed
+- @lbmjs/stargate: fix multisignature spec file error ([#19])
+
+[#18]: https://github.com/line/lbmjs/pull/18
+[#19]: https://github.com/line/lbmjs/pull/19
+[#20]: https://github.com/line/lbmjs/pull/20
+
 
 ## 0.1.0 - 2022-03-29
 
@@ -45,4 +63,5 @@ and this project adheres to
 [#14]: https://github.com/line/lbmjs/pull/14
 
 
-[Unreleased]: https://github.com/line/lbmjs/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/line/lbmjs/compare/v0.4.0-rc0...HEAD
+[v0.4.0-rc0]: https://github.com/line/lbmjs/compare/v0.1.0...v0.4.0-rc0
