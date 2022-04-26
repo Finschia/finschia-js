@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/ostracon-rpc",
-  "version": "0.1.0",
+  "version": "0.4.0-rc0",
   "description": "Ostracon RPC clients",
   "contributors": [
     "IOV SAS <admin@iov.one>",
