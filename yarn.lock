@@ -2563,27 +2563,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmjs-monorepo-root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "cosmjs-monorepo-root@workspace:."
-  dependencies:
-    "@cosmjs/crypto": 0.28.4
-    "@cosmjs/encoding": 0.28.4
-    "@lbmjs/amino": "workspace:packages/amino"
-    "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate"
-    "@lbmjs/proto-signing": "workspace:packages/proto-signing"
-    "@lbmjs/stargate": "workspace:packages/stargate"
-    eslint: ^7.5
-    karma-chrome-launcher: ^3.1.0
-    karma-jasmine: ^4.0.1
-    karma-spec-reporter: ^0.0.33
-    karma-typescript: ^5.5.3
-    prettier: ^2.4.1
-    ts-node: ^8
-    typescript: ~4.4
-  languageName: unknown
-  linkType: soft
-
 "create-ecdh@npm:^4.0.0":
   version: 4.0.4
   resolution: "create-ecdh@npm:4.0.4"
@@ -4772,6 +4751,27 @@ __metadata:
   checksum: c9a6f9c803433b2d143a0788308048c1432a71c5febcfea2af7f2e8bd732b9bfd75c2c220d553752ee9ab9a3f52490f006cfd521db97cd01d8461d67cc1ccc1f
   languageName: node
   linkType: hard
+
+"lbmjs-monorepo-root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "lbmjs-monorepo-root@workspace:."
+  dependencies:
+    "@cosmjs/crypto": 0.28.4
+    "@cosmjs/encoding": 0.28.4
+    "@lbmjs/amino": "workspace:packages/amino"
+    "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate"
+    "@lbmjs/proto-signing": "workspace:packages/proto-signing"
+    "@lbmjs/stargate": "workspace:packages/stargate"
+    eslint: ^7.5
+    karma-chrome-launcher: ^3.1.0
+    karma-jasmine: ^4.0.1
+    karma-spec-reporter: ^0.0.33
+    karma-typescript: ^5.5.3
+    prettier: ^2.4.1
+    ts-node: ^8
+    typescript: ~4.4
+  languageName: unknown
+  linkType: soft
 
 "lbmjs-types@npm:^0.46.0-rc0":
   version: 0.46.0-rc0

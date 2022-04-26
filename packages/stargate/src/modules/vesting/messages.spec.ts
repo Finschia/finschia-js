@@ -26,11 +26,11 @@ describe("vestingTypes", () => {
     const memo = "Vesting is cool!";
     const recipient = makeRandomAddress();
     const vestingMsg = {
-      typeUrl: "/cosmos.vesting.v1beta1.MsgCreateVestingAccount",
+      typeUrl: "/lbm.vesting.v1.MsgCreateVestingAccount",
       value: MsgCreateVestingAccount.fromPartial({
         fromAddress: faucet.address0,
         toAddress: recipient,
-        amount: coins(1234, "ucosm"),
+        amount: coins(1234, "cony"),
         endTime: Long.fromString("1838718434"),
         delayed: true,
       }),
@@ -38,8 +38,8 @@ describe("vestingTypes", () => {
 
     const result = await client.signAndBroadcast(faucet.address0, [vestingMsg], "auto", memo);
     assertIsDeliverTxSuccess(result);
-    const balance = await client.getBalance(recipient, "ucosm");
-    expect(balance).toEqual(coin(1234, "ucosm"));
+    const balance = await client.getBalance(recipient, "cony");
+    expect(balance).toEqual(coin(1234, "cony"));
 
     client.disconnect();
   });
