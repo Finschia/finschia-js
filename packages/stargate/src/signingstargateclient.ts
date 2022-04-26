@@ -2,7 +2,7 @@ import { fromBase64 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
 import { assert, assertDefined } from "@cosmjs/utils";
 import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino, StdFee } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { HttpEndpoint, Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import {
   EncodeObject,
   encodePubkey,
@@ -39,6 +39,7 @@ import {
   MsgWithdrawDelegatorRewardEncodeObject,
   stakingTypes,
   tokenTypes,
+  vestingTypes,
 } from "./modules";
 import {
   createAuthzAminoConverters,
@@ -48,6 +49,7 @@ import {
   createGovAminoConverters,
   createIbcAminoConverters,
   createStakingAminoConverters,
+  createVestingAminoConverters,
 } from "./modules";
 import { DeliverTxResponse, StargateClient, StargateClientOptions } from "./stargateclient";
 
@@ -60,6 +62,7 @@ export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...govTypes,
   ...stakingTypes,
   ...ibcTypes,
+  ...vestingTypes,
   ...tokenTypes,
 ];
 
@@ -101,6 +104,7 @@ function createDefaultTypes(prefix: string): AminoConverters {
     ...createStakingAminoConverters(prefix),
     ...createIbcAminoConverters(),
     ...createFreegrantAminoConverters(),
+    ...createVestingAminoConverters(),
   };
 }
 
@@ -114,7 +118,7 @@ export class SigningStargateClient extends StargateClient {
   private readonly gasPrice: GasPrice | undefined;
 
   public static async connectWithSigner(
-    endpoint: string,
+    endpoint: string | HttpEndpoint,
     signer: OfflineSigner,
     options: SigningStargateClientOptions = {},
   ): Promise<SigningStargateClient> {

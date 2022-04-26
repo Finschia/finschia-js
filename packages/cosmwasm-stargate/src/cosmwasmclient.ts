@@ -2,7 +2,7 @@
 import { fromAscii, toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
 import { assert, sleep } from "@cosmjs/utils";
-import { Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
+import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
 import {
   Account,
   accountFromAny,
@@ -89,7 +89,7 @@ export class CosmWasmClient {
   private readonly codesCache = new Map<number, CodeDetails>();
   private chainId: string | undefined;
 
-  public static async connect(endpoint: string): Promise<CosmWasmClient> {
+  public static async connect(endpoint: string | HttpEndpoint): Promise<CosmWasmClient> {
     const tmClient = await Tendermint34Client.connect(endpoint);
     return new CosmWasmClient(tmClient);
   }

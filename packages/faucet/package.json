@@ -35,10 +35,10 @@
     "start-dev": "FAUCET_ADDRESS_PREFIX=link FAUCET_CREDIT_AMOUNT_CONY=10000000 FAUCET_CREDIT_AMOUNT_STAKE=100000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have\" ./bin/lbm-faucet start \"localhost:26657\""
   },
   "dependencies": {
-    "@cosmjs/crypto": "0.28.1",
-    "@cosmjs/encoding": "0.28.1",
-    "@cosmjs/math": "0.28.1",
-    "@cosmjs/utils": "0.28.1",
+    "@cosmjs/crypto": "0.28.4",
+    "@cosmjs/encoding": "0.28.4",
+    "@cosmjs/math": "0.28.4",
+    "@cosmjs/utils": "0.28.4",
     "@koa/cors": "^3.0.0",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",
     "@lbmjs/stargate": "workspace:packages/stargate",
@@ -66,8 +66,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "esm": "^3.2.25",
-    "jasmine": "^3.8",
-    "jasmine-core": "^3.7.1",
+    "jasmine": "^3.99",
     "jasmine-spec-reporter": "^6",
     "karma": "^6.3.17",
     "karma-chrome-launcher": "^3.1.0",
@@ -81,6 +80,8 @@
     "ses": "^0.11.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^8",
-    "typescript": "~4.4"
+    "typescript": "~4.4",
+    "webpack": "^5.32.0",
+    "webpack-cli": "^4.6.0"
   }
 }

@@ -4,7 +4,7 @@ import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
 import { assert, assertDefined } from "@cosmjs/utils";
 import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { HttpEndpoint, Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import {
   EncodeObject,
   encodePubkey,
@@ -193,7 +193,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
   private readonly gasPrice: GasPrice | undefined;
 
   public static async connectWithSigner(
-    endpoint: string,
+    endpoint: string | HttpEndpoint,
     signer: OfflineSigner,
     options: SigningCosmWasmClientOptions = {},
   ): Promise<SigningCosmWasmClient> {
