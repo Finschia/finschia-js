@@ -7,6 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
+- cosmjs: bump up cosmjs from v0.28.1 to v0.28.4  ([#22])
 
 ### Changed
 
@@ -17,6 +18,9 @@ and this project adheres to
 ### Fixed
 
 ### Security
+
+[#22]: https://github.com/line/lbmjs/pull/22
+
 
 ## [0.4.0-rc0] - 2022-04-20
 
