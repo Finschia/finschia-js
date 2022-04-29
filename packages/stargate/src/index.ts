@@ -124,3 +124,6 @@ export {
 } from "./stargateclient";
 export { StdFee } from "@lbmjs/amino";
 export { Coin, coin, coins, makeLinkPath, parseCoins } from "@lbmjs/proto-signing";
+
+// Re-exported because this is part of the StargateClient/SigningStargateClient APIs
+export { HttpEndpoint } from "@lbmjs/ostracon-rpc";

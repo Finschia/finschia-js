@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/ostracon-rpc",
-  "version": "0.1.0",
+  "version": "0.4.0-rc0",
   "description": "Ostracon RPC clients",
   "contributors": [
     "IOV SAS <admin@iov.one>",
@@ -39,13 +39,13 @@
     "pack-web": "yarn build-or-skip && webpack --mode development --config webpack.web.config.js"
   },
   "dependencies": {
-    "@cosmjs/crypto": "0.28.1",
-    "@cosmjs/encoding": "0.28.1",
-    "@cosmjs/json-rpc": "0.28.1",
-    "@cosmjs/math": "0.28.1",
-    "@cosmjs/socket": "0.28.1",
-    "@cosmjs/stream": "0.28.1",
-    "@cosmjs/utils": "0.28.1",
+    "@cosmjs/crypto": "0.28.4",
+    "@cosmjs/encoding": "0.28.4",
+    "@cosmjs/json-rpc": "0.28.4",
+    "@cosmjs/math": "0.28.4",
+    "@cosmjs/socket": "0.28.4",
+    "@cosmjs/stream": "0.28.4",
+    "@cosmjs/utils": "0.28.4",
     "@noble/hashes": "^1",
     "axios": "^0.21.2",
     "readonly-date": "^1.0.0",
@@ -69,8 +69,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "esm": "^3.2.25",
     "glob": "^7.1.6",
-    "jasmine": "^3.8",
-    "jasmine-core": "^3.7.1",
+    "jasmine": "^3.99",
     "jasmine-spec-reporter": "^6",
     "karma": "^6.3.17",
     "karma-chrome-launcher": "^3.1.0",

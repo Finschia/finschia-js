@@ -1,5 +1,5 @@
 {
-  "name": "cosmjs-monorepo-root",
+  "name": "lbmjs-monorepo-root",
   "description": "Transaction codec and client to communicate with any wasmd blockchain",
   "private": true,
   "author": "Ethan Frey <ethanfrey@users.noreply.github.com>",
@@ -12,10 +12,6 @@
     "!*.spec.*",
     "!**/testdata/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cosmos/cosmjs"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -40,8 +36,8 @@
     "publish-latest": "yarn workspaces foreach --no-private exec yarn npm publish"
   },
   "devDependencies": {
-    "@cosmjs/crypto": "0.28.1",
-    "@cosmjs/encoding": "0.28.1",
+    "@cosmjs/crypto": "0.28.4",
+    "@cosmjs/encoding": "0.28.4",
     "@lbmjs/amino": "workspace:packages/amino",
     "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",

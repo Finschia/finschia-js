@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/stargate",
-  "version": "0.1.0",
+  "version": "0.4.0-rc0",
   "description": "Utilities for LBM SDK 0.45.0-rc0",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
@@ -36,10 +36,10 @@
   },
   "dependencies": {
     "@confio/ics23": "^0.6.8",
-    "@cosmjs/encoding": "0.28.1",
-    "@cosmjs/math": "0.28.1",
-    "@cosmjs/stream": "0.28.1",
-    "@cosmjs/utils": "0.28.1",
+    "@cosmjs/encoding": "0.28.4",
+    "@cosmjs/math": "0.28.4",
+    "@cosmjs/stream": "0.28.4",
+    "@cosmjs/utils": "0.28.4",
     "@lbmjs/amino": "workspace:packages/amino",
     "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",
@@ -49,7 +49,7 @@
     "xstream": "^11.14.0"
   },
   "devDependencies": {
-    "@cosmjs/crypto": "0.28.1",
+    "@cosmjs/crypto": "0.28.4",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
@@ -68,8 +68,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "esm": "^3.2.25",
     "glob": "^7.1.6",
-    "jasmine": "^3.8",
-    "jasmine-core": "^3.7.1",
+    "jasmine": "^3.99",
     "jasmine-spec-reporter": "^6",
     "karma": "^6.3.17",
     "karma-chrome-launcher": "^3.1.0",

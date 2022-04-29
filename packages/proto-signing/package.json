@@ -1,8 +1,10 @@
 {
   "name": "@lbmjs/proto-signing",
-  "version": "0.1.0",
+  "version": "0.4.0-rc0",
   "description": "Utilities for protobuf based signing (LBM SDK 0.45.0)",
   "contributors": [
+    "Will Clark <willclarktech@users.noreply.github.com>",
+    "Simon Warta <webmaster128@users.noreply.github.com>",
     "zemyblue<zemyblue@users.noreply.github.com>"
   ],
   "license": "Apache-2.0",
@@ -35,16 +37,16 @@
     "karma-test": "karma start"
   },
   "dependencies": {
-    "@cosmjs/crypto": "0.28.1",
-    "@cosmjs/math": "0.28.1",
+    "@cosmjs/crypto": "0.28.4",
+    "@cosmjs/math": "0.28.4",
     "@lbmjs/amino": "workspace:packages/amino",
     "lbmjs-types": "^0.46.0-rc0",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2"
   },
   "devDependencies": {
-    "@cosmjs/encoding": "0.28.1",
-    "@cosmjs/utils": "0.28.1",
+    "@cosmjs/encoding": "0.28.4",
+    "@cosmjs/utils": "0.28.4",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
@@ -63,8 +65,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "esm": "^3.2.25",
     "glob": "^7.1.6",
-    "jasmine": "^3.8",
-    "jasmine-core": "^3.7.1",
+    "jasmine": "^3.99",
     "jasmine-spec-reporter": "^6",
     "karma": "^6.3.17",
     "karma-chrome-launcher": "^3.1.0",

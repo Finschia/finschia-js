@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
-import { sleep } from "@cosmjs/utils";
-import { Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
+import { assert, sleep } from "@cosmjs/utils";
+import { addCoins } from "@lbmjs/amino";
+import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
 import { MsgData } from "lbmjs-types/lbm/base/abci/v1/abci";
 import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { QueryDelegatorDelegationsResponse } from "lbmjs-types/lbm/staking/v1/query";
+import { DelegationResponse } from "lbmjs-types/lbm/staking/v1/staking";
 
 import { Account, accountFromAny, AccountParser } from "./accounts";
 import {
@@ -149,7 +152,7 @@ export class StargateClient {
   private readonly accountParser: AccountParser;
 
   public static async connect(
-    endpoint: string,
+    endpoint: string | HttpEndpoint,
     options: StargateClientOptions = {},
   ): Promise<StargateClient> {
     const tmClient = await Tendermint34Client.connect(endpoint);
@@ -271,6 +274,30 @@ export class StargateClient {
    */
   public async getAllBalances(address: string): Promise<readonly Coin[]> {
     return this.forceGetQueryClient().bank.allBalances(address);
+  }
+
+  public async getBalanceStaked(address: string): Promise<Coin | null> {
+    const allDelegations = [];
+    let startAtKey: Uint8Array | undefined = undefined;
+    do {
+      const { delegationResponses, pagination }: QueryDelegatorDelegationsResponse =
+        await this.forceGetQueryClient().staking.delegatorDelegations(address, startAtKey);
+
+      const loadedDelegations = delegationResponses || [];
+      allDelegations.push(...loadedDelegations);
+      startAtKey = pagination?.nextKey;
+    } while (startAtKey !== undefined && startAtKey.length !== 0);
+
+    const sumValues = allDelegations.reduce(
+      (previousValue: Coin | null, currentValue: DelegationResponse): Coin => {
+        // Safe because field is set to non-nullable (https://github.com/cosmos/cosmos-sdk/blob/v0.45.3/proto/cosmos/staking/v1beta1/staking.proto#L295)
+        assert(currentValue.balance);
+        return previousValue !== null ? addCoins(previousValue, currentValue.balance) : currentValue.balance;
+      },
+      null,
+    );
+
+    return sumValues;
   }
 
   public async getDelegation(delegatorAddress: string, validatorAddress: string): Promise<Coin | null> {

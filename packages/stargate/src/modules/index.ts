@@ -88,3 +88,5 @@ export { setupStakingExtension, StakingExtension } from "./staking/queries";
 export { tokenTypes } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
 export { setupTxExtension, TxExtension } from "./tx/queries";
+export { createVestingAminoConverters } from "./vesting/aminomessages";
+export { vestingTypes } from "./vesting/messages";

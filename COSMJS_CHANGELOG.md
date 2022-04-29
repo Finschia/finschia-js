@@ -6,6 +6,52 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [0.28.4] - 2022-04-15
+
+### Added
+
+- @cosmjs/math: Add `Decimal.zero` and `Decimal.one` ([#1110]).
+- @cosmjs/amino: Add `addCoins` ([#1116])
+- @cosmjs/stargate: Add `StargateClient.getBalanceStaked()` to query the sum of
+  all staked balance. ([#1116])
+
+### Changed
+
+- @cosmjs/faucet: Docker build image is 90 % smaller now (from 500 MB to 50 MB)
+  due to build system optimizations ([#1120], [#1121]).
+- @cosmjs/cosmwasm-stargate: `CosmWasmClient.connect` and
+  `SigningCosmWasmClient.connectWithSigner` now accept custom HTTP headers
+  ([#1007])
+- @cosmjs/stargate: `StargateClient.connect` and
+  `SigningStargateClient.connectWithSigner` now accept custom HTTP headers
+  ([#1007])
+- @cosmjs/tendermint-rpc: `Tendermint34Client.connect` now accepts custom HTTP
+  headers ([#1007]).
+
+[#1007]: https://github.com/cosmos/cosmjs/issues/1007
+[#1110]: https://github.com/cosmos/cosmjs/issues/1110
+[#1120]: https://github.com/cosmos/cosmjs/pull/1120
+[#1121]: https://github.com/cosmos/cosmjs/pull/1121
+[#1116]: https://github.com/cosmos/cosmjs/issues/1116
+
+## [0.28.3] - 2022-04-11
+
+### Added
+
+- @cosmjs/encoding: Add missing export: `normalizeBech32`.
+
+## [0.28.2] - 2022-04-07
+
+### Added
+
+- @cosmjs/encoding: Create `normalizeBech32`.
+- @cosmjs/stargate: Added support for `MsgCreateVestingAccount` ([#1074]).
+  Please note that Amino JSON signing is currently not available for this type
+  ([#1115]).
+
+[#1074]: https://github.com/cosmos/cosmjs/issues/1074
+[#1115]: https://github.com/cosmos/cosmjs/issues/1115
+
 ## [0.28.1] - 2022-03-30
 
 ### Added
@@ -134,7 +180,10 @@ and this project adheres to
   @cosmjs/launchpad. They are re-exported in @cosmjs/launchpad for backwards
   compatibility.
 - @cosmjs/stargate: Add `GasPrice.toString`.
+- @cosmjs/faucet: Added a new functionality to faucet: Each address is only
+  allowed to get credits once every 24h to prevent draining. ([#962]))
 
+[#962]: https://github.com/cosmos/cosmjs/issues/962
 [#938]: https://github.com/cosmos/cosmjs/issues/938
 [#932]: https://github.com/cosmos/cosmjs/issues/932
 [#878]: https://github.com/cosmos/cosmjs/issues/878
@@ -160,6 +209,10 @@ and this project adheres to
   object. ([#928])
 - @cosmjs/stargate and @cosmjs/cosmwasm-stargate: Add simulation support
   ([#931]).
+- @cosmjs/cosmwasm-stargate: Rename `BroadcastTx{Success,Failure}` to
+  `DeliverTx{Success,Failure}`, `BroadcastTxResponse` to `DeliverTxResponse`,
+  `isBroadcastTx{Success,Failure}` to `isDeliverTx{Success,Failure}` and
+  `assertIsBroadcastTxSuccess` to `assertIsDeliverTxSuccess`. ([#946])
 - @cosmjs/tendermint-rpc: Remove `Tendermint33Client` and related symbols.
 - @cosmjs/cosmwasm-stargate: Add support for wasmd 0.21. This changes the AMINO
   JSON representation of `Msg{Execute,Instantiate,Migrate}Contract.msg` from
@@ -172,6 +225,7 @@ and this project adheres to
 [#928]: https://github.com/cosmos/cosmjs/issues/928
 [#931]: https://github.com/cosmos/cosmjs/pull/931
 [#709]: https://github.com/cosmos/cosmjs/issues/709
+[#946]: https://github.com/cosmos/cosmjs/pull/946
 [#948]: https://github.com/cosmos/cosmjs/pull/948
 
 ## [0.26.6] - 2022-01-10
@@ -814,7 +868,10 @@ CHANGELOG entries missing. Please see [the diff][0.24.1].
   `FeeTable`. @cosmjs/cosmwasm has its own `FeeTable` with those properties.
 - @cosmjs/sdk38: Rename package to @cosmjs/launchpad.
 
-[unreleased]: https://github.com/cosmos/cosmjs/compare/v0.28.1...HEAD
+[unreleased]: https://github.com/cosmos/cosmjs/compare/v0.28.4...HEAD
+[0.28.4]: https://github.com/cosmos/cosmjs/compare/v0.28.3...v0.28.4
+[0.28.3]: https://github.com/cosmos/cosmjs/compare/v0.28.2...v0.28.3
+[0.28.2]: https://github.com/cosmos/cosmjs/compare/v0.28.1...v0.28.2
 [0.28.1]: https://github.com/cosmos/cosmjs/compare/v0.28.0...v0.28.1
 [0.28.0]: https://github.com/cosmos/cosmjs/compare/v0.27.1...v0.28.0
 [0.27.1]: https://github.com/cosmos/cosmjs/compare/v0.27.0...v0.27.1
