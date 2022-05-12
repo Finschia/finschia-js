@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2022-04-14T10:30:00.874432Z",
+  "genesis_time": "2022-05-12T11:50:06.297423Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -39,121 +39,73 @@
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1aaffxdz4dwcnjzumjm7h89yjw5c5wul88zvzuu",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1ey0w0xj9v48vk82ht6mhqdlh9wqkx8enkpjwpr",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1dfyywjglcfptn72axxhsslpy8ep6wq7wujasma",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1equ4n3uwyhapak5g3leq0avz85k0q6jcdy5w0f",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link14nvvrk4dz3k695t8740vqzjnvrwszwm69hw0ls",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1efpqqvlu9pv0he5t8qvft95e8delhf05w8zkzj",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1g07927q5ca8cvwl2fx6r8egkw6lanx7p37txs6",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link146asaycmtydq45kxc8evntqfgepagygelel00h",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link164fvwlqv6actq6tvzqwmxjnu3ry7vr4rpskl8p",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         },
         {
           "@type": "/lbm.auth.v1.BaseAccount",
           "address": "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl",
-          "ed25519_pub_key": null,
-          "secp256k1_pub_key": null,
-          "secp256r1_pub_key": null,
-          "multisig_pub_key": null,
-          "account_number": "0",
+          "pub_key": null,
           "sequence": "0"
         }
       ]
