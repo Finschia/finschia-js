@@ -37,6 +37,7 @@ export {
   createEvidenceAminoConverters,
   isAminoMsgSubmitEvidence,
 } from "./evidence/aminomessages";
+export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { createFreegrantAminoConverters } from "./feegrant/aminomessages";
 export { feegrantTypes } from "./feegrant/messages";
 export {
