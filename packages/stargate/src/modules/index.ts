@@ -40,6 +40,7 @@ export {
 export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { createFreegrantAminoConverters } from "./feegrant/aminomessages";
 export { feegrantTypes } from "./feegrant/messages";
+export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
 export {
   AminoMsgDeposit,
   AminoMsgSubmitProposal,
