@@ -59,6 +59,30 @@ export function isAminoMsgVote(msg: AminoMsg): msg is AminoMsgVote {
   return msg.type === "lbm-sdk/MsgVote";
 }
 
+export interface WeightedVoteOption {
+  /**
+   * VoteOption as integer from 0 to 4 🤷‍
+   *
+   * @see https://github.com/cosmos/cosmos-sdk/blob/v0.42.9/x/gov/types/gov.pb.go#L38-L49
+   */
+  readonly option: number;
+  readonly weight: string;
+}
+
+export interface AminoMsgVoteWeighted extends AminoMsg {
+  readonly type: "lbm-sdk/MsgVoteWeighted";
+  readonly value: {
+    readonly proposal_id: string;
+    /** Bech32 account address */
+    readonly voter: string;
+    readonly options: readonly WeightedVoteOption[];
+  };
+}
+
+export function isAminoMsgVoteWeighted(msg: AminoMsg): msg is AminoMsgVoteWeighted {
+  return msg.type === "lbm-sdk/MsgVoteWeighted";
+}
+
 /** Submits a deposit to an existing proposal */
 export interface AminoMsgDeposit extends AminoMsg {
   readonly type: "lbm-sdk/MsgDeposit";
