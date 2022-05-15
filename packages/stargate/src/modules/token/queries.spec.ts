@@ -84,7 +84,11 @@ describe("TokenExtension(Just Issue)", () => {
       assert(classId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const totalBalace = await client.token.totalBalance(classId, toAddress);
+      const totalBalace = await client.token.balance(classId, toAddress);
+      expect(totalBalace).toBeDefined();
+      expect(totalBalace).not.toBeNull();
+      console.info("totalBalance:", totalBalace);
+
       tmClient.disconnect();
     });
     it("supply", async () => {
@@ -306,13 +310,13 @@ describe("TokenExtension", () => {
       assert(classId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const balance1 = await client.token.totalBalance(classId, toAddress);
+      const balance1 = await client.token.balance(classId, toAddress);
       expect(balance1).toEqual("1000");
 
-      const balance2 = await client.token.totalBalance(classId, fromAddress);
+      const balance2 = await client.token.balance(classId, fromAddress);
       expect(balance2).toEqual("200");
 
-      const balance3 = await client.token.totalBalance(classId, otherAddress);
+      const balance3 = await client.token.balance(classId, otherAddress);
       expect(balance3).toEqual("100");
 
       tmClient.disconnect();

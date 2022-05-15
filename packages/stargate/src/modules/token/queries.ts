@@ -6,7 +6,7 @@ import { createProtobufRpcClient, QueryClient } from "../../queryclient";
 
 export interface TokenExtension {
   readonly token: {
-    readonly totalBalance: (classId: string, address: string) => Promise<string>;
+    readonly balance: (classId: string, address: string) => Promise<string>;
     readonly supply: (classId: string, type: string) => Promise<string>;
     readonly token: (classId: string) => Promise<Token>;
     readonly tokens: () => Promise<Token[]>;
@@ -24,7 +24,7 @@ export function setupTokenExtension(base: QueryClient): TokenExtension {
 
   return {
     token: {
-      totalBalance: async (classId: string, address: string) => {
+      balance: async (classId: string, address: string) => {
         const { amount } = await queryService.Balance({ classId: classId, address: address });
         assert(amount);
         return amount;
