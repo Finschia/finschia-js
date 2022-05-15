@@ -37,7 +37,7 @@ describe("MintExtension", () => {
 
       const inflation = await client.mint.inflation();
       expect(inflation.toFloatApproximation()).toBeGreaterThan(0.13);
-      expect(inflation.toFloatApproximation()).toBeLessThan(0.1304);
+      expect(inflation.toFloatApproximation()).toBeLessThan(0.132);
 
       tmClient.disconnect();
     });
@@ -50,7 +50,7 @@ describe("MintExtension", () => {
 
       const annualProvisions = await client.mint.annualProvisions();
       expect(annualProvisions.toFloatApproximation()).toBeGreaterThan(28_600_000_000);
-      expect(annualProvisions.toFloatApproximation()).toBeLessThan(31_300_000_000);
+      expect(annualProvisions.toFloatApproximation()).toBeLessThan(31_500_000_000);
 
       tmClient.disconnect();
     });
