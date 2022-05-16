@@ -37,25 +37,31 @@ export {
   createEvidenceAminoConverters,
   isAminoMsgSubmitEvidence,
 } from "./evidence/aminomessages";
+export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { createFreegrantAminoConverters } from "./feegrant/aminomessages";
 export { feegrantTypes } from "./feegrant/messages";
+export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
 export {
   AminoMsgDeposit,
   AminoMsgSubmitProposal,
   AminoMsgVote,
+  AminoMsgVoteWeighted,
   createGovAminoConverters,
   isAminoMsgDeposit,
   isAminoMsgSubmitProposal,
   isAminoMsgVote,
+  isAminoMsgVoteWeighted,
 } from "./gov/aminomessages";
 export {
   govTypes,
   isMsgDepositEncodeObject,
   isMsgSubmitProposalEncodeObject,
   isMsgVoteEncodeObject,
+  isMsgVoteWeightedEncodeObject,
   MsgDepositEncodeObject,
   MsgSubmitProposalEncodeObject,
   MsgVoteEncodeObject,
+  MsgVoteWeightedEncodeObject,
 } from "./gov/messages";
 export { GovExtension, GovParamsType, GovProposalId, setupGovExtension } from "./gov/queries";
 export { AminoMsgTransfer, createIbcAminoConverters, isAminoMsgTransfer } from "./ibc/aminomessages";

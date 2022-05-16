@@ -1806,7 +1806,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "lbmjs-types",
-        "npm:0.46.0-rc0"
+        "npm:0.46.0-rc1"
       ],
       [
         "levn",
@@ -3406,7 +3406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-firefox-launcher", "npm:2.1.2"],
             ["karma-jasmine", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.0.1"],
             ["karma-jasmine-html-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.7.0"],
-            ["lbmjs-types", "npm:0.46.0-rc0"],
+            ["lbmjs-types", "npm:0.46.0-rc1"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -3612,7 +3612,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:0.0.33"],
             ["karma-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:5.5.3"],
-            ["lbmjs-types", "npm:0.46.0-rc0"],
+            ["lbmjs-types", "npm:0.46.0-rc1"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["prettier", "npm:2.5.1"],
@@ -3669,7 +3669,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:0.0.33"],
             ["karma-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:5.5.3"],
-            ["lbmjs-types", "npm:0.46.0-rc0"],
+            ["lbmjs-types", "npm:0.46.0-rc1"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["prettier", "npm:2.5.1"],
@@ -8835,10 +8835,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lbmjs-types", [
-        ["npm:0.46.0-rc0", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc0-c22f84115c-dc23c6541b.zip/node_modules/lbmjs-types/",
+        ["npm:0.46.0-rc1", {
+          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc1-85a2c1c7cb-72ca870440.zip/node_modules/lbmjs-types/",
           "packageDependencies": [
-            ["lbmjs-types", "npm:0.46.0-rc0"],
+            ["lbmjs-types", "npm:0.46.0-rc1"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],

@@ -344,7 +344,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
         },
         admin: options.admin,
         label: labal,
-        initMsg: toUtf8(JSON.stringify(msg)),
+        msg: toUtf8(JSON.stringify(msg)),
         funds: [...(options.funds || [])],
       }),
     };
