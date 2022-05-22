@@ -310,12 +310,6 @@
       "index": "1",
       "owners": []
     },
-    "consortium": {
-      "params": {
-        "enabled": false
-      },
-      "validator_auths": []
-    },
     "crisis": {
       "constant_fee": {
         "denom": "stake",
@@ -346,6 +340,18 @@
     },
     "feegrant": {
       "allowances": []
+    },
+    "foundation": {
+      "params": {
+        "enabled": false,
+        "foundation_tax": "0.000000000000000000"
+      },
+      "foundation": null,
+      "members": [],
+      "previous_proposal_id": "0",
+      "proposals": [],
+      "votes": [],
+      "authorizations": []
     },
     "genutil": {
       "gen_txs": [
