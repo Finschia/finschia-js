@@ -41,7 +41,17 @@ export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { createFreegrantAminoConverters } from "./feegrant/aminomessages";
 export { feegrantTypes } from "./feegrant/messages";
 export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
-export { foundationTypes } from "./foundation/messages";
+export {
+  createMsgGrant,
+  createMsgRevoke,
+  createMsgSubmitProposal,
+  createMsgUpdateDecisionPolicy,
+  createMsgUpdateMembers,
+  createMsgWithdrawFromTreasury,
+  createPercentageDecisionPolicy,
+  createThresholdDecisionPolicy,
+  foundationTypes,
+} from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
 export {
   AminoMsgDeposit,
