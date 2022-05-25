@@ -1,3 +1,4 @@
+import { Decimal } from "@cosmjs/math";
 import { EncodeObject, GeneratedType } from "@lbmjs/proto-signing/build";
 import { Duration } from "lbmjs-types/google/protobuf/duration";
 import { Coin } from "lbmjs-types/lbm/base/v1/coin";
@@ -118,26 +119,44 @@ export function createMsgUpdateMembers(operator: string, members: Member[]): Enc
   };
 }
 
-export function createMsgUpdateDecisionPolicy(operator: string, decisionPolicy: EncodeObject): EncodeObject {
+export function createMsgUpdateDecisionPolicy(
+  operator: string,
+  decisionPolicy: ThresholdDecisionPolicyEncodeObject | PercentageDecisionPolicyEncodeObject,
+): EncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.MsgUpdateDecisionPolicy",
-    value: {
-      operator: operator,
-      decisionPolicy: decisionPolicy,
-    },
+    value: Uint8Array.from(
+      MsgUpdateDecisionPolicy.encode({
+        operator: operator,
+        decisionPolicy: decisionPolicy,
+      }).finish(),
+    ),
   };
+}
+
+export interface ThresholdDecisionPolicyEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.foundation.v1.ThresholdDecisionPolicy";
+  readonly value: Uint8Array;
+}
+
+export function isThresholdDecisionPolicyEncodeObject(
+  object: EncodeObject,
+): object is ThresholdDecisionPolicyEncodeObject {
+  return (
+    (object as ThresholdDecisionPolicyEncodeObject).typeUrl === "/lbm.foundation.v1.ThresholdDecisionPolicy"
+  );
 }
 
 export function createThresholdDecisionPolicy(
   threshold: string,
   votingPeriod = "86400",
   minExecutionPeriod = "0",
-): EncodeObject {
+): ThresholdDecisionPolicyEncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.ThresholdDecisionPolicy",
     value: Uint8Array.from(
       ThresholdDecisionPolicy.encode({
-        threshold: threshold,
+        threshold: Decimal.fromUserInput(threshold, 18).atomics,
         windows: {
           votingPeriod: Duration.fromPartial({ seconds: longify(votingPeriod) }),
           minExecutionPeriod: Duration.fromPartial({ seconds: longify(minExecutionPeriod) }),
@@ -147,16 +166,29 @@ export function createThresholdDecisionPolicy(
   };
 }
 
+export interface PercentageDecisionPolicyEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.foundation.v1.PercentageDecisionPolicy";
+  readonly value: Uint8Array;
+}
+
+export function isPercentageDecisionPolicyEncodeObject(
+  object: EncodeObject,
+): object is PercentageDecisionPolicyEncodeObject {
+  return (
+    (object as PercentageDecisionPolicyEncodeObject).typeUrl === "/lbm.foundation.v1.PercentageDecisionPolicy"
+  );
+}
+
 export function createPercentageDecisionPolicy(
   percentage: string,
   votingPeriod = "86400",
   minExecutionPeriod = "0",
-): EncodeObject {
+): PercentageDecisionPolicyEncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.PercentageDecisionPolicy",
     value: Uint8Array.from(
       PercentageDecisionPolicy.encode({
-        percentage: percentage,
+        percentage: Decimal.fromUserInput(percentage, 18).atomics,
         windows: {
           votingPeriod: Duration.fromPartial({ seconds: longify(votingPeriod) }),
           minExecutionPeriod: Duration.fromPartial({ seconds: longify(minExecutionPeriod) }),

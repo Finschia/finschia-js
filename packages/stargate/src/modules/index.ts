@@ -51,6 +51,10 @@ export {
   createPercentageDecisionPolicy,
   createThresholdDecisionPolicy,
   foundationTypes,
+  isPercentageDecisionPolicyEncodeObject,
+  isThresholdDecisionPolicyEncodeObject,
+  PercentageDecisionPolicyEncodeObject,
+  ThresholdDecisionPolicyEncodeObject,
 } from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
 export {

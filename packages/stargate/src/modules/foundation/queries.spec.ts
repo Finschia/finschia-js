@@ -1,7 +1,9 @@
+import { Decimal } from "@cosmjs/math";
 import { sleep } from "@cosmjs/utils";
-import { coin, coins } from "@lbmjs/amino/build";
+import { coins } from "@lbmjs/amino/build";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc/build";
 import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing/build";
+import { ThresholdDecisionPolicy } from "lbmjs-types/lbm/foundation/v1/foundation";
 
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
@@ -13,7 +15,14 @@ import {
   simapp,
   simappEnabled,
 } from "../../testutils.spec";
-import { createMsgGrant, createMsgSubmitProposal, createMsgWithdrawFromTreasury } from "./messages";
+import {
+  createMsgGrant,
+  createMsgSubmitProposal,
+  createMsgUpdateDecisionPolicy,
+  createMsgWithdrawFromTreasury,
+  createThresholdDecisionPolicy,
+  isThresholdDecisionPolicyEncodeObject,
+} from "./messages";
 import { FoundationExtension, setupFoundationExtension } from "./queries";
 
 async function makeClientWithFoundation(
@@ -42,7 +51,7 @@ describe("FoundationExtension", () => {
         typeUrl: "/lbm.foundation.v1.MsgFundTreasury",
         value: {
           from: faucet.address0,
-          amount: [coin(1000, "cony")],
+          amount: coins(1000, "cony"),
         },
       };
       const result = await client.signAndBroadcast(faucet.address0, [msg], defaultFee);
@@ -67,7 +76,7 @@ describe("FoundationExtension", () => {
   });
 });
 
-describe("FoundationExtension2", () => {
+describe("FoundationExtension grant and withdrawFromTreasury", () => {
   const defaultFee = {
     amount: coins(25000, "cony"),
     gas: "1500000", // 1.5 million
@@ -110,7 +119,7 @@ describe("FoundationExtension2", () => {
     }
   });
 
-  describe("Query result of Grant and Withdraw", () => {
+  describe("Query result of Grant", () => {
     it("grant", async () => {
       pendingWithoutSimapp();
       const [client, tmClient] = await makeClientWithFoundation(simapp.tendermintUrl);
@@ -119,6 +128,52 @@ describe("FoundationExtension2", () => {
       expect(response.authorizations).toBeDefined();
       expect(response.authorizations).not.toBeNull();
       expect(response.authorizations.length).toEqual(1);
+
+      tmClient.disconnect();
+    });
+  });
+});
+
+describe("FoundationExtension DecisionPolicy", () => {
+  const defaultFee = {
+    amount: coins(25000, "cony"),
+    gas: "1500000", // 1.5 million
+  };
+  const operatorAddress = "link1gx2dzurw686q340q94njwacpnax48pw824tksx";
+
+  beforeAll(async () => {
+    if (simappEnabled()) {
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const client = await SigningStargateClient.connectWithSigner(
+        simapp.tendermintUrl,
+        wallet,
+        defaultSigningClientOptions,
+      );
+
+      // proposal updateDicisionPolicy
+      const decisionPolisy = createThresholdDecisionPolicy("5");
+      const msgDecisionPolicy = createMsgUpdateDecisionPolicy(operatorAddress, decisionPolisy);
+      const msg = createMsgSubmitProposal([faucet.address0], [msgDecisionPolicy]);
+      const result = await client.signAndBroadcast(faucet.address0, [msg], defaultFee);
+      assertIsDeliverTxSuccess(result);
+
+      await sleep(75);
+    }
+  });
+
+  describe("Query decisionPolicy", () => {
+    it("work", async () => {
+      pendingWithoutSimapp();
+      const [client, tmClient] = await makeClientWithFoundation(simapp.tendermintUrl);
+
+      const foundationInfo = await client.foundation.foundationInfo();
+      expect(foundationInfo).toBeDefined();
+      expect(foundationInfo).not.toBeNull();
+      expect(isThresholdDecisionPolicyEncodeObject(foundationInfo!.decisionPolicy!)).toBeTrue();
+
+      // check threshold
+      const thresholdDecisionPolicy = ThresholdDecisionPolicy.decode(foundationInfo!.decisionPolicy!.value);
+      expect(Decimal.fromAtomics(thresholdDecisionPolicy.threshold, 18).toString()).toEqual("5");
 
       tmClient.disconnect();
     });
