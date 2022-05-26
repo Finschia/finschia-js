@@ -310,12 +310,6 @@
       "index": "1",
       "owners": []
     },
-    "consortium": {
-      "params": {
-        "enabled": false
-      },
-      "validator_auths": []
-    },
     "crisis": {
       "constant_fee": {
         "denom": "stake",
@@ -346,6 +340,34 @@
     },
     "feegrant": {
       "allowances": []
+    },
+    "foundation": {
+      "params": {
+        "enabled": false,
+        "foundation_tax": "0.000000000000000000"
+      },
+      "foundation": {
+        "operator": "link1gx2dzurw686q340q94njwacpnax48pw824tksx",
+        "version": "1",
+        "decision_policy": {
+          "@type": "/lbm.foundation.v1.ThresholdDecisionPolicy",
+          "threshold": "4.000000000000000000",
+          "windows": {
+            "min_execution_period": "0s",
+            "voting_period": "600s"
+          }
+        }
+      },
+      "members": [
+        {
+          "address": "link146asaycmtydq45kxc8evntqfgepagygelel00h",
+          "participating": true
+        }
+      ],
+      "previous_proposal_id": "0",
+      "proposals": [],
+      "votes": [],
+      "authorizations": []
     },
     "genutil": {
       "gen_txs": [

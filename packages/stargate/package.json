@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/stargate",
-  "version": "0.4.0-rc1",
+  "version": "0.4.0-rc2",
   "description": "Utilities for LBM SDK 0.45.0-rc0",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
@@ -43,7 +43,7 @@
     "@lbmjs/amino": "workspace:packages/amino",
     "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc",
     "@lbmjs/proto-signing": "workspace:packages/proto-signing",
-    "lbmjs-types": "^0.46.0-rc1",
+    "lbmjs-types": "^0.46.0-rc2",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2",
     "xstream": "^11.14.0"

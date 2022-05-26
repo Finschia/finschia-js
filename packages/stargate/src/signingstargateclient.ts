@@ -30,6 +30,7 @@ import {
   bankTypes,
   distributionTypes,
   feegrantTypes,
+  foundationTypes,
   govTypes,
   ibcTypes,
   MsgDelegateEncodeObject,
@@ -64,6 +65,7 @@ export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...ibcTypes,
   ...vestingTypes,
   ...tokenTypes,
+  ...foundationTypes,
 ];
 
 function createDefaultRegistry(): Registry {
@@ -149,7 +151,7 @@ export class SigningStargateClient extends StargateClient {
   ) {
     super(tmClient, options);
     // TODO: do we really want to set a default here? Ideally we could get it from the signer such that users only have to set it once.
-    const prefix = options.prefix ?? "cosmos";
+    const prefix = options.prefix ?? "link";
     const { registry = createDefaultRegistry(), aminoTypes = new AminoTypes(createDefaultTypes(prefix)) } =
       options;
     this.registry = registry;

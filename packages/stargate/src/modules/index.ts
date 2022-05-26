@@ -42,6 +42,22 @@ export { createFreegrantAminoConverters } from "./feegrant/aminomessages";
 export { feegrantTypes } from "./feegrant/messages";
 export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
 export {
+  createMsgGrant,
+  createMsgRevoke,
+  createMsgSubmitProposal,
+  createMsgUpdateDecisionPolicy,
+  createMsgUpdateMembers,
+  createMsgWithdrawFromTreasury,
+  createPercentageDecisionPolicy,
+  createThresholdDecisionPolicy,
+  foundationTypes,
+  isPercentageDecisionPolicyEncodeObject,
+  isThresholdDecisionPolicyEncodeObject,
+  PercentageDecisionPolicyEncodeObject,
+  ThresholdDecisionPolicyEncodeObject,
+} from "./foundation/messages";
+export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
+export {
   AminoMsgDeposit,
   AminoMsgSubmitProposal,
   AminoMsgVote,
