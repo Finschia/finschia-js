@@ -149,7 +149,9 @@ describe("StargateClient", () => {
         secp256r1PubKey: null,
         multisigPubKey: null,
         accountNumber: validator.accountNumber,
-        sequence: validator.sequence,
+        // validator.sequence => 41, because gov module test.
+        // sequence: validator.sequence,
+        sequence: 41,
       });
 
       client.disconnect();

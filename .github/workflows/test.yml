@@ -34,3 +34,5 @@ jobs:
 
       - name: Unit Test
         run: yarn test
+        env:
+          SIMAPP_ENABLED: 1

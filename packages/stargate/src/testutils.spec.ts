@@ -15,28 +15,8 @@ import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import { calculateFee, GasPrice } from "./fee";
 import { SigningStargateClientOptions } from "./signingstargateclient";
 
-export function simapp42Enabled(): boolean {
-  return !!process.env.SIMAPP42_ENABLED;
-}
-
-export function simapp44Enabled(): boolean {
-  return !!process.env.SIMAPP44_ENABLED;
-}
-
 export function simappEnabled(): boolean {
-  return simapp42Enabled() || simapp44Enabled();
-}
-
-export function pendingWithoutSimapp44(): void {
-  if (!simapp44Enabled()) {
-    return pending("Set SIMAPP44_ENABLED to enable Simapp based tests");
-  }
-}
-
-export function pendingWithoutSimapp42(): void {
-  if (!simapp42Enabled()) {
-    return pending("Set SIMAPP42_ENABLED to enable Simapp based tests");
-  }
+  return !!process.env.SIMAPP_ENABLED;
 }
 
 export function pendingWithoutSimapp(): void {
@@ -46,7 +26,7 @@ export function pendingWithoutSimapp(): void {
 }
 
 export function slowSimappEnabled(): boolean {
-  return !!process.env.SLOW_SIMAPP42_ENABLED || !!process.env.SLOW_SIMAPP44_ENABLED;
+  return !!process.env.SIMAPP_ENABLED;
 }
 
 export function pendingWithoutSlowSimapp(): void {
@@ -144,7 +124,7 @@ export const unused = {
     value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
   address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
-  accountNumber: 12,
+  accountNumber: 8,
   sequence: 0,
   balanceStaking: "20000000000", // 100000 STAKE
   balanceFee: "100000000000", // 1000 CONY
@@ -178,7 +158,7 @@ export const validator = {
    * ```
    */
   validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
-  accountNumber: 13,
+  accountNumber: 9,
   sequence: 1,
 };
 
