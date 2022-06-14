@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Start simapp docker
         run: |
+          docker ps
           ./scripts/simapp/stop.sh
           ./scripts/simapp/start.sh
 
