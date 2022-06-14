@@ -7,6 +7,14 @@ on:
       - main
 
 jobs:
+  simapp:
+    name: Run simmapp docker
+    runs-on: self-hosted
+
+    steps:
+      - name: Start simapp docker
+        run: ./scripts/simapp/start.sh
+
   tests:
     name: Run tests
     runs-on: self-hosted
@@ -31,9 +39,6 @@ jobs:
 
       - name: Build
         run: yarn build
-
-      - name: Start simapp docker
-        run: ./scripts/simapp/start.sh
 
       - name: Unit Test
         run: yarn test
