@@ -7,5 +7,7 @@ SCRIPT_DIR="$(realpath "$(dirname "$0")")"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR"/env
 
-echo "Killing simapp container..."
-docker container kill "$CONTAINER_NAME"
+if [ "$( docker container inspect -f '{{.State.Running}}' $CONTAINER_NAME )" == "true" ]; then
+  echo "Killing simapp container..."
+  docker container kill "$CONTAINER_NAME"
+fi

@@ -8,12 +8,14 @@ on:
 
 jobs:
   simapp:
-    name: Run simmapp docker
+    name: Run simapp docker
     runs-on: self-hosted
 
     steps:
       - name: Start simapp docker
-        run: ./scripts/simapp/start.sh
+        run: |
+          ./scripts/simapp/stop.sh
+          ./scripts/simapp/start.sh
 
   tests:
     name: Run tests
