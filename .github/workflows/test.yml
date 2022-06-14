@@ -32,7 +32,13 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Start simapp docker
+        run: ./scripts/simapp/start.sh
+
       - name: Unit Test
         run: yarn test
         env:
           SIMAPP_ENABLED: 1
+
+      - name: Stop simapp docker
+        run: ./scripts/simapp/stop.sh
