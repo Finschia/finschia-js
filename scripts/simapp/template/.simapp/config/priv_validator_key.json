@@ -1,0 +1,11 @@
+{
+  "address": "072C979CA629E19CB20E4461B18F6B488F8863CE",
+  "pub_key": {
+    "type": "ostracon/PubKeyEd25519",
+    "value": "u4Fmddkj4xiw9nDtQS15/oWAEPPyfQXWiba+N1H+lBg="
+  },
+  "priv_key": {
+    "type": "ostracon/PrivKeyEd25519",
+    "value": "nH10em+y9cEjqLA4wmSUgcnNBN80IDVQpsqiP4OZ0uO7gWZ12SPjGLD2cO1BLXn+hYAQ8/J9BdaJtr43Uf6UGA=="
+  }
+}
