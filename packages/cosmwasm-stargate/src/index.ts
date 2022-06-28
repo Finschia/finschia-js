@@ -7,6 +7,7 @@ export {
   isMsgExecuteEncodeObject,
   isMsgInstantiateContractEncodeObject,
   isMsgMigrateEncodeObject,
+  isMsgStoreCodeAndInstantiateContract,
   isMsgStoreCodeEncodeObject,
   isMsgUpdateAdminEncodeObject,
   JsonObject,
@@ -14,6 +15,7 @@ export {
   MsgExecuteContractEncodeObject,
   MsgInstantiateContractEncodeObject,
   MsgMigrateContractEncodeObject,
+  MsgStoreCodeAndInstantiateContractEncodeObject,
   MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
   setupWasmExtension,
@@ -27,6 +29,7 @@ export {
   MigrateResult,
   SigningCosmWasmClient,
   SigningCosmWasmClientOptions,
+  UploadAndInstantiateResult,
   UploadResult,
 } from "./signingcosmwasmclient";
 
