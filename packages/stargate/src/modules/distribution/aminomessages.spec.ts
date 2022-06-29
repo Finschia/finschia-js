@@ -5,7 +5,7 @@ import {
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "lbmjs-types/lbm/distribution/v1/tx";
+} from "lbmjs-types/cosmos/distribution/v1beta1/tx";
 
 import { AminoTypes } from "../../aminotypes";
 import {
@@ -25,7 +25,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createDistributionAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.distribution.v1.MsgFundCommunityPool",
+        typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool",
         value: msg,
       });
       const expected: AminoMsgFundCommunityPool = {
@@ -45,7 +45,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createDistributionAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.distribution.v1.MsgSetWithdrawAddress",
+        typeUrl: "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
         value: msg,
       });
       const expected: AminoMsgSetWithdrawAddress = {
@@ -65,7 +65,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createDistributionAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.distribution.v1.MsgWithdrawDelegatorReward",
+        typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
         value: msg,
       });
       const expected: AminoMsgWithdrawDelegatorReward = {
@@ -84,7 +84,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createDistributionAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.distribution.v1.MsgWithdrawValidatorCommission",
+        typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
         value: msg,
       });
       const expected: AminoMsgWithdrawValidatorCommission = {

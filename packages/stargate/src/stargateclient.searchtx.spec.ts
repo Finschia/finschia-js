@@ -10,8 +10,8 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 
 import { isMsgSendEncodeObject } from "./modules";
 import { DeliverTxResponse, isDeliverTxFailure, isDeliverTxSuccess, StargateClient } from "./stargateclient";
@@ -54,7 +54,7 @@ async function sendTokens(
     value: {
       messages: [
         {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: {
             fromAddress: walletAddress,
             toAddress: recipient,
@@ -348,7 +348,7 @@ describe("StargateClient.getTx and .searchTx", () => {
       for (const result of results) {
         const tx = decodeTxRaw(result.tx);
         const msg = fromOneElementArray(tx.body.messages);
-        expect(msg.typeUrl).toEqual("/lbm.bank.v1.MsgSend");
+        expect(msg.typeUrl).toEqual("/cosmos.bank.v1beta1.MsgSend");
         const decoded = registry.decode(msg);
         expect(decoded.toAddress).toEqual(sendSuccessful.recipient);
       }

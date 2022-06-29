@@ -4,17 +4,17 @@ import {
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "lbmjs-types/lbm/distribution/v1/tx";
+} from "lbmjs-types/cosmos/distribution/v1beta1/tx";
 
 export const distributionTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.distribution.v1.MsgFundCommunityPool", MsgFundCommunityPool],
-  ["/lbm.distribution.v1.MsgSetWithdrawAddress", MsgSetWithdrawAddress],
-  ["/lbm.distribution.v1.MsgWithdrawDelegatorReward", MsgWithdrawDelegatorReward],
-  ["/lbm.distribution.v1.MsgWithdrawValidatorCommission", MsgWithdrawValidatorCommission],
+  ["/cosmos.distribution.v1beta1.MsgFundCommunityPool", MsgFundCommunityPool],
+  ["/cosmos.distribution.v1beta1.MsgSetWithdrawAddress", MsgSetWithdrawAddress],
+  ["/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward", MsgWithdrawDelegatorReward],
+  ["/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission", MsgWithdrawValidatorCommission],
 ];
 
 export interface MsgWithdrawDelegatorRewardEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.distribution.v1.MsgWithdrawDelegatorReward";
+  readonly typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
   readonly value: Partial<MsgWithdrawDelegatorReward>;
 }
 
@@ -23,6 +23,6 @@ export function isMsgWithdrawDelegatorRewardEncodeObject(
 ): object is MsgWithdrawDelegatorRewardEncodeObject {
   return (
     (object as MsgWithdrawDelegatorRewardEncodeObject).typeUrl ===
-    "/lbm.distribution.v1.MsgWithdrawDelegatorReward"
+    "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward"
   );
 }

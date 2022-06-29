@@ -2,7 +2,7 @@ import { assertDefined, sleep } from "@cosmjs/utils";
 import { makeLinkPath } from "@lbmjs/amino";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { coins, DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
-import { GenericAuthorization } from "lbmjs-types/lbm/authz/v1/authz";
+import { GenericAuthorization } from "lbmjs-types/cosmos/authz/v1beta1/authz";
 
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
@@ -34,7 +34,7 @@ xdescribe("AuthzExtension", () => {
   const granter1Address = faucet.address1;
   const grantee1Address = makeRandomAddress();
 
-  const grantedMsg = "/lbm.distribution.v1.MsgWithdrawDelegatorReward";
+  const grantedMsg = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
 
   beforeAll(async () => {
     if (simappEnabled()) {
@@ -50,13 +50,13 @@ xdescribe("AuthzExtension", () => {
       );
 
       const grantMsg = {
-        typeUrl: "/lbm.authz.v1.MsgGrant",
+        typeUrl: "/cosmos.authz.v1beta1.MsgGrant",
         value: {
           granter: granter1Address,
           grantee: grantee1Address,
           grant: {
             authorization: {
-              typeUrl: "/lbm.authz.v1.GenericAuthorization",
+              typeUrl: "/cosmos.authz.v1beta1.GenericAuthorization",
               value: GenericAuthorization.encode(
                 GenericAuthorization.fromPartial({
                   msg: grantedMsg,
@@ -91,7 +91,7 @@ xdescribe("AuthzExtension", () => {
       assertDefined(grant.authorization);
 
       // Needs to be GenericAuthorization to decode it below
-      expect(grant.authorization.typeUrl).toEqual("/lbm.authz.v1.GenericAuthorization");
+      expect(grant.authorization.typeUrl).toEqual("/cosmos.authz.v1beta1.GenericAuthorization");
 
       // Decode the message
       const msgDecoded = GenericAuthorization.decode(grant.authorization.value).msg;

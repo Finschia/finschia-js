@@ -3,7 +3,7 @@ import { sleep } from "@cosmjs/utils";
 import { coins } from "@lbmjs/amino/build";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc/build";
 import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing/build";
-import { BasicAllowance } from "lbmjs-types/lbm/feegrant/v1/feegrant";
+import { BasicAllowance } from "lbmjs-types/cosmos/feegrant/v1beta1/feegrant";
 
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
@@ -43,12 +43,12 @@ describe("FeeGrantExtension", () => {
       );
 
       const msg = {
-        typeUrl: "/lbm.feegrant.v1.MsgGrantAllowance",
+        typeUrl: "/cosmos.feegrant.v1beta1.MsgGrantAllowance",
         value: {
           granter: granterAddress,
           grantee: granteeAddress,
           allowance: {
-            typeUrl: "/lbm.feegrant.v1.BasicAllowance",
+            typeUrl: "/cosmos.feegrant.v1beta1.BasicAllowance",
             value: BasicAllowance.encode({ spendLimit: [] }).finish(),
           },
         },

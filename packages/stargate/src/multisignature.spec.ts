@@ -7,8 +7,8 @@ import {
   Secp256k1HdWallet,
 } from "@lbmjs/amino";
 import { coins } from "@lbmjs/proto-signing";
-import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 
 import { MsgSendEncodeObject } from "./modules";
 import { makeCompactBitArray, makeMultisignedTx } from "./multisignature";
@@ -190,7 +190,7 @@ describe("multisignature", () => {
           amount: coins(1234, "cony"),
         };
         const msg: MsgSendEncodeObject = {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: msgSend,
         };
         const gasLimit = 200000;

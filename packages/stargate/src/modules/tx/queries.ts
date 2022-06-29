@@ -1,15 +1,15 @@
 import { Pubkey } from "@lbmjs/amino";
 import { encodePubkey } from "@lbmjs/proto-signing";
-import { Any } from "lbmjs-types/google/protobuf/any";
-import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
+import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
 import {
   GetTxRequest,
   GetTxResponse,
   ServiceClientImpl,
   SimulateRequest,
   SimulateResponse,
-} from "lbmjs-types/lbm/tx/v1/service";
-import { AuthInfo, Fee, Tx, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
+} from "lbmjs-types/cosmos/tx/v1beta1/service";
+import { AuthInfo, Fee, Tx, TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { Any } from "lbmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { createProtobufRpcClient, QueryClient } from "../../queryclient";

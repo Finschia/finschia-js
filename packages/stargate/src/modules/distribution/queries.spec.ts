@@ -2,7 +2,7 @@
 import { sleep } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { coin, coins, DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
-import { MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
+import { MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
 
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
@@ -46,7 +46,7 @@ describe("DistributionExtension", () => {
         amount: coin(25000, "stake"),
       };
       const msgAny: MsgDelegateEncodeObject = {
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: msg,
       };
       const memo = "Test delegation for Stargate";

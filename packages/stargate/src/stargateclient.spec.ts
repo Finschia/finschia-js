@@ -10,7 +10,7 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import {
@@ -349,7 +349,7 @@ describe("StargateClient", () => {
         value: {
           messages: [
             {
-              typeUrl: "/lbm.bank.v1.MsgSend",
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: makeRandomAddress(),
@@ -406,7 +406,7 @@ describe("StargateClient", () => {
         value: {
           messages: [
             {
-              typeUrl: "/lbm.bank.v1.MsgSend",
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: invalidRecipientAddress,
@@ -457,7 +457,7 @@ describe("StargateClient", () => {
         value: {
           messages: [
             {
-              typeUrl: "/lbm.bank.v1.MsgSend",
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: makeRandomAddress(),

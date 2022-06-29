@@ -9,8 +9,8 @@ import {
   DirectSignResponse,
   makeAuthInfoBytes,
 } from "@lbmjs/proto-signing";
-import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
-import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
+import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 
 import { calculateFee, GasPrice } from "./fee";
 import { SigningStargateClientOptions } from "./signingstargateclient";
@@ -143,7 +143,7 @@ export const validator = {
     value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
   /**
-   * delegator_address from /lbm.staking.v1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
+   * delegator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
    *
    * ```
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/simapp42/template/.simapp/config/genesis.json
@@ -151,7 +151,7 @@ export const validator = {
    */
   delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   /**
-   * validator_address from /lbm.staking.v1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
+   * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
    *
    * ```
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/simapp42/template/.simapp/config/genesis.json

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { coins } from "@lbmjs/proto-signing";
-import { MsgMultiSend, MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { MsgMultiSend, MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
 
 import { AminoTypes } from "../../aminotypes";
 import { AminoMsgMultiSend, AminoMsgSend, createBankAminoConverters } from "./aminomessages";
@@ -15,7 +15,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createBankAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.bank.v1.MsgSend",
+        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: msg,
       });
       const expected: AminoMsgSend = {
@@ -42,7 +42,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createBankAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.bank.v1.MsgMultiSend",
+        typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend",
         value: msg,
       });
       const expected: AminoMsgMultiSend = {
@@ -79,7 +79,7 @@ describe("AminoTypes", () => {
         amount: coins(1234, "ucosm"),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.bank.v1.MsgSend",
+        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: expectedValue,
       });
     });
@@ -110,7 +110,7 @@ describe("AminoTypes", () => {
         ],
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.bank.v1.MsgMultiSend",
+        typeUrl: "/cosmos.bank.v1beta1.MsgMultiSend",
         value: expectedValue,
       });
     });

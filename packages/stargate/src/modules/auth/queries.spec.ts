@@ -2,7 +2,7 @@
 import { fromBase64 } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { BaseAccount } from "lbmjs-types/lbm/auth/v1/auth";
+import { BaseAccount } from "lbmjs-types/cosmos/auth/v1beta1/auth";
 import Long from "long";
 
 import { QueryClient } from "../../queryclient";

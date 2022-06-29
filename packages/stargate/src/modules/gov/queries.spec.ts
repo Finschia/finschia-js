@@ -3,14 +3,14 @@ import { assert, sleep } from "@cosmjs/utils";
 import { coin, coins, makeLinkPath } from "@lbmjs/amino";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
-import { Any } from "lbmjs-types/google/protobuf/any";
 import {
   ProposalStatus,
   TextProposal,
   Vote,
   VoteOption,
   WeightedVoteOption,
-} from "lbmjs-types/lbm/gov/v1/gov";
+} from "lbmjs-types/cosmos/gov/v1beta1/gov";
+import { Any } from "lbmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { longify, QueryClient } from "../../queryclient";
@@ -63,10 +63,10 @@ describe("GovExtension", () => {
       );
 
       const proposalMsg: MsgSubmitProposalEncodeObject = {
-        typeUrl: "/lbm.gov.v1.MsgSubmitProposal",
+        typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
         value: {
           content: Any.fromPartial({
-            typeUrl: "/lbm.gov.v1.TextProposal",
+            typeUrl: "/cosmos.gov.v1beta1.TextProposal",
             value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
           }),
           proposer: voter1Address,
@@ -92,7 +92,7 @@ describe("GovExtension", () => {
         // My vote only counts when I delegate
         if (!(await client.getDelegation(voter1Address, validator.validatorAddress))) {
           const msgDelegate: MsgDelegateEncodeObject = {
-            typeUrl: "/lbm.staking.v1.MsgDelegate",
+            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
             value: {
               delegatorAddress: voter1Address,
               validatorAddress: validator.validatorAddress,
@@ -104,7 +104,7 @@ describe("GovExtension", () => {
         }
 
         const voteMsg: MsgVoteEncodeObject = {
-          typeUrl: "/lbm.gov.v1.MsgVote",
+          typeUrl: "/cosmos.gov.v1beta1.MsgVote",
           value: {
             proposalId: longify(proposalId),
             voter: voter1Address,
@@ -120,7 +120,7 @@ describe("GovExtension", () => {
         // My vote only counts when I delegate
         if (!(await client.getDelegation(voter2Address, validator.validatorAddress))) {
           const msgDelegate: MsgDelegateEncodeObject = {
-            typeUrl: "/lbm.staking.v1.MsgDelegate",
+            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
             value: {
               delegatorAddress: voter2Address,
               validatorAddress: validator.validatorAddress,
@@ -132,7 +132,7 @@ describe("GovExtension", () => {
         }
 
         const voteMsg: MsgVoteEncodeObject = {
-          typeUrl: "/lbm.gov.v1.MsgVote",
+          typeUrl: "/cosmos.gov.v1beta1.MsgVote",
           value: {
             proposalId: longify(proposalId),
             voter: voter2Address,
@@ -223,7 +223,7 @@ describe("GovExtension", () => {
       expect(response.proposals.length).toBeGreaterThanOrEqual(1);
       expect(response.proposals[response.proposals.length - 1]).toEqual({
         content: Any.fromPartial({
-          typeUrl: "/lbm.gov.v1.TextProposal",
+          typeUrl: "/cosmos.gov.v1beta1.TextProposal",
           value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
         }),
         proposalId: longify(proposalId),
@@ -249,7 +249,7 @@ describe("GovExtension", () => {
       const response = await client.gov.proposal(proposalId);
       expect(response.proposal).toEqual({
         content: Any.fromPartial({
-          typeUrl: "/lbm.gov.v1.TextProposal",
+          typeUrl: "/cosmos.gov.v1beta1.TextProposal",
           value: Uint8Array.from(TextProposal.encode(textProposal).finish()),
         }),
         proposalId: longify(proposalId),

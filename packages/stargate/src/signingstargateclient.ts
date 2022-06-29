@@ -14,13 +14,13 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { MsgWithdrawDelegatorReward } from "lbmjs-types/cosmos/distribution/v1beta1/tx";
+import { MsgDelegate, MsgUndelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
+import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "lbmjs-types/ibc/core/client/v1/client";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import { MsgWithdrawDelegatorReward } from "lbmjs-types/lbm/distribution/v1/tx";
-import { MsgDelegate, MsgUndelegate } from "lbmjs-types/lbm/staking/v1/tx";
-import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 
 import { AminoConverters, AminoTypes } from "./aminotypes";
@@ -189,7 +189,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const sendMsg: MsgSendEncodeObject = {
-      typeUrl: "/lbm.bank.v1.MsgSend",
+      typeUrl: "/cosmos.bank.v1beta1.MsgSend",
       value: {
         fromAddress: senderAddress,
         toAddress: recipientAddress,
@@ -207,7 +207,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const delegateMsg: MsgDelegateEncodeObject = {
-      typeUrl: "/lbm.staking.v1.MsgDelegate",
+      typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
       value: MsgDelegate.fromPartial({
         delegatorAddress: delegatorAddress,
         validatorAddress: validatorAddress,
@@ -225,7 +225,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const undelegateMsg: MsgUndelegateEncodeObject = {
-      typeUrl: "/lbm.staking.v1.MsgUndelegate",
+      typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
       value: MsgUndelegate.fromPartial({
         delegatorAddress: delegatorAddress,
         validatorAddress: validatorAddress,
@@ -242,7 +242,7 @@ export class SigningStargateClient extends StargateClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const withdrawMsg: MsgWithdrawDelegatorRewardEncodeObject = {
-      typeUrl: "/lbm.distribution.v1.MsgWithdrawDelegatorReward",
+      typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
       value: MsgWithdrawDelegatorReward.fromPartial({
         delegatorAddress: delegatorAddress,
         validatorAddress: validatorAddress,

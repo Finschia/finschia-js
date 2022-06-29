@@ -5,7 +5,7 @@ import {
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "lbmjs-types/lbm/distribution/v1/tx";
+} from "lbmjs-types/cosmos/distribution/v1beta1/tx";
 
 import { AminoConverter } from "../..";
 
@@ -77,7 +77,7 @@ export function createDistributionAminoConverters(): Record<
   AminoConverter | "not_supported_by_chain"
 > {
   return {
-    "/lbm.distribution.v1.MsgFundCommunityPool": {
+    "/cosmos.distribution.v1beta1.MsgFundCommunityPool": {
       aminoType: "lbm-sdk/MsgFundCommunityPool",
       toAmino: ({ amount, depositor }: MsgFundCommunityPool): AminoMsgFundCommunityPool["value"] => ({
         amount: [...amount],
@@ -88,7 +88,7 @@ export function createDistributionAminoConverters(): Record<
         depositor: depositor,
       }),
     },
-    "/lbm.distribution.v1.MsgSetWithdrawAddress": {
+    "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress": {
       aminoType: "lbm-sdk/MsgModifyWithdrawAddress",
       toAmino: ({
         delegatorAddress,
@@ -105,7 +105,7 @@ export function createDistributionAminoConverters(): Record<
         withdrawAddress: withdraw_address,
       }),
     },
-    "/lbm.distribution.v1.MsgWithdrawDelegatorReward": {
+    "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward": {
       aminoType: "lbm-sdk/MsgWithdrawDelegationReward",
       toAmino: ({
         delegatorAddress,
@@ -122,7 +122,7 @@ export function createDistributionAminoConverters(): Record<
         validatorAddress: validator_address,
       }),
     },
-    "/lbm.distribution.v1.MsgWithdrawValidatorCommission": {
+    "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission": {
       aminoType: "lbm-sdk/MsgWithdrawValidatorCommission",
       toAmino: ({
         validatorAddress,

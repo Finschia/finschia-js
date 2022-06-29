@@ -8,7 +8,7 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "lbmjs-types/lbm/staking/v1/tx";
+} from "lbmjs-types/cosmos/staking/v1beta1/tx";
 
 import { AminoTypes } from "../../aminotypes";
 import {
@@ -31,7 +31,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createStakingAminoConverters("cosmos"));
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.staking.v1.MsgBeginRedelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
         value: msg,
       });
       const expected: AminoMsgBeginRedelegate = {
@@ -71,7 +71,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createStakingAminoConverters("cosmos"));
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.staking.v1.MsgCreateValidator",
+        typeUrl: "/cosmos.staking.v1beta1.MsgCreateValidator",
         value: msg,
       });
       const expected: AminoMsgCreateValidator = {
@@ -110,7 +110,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createStakingAminoConverters("cosmos"));
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: msg,
       });
       const expected: AminoMsgDelegate = {
@@ -139,7 +139,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createStakingAminoConverters("cosmos"));
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.staking.v1.MsgEditValidator",
+        typeUrl: "/cosmos.staking.v1beta1.MsgEditValidator",
         value: msg,
       });
       const expected: AminoMsgEditValidator = {
@@ -168,7 +168,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createStakingAminoConverters("cosmos"));
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.staking.v1.MsgUndelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
         value: msg,
       });
       const expected: AminoMsgUndelegate = {
@@ -202,7 +202,7 @@ describe("AminoTypes", () => {
         amount: coin(1234, "ucosm"),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgBeginRedelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
         value: expectedValue,
       });
     });
@@ -257,7 +257,7 @@ describe("AminoTypes", () => {
         value: coin(1234, "ucosm"),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgCreateValidator",
+        typeUrl: "/cosmos.staking.v1beta1.MsgCreateValidator",
         value: expectedValue,
       });
     });
@@ -278,7 +278,7 @@ describe("AminoTypes", () => {
         amount: coin(1234, "ucosm"),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: expectedValue,
       });
     });
@@ -313,7 +313,7 @@ describe("AminoTypes", () => {
         validatorAddress: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgEditValidator",
+        typeUrl: "/cosmos.staking.v1beta1.MsgEditValidator",
         value: expectedValue,
       });
     });
@@ -334,7 +334,7 @@ describe("AminoTypes", () => {
         amount: coin(1234, "ucosm"),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgUndelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
         value: expectedValue,
       });
     });

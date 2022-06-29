@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { toAscii } from "@cosmjs/encoding";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { Metadata } from "lbmjs-types/lbm/bank/v1/bank";
-import { QueryAllBalancesRequest, QueryAllBalancesResponse } from "lbmjs-types/lbm/bank/v1/query";
+import { Metadata } from "lbmjs-types/cosmos/bank/v1beta1/bank";
+import { QueryAllBalancesRequest, QueryAllBalancesResponse } from "lbmjs-types/cosmos/bank/v1beta1/query";
 
 import { pendingWithoutSimapp, simapp, unused } from "../testutils.spec";
 import { QueryClient } from "./queryclient";
@@ -72,7 +72,7 @@ describe("QueryClient", () => {
       const requestData = Uint8Array.from(
         QueryAllBalancesRequest.encode({ address: unused.address }).finish(),
       );
-      const data = await client.queryUnverified(`/lbm.bank.v1.Query/AllBalances`, requestData);
+      const data = await client.queryUnverified(`/cosmos.bank.v1beta1.Query/AllBalances`, requestData);
       const response = QueryAllBalancesResponse.decode(data);
       expect(response.balances.length).toEqual(2);
 
@@ -86,7 +86,7 @@ describe("QueryClient", () => {
       const requestData = Uint8Array.from(
         QueryAllBalancesRequest.encode({ address: unused.address }).finish(),
       );
-      const data = await client.queryUnverified(`/lbm.bank.v1.Query/AllBalances`, requestData);
+      const data = await client.queryUnverified(`/cosmos.bank.v1beta1.Query/AllBalances`, requestData);
       const response = QueryAllBalancesResponse.decode(data);
       expect(response.balances.length).toEqual(2);
 
