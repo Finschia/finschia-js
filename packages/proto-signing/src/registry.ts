@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { Any } from "lbmjs-types/google/protobuf/any";
-import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import { TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 import protobuf from "protobufjs";
 
