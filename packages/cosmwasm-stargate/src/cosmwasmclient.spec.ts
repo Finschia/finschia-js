@@ -12,7 +12,7 @@ import {
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
 import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@lbmjs/stargate";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import { Code, CosmWasmClient, PrivateCosmWasmClient } from "./cosmwasmclient";
@@ -180,7 +180,7 @@ describe("CosmWasmClient", () => {
 
       const memo = "My first contract on chain";
       const sendMsg: MsgSendEncodeObject = {
-        typeUrl: "/lbm.bank.v1.MsgSend",
+        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: {
           fromAddress: alice.address0,
           toAddress: makeRandomAddress(),
@@ -198,7 +198,7 @@ describe("CosmWasmClient", () => {
       const { accountNumber, sequence } = sequenceResponse;
       const pubkey = encodePubkey(alice.pubkey0);
       const txBody: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [sendMsg],
           memo: memo,

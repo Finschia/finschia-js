@@ -64,9 +64,9 @@ export function accountFromAny(input: Any): Account {
   switch (typeUrl) {
     // auth
 
-    case "/lbm.auth.v1.BaseAccount":
+    case "/cosmos.auth.v1beta1.BaseAccount":
       return accountFromBaseAccount(BaseAccount.decode(value));
-    case "/lbm.auth.v1.ModuleAccount": {
+    case "/cosmos.auth.v1beta1.ModuleAccount": {
       const baseAccount = ModuleAccount.decode(value).baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);

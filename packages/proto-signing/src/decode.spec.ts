@@ -16,7 +16,7 @@ describe("decode", () => {
       const testVector = testVectors[0];
 
       const expectedMsg: Any = {
-        typeUrl: "/lbm.bank.v1.MsgSend",
+        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: Uint8Array.from(
           MsgSend.encode({
             fromAddress: "link1xzyh64ze36dc5xv30np8a8lhzz8aqerptenuyr",
@@ -37,7 +37,7 @@ describe("decode", () => {
           signerInfos: [
             {
               publicKey: {
-                typeUrl: "/lbm.crypto.secp256k1.PubKey",
+                typeUrl: "/cosmos.crypto.secp256k1.PubKey",
                 value: prefixedPubkeyBytes,
               },
               modeInfo: {

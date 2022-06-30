@@ -19,8 +19,8 @@ import {
   setupAuthExtension,
   setupBankExtension,
 } from "@lbmjs/stargate";
-import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
-import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/lbm/tx/v1/tx";
+import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 
 import { setupWasmExtension, WasmExtension } from "./modules";
 import { SigningCosmWasmClientOptions } from "./signingcosmwasmclient";
@@ -101,13 +101,13 @@ export const unused = {
 
 export const validator = {
   /**
-   * delegator_address from /lbm.staking.v1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
+   * delegator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */
   delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   /**
-   * validator_address from /lbm.staking.v1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
+   * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */

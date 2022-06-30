@@ -345,7 +345,7 @@ describe("StargateClient", () => {
       });
       const registry = new Registry();
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [
             {
@@ -402,7 +402,7 @@ describe("StargateClient", () => {
       const registry = new Registry();
       const invalidRecipientAddress = "tgrade1z363ulwcrxged4z5jswyt5dn5v3lzsemwz9ewj"; // wrong bech32 prefix
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [
             {
@@ -453,7 +453,7 @@ describe("StargateClient", () => {
       });
       const registry = new Registry();
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [
             {

@@ -24,7 +24,7 @@ describe("AuthExtension", () => {
       const account = await client.auth.account(unused.address);
       assert(account);
 
-      expect(account.typeUrl).toEqual("/lbm.auth.v1.BaseAccount");
+      expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: unused.address,
         // pubKey not set
@@ -45,7 +45,7 @@ describe("AuthExtension", () => {
       const account = await client.auth.account(validator.delegatorAddress);
       assert(account);
 
-      expect(account.typeUrl).toEqual("/lbm.auth.v1.BaseAccount");
+      expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: validator.delegatorAddress,
         ed25519PubKey: undefined,

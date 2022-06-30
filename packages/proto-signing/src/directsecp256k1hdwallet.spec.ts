@@ -256,7 +256,7 @@ describe("DirectSecp256k1HdWallet", () => {
       const { accountNumber, sequence, bodyBytes } = testVectors[1].inputs;
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
       const pubkey = {
-        typeUrl: "/lbm.crypto.secp256k1.PubKey",
+        typeUrl: "/cosmos.crypto.secp256k1.PubKey",
         value: fromBase64(faucet.pubkey.value),
       };
       const fee = coins(2000, "cony");

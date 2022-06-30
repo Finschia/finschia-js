@@ -50,7 +50,7 @@ async function sendTokens(
     value: toBase64(pubkeyBytes),
   });
   const txBodyFields: TxBodyEncodeObject = {
-    typeUrl: "/lbm.tx.v1.TxBody",
+    typeUrl: "/cosmos.tx.v1beta1.TxBody",
     value: {
       messages: [
         {

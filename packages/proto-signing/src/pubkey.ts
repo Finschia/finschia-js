@@ -19,7 +19,7 @@ export function encodePubkey(pubkey: Pubkey): Any {
       key: fromBase64(pubkey.value),
     });
     return Any.fromPartial({
-      typeUrl: "/lbm.crypto.secp256k1.PubKey",
+      typeUrl: "/cosmos.crypto.secp256k1.PubKey",
       value: Uint8Array.from(PubKey.encode(pubkeyProto).finish()),
     });
   } else if (isMultisigThresholdPubkey(pubkey)) {
@@ -28,7 +28,7 @@ export function encodePubkey(pubkey: Pubkey): Any {
       publicKeys: pubkey.value.pubkeys.map(encodePubkey),
     });
     return Any.fromPartial({
-      typeUrl: "/lbm.crypto.multisig.LegacyAminoPubKey",
+      typeUrl: "/cosmos.crypto.multisig.LegacyAminoPubKey",
       value: Uint8Array.from(LegacyAminoPubKey.encode(pubkeyProto).finish()),
     });
   } else {
@@ -38,7 +38,7 @@ export function encodePubkey(pubkey: Pubkey): Any {
 
 function decodeSinglePubkey(pubkey: Any): SinglePubkey {
   switch (pubkey.typeUrl) {
-    case "/lbm.crypto.secp256k1.PubKey": {
+    case "/cosmos.crypto.secp256k1.PubKey": {
       const { key } = PubKey.decode(pubkey.value);
       return encodeSecp256k1Pubkey(key);
     }
@@ -53,10 +53,10 @@ export function decodePubkey(pubkey?: Any | null): Pubkey | null {
   }
 
   switch (pubkey.typeUrl) {
-    case "/lbm.crypto.secp256k1.PubKey": {
+    case "/cosmos.crypto.secp256k1.PubKey": {
       return decodeSinglePubkey(pubkey);
     }
-    case "/lbm.crypto.multisig.LegacyAminoPubKey": {
+    case "/cosmos.crypto.multisig.LegacyAminoPubKey": {
       const { threshold, publicKeys } = LegacyAminoPubKey.decode(pubkey.value);
       const out: MultisigThresholdPubkey = {
         type: "ostracon/PubKeyMultisigThreshold",
@@ -83,7 +83,7 @@ export interface MultisigThresholdPubkeyValue {
 
 function decodeSinglePubkeyValue(pubkey: Any): PubkeyValue {
   switch (pubkey.typeUrl) {
-    case "/lbm.crypto.secp256k1.PubKey": {
+    case "/cosmos.crypto.secp256k1.PubKey": {
       const { key } = PubKey.decode(pubkey.value);
       if (key.length !== 33 || (key[0] !== 0x02 && key[0] !== 0x03)) {
         throw new Error("Public key must be compressed secp256k1, i.e. 33 bytes starting with 0x02 or 0x03");

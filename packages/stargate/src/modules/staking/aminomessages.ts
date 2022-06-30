@@ -222,7 +222,7 @@ export function createStakingAminoConverters(
           delegatorAddress: delegator_address,
           validatorAddress: validator_address,
           pubkey: {
-            typeUrl: "/lbm.crypto.secp256k1.PubKey",
+            typeUrl: "/cosmos.crypto.secp256k1.PubKey",
             value: fromBase64(decodedPubkey.value),
           },
           value: value,

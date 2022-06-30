@@ -55,7 +55,7 @@ import {
 import { DeliverTxResponse, StargateClient, StargateClientOptions } from "./stargateclient";
 
 export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.base.v1.Coin", Coin],
+  ["/cosmos.base.v1beta1.Coin", Coin],
   ...authzTypes,
   ...bankTypes,
   ...distributionTypes,
@@ -360,7 +360,7 @@ export class SigningStargateClient extends StargateClient {
       memo: signed.memo,
     };
     const signedTxBodyEncodeObject: TxBodyEncodeObject = {
-      typeUrl: "/lbm.tx.v1.TxBody",
+      typeUrl: "/cosmos.tx.v1beta1.TxBody",
       value: signedTxBody,
     };
     const signedTxBodyBytes = this.registry.encode(signedTxBodyEncodeObject);
@@ -395,7 +395,7 @@ export class SigningStargateClient extends StargateClient {
     }
     const pubkey = encodePubkey(encodeSecp256k1Pubkey(accountFromSigner.pubkey));
     const txBodyEncodeObject: TxBodyEncodeObject = {
-      typeUrl: "/lbm.tx.v1.TxBody",
+      typeUrl: "/cosmos.tx.v1beta1.TxBody",
       value: {
         messages: messages,
         memo: memo,

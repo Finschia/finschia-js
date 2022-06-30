@@ -3406,7 +3406,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-firefox-launcher", "npm:2.1.2"],
             ["karma-jasmine", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:4.0.1"],
             ["karma-jasmine-html-reporter", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.7.0"],
-            ["lbmjs-types", "npm:0.46.0-rc2"],
+            ["lbmjs-types", "npm:0.46.0-rc4"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -8835,15 +8835,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lbmjs-types", [
-        ["npm:0.46.0-rc2", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc2-d0ca857389-07b1125ff6.zip/node_modules/lbmjs-types/",
-          "packageDependencies": [
-            ["lbmjs-types", "npm:0.46.0-rc2"],
-            ["long", "npm:4.0.0"],
-            ["protobufjs", "npm:6.11.2"]
-          ],
-          "linkType": "HARD",
-        }],
         ["npm:0.46.0-rc4", {
           "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc4-0b18b3b66d-5d0ef1dc71.zip/node_modules/lbmjs-types/",
           "packageDependencies": [

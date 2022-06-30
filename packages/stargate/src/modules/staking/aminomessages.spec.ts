@@ -64,7 +64,7 @@ describe("AminoTypes", () => {
         delegatorAddress: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
         validatorAddress: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         pubkey: {
-          typeUrl: "/lbm.crypto.secp256k1.PubKey",
+          typeUrl: "/cosmos.crypto.secp256k1.PubKey",
           value: fromBase64("A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ"),
         },
         value: coin(1234, "ucosm"),
@@ -251,7 +251,7 @@ describe("AminoTypes", () => {
         delegatorAddress: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
         validatorAddress: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         pubkey: {
-          typeUrl: "/lbm.crypto.secp256k1.PubKey",
+          typeUrl: "/cosmos.crypto.secp256k1.PubKey",
           value: fromBase64("A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ"),
         },
         value: coin(1234, "ucosm"),

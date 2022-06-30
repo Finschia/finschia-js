@@ -47,7 +47,7 @@ describe("AminoTypes", () => {
     // it("can override type with Amino type collision", () => {
     //   const types = new AminoTypes({
     //     ...createStakingAminoConverters("cosmos"),
-    //     "/lbm.staking.otherVersion456.MsgDelegate": {
+    //     "/cosmos.staking.otherVersion456.MsgDelegate": {
     //       aminoType: "lbm-sdk/MsgDelegate",
     //       toAmino: (m: MsgDelegate): { readonly foo: string } => ({
     //         foo: m.delegatorAddress ?? "",
@@ -59,7 +59,7 @@ describe("AminoTypes", () => {
     //   });
     //
     //   const aminoMsg = types.toAmino({
-    //     typeUrl: "/lbm.staking.otherVersion456.MsgDelegate",
+    //     typeUrl: "/cosmos.staking.otherVersion456.MsgDelegate",
     //     value: msg,
     //   });
     //   expect(aminoMsg).toEqual({
@@ -69,7 +69,7 @@ describe("AminoTypes", () => {
     //     },
     //   });
     //   expect(() => types.fromAmino(aminoMsg)).toThrowError(
-    //     "Multiple types are registered with Amino type identifier 'cosmos-sdk/MsgDelegate': '/lbm.staking.otherVersion456.MsgDelegate', '/cosmos.staking.v1beta1.MsgDelegate'. Thus fromAmino cannot be performed.",
+    //     "Multiple types are registered with Amino type identifier 'cosmos-sdk/MsgDelegate': '/cosmos.staking.otherVersion456.MsgDelegate', '/cosmos.staking.v1beta1.MsgDelegate'. Thus fromAmino cannot be performed.",
     //   );
     // });
   });
