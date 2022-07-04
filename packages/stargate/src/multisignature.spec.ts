@@ -173,7 +173,6 @@ describe("multisignature", () => {
   describe("makeMultisignedTx", () => {
     it("works", async () => {
       pendingWithoutSimapp();
-      // const multisigAccountAddress = "cosmos1h90ml36rcu7yegwduzgzderj2jmq49hcpfclw9";
       const multisigAccountAddress = "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl";
 
       // On the composer's machine signing instructions are created.
@@ -186,7 +185,7 @@ describe("multisignature", () => {
 
         const msgSend: MsgSend = {
           fromAddress: multisigAccountAddress,
-          toAddress: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
+          toAddress: faucet.address4,
           amount: coins(1234, "cony"),
         };
         const msg: MsgSendEncodeObject = {

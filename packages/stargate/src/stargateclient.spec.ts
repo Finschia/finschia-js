@@ -151,7 +151,7 @@ describe("StargateClient", () => {
         accountNumber: validator.accountNumber,
         // validator.sequence => 41, because gov module test.
         // sequence: validator.sequence,
-        sequence: 41,
+        sequence: 1,
       });
 
       client.disconnect();
@@ -271,7 +271,7 @@ describe("StargateClient", () => {
         const client = await StargateClient.connect(simapp.tendermintUrl);
         const response = await client.getBalanceStaked(faucet.address0);
 
-        expect(response).toEqual({ denom: "stake", amount: "10000063474" });
+        expect(response).toEqual({ denom: "stake", amount: "63474" });
       });
     });
 

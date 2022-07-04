@@ -60,7 +60,7 @@ export const simapp = {
   denomStaking: "stake",
   denomFee: "cony",
   blockTime: 1_000, // ms
-  totalSupply: 1200000000000, // cony
+  totalSupply: 1100000000000, // cony
   govMinDeposit: coins(10000000, "stake"),
 };
 
@@ -121,9 +121,9 @@ export const faucet = {
 export const unused = {
   pubkey: {
     type: "ostracon/PubKeySecp256k1",
-    value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
+    value: "AlPkJfV+nWxUCb2mPdMLSb/G9zNvywDir8CgxpAUoPjE",
   },
-  address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
+  address: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
   accountNumber: 8,
   sequence: 0,
   balanceStaking: "20000000000", // 100000 STAKE
@@ -140,7 +140,7 @@ export const validator = {
    */
   pubkey: {
     type: "ostracon/PubKeySecp256k1",
-    value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
+    value: "AsVtdRaoc8AsTmzIvRAKWSYgHXf97/HI4ls2wENFk9C8",
   },
   /**
    * delegator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
@@ -149,7 +149,7 @@ export const validator = {
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/simapp42/template/.simapp/config/genesis.json
    * ```
    */
-  delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
+  delegatorAddress: "link1twsfmuj28ndph54k4nw8crwu8h9c8mh3rtx705",
   /**
    * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/simapp42/template/.simapp/config/genesis.json
    *
@@ -157,8 +157,8 @@ export const validator = {
    * jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/simapp42/template/.simapp/config/genesis.json
    * ```
    */
-  validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
-  accountNumber: 9,
+  validatorAddress: "linkvaloper1twsfmuj28ndph54k4nw8crwu8h9c8mh33lyrp8",
+  accountNumber: 10,
   sequence: 1,
 };
 
