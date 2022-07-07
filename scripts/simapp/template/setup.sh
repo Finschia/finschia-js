@@ -46,30 +46,24 @@ fi
 
 # Please do not use the TEST_MNEMONIC for production purpose
 TEST_MNEMONIC="mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have"
+N=9
 
-${SIMD} keys add add00 --keyring-backend=test --recover --index=0 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add01 --keyring-backend=test --recover --index=1 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add02 --keyring-backend=test --recover --index=2 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add03 --keyring-backend=test --recover --index=3 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add04 --keyring-backend=test --recover --index=4 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add05 --keyring-backend=test --recover --index=5 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add06 --keyring-backend=test --recover --index=6 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add07 --keyring-backend=test --recover --index=7 <<< ${TEST_MNEMONIC}
-${SIMD} keys add add08 --keyring-backend=test --recover --index=8 <<< ${TEST_MNEMONIC}
-${SIMD} keys add multisig0 --keyring-backend=test --multisig add00,add01,add02,add03,add04 --multisig-threshold 2
+# generate normal account keys
+for ((i = 0; i < N; i++))
+do
+  ${SIMD} keys add account${i} --keyring-backend=test --recover --index=${i} <<< ${TEST_MNEMONIC}
+done
+# generate multisig key
+${SIMD} keys add multisig0 --keyring-backend=test --multisig account0,account1,account2,account3,account4 --multisig-threshold 2
+# generate validator key
 ${SIMD} keys add validator0 --keyring-backend=test --recover --account=1 <<< ${TEST_MNEMONIC}
 
 
 # Add both accounts, with coins to the genesis file
-${SIMD} add-genesis-account $(${SIMD} keys show add00 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add01 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add02 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add03 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add04 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add05 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add06 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add07 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show add08 -a --keyring-backend=test) 100000000000cony,20000000000stake
+for ((i = 0; i < N; i++))
+do
+  ${SIMD} add-genesis-account $(${SIMD} keys show account${i} -a --keyring-backend=test) 100000000000cony,20000000000stake
+done
 ${SIMD} add-genesis-account $(${SIMD} keys show multisig0 -a --keyring-backend=test) 100000000000cony,20000000000stake
 ${SIMD} add-genesis-account $(${SIMD} keys show validator0 -a --keyring-backend=test) 100000000000cony,20000000000stake
 
