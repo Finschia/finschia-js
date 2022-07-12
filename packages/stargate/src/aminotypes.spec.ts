@@ -1,5 +1,5 @@
 import { coin } from "@lbmjs/proto-signing";
-import { MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
+import { MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
 
 import { AminoTypes } from "./aminotypes";
 import { createBankAminoConverters, createStakingAminoConverters } from "./modules";
@@ -14,7 +14,7 @@ describe("AminoTypes", () => {
 
     it("can override type by type URL", () => {
       const types = new AminoTypes({
-        "/lbm.staking.v1.MsgDelegate": {
+        "/cosmos.staking.v1beta1.MsgDelegate": {
           aminoType: "my-override/MsgDelegate",
           toAmino: (m: MsgDelegate): { readonly foo: string } => ({
             foo: m.delegatorAddress ?? "",
@@ -26,7 +26,7 @@ describe("AminoTypes", () => {
       });
 
       const aminoMsg = types.toAmino({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: msg,
       });
       expect(aminoMsg).toEqual({
@@ -36,7 +36,7 @@ describe("AminoTypes", () => {
         },
       });
       expect(types.fromAmino(aminoMsg)).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: {
           bar: 123,
         },
@@ -47,7 +47,7 @@ describe("AminoTypes", () => {
     // it("can override type with Amino type collision", () => {
     //   const types = new AminoTypes({
     //     ...createStakingAminoConverters("cosmos"),
-    //     "/lbm.staking.otherVersion456.MsgDelegate": {
+    //     "/cosmos.staking.otherVersion456.MsgDelegate": {
     //       aminoType: "lbm-sdk/MsgDelegate",
     //       toAmino: (m: MsgDelegate): { readonly foo: string } => ({
     //         foo: m.delegatorAddress ?? "",
@@ -59,7 +59,7 @@ describe("AminoTypes", () => {
     //   });
     //
     //   const aminoMsg = types.toAmino({
-    //     typeUrl: "/lbm.staking.otherVersion456.MsgDelegate",
+    //     typeUrl: "/cosmos.staking.otherVersion456.MsgDelegate",
     //     value: msg,
     //   });
     //   expect(aminoMsg).toEqual({
@@ -69,7 +69,7 @@ describe("AminoTypes", () => {
     //     },
     //   });
     //   expect(() => types.fromAmino(aminoMsg)).toThrowError(
-    //     "Multiple types are registered with Amino type identifier 'cosmos-sdk/MsgDelegate': '/lbm.staking.otherVersion456.MsgDelegate', '/lbm.staking.v1.MsgDelegate'. Thus fromAmino cannot be performed.",
+    //     "Multiple types are registered with Amino type identifier 'cosmos-sdk/MsgDelegate': '/cosmos.staking.otherVersion456.MsgDelegate', '/cosmos.staking.v1beta1.MsgDelegate'. Thus fromAmino cannot be performed.",
     //   );
     // });
   });
@@ -109,7 +109,7 @@ describe("AminoTypes", () => {
         amount: coin(1234, "ucosm"),
       };
       const aminoMsg = new AminoTypes({
-        "/lbm.staking.v1.MsgDelegate": {
+        "/cosmos.staking.v1beta1.MsgDelegate": {
           aminoType: "my-override/MsgDelegate",
           toAmino: (m: MsgDelegate): { readonly foo: string } => ({
             foo: m.delegatorAddress ?? "",
@@ -117,7 +117,7 @@ describe("AminoTypes", () => {
           fromAmino: () => {},
         },
       }).toAmino({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: msg,
       });
       const expected = {
@@ -168,7 +168,7 @@ describe("AminoTypes", () => {
 
     it("works with overridden type URL", () => {
       const msg = new AminoTypes({
-        "/lbm.staking.v1.MsgDelegate": {
+        "/cosmos.staking.v1beta1.MsgDelegate": {
           aminoType: "lbm-sdk/MsgDelegate2",
           toAmino: () => {},
           fromAmino: ({ foo }: { readonly foo: string }): MsgDelegate => ({
@@ -184,7 +184,7 @@ describe("AminoTypes", () => {
         },
       });
       expect(msg).toEqual({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: {
           delegatorAddress: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validatorAddress: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -195,12 +195,12 @@ describe("AminoTypes", () => {
 
     it("throws for types which are not on chain yet", () => {
       expect(() => {
-        new AminoTypes({ "/lbm.feegrant.v1.MsgRevokeAllowance": "not_supported_by_chain" }).toAmino({
-          typeUrl: "/lbm.feegrant.v1.MsgRevokeAllowance",
+        new AminoTypes({ "/cosmos.feegrant.v1beta1.MsgRevokeAllowance": "not_supported_by_chain" }).toAmino({
+          typeUrl: "/cosmos.feegrant.v1beta1.MsgRevokeAllowance",
           value: 0,
         });
       }).toThrowError(
-        /The message type '\/lbm.feegrant.v1.MsgRevokeAllowance' cannot be signed using the Amino JSON sign mode because this is not supported by chain./i,
+        /The message type '\/cosmos.feegrant.v1beta1.MsgRevokeAllowance' cannot be signed using the Amino JSON sign mode because this is not supported by chain./i,
       );
     });
 

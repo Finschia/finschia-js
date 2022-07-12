@@ -5,30 +5,30 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "lbmjs-types/lbm/staking/v1/tx";
+} from "lbmjs-types/cosmos/staking/v1beta1/tx";
 
 export const stakingTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.staking.v1.MsgBeginRedelegate", MsgBeginRedelegate],
-  ["/lbm.staking.v1.MsgCreateValidator", MsgCreateValidator],
-  ["/lbm.staking.v1.MsgDelegate", MsgDelegate],
-  ["/lbm.staking.v1.MsgEditValidator", MsgEditValidator],
-  ["/lbm.staking.v1.MsgUndelegate", MsgUndelegate],
+  ["/cosmos.staking.v1beta1.MsgBeginRedelegate", MsgBeginRedelegate],
+  ["/cosmos.staking.v1beta1.MsgCreateValidator", MsgCreateValidator],
+  ["/cosmos.staking.v1beta1.MsgDelegate", MsgDelegate],
+  ["/cosmos.staking.v1beta1.MsgEditValidator", MsgEditValidator],
+  ["/cosmos.staking.v1beta1.MsgUndelegate", MsgUndelegate],
 ];
 
 export interface MsgDelegateEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.staking.v1.MsgDelegate";
+  readonly typeUrl: "/cosmos.staking.v1beta1.MsgDelegate";
   readonly value: Partial<MsgDelegate>;
 }
 
 export function isMsgDelegateEncodeObject(object: EncodeObject): object is MsgDelegateEncodeObject {
-  return (object as MsgDelegateEncodeObject).typeUrl === "/lbm.staking.v1.MsgDelegate";
+  return (object as MsgDelegateEncodeObject).typeUrl === "/cosmos.staking.v1beta1.MsgDelegate";
 }
 
 export interface MsgUndelegateEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.staking.v1.MsgUndelegate";
+  readonly typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate";
   readonly value: Partial<MsgUndelegate>;
 }
 
 export function isMsgUndelegateEncodeObject(object: EncodeObject): object is MsgUndelegateEncodeObject {
-  return (object as MsgUndelegateEncodeObject).typeUrl === "/lbm.staking.v1.MsgUndelegate";
+  return (object as MsgUndelegateEncodeObject).typeUrl === "/cosmos.staking.v1beta1.MsgUndelegate";
 }

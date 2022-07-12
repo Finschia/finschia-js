@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { Any } from "lbmjs-types/google/protobuf/any";
-import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import { TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 import protobuf from "protobufjs";
 
@@ -40,9 +40,9 @@ export function isPbjsGeneratedType(type: GeneratedType): type is PbjsGeneratedT
 }
 
 const defaultTypeUrls = {
-  linkCoin: "/lbm.base.v1.Coin",
-  linkMsgSend: "/lbm.bank.v1.MsgSend",
-  linkTxBody: "/lbm.tx.v1.TxBody",
+  linkCoin: "/cosmos.base.v1beta1.Coin",
+  linkMsgSend: "/cosmos.bank.v1beta1.MsgSend",
+  linkTxBody: "/cosmos.tx.v1beta1.TxBody",
   googleAny: "/google.protobuf.Any",
 };
 
@@ -65,12 +65,12 @@ interface TxBodyValue {
 }
 
 export interface TxBodyEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.tx.v1.TxBody";
+  readonly typeUrl: "/cosmos.tx.v1beta1.TxBody";
   readonly value: TxBodyValue;
 }
 
 export function isTxBodyEncodeObject(encodeObject: EncodeObject): encodeObject is TxBodyEncodeObject {
-  return (encodeObject as TxBodyEncodeObject).typeUrl === "/lbm.tx.v1.TxBody";
+  return (encodeObject as TxBodyEncodeObject).typeUrl === "/cosmos.tx.v1beta1.TxBody";
 }
 
 export class Registry {
@@ -111,7 +111,7 @@ export class Registry {
    * ```
    * import { assert } from "@cosmjs/utils";
    *
-   * const Coin = registry.lookupType("/lbm.base.v1.Coin");
+   * const Coin = registry.lookupType("/cosmos.base.v1beta1.Coin");
    * assert(Coin); // Ensures not unset
    * assert(isTsProtoGeneratedType(Coin)); // Ensures this is the type we expect
    *

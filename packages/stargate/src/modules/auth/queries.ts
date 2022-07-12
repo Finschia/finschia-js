@@ -1,5 +1,5 @@
+import { QueryClientImpl } from "lbmjs-types/cosmos/auth/v1beta1/query";
 import { Any } from "lbmjs-types/google/protobuf/any";
-import { QueryClientImpl } from "lbmjs-types/lbm/auth/v1/query";
 
 import { createProtobufRpcClient, QueryClient } from "../../queryclient";
 

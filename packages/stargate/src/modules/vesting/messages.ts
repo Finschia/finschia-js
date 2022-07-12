@@ -1,6 +1,6 @@
 import { GeneratedType } from "@lbmjs/proto-signing";
-import { MsgCreateVestingAccount } from "lbmjs-types/lbm/vesting/v1/tx";
+import { MsgCreateVestingAccount } from "lbmjs-types/cosmos/vesting/v1beta1/tx";
 
 export const vestingTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.vesting.v1.MsgCreateVestingAccount", MsgCreateVestingAccount],
+  ["/cosmos.vesting.v1beta1.MsgCreateVestingAccount", MsgCreateVestingAccount],
 ];

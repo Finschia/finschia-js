@@ -10,7 +10,7 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import {
@@ -149,9 +149,7 @@ describe("StargateClient", () => {
         secp256r1PubKey: null,
         multisigPubKey: null,
         accountNumber: validator.accountNumber,
-        // validator.sequence => 41, because gov module test.
-        // sequence: validator.sequence,
-        sequence: 41,
+        sequence: 1,
       });
 
       client.disconnect();
@@ -271,7 +269,7 @@ describe("StargateClient", () => {
         const client = await StargateClient.connect(simapp.tendermintUrl);
         const response = await client.getBalanceStaked(faucet.address0);
 
-        expect(response).toEqual({ denom: "stake", amount: "10000063474" });
+        expect(response).toEqual({ denom: "stake", amount: "63474" });
       });
     });
 
@@ -345,11 +343,11 @@ describe("StargateClient", () => {
       });
       const registry = new Registry();
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [
             {
-              typeUrl: "/lbm.bank.v1.MsgSend",
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: makeRandomAddress(),
@@ -402,11 +400,11 @@ describe("StargateClient", () => {
       const registry = new Registry();
       const invalidRecipientAddress = "tgrade1z363ulwcrxged4z5jswyt5dn5v3lzsemwz9ewj"; // wrong bech32 prefix
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [
             {
-              typeUrl: "/lbm.bank.v1.MsgSend",
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: invalidRecipientAddress,
@@ -453,11 +451,11 @@ describe("StargateClient", () => {
       });
       const registry = new Registry();
       const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: "/lbm.tx.v1.TxBody",
+        typeUrl: "/cosmos.tx.v1beta1.TxBody",
         value: {
           messages: [
             {
-              typeUrl: "/lbm.bank.v1.MsgSend",
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
               value: {
                 fromAddress: address,
                 toAddress: makeRandomAddress(),

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg, Coin } from "@lbmjs/amino";
-import { MsgMultiSend, MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { MsgMultiSend, MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
 
 // eslint-disable-next-line import/no-cycle
 import { AminoConverters } from "../../aminotypes";
@@ -48,7 +48,7 @@ export function isAminoMsgMultiSend(msg: AminoMsg): msg is AminoMsgMultiSend {
 
 export function createBankAminoConverters(): AminoConverters {
   return {
-    "/lbm.bank.v1.MsgSend": {
+    "/cosmos.bank.v1beta1.MsgSend": {
       aminoType: "lbm-sdk/MsgSend",
       toAmino: ({ fromAddress, toAddress, amount }: MsgSend): AminoMsgSend["value"] => ({
         from_address: fromAddress,
@@ -61,7 +61,7 @@ export function createBankAminoConverters(): AminoConverters {
         amount: [...amount],
       }),
     },
-    "/lbm.bank.v1.MsgMultiSend": {
+    "/cosmos.bank.v1beta1.MsgMultiSend": {
       aminoType: "lbm-sdk/MsgMultiSend",
       toAmino: ({ inputs, outputs }: MsgMultiSend): AminoMsgMultiSend["value"] => ({
         inputs: inputs.map((input) => ({

@@ -1,14 +1,14 @@
 import { Uint64 } from "@cosmjs/math";
 import { assert } from "@cosmjs/utils";
 import { decodeMultisigPubkey, MultisigThresholdPubkeyValue, PubkeyValue } from "@lbmjs/proto-signing";
-import { Any } from "lbmjs-types/google/protobuf/any";
-import { BaseAccount, ModuleAccount } from "lbmjs-types/lbm/auth/v1/auth";
+import { BaseAccount, ModuleAccount } from "lbmjs-types/cosmos/auth/v1beta1/auth";
 import {
   BaseVestingAccount,
   ContinuousVestingAccount,
   DelayedVestingAccount,
   PeriodicVestingAccount,
-} from "lbmjs-types/lbm/vesting/v1/vesting";
+} from "lbmjs-types/cosmos/vesting/v1beta1/vesting";
+import { Any } from "lbmjs-types/google/protobuf/any";
 import Long from "long";
 
 export interface Account {
@@ -64,9 +64,9 @@ export function accountFromAny(input: Any): Account {
   switch (typeUrl) {
     // auth
 
-    case "/lbm.auth.v1.BaseAccount":
+    case "/cosmos.auth.v1beta1.BaseAccount":
       return accountFromBaseAccount(BaseAccount.decode(value));
-    case "/lbm.auth.v1.ModuleAccount": {
+    case "/cosmos.auth.v1beta1.ModuleAccount": {
       const baseAccount = ModuleAccount.decode(value).baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
@@ -74,22 +74,22 @@ export function accountFromAny(input: Any): Account {
 
     // vesting
 
-    case "/lbm.vesting.v1.BaseVestingAccount": {
+    case "/cosmos.vesting.v1beta1.BaseVestingAccount": {
       const baseAccount = BaseVestingAccount.decode(value)?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
     }
-    case "/lbm.vesting.v1.ContinuousVestingAccount": {
+    case "/cosmos.vesting.v1beta1.ContinuousVestingAccount": {
       const baseAccount = ContinuousVestingAccount.decode(value)?.baseVestingAccount?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
     }
-    case "/lbm.vesting.v1.DelayedVestingAccount": {
+    case "/cosmos.vesting.v1beta1.DelayedVestingAccount": {
       const baseAccount = DelayedVestingAccount.decode(value)?.baseVestingAccount?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);
     }
-    case "/lbm.vesting.v1.PeriodicVestingAccount": {
+    case "/cosmos.vesting.v1beta1.PeriodicVestingAccount": {
       const baseAccount = PeriodicVestingAccount.decode(value)?.baseVestingAccount?.baseAccount;
       assert(baseAccount);
       return accountFromBaseAccount(baseAccount);

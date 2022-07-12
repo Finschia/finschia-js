@@ -7,8 +7,8 @@ import {
   Secp256k1HdWallet,
 } from "@lbmjs/amino";
 import { coins } from "@lbmjs/proto-signing";
-import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 
 import { MsgSendEncodeObject } from "./modules";
 import { makeCompactBitArray, makeMultisignedTx } from "./multisignature";
@@ -173,7 +173,6 @@ describe("multisignature", () => {
   describe("makeMultisignedTx", () => {
     it("works", async () => {
       pendingWithoutSimapp();
-      // const multisigAccountAddress = "cosmos1h90ml36rcu7yegwduzgzderj2jmq49hcpfclw9";
       const multisigAccountAddress = "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl";
 
       // On the composer's machine signing instructions are created.
@@ -186,11 +185,11 @@ describe("multisignature", () => {
 
         const msgSend: MsgSend = {
           fromAddress: multisigAccountAddress,
-          toAddress: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
+          toAddress: faucet.address4,
           amount: coins(1234, "cony"),
         };
         const msg: MsgSendEncodeObject = {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: msgSend,
         };
         const gasLimit = 200000;

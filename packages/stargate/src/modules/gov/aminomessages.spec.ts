@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TextProposal, VoteOption } from "lbmjs-types/lbm/gov/v1/gov";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/lbm/gov/v1/tx";
+import { TextProposal, VoteOption } from "lbmjs-types/cosmos/gov/v1beta1/gov";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/cosmos/gov/v1beta1/tx";
 import Long from "long";
 
 import { AminoTypes } from "../../aminotypes";
@@ -21,7 +21,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createGovAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.gov.v1.MsgDeposit",
+        typeUrl: "/cosmos.gov.v1beta1.MsgDeposit",
         value: msg,
       });
       const expected: AminoMsgDeposit = {
@@ -40,7 +40,7 @@ describe("AminoTypes", () => {
         initialDeposit: [{ amount: "12300000", denom: "ustake" }],
         proposer: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         content: {
-          typeUrl: "/lbm.gov.v1.TextProposal",
+          typeUrl: "/cosmos.gov.v1beta1.TextProposal",
           value: TextProposal.encode({
             description: "This proposal proposes to test whether this proposal passes",
             title: "Test Proposal",
@@ -49,7 +49,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createGovAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.gov.v1.MsgSubmitProposal",
+        typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
         value: msg,
       });
       const expected: AminoMsgSubmitProposal = {
@@ -77,7 +77,7 @@ describe("AminoTypes", () => {
       };
       const aminoTypes = new AminoTypes(createGovAminoConverters());
       const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.gov.v1.MsgVote",
+        typeUrl: "/cosmos.gov.v1beta1.MsgVote",
         value: msg,
       });
       const expected: AminoMsgVote = {
@@ -109,7 +109,7 @@ describe("AminoTypes", () => {
         proposalId: Long.fromNumber(5),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.gov.v1.MsgDeposit",
+        typeUrl: "/cosmos.gov.v1beta1.MsgDeposit",
         value: expectedValue,
       });
     });
@@ -134,7 +134,7 @@ describe("AminoTypes", () => {
         initialDeposit: [{ amount: "12300000", denom: "ustake" }],
         proposer: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         content: {
-          typeUrl: "/lbm.gov.v1.TextProposal",
+          typeUrl: "/cosmos.gov.v1beta1.TextProposal",
           value: TextProposal.encode({
             description: "This proposal proposes to test whether this proposal passes",
             title: "Test Proposal",
@@ -142,7 +142,7 @@ describe("AminoTypes", () => {
         },
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.gov.v1.MsgSubmitProposal",
+        typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
         value: expectedValue,
       });
     });
@@ -163,7 +163,7 @@ describe("AminoTypes", () => {
         voter: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.gov.v1.MsgVote",
+        typeUrl: "/cosmos.gov.v1beta1.MsgVote",
         value: expectedValue,
       });
     });

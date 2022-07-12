@@ -1,8 +1,8 @@
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
+import { PeriodicVestingAccount } from "lbmjs-types/cosmos/vesting/v1beta1/vesting";
 import { Any } from "lbmjs-types/google/protobuf/any";
 
 import { accountFromAny } from "./accounts";
-import { PeriodicVestingAccount } from "lbmjs-types/lbm/vesting/v1/vesting";
 
 describe("accounts", () => {
   describe("accountFromAny", () => {
@@ -10,7 +10,7 @@ describe("accounts", () => {
       // todo: check below query.
       // Queried from chain via `packages/cli/examples/get_akash_vesting_account.ts`.
       const any = Any.fromJSON({
-        typeUrl: "/lbm.vesting.v1.PeriodicVestingAccount",
+        typeUrl: "/cosmos.vesting.v1beta1.PeriodicVestingAccount",
         value:
           "ClYKVAorbGluazF6bDZhZzZjOG5sZmhqOHR3Z215N3R5cHQ5MzA1c3ZxZ2hnYzN2bRojCiECy1swF33L0emvgtLQzj7i4N9ZlzdeSjMgj2Qe4Nxhb+owMg==",
       });

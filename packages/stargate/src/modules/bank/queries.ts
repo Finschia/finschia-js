@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { assert } from "@cosmjs/utils";
-import { Metadata } from "lbmjs-types/lbm/bank/v1/bank";
-import { QueryClientImpl } from "lbmjs-types/lbm/bank/v1/query";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { Metadata } from "lbmjs-types/cosmos/bank/v1beta1/bank";
+import { QueryClientImpl } from "lbmjs-types/cosmos/bank/v1beta1/query";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
 
 import { createProtobufRpcClient, QueryClient } from "../../queryclient";
 

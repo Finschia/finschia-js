@@ -2,10 +2,10 @@
 import { assert, sleep } from "@cosmjs/utils";
 import { Secp256k1HdWallet } from "@lbmjs/amino";
 import { coin, coins, decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
-import { MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
-import { DeepPartial, MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
-import { AuthInfo, TxBody, TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { DeepPartial, MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
+import { AuthInfo, TxBody, TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import Long from "long";
 import protobuf from "protobufjs/minimal";
 
@@ -56,7 +56,7 @@ describe("SigningStargateClient", () => {
         amount: coin(1234, "stake"),
       });
       const msgAny: MsgDelegateEncodeObject = {
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: msg,
       };
       const memo = "Use your power wisely";
@@ -261,7 +261,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -292,7 +292,7 @@ describe("SigningStargateClient", () => {
           amount: coins(Number.MAX_SAFE_INTEGER, "stake"),
         });
         const msgAny: MsgSendEncodeObject = {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: msg,
         };
         const fee = {
@@ -322,7 +322,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const result = await client.signAndBroadcast(faucet.address0, [msgAny], "auto");
@@ -344,7 +344,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -383,7 +383,7 @@ describe("SigningStargateClient", () => {
           amount: coins(1234, "cony"),
         };
         const msgAny: MsgSendEncodeObject = {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: msgSend,
         };
         const fee = {
@@ -410,7 +410,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msgDelegate,
         };
         const fee = {
@@ -427,7 +427,7 @@ describe("SigningStargateClient", () => {
         const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic);
 
         const customRegistry = new Registry();
-        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
+        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
         interface CustomMsgDelegate {
           customDelegatorAddress?: string;
           customValidatorAddress?: string;
@@ -485,7 +485,7 @@ describe("SigningStargateClient", () => {
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
-          "/lbm.staking.v1.MsgDelegate": {
+          "/cosmos.staking.v1beta1.MsgDelegate": {
             aminoType: "lbm-sdk/MsgDelegate",
             toAmino: ({
               customDelegatorAddress,
@@ -528,7 +528,7 @@ describe("SigningStargateClient", () => {
           customAmount: coin(1234, "stake"),
         };
         const msgAny = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -555,7 +555,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -596,7 +596,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -626,7 +626,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         });
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -665,7 +665,7 @@ describe("SigningStargateClient", () => {
           amount: coins(1234, "cony"),
         };
         const msgAny: MsgSendEncodeObject = {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: msgSend,
         };
         const fee = {
@@ -695,7 +695,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msgDelegate,
         };
         const fee = {
@@ -715,7 +715,7 @@ describe("SigningStargateClient", () => {
         const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic);
 
         const customRegistry = new Registry();
-        const msgDelegateTypeUrl = "/lbm.staking.v1.MsgDelegate";
+        const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
         interface CustomMsgDelegate {
           customDelegatorAddress?: string;
           customValidatorAddress?: string;
@@ -773,7 +773,7 @@ describe("SigningStargateClient", () => {
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
-          "/lbm.staking.v1.MsgDelegate": {
+          "/cosmos.staking.v1beta1.MsgDelegate": {
             aminoType: "lbm-sdk/MsgDelegate",
             toAmino: ({
               customDelegatorAddress,
@@ -816,7 +816,7 @@ describe("SigningStargateClient", () => {
           customAmount: coin(1234, "stake"),
         };
         const msgAny = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {
@@ -846,7 +846,7 @@ describe("SigningStargateClient", () => {
           amount: coin(1234, "stake"),
         };
         const msgAny: MsgDelegateEncodeObject = {
-          typeUrl: "/lbm.staking.v1.MsgDelegate",
+          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
           value: msg,
         };
         const fee = {

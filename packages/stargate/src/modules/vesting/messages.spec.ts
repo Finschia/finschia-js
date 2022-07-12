@@ -1,6 +1,6 @@
 import { coin, coins } from "@lbmjs/amino";
 import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
-import { MsgCreateVestingAccount } from "lbmjs-types/lbm/vesting/v1/tx";
+import { MsgCreateVestingAccount } from "lbmjs-types/cosmos/vesting/v1beta1/tx";
 import Long from "long";
 
 import { SigningStargateClient } from "../../signingstargateclient";
@@ -26,7 +26,7 @@ describe("vestingTypes", () => {
     const memo = "Vesting is cool!";
     const recipient = makeRandomAddress();
     const vestingMsg = {
-      typeUrl: "/lbm.vesting.v1.MsgCreateVestingAccount",
+      typeUrl: "/cosmos.vesting.v1beta1.MsgCreateVestingAccount",
       value: MsgCreateVestingAccount.fromPartial({
         fromAddress: faucet.address0,
         toAddress: recipient,

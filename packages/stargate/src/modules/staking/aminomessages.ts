@@ -8,7 +8,7 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "lbmjs-types/lbm/staking/v1/tx";
+} from "lbmjs-types/cosmos/staking/v1beta1/tx";
 
 import { AminoConverter } from "../..";
 
@@ -123,7 +123,7 @@ export function createStakingAminoConverters(
   prefix: string,
 ): Record<string, AminoConverter | "not_supported_by_chain"> {
   return {
-    "/lbm.staking.v1.MsgBeginRedelegate": {
+    "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
       aminoType: "lbm-sdk/MsgBeginRedelegate",
       toAmino: ({
         delegatorAddress,
@@ -151,7 +151,7 @@ export function createStakingAminoConverters(
         amount: amount,
       }),
     },
-    "/lbm.staking.v1.MsgCreateValidator": {
+    "/cosmos.staking.v1beta1.MsgCreateValidator": {
       aminoType: "lbm-sdk/MsgCreateValidator",
       toAmino: ({
         description,
@@ -222,14 +222,14 @@ export function createStakingAminoConverters(
           delegatorAddress: delegator_address,
           validatorAddress: validator_address,
           pubkey: {
-            typeUrl: "/lbm.crypto.secp256k1.PubKey",
+            typeUrl: "/cosmos.crypto.secp256k1.PubKey",
             value: fromBase64(decodedPubkey.value),
           },
           value: value,
         };
       },
     },
-    "/lbm.staking.v1.MsgDelegate": {
+    "/cosmos.staking.v1beta1.MsgDelegate": {
       aminoType: "lbm-sdk/MsgDelegate",
       toAmino: ({ delegatorAddress, validatorAddress, amount }: MsgDelegate): AminoMsgDelegate["value"] => {
         assertDefinedAndNotNull(amount, "missing amount");
@@ -249,7 +249,7 @@ export function createStakingAminoConverters(
         amount: amount,
       }),
     },
-    "/lbm.staking.v1.MsgEditValidator": {
+    "/cosmos.staking.v1beta1.MsgEditValidator": {
       aminoType: "lbm-sdk/MsgEditValidator",
       toAmino: ({
         description,
@@ -289,7 +289,7 @@ export function createStakingAminoConverters(
         validatorAddress: validator_address,
       }),
     },
-    "/lbm.staking.v1.MsgUndelegate": {
+    "/cosmos.staking.v1beta1.MsgUndelegate": {
       aminoType: "lbm-sdk/MsgUndelegate",
       toAmino: ({
         delegatorAddress,

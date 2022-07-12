@@ -38,7 +38,7 @@ describe("DirectSecp256k1Wallet", () => {
       const wallet = await DirectSecp256k1Wallet.fromKey(defaultPrivkey);
       const accounts = await wallet.getAccounts();
       const pubkey = {
-        typeUrl: "/lbm.crypto.secp256k1.PubKey",
+        typeUrl: "/cosmos.crypto.secp256k1.PubKey",
         value: accounts[0].pubkey,
       };
       const fee = coins(2000, "cony");

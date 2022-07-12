@@ -1,5 +1,5 @@
 import { Uint64 } from "@cosmjs/math";
-import { Coin } from "lbmjs-types/lbm/base/v1/coin";
+import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
 import {
   FoundationInfo,
   Member,

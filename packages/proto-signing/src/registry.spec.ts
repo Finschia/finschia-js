@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromHex } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
+import { MsgSend as IMsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import { Any } from "lbmjs-types/google/protobuf/any";
-import { MsgSend as IMsgSend } from "lbmjs-types/lbm/bank/v1/tx";
-import { TxBody } from "lbmjs-types/lbm/tx/v1/tx";
 import Long from "long";
 import { Field, Type } from "protobufjs";
 
@@ -12,8 +12,8 @@ import { isPbjsGeneratedType, isTsProtoGeneratedType, Registry } from "./registr
 describe("registry demo", () => {
   it("works with a default msg", () => {
     const registry = new Registry();
-    const Coin = registry.lookupType("/lbm.base.v1.Coin");
-    const MsgSend = registry.lookupType("/lbm.bank.v1.MsgSend");
+    const Coin = registry.lookupType("/cosmos.base.v1beta1.Coin");
+    const MsgSend = registry.lookupType("/cosmos.bank.v1beta1.MsgSend");
     assert(Coin);
     assert(MsgSend);
     assert(isTsProtoGeneratedType(Coin));
@@ -30,7 +30,7 @@ describe("registry demo", () => {
     }) as unknown as IMsgSend;
     const msgSendBytes = MsgSend.encode(msgSend).finish();
     const msgSendWrapped = Any.fromPartial({
-      typeUrl: "/lbm.bank.v1.MsgSend",
+      typeUrl: "/cosmos.bank.v1beta1.MsgSend",
       value: msgSendBytes,
     });
     const txBody = TxBody.fromPartial({

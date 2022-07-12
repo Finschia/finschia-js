@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { assert, assertDefinedAndNotNull, isNonNullObject } from "@cosmjs/utils";
 import { AminoMsg, Coin } from "@lbmjs/amino";
+import { TextProposal, voteOptionFromJSON } from "lbmjs-types/cosmos/gov/v1beta1/gov";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/cosmos/gov/v1beta1/tx";
 import { Any } from "lbmjs-types/google/protobuf/any";
-import { TextProposal, voteOptionFromJSON } from "lbmjs-types/lbm/gov/v1/gov";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/lbm/gov/v1/tx";
 import Long from "long";
 
 import { AminoConverters } from "../../aminotypes";
@@ -100,7 +100,7 @@ export function isAminoMsgDeposit(msg: AminoMsg): msg is AminoMsgDeposit {
 
 export function createGovAminoConverters(): AminoConverters {
   return {
-    "/lbm.gov.v1.MsgDeposit": {
+    "/cosmos.gov.v1beta1.MsgDeposit": {
       aminoType: "lbm-sdk/MsgDeposit",
       toAmino: ({ amount, depositor, proposalId }: MsgDeposit): AminoMsgDeposit["value"] => {
         return {
@@ -117,7 +117,7 @@ export function createGovAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.gov.v1.MsgVote": {
+    "/cosmos.gov.v1beta1.MsgVote": {
       aminoType: "lbm-sdk/MsgVote",
       toAmino: ({ option, proposalId, voter }: MsgVote): AminoMsgVote["value"] => {
         return {
@@ -134,7 +134,7 @@ export function createGovAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.gov.v1.MsgSubmitProposal": {
+    "/cosmos.gov.v1beta1.MsgSubmitProposal": {
       aminoType: "lbm-sdk/MsgSubmitProposal",
       toAmino: ({
         initialDeposit,
@@ -144,7 +144,7 @@ export function createGovAminoConverters(): AminoConverters {
         assertDefinedAndNotNull(content);
         let proposal: any;
         switch (content.typeUrl) {
-          case "/lbm.gov.v1.TextProposal": {
+          case "/cosmos.gov.v1beta1.TextProposal": {
             const textProposal = TextProposal.decode(content.value);
             proposal = {
               type: "lbm-sdk/TextProposal",
@@ -178,7 +178,7 @@ export function createGovAminoConverters(): AminoConverters {
             assert(typeof title === "string");
             assert(typeof description === "string");
             any_content = Any.fromPartial({
-              typeUrl: "/lbm.gov.v1.TextProposal",
+              typeUrl: "/cosmos.gov.v1beta1.TextProposal",
               value: TextProposal.encode(
                 TextProposal.fromPartial({
                   title: title,

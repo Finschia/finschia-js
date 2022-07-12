@@ -1,7 +1,7 @@
 import { assertDefined, sleep } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { coin, coins, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
-import { MsgDelegate } from "lbmjs-types/lbm/staking/v1/tx";
+import { MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
 import Long from "long";
 
 import { longify, QueryClient } from "../../queryclient";
@@ -87,7 +87,7 @@ describe("TxExtension", () => {
         amount: coin(25000, "stake"),
       };
       const msgAny = registry.encodeAsAny({
-        typeUrl: "/lbm.staking.v1.MsgDelegate",
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: msg,
       });
 

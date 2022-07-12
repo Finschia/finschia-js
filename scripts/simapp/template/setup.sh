@@ -1,47 +1,76 @@
-#!/bin/sh
-set -o errexit -o nounset
-command -v shellcheck >/dev/null && shellcheck "$0"
+#!/usr/bin/env bash
+set -ex
 
-gnused="$(command -v gsed || echo sed)"
+mode="mainnet"
 
-PASSWORD=${PASSWORD:-1234567890}
-CHAIN_ID=${CHAIN_ID:-lbm-testing}
-MONIKER=${MONIKER:-lbm-moniker}
+SCRIPT_DIR="$(realpath "$(dirname "$0")")"
+# shellcheck source=./env
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR"/../env
 
-# The staking and the fee tokens. The supply of the staking token is low compared to the fee token (factor 100).
-STAKE=${STAKE_TOKEN:-stake}
-FEE=${FEE_TOKEN:-cony}
+CHAIN_ID="simd-testing"
+MONIKER="simd-testing"
+CONFIG_DIR=${SCRIPT_DIR}/.simapp
 
-# 2000 STAKE and 1000 COSM
-START_BALANCE="2000000000$STAKE,1000000000$FEE"
-
-echo "Creating genesis ..."
-lbm init --chain-id "$CHAIN_ID" "$MONIKER"
-"$gnused" -i "s/\"stake\"/\"$STAKE\"/" "$HOME"/.simapp/config/genesis.json # staking/governance token is hardcoded in config, change this
-
-echo "Setting up validator ..."
-if ! simd keys show validator 2>/dev/null; then
-  echo "Validator does not yet exist. Creating it ..."
-  (
-    echo "$PASSWORD"
-    echo "$PASSWORD"
-  ) | lbm keys add validator
+if [[ $1 == "docker" ]]
+then
+    if [[ $2 == "testnet" ]]
+    then
+        mode="testnet"
+    fi
+    SIMD="docker run -i --rm -p 26656:26656 -p 26657:26657 -v $CONFIG_DIR:/root/.simapp --platform=linux/amd64 $REPOSITORY:$VERSION simd"
+elif [[ $1 == "testnet" ]]
+then
+    mode="testnet"
 fi
-# hardcode the validator account for this instance
-echo "$PASSWORD" | lbm add-genesis-account validator "$START_BALANCE"
 
-echo "Setting up accounts ..."
-# (optionally) add a few more genesis accounts
-for addr in "$@"; do
-  echo "$addr"
-  lbm add-genesis-account "$addr" "$START_BALANCE"
+SIMD=${SIMD:-simd}
+
+# initialize
+rm -rf $CONFIG_DIR
+
+# Initialize configuration files and genesis file
+# moniker is the name of your node
+${SIMD} init solo --chain-id=$CHAIN_ID
+
+# configure for testnet
+if [[ ${mode} == "testnet" ]]
+then
+    if [[ $1 == "docker" ]]
+    then
+        docker run -i -p 26656:26656 -p 26657:26657 -v ${HOME}/.simapp:/root/.simapp $REPOSITORY:$VERSION sh -c "export SIMD_TESTNET=true"
+    else
+       export LBM_TESTNET=true
+    fi
+fi
+
+# Please do not use the TEST_MNEMONIC for production purpose
+TEST_MNEMONIC="mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have"
+N=9
+
+# generate normal account keys
+for ((i = 0; i < N; i++))
+do
+  ${SIMD} keys add account${i} --keyring-backend=test --recover --index=${i} <<< ${TEST_MNEMONIC}
 done
+# generate multisig key
+${SIMD} keys add multisig0 --keyring-backend=test --multisig account0,account1,account2,account3,account4 --multisig-threshold 2
+# generate validator key
+${SIMD} keys add validator0 --keyring-backend=test --recover --account=1 <<< ${TEST_MNEMONIC}
 
-echo "Creating genesis tx ..."
-SELF_DELEGATION="3000000$STAKE" # 3 STAKE (leads to a voting power of 3)
-(
-  echo "$PASSWORD"
-  echo "$PASSWORD"
-  echo "$PASSWORD"
-) | lbm gentx validator "$SELF_DELEGATION" --offline --chain-id "$CHAIN_ID" --moniker="$MONIKER"
-lbm collect-gentxs
+
+# Add both accounts, with coins to the genesis file
+for ((i = 0; i < N; i++))
+do
+  ${SIMD} add-genesis-account $(${SIMD} keys show account${i} -a --keyring-backend=test) 100000000000cony,20000000000stake
+done
+${SIMD} add-genesis-account $(${SIMD} keys show multisig0 -a --keyring-backend=test) 100000000000cony,20000000000stake
+${SIMD} add-genesis-account $(${SIMD} keys show validator0 -a --keyring-backend=test) 100000000000cony,20000000000stake
+
+${SIMD} gentx validator0 10000000000stake --keyring-backend=test --chain-id=$CHAIN_ID --moniker=$MONIKER
+
+${SIMD} collect-gentxs
+
+${SIMD} validate-genesis
+
+# ${SIMD} start --log_level *:debug --rpc.laddr=tcp://0.0.0.0:26657 --p2p.laddr=tcp://0.0.0.0:26656

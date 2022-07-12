@@ -1,4 +1,4 @@
-import { QueryClientImpl, QueryGrantsResponse } from "lbmjs-types/lbm/authz/v1/query";
+import { QueryClientImpl, QueryGrantsResponse } from "lbmjs-types/cosmos/authz/v1beta1/query";
 
 import { createPagination, createProtobufRpcClient, QueryClient } from "../../queryclient";
 

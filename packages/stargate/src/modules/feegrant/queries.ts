@@ -3,7 +3,7 @@ import {
   QueryAllowanceResponse,
   QueryAllowancesResponse,
   QueryClientImpl,
-} from "lbmjs-types/lbm/feegrant/v1/query";
+} from "lbmjs-types/cosmos/feegrant/v1beta1/query";
 
 import { createPagination, createProtobufRpcClient, QueryClient } from "../../queryclient";
 

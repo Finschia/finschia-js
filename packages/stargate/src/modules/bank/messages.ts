@@ -1,16 +1,16 @@
 import { EncodeObject, GeneratedType } from "@lbmjs/proto-signing";
-import { MsgMultiSend, MsgSend } from "lbmjs-types/lbm/bank/v1/tx";
+import { MsgMultiSend, MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
 
 export const bankTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.bank.v1.MsgMultiSend", MsgMultiSend],
-  ["/lbm.bank.v1.MsgSend", MsgSend],
+  ["/cosmos.bank.v1beta1.MsgMultiSend", MsgMultiSend],
+  ["/cosmos.bank.v1beta1.MsgSend", MsgSend],
 ];
 
 export interface MsgSendEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.bank.v1.MsgSend";
+  readonly typeUrl: "/cosmos.bank.v1beta1.MsgSend";
   readonly value: Partial<MsgSend>;
 }
 
 export function isMsgSendEncodeObject(encodeObject: EncodeObject): encodeObject is MsgSendEncodeObject {
-  return (encodeObject as MsgSendEncodeObject).typeUrl === "/lbm.bank.v1.MsgSend";
+  return (encodeObject as MsgSendEncodeObject).typeUrl === "/cosmos.bank.v1beta1.MsgSend";
 }

@@ -32,10 +32,10 @@ import {
   SignerData,
   StdFee,
 } from "@lbmjs/stargate";
-import { MsgWithdrawDelegatorReward } from "lbmjs-types/lbm/distribution/v1/tx";
-import { MsgDelegate, MsgUndelegate } from "lbmjs-types/lbm/staking/v1/tx";
-import { SignMode } from "lbmjs-types/lbm/tx/signing/v1/signing";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { MsgWithdrawDelegatorReward } from "lbmjs-types/cosmos/distribution/v1beta1/tx";
+import { MsgDelegate, MsgUndelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
+import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 import {
   MsgClearAdmin,
   MsgExecuteContract,
@@ -496,7 +496,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const sendMsg: MsgSendEncodeObject = {
-      typeUrl: "/lbm.bank.v1.MsgSend",
+      typeUrl: "/cosmos.bank.v1beta1.MsgSend",
       value: {
         fromAddress: senderAddress,
         toAddress: recipientAddress,
@@ -514,7 +514,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const delegateMsg: MsgDelegateEncodeObject = {
-      typeUrl: "/lbm.staking.v1.MsgDelegate",
+      typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
       value: MsgDelegate.fromPartial({ delegatorAddress: delegatorAddress, validatorAddress, amount }),
     };
     return this.signAndBroadcast(delegatorAddress, [delegateMsg], fee, memo);
@@ -528,7 +528,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const undelegateMsg: MsgUndelegateEncodeObject = {
-      typeUrl: "/lbm.staking.v1.MsgUndelegate",
+      typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
       value: MsgUndelegate.fromPartial({ delegatorAddress: delegatorAddress, validatorAddress, amount }),
     };
     return this.signAndBroadcast(delegatorAddress, [undelegateMsg], fee, memo);
@@ -541,7 +541,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<DeliverTxResponse> {
     const withdrawDelegatorRewardMsg: MsgWithdrawDelegatorRewardEncodeObject = {
-      typeUrl: "/lbm.distribution.v1.MsgWithdrawDelegatorReward",
+      typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
       value: MsgWithdrawDelegatorReward.fromPartial({ delegatorAddress: delegatorAddress, validatorAddress }),
     };
     return this.signAndBroadcast(delegatorAddress, [withdrawDelegatorRewardMsg], fee, memo);
@@ -620,7 +620,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     const signDoc = makeSignDocAmino(msgs, fee, chainId, memo, accountNumber, sequence);
     const { signature, signed } = await this.signer.signAmino(signerAddress, signDoc);
     const signedTxBody: TxBodyEncodeObject = {
-      typeUrl: "/lbm.tx.v1.TxBody",
+      typeUrl: "/cosmos.tx.v1beta1.TxBody",
       value: {
         messages: signed.msgs.map((msg) => this.aminoTypes.fromAmino(msg)),
         memo: signed.memo,
@@ -658,7 +658,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     }
     const pubkey = encodePubkey(encodeSecp256k1Pubkey(accountFromSigner.pubkey));
     const txBody: TxBodyEncodeObject = {
-      typeUrl: "/lbm.tx.v1.TxBody",
+      typeUrl: "/cosmos.tx.v1beta1.TxBody",
       value: {
         messages: messages,
         memo: memo,

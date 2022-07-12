@@ -1,7 +1,7 @@
 import { GeneratedType } from "@lbmjs/proto-signing";
-import { MsgGrantAllowance, MsgRevokeAllowance } from "lbmjs-types/lbm/feegrant/v1/tx";
+import { MsgGrantAllowance, MsgRevokeAllowance } from "lbmjs-types/cosmos/feegrant/v1beta1/tx";
 
 export const feegrantTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.feegrant.v1.MsgGrantAllowance", MsgGrantAllowance],
-  ["/lbm.feegrant.v1.MsgRevokeAllowance", MsgRevokeAllowance],
+  ["/cosmos.feegrant.v1beta1.MsgGrantAllowance", MsgGrantAllowance],
+  ["/cosmos.feegrant.v1beta1.MsgRevokeAllowance", MsgRevokeAllowance],
 ];

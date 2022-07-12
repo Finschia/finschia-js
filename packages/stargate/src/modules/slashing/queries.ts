@@ -3,8 +3,8 @@ import {
   QueryParamsResponse,
   QuerySigningInfoResponse,
   QuerySigningInfosResponse,
-} from "lbmjs-types/lbm/slashing/v1/query";
-import { QueryClientImpl } from "lbmjs-types/lbm/slashing/v1/query";
+} from "lbmjs-types/cosmos/slashing/v1beta1/query";
+import { QueryClientImpl } from "lbmjs-types/cosmos/slashing/v1beta1/query";
 
 import { createPagination, createProtobufRpcClient, QueryClient } from "../../queryclient";
 

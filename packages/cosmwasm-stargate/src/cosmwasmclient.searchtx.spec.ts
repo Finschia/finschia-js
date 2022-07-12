@@ -18,7 +18,7 @@ import {
   isDeliverTxSuccess,
   isMsgSendEncodeObject,
 } from "@lbmjs/stargate";
-import { TxRaw } from "lbmjs-types/lbm/tx/v1/tx";
+import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
 
 import { CosmWasmClient } from "./cosmwasmclient";
 import {
@@ -56,11 +56,11 @@ async function sendTokens(
     value: toBase64(pubkeyBytes),
   });
   const txBodyFields: TxBodyEncodeObject = {
-    typeUrl: "/lbm.tx.v1.TxBody",
+    typeUrl: "/cosmos.tx.v1beta1.TxBody",
     value: {
       messages: [
         {
-          typeUrl: "/lbm.bank.v1.MsgSend",
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: {
             fromAddress: walletAddress,
             toAddress: recipient,
@@ -354,7 +354,7 @@ describe("CosmWasmClient.getTx and .searchTx", () => {
       for (const result of results) {
         const tx = decodeTxRaw(result.tx);
         const msg = fromOneElementArray(tx.body.messages);
-        expect(msg.typeUrl).toEqual("/lbm.bank.v1.MsgSend");
+        expect(msg.typeUrl).toEqual("/cosmos.bank.v1beta1.MsgSend");
         const decoded = registry.decode(msg);
         expect(decoded.toAddress).toEqual(sendSuccessful.recipient);
       }

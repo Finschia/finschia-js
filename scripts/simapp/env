@@ -1,4 +1,4 @@
 # Choose from https://hub.docker.com/r/line/lbm-simapp/tags
 REPOSITORY="line/lbm-simapp"
-VERSION="0.46.0-rc2"
-CONTAINER_NAME="lbmapp"
+VERSION="0.46.0-rc4"
+CONTAINER_NAME="lbm-simapp"

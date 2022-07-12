@@ -49,7 +49,7 @@ describe("MintExtension", () => {
       const [client, tmClient] = await makeClientWithMint(simapp.tendermintUrl);
 
       const annualProvisions = await client.mint.annualProvisions();
-      expect(annualProvisions.toFloatApproximation()).toBeGreaterThan(28_600_000_000);
+      expect(annualProvisions.toFloatApproximation()).toBeGreaterThan(26_000_000_000);
       expect(annualProvisions.toFloatApproximation()).toBeLessThan(31_500_000_000);
 
       tmClient.disconnect();

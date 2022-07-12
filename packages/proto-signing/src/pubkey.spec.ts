@@ -14,7 +14,7 @@ describe("pubkey", () => {
       const pubkey = { type: "ostracon/PubKeySecp256k1", value: defaultPubkeyBase64 };
       expect(encodePubkey(pubkey)).toEqual(
         Any.fromPartial({
-          typeUrl: "/lbm.crypto.secp256k1.PubKey",
+          typeUrl: "/cosmos.crypto.secp256k1.PubKey",
           value: defaultPubkeyProtoBytes,
         }),
       );
@@ -32,7 +32,7 @@ describe("pubkey", () => {
   describe("decodePubkey", () => {
     it("works for secp256k1", () => {
       const pubkey = {
-        typeUrl: "/lbm.crypto.secp256k1.PubKey",
+        typeUrl: "/cosmos.crypto.secp256k1.PubKey",
         value: defaultPubkeyProtoBytes,
       };
       expect(decodePubkey(pubkey)).toEqual({
@@ -43,7 +43,7 @@ describe("pubkey", () => {
 
     it("throws for unsupported pubkey types", () => {
       const pubkey = {
-        typeUrl: "/lbm.crypto.unknown.PubKey",
+        typeUrl: "/cosmos.crypto.unknown.PubKey",
         value: defaultPubkeyProtoBytes,
       };
       expect(() => decodePubkey(pubkey)).toThrowError(/not recognized/i);

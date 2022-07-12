@@ -1,11 +1,11 @@
 {
-  "address": "072C979CA629E19CB20E4461B18F6B488F8863CE",
+  "address": "E97477674BFDCC9F99E5DF85AC2ABE983ED6CF41",
   "pub_key": {
     "type": "ostracon/PubKeyEd25519",
-    "value": "u4Fmddkj4xiw9nDtQS15/oWAEPPyfQXWiba+N1H+lBg="
+    "value": "nGGjYs9C77piIigI125aX8g7TZe7550grm6TCrUw5qU="
   },
   "priv_key": {
     "type": "ostracon/PrivKeyEd25519",
-    "value": "nH10em+y9cEjqLA4wmSUgcnNBN80IDVQpsqiP4OZ0uO7gWZ12SPjGLD2cO1BLXn+hYAQ8/J9BdaJtr43Uf6UGA=="
+    "value": "kM+uSME9AV9aEQA9OSbtVXydq9ZMk04PJ0k0fnA3QYycYaNiz0LvumIiKAjXblpfyDtNl7vnnSCubpMKtTDmpQ=="
   }
 }
