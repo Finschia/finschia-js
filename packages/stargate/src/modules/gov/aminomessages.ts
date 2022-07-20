@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { assert, assertDefinedAndNotNull, isNonNullObject } from "@cosmjs/utils";
 import { AminoMsg, Coin } from "@lbmjs/amino";
-import { TextProposal, voteOptionFromJSON } from "lbmjs-types/cosmos/gov/v1beta1/gov";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/cosmos/gov/v1beta1/tx";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { TextProposal, voteOptionFromJSON } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "cosmjs-types/cosmos/gov/v1beta1/tx";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { AminoConverters } from "../../aminotypes";
 
 /** Supports submitting arbitrary proposal content. */
 export interface AminoMsgSubmitProposal extends AminoMsg {
-  readonly type: "lbm-sdk/MsgSubmitProposal";
+  readonly type: "cosmos-sdk/MsgSubmitProposal";
   readonly value: {
     /**
      * A proposal structure, e.g.
@@ -36,12 +36,12 @@ export interface AminoMsgSubmitProposal extends AminoMsg {
 }
 
 export function isAminoMsgSubmitProposal(msg: AminoMsg): msg is AminoMsgSubmitProposal {
-  return msg.type === "lbm-sdk/MsgSubmitProposal";
+  return msg.type === "cosmos-sdk/MsgSubmitProposal";
 }
 
 /** Casts a vote */
 export interface AminoMsgVote extends AminoMsg {
-  readonly type: "lbm-sdk/MsgVote";
+  readonly type: "cosmos-sdk/MsgVote";
   readonly value: {
     readonly proposal_id: string;
     /** Bech32 account address */
@@ -56,7 +56,7 @@ export interface AminoMsgVote extends AminoMsg {
 }
 
 export function isAminoMsgVote(msg: AminoMsg): msg is AminoMsgVote {
-  return msg.type === "lbm-sdk/MsgVote";
+  return msg.type === "cosmos-sdk/MsgVote";
 }
 
 export interface WeightedVoteOption {
@@ -70,7 +70,7 @@ export interface WeightedVoteOption {
 }
 
 export interface AminoMsgVoteWeighted extends AminoMsg {
-  readonly type: "lbm-sdk/MsgVoteWeighted";
+  readonly type: "cosmos-sdk/MsgVoteWeighted";
   readonly value: {
     readonly proposal_id: string;
     /** Bech32 account address */
@@ -80,12 +80,12 @@ export interface AminoMsgVoteWeighted extends AminoMsg {
 }
 
 export function isAminoMsgVoteWeighted(msg: AminoMsg): msg is AminoMsgVoteWeighted {
-  return msg.type === "lbm-sdk/MsgVoteWeighted";
+  return msg.type === "cosmos-sdk/MsgVoteWeighted";
 }
 
 /** Submits a deposit to an existing proposal */
 export interface AminoMsgDeposit extends AminoMsg {
-  readonly type: "lbm-sdk/MsgDeposit";
+  readonly type: "cosmos-sdk/MsgDeposit";
   readonly value: {
     readonly proposal_id: string;
     /** Bech32 account address */
@@ -95,13 +95,13 @@ export interface AminoMsgDeposit extends AminoMsg {
 }
 
 export function isAminoMsgDeposit(msg: AminoMsg): msg is AminoMsgDeposit {
-  return msg.type === "lbm-sdk/MsgDeposit";
+  return msg.type === "cosmos-sdk/MsgDeposit";
 }
 
 export function createGovAminoConverters(): AminoConverters {
   return {
     "/cosmos.gov.v1beta1.MsgDeposit": {
-      aminoType: "lbm-sdk/MsgDeposit",
+      aminoType: "cosmos-sdk/MsgDeposit",
       toAmino: ({ amount, depositor, proposalId }: MsgDeposit): AminoMsgDeposit["value"] => {
         return {
           amount,
@@ -118,7 +118,7 @@ export function createGovAminoConverters(): AminoConverters {
       },
     },
     "/cosmos.gov.v1beta1.MsgVote": {
-      aminoType: "lbm-sdk/MsgVote",
+      aminoType: "cosmos-sdk/MsgVote",
       toAmino: ({ option, proposalId, voter }: MsgVote): AminoMsgVote["value"] => {
         return {
           option: option,
@@ -135,7 +135,7 @@ export function createGovAminoConverters(): AminoConverters {
       },
     },
     "/cosmos.gov.v1beta1.MsgSubmitProposal": {
-      aminoType: "lbm-sdk/MsgSubmitProposal",
+      aminoType: "cosmos-sdk/MsgSubmitProposal",
       toAmino: ({
         initialDeposit,
         proposer,
@@ -147,7 +147,7 @@ export function createGovAminoConverters(): AminoConverters {
           case "/cosmos.gov.v1beta1.TextProposal": {
             const textProposal = TextProposal.decode(content.value);
             proposal = {
-              type: "lbm-sdk/TextProposal",
+              type: "cosmos-sdk/TextProposal",
               value: {
                 description: textProposal.description,
                 title: textProposal.title,
@@ -171,7 +171,7 @@ export function createGovAminoConverters(): AminoConverters {
       }: AminoMsgSubmitProposal["value"]): MsgSubmitProposal => {
         let any_content: Any;
         switch (content.type) {
-          case "lbm-sdk/TextProposal": {
+          case "cosmos-sdk/TextProposal": {
             const { value } = content;
             assert(isNonNullObject(value));
             const { title, description } = value as any;

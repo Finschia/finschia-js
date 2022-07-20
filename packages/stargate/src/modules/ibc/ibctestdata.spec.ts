@@ -6,15 +6,15 @@ import {
   Order,
   PacketState,
   State as ChannelState,
-} from "lbmjs-types/ibc/core/channel/v1/channel";
-import { MerklePrefix } from "lbmjs-types/ibc/core/commitment/v1/commitment";
+} from "cosmjs-types/ibc/core/channel/v1/channel";
+import { MerklePrefix } from "cosmjs-types/ibc/core/commitment/v1/commitment";
 import {
   ConnectionEnd,
   Counterparty as ConnectionCounterparty,
   IdentifiedConnection,
   State as ConnectionState,
   Version,
-} from "lbmjs-types/ibc/core/connection/v1/connection";
+} from "cosmjs-types/ibc/core/connection/v1/connection";
 import Long from "long";
 
 // From scripts/simapp42/genesis-ibc.json

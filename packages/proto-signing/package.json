@@ -40,7 +40,8 @@
     "@cosmjs/crypto": "0.28.4",
     "@cosmjs/math": "0.28.4",
     "@lbmjs/amino": "workspace:packages/amino",
-    "lbmjs-types": "^0.46.0-rc4",
+    "cosmjs-types": "0.4.0",
+    "lbmjs-types": "0.46.0-rc5",
     "long": "^4.0.0",
     "protobufjs": "~6.10.2"
   },

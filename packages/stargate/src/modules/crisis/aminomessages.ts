@@ -7,7 +7,7 @@ import { AminoConverters } from "../../aminotypes";
 
 /** Verifies a particular invariance */
 export interface AminoMsgVerifyInvariant extends AminoMsg {
-  readonly type: "lbm-sdk/MsgVerifyInvariant";
+  readonly type: "cosmos-sdk/MsgVerifyInvariant";
   readonly value: {
     /** Bech32 account address */
     readonly sender: string;
@@ -17,7 +17,7 @@ export interface AminoMsgVerifyInvariant extends AminoMsg {
 }
 
 export function isAminoMsgVerifyInvariant(msg: AminoMsg): msg is AminoMsgVerifyInvariant {
-  return msg.type === "lbm-sdk/MsgVerifyInvariant";
+  return msg.type === "cosmos-sdk/MsgVerifyInvariant";
 }
 
 export function createCrysisAminoConverters(): AminoConverters {

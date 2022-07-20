@@ -1,9 +1,8 @@
 import { Decimal } from "@cosmjs/math";
 import { Coin } from "@lbmjs/stargate";
+import BN from "bn.js";
 
 import { MinimalAccount } from "./types";
-
-import BN from "bn.js";
 
 const defaultCreditAmount = new BN(10_000_000, 10);
 

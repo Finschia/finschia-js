@@ -2,7 +2,7 @@
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
 import { assert, sleep } from "@cosmjs/utils";
 import {
-  coins,
+  coins, decodePubkey,
   DirectSecp256k1HdWallet,
   encodePubkey,
   makeAuthInfoBytes,
@@ -10,7 +10,7 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import {
@@ -33,6 +33,7 @@ import {
   unused,
   validator,
 } from "./testutils.spec";
+import { Any } from "cosmjs-types/google/protobuf/any";
 
 const resultFailure = {
   code: 5,
@@ -125,10 +126,7 @@ describe("StargateClient", () => {
       assert(account);
       expect(account).toEqual({
         address: unused.address,
-        ed25519PubKey: null,
-        secp256k1PubKey: null,
-        secp256r1PubKey: null,
-        multisigPubKey: null,
+        pubKey: null,
         accountNumber: unused.accountNumber,
         sequence: unused.sequence,
       });
@@ -144,10 +142,11 @@ describe("StargateClient", () => {
       assert(account);
       expect(account).toEqual({
         address: validator.delegatorAddress,
-        ed25519PubKey: null,
-        secp256k1PubKey: { key: fromBase64(validator.pubkey.value) },
-        secp256r1PubKey: null,
-        multisigPubKey: null,
+        // ed25519PubKey: null,
+        // secp256k1PubKey: { key: fromBase64(validator.pubkey.value) },
+        // secp256r1PubKey: null,
+        // multisigPubKey: null,
+        pubKey: validator.pubkey,
         accountNumber: validator.accountNumber,
         sequence: 1,
       });

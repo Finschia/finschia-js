@@ -9,9 +9,9 @@ import {
   Pubkey,
   SinglePubkey,
 } from "@lbmjs/amino";
-import { LegacyAminoPubKey } from "lbmjs-types/cosmos/crypto/multisig/keys";
-import { PubKey } from "lbmjs-types/cosmos/crypto/secp256k1/keys";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { LegacyAminoPubKey } from "cosmjs-types/cosmos/crypto/multisig/keys";
+import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
+import { Any } from "cosmjs-types/google/protobuf/any";
 
 export function encodePubkey(pubkey: Pubkey): Any {
   if (isSecp256k1Pubkey(pubkey)) {

@@ -1,23 +1,21 @@
 import { Uint64 } from "@cosmjs/math";
 import { assert } from "@cosmjs/utils";
-import { decodeMultisigPubkey, MultisigThresholdPubkeyValue, PubkeyValue } from "@lbmjs/proto-signing";
-import { BaseAccount, ModuleAccount } from "lbmjs-types/cosmos/auth/v1beta1/auth";
+import { Pubkey } from "@lbmjs/amino";
+import { decodePubkey } from "@lbmjs/proto-signing";
+import { BaseAccount, ModuleAccount } from "cosmjs-types/cosmos/auth/v1beta1/auth";
 import {
   BaseVestingAccount,
   ContinuousVestingAccount,
   DelayedVestingAccount,
   PeriodicVestingAccount,
-} from "lbmjs-types/cosmos/vesting/v1beta1/vesting";
-import { Any } from "lbmjs-types/google/protobuf/any";
+} from "cosmjs-types/cosmos/vesting/v1beta1/vesting";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
 export interface Account {
   /** Bech32 account address */
   readonly address: string;
-  readonly ed25519PubKey: PubkeyValue | null;
-  readonly secp256k1PubKey: PubkeyValue | null;
-  readonly secp256r1PubKey: PubkeyValue | null;
-  readonly multisigPubKey: MultisigThresholdPubkeyValue | null;
+  readonly pubKey: Pubkey | null;
   readonly accountNumber: number;
   readonly sequence: number;
 }
@@ -27,21 +25,11 @@ function uint64FromProto(input: number | Long): Uint64 {
 }
 
 function accountFromBaseAccount(input: BaseAccount): Account {
-  const {
-    address,
-    ed25519PubKey,
-    secp256k1PubKey,
-    secp256r1PubKey,
-    multisigPubKey,
-    accountNumber,
-    sequence,
-  } = input;
+  const { address, pubKey, accountNumber, sequence } = input;
+  const pubkey = decodePubkey(pubKey);
   return {
     address: address,
-    ed25519PubKey: ed25519PubKey || null,
-    secp256k1PubKey: secp256k1PubKey || null,
-    secp256r1PubKey: secp256r1PubKey || null,
-    multisigPubKey: decodeMultisigPubkey(multisigPubKey) || null,
+    pubKey: pubkey,
     accountNumber: uint64FromProto(accountNumber).toNumber(),
     sequence: uint64FromProto(sequence).toNumber(),
   };

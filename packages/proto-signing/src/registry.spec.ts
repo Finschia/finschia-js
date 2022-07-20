@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromHex } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
-import { MsgSend as IMsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
-import { TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgSend as IMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 import { Field, Type } from "protobufjs";
 
@@ -20,12 +20,12 @@ describe("registry demo", () => {
     assert(isTsProtoGeneratedType(MsgSend));
 
     const coin = Coin.fromPartial({
-      denom: "cony",
+      denom: "ucosm",
       amount: "1234567890",
     });
     const msgSend = MsgSend.fromPartial({
-      fromAddress: "link1xzyh64ze36dc5xv30np8a8lhzz8aqerptenuyr",
-      toAddress: "link16wjhpz2h4anh6p8haezmry2aj3psxekr30ltw0",
+      fromAddress: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
+      toAddress: "cosmos1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc5lzv7xu",
       amount: [coin],
     }) as unknown as IMsgSend;
     const msgSendBytes = MsgSend.encode(msgSend).finish();

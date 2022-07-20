@@ -1,6 +1,6 @@
 import { coin, coins } from "@lbmjs/amino";
 import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
-import { MsgCreateVestingAccount } from "lbmjs-types/cosmos/vesting/v1beta1/tx";
+import { MsgCreateVestingAccount } from "cosmjs-types/cosmos/vesting/v1beta1/tx";
 import Long from "long";
 
 import { SigningStargateClient } from "../../signingstargateclient";

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg, Coin } from "@lbmjs/amino";
-import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
+import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import Long from "long";
 
 import { AminoConverters } from "../../aminotypes";
@@ -16,7 +16,7 @@ interface AminoHeight {
 // https://github.com/cosmos/ibc-go/blob/07b6a97b67d17fd214a83764cbdb2c2c3daef445/modules/apps/transfer/types/tx.pb.go#L33-L53
 /** Transfers fungible tokens (i.e Coins) between ICS20 enabled chains */
 export interface AminoMsgTransfer extends AminoMsg {
-  readonly type: "lbm-sdk/MsgTransfer";
+  readonly type: "cosmos-sdk/MsgTransfer";
   readonly value: {
     readonly source_port: string;
     readonly source_channel: string;
@@ -42,7 +42,7 @@ export interface AminoMsgTransfer extends AminoMsg {
 }
 
 export function isAminoMsgTransfer(msg: AminoMsg): msg is AminoMsgTransfer {
-  return msg.type === "lbm-sdk/MsgTransfer";
+  return msg.type === "cosmos-sdk/MsgTransfer";
 }
 
 function omitDefault<T extends string | number | Long>(input: T): T | undefined {
@@ -64,7 +64,7 @@ function omitDefault<T extends string | number | Long>(input: T): T | undefined 
 export function createIbcAminoConverters(): AminoConverters {
   return {
     "/ibc.applications.transfer.v1.MsgTransfer": {
-      aminoType: "lbm-sdk/MsgTransfer",
+      aminoType: "cosmos-sdk/MsgTransfer",
       toAmino: ({
         sourcePort,
         sourceChannel,

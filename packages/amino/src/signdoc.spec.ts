@@ -62,7 +62,7 @@ describe("encoding", () => {
     it("works", () => {
       const chainId = "testspace-12";
       const msg1: AminoMsg = {
-        type: "lbm-sdk/MsgDelegate",
+        type: "cosmos-sdk/MsgDelegate",
         value: {
           delegator_address: testAddress,
           validator_address: testValidatorAddress,
@@ -70,7 +70,7 @@ describe("encoding", () => {
         },
       };
       const msg2: AminoMsg = {
-        type: "lbm-sdk/MsgSend",
+        type: "cosmos-sdk/MsgSend",
         value: {
           from_address: testAddress,
           to_address: makeRandomAddress(),
@@ -99,7 +99,7 @@ describe("encoding", () => {
     it("works with undefined memo", () => {
       const chainId = "testspace-12";
       const msg1: AminoMsg = {
-        type: "lbm-sdk/MsgDelegate",
+        type: "cosmos-sdk/MsgDelegate",
         value: {
           delegator_address: testAddress,
           validator_address: testValidatorAddress,
@@ -107,7 +107,7 @@ describe("encoding", () => {
         },
       };
       const msg2: AminoMsg = {
-        type: "lbm-sdk/MsgSend",
+        type: "cosmos-sdk/MsgSend",
         value: {
           from_address: testAddress,
           to_address: makeRandomAddress(),

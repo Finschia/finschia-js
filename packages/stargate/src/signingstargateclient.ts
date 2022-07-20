@@ -14,13 +14,13 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { MsgWithdrawDelegatorReward } from "lbmjs-types/cosmos/distribution/v1beta1/tx";
-import { MsgDelegate, MsgUndelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
-import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
-import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
-import { Height } from "lbmjs-types/ibc/core/client/v1/client";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
+import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
+import { Height } from "cosmjs-types/ibc/core/client/v1/client";
 import Long from "long";
 
 import { AminoConverters, AminoTypes } from "./aminotypes";

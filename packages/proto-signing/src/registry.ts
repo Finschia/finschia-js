@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 import protobuf from "protobufjs";
 
@@ -40,9 +40,9 @@ export function isPbjsGeneratedType(type: GeneratedType): type is PbjsGeneratedT
 }
 
 const defaultTypeUrls = {
-  linkCoin: "/cosmos.base.v1beta1.Coin",
-  linkMsgSend: "/cosmos.bank.v1beta1.MsgSend",
-  linkTxBody: "/cosmos.tx.v1beta1.TxBody",
+  cosmosCoin: "/cosmos.base.v1beta1.Coin",
+  cosmosMsgSend: "/cosmos.bank.v1beta1.MsgSend",
+  cosmosTxBody: "/cosmos.tx.v1beta1.TxBody",
   googleAny: "/google.protobuf.Any",
 };
 
@@ -89,12 +89,12 @@ export class Registry {
    * 2. Using the `register()` method
    */
   public constructor(customTypes?: Iterable<[string, GeneratedType]>) {
-    const { linkCoin, linkMsgSend } = defaultTypeUrls;
+    const { cosmosCoin, cosmosMsgSend } = defaultTypeUrls;
     this.types = customTypes
       ? new Map<string, GeneratedType>([...customTypes])
       : new Map<string, GeneratedType>([
-          [linkCoin, Coin],
-          [linkMsgSend, MsgSend],
+          [cosmosCoin, Coin],
+          [cosmosMsgSend, MsgSend],
         ]);
   }
 
@@ -169,7 +169,7 @@ export class Registry {
   }
 
   public decode({ typeUrl, value }: DecodeObject): any {
-    if (typeUrl === defaultTypeUrls.linkTxBody) {
+    if (typeUrl === defaultTypeUrls.cosmosTxBody) {
       return this.decodeTxBody(value);
     }
     const type = this.lookupTypeWithError(typeUrl);

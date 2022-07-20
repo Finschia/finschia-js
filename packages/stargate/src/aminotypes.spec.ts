@@ -1,5 +1,5 @@
 import { coin } from "@lbmjs/proto-signing";
-import { MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 import { AminoTypes } from "./aminotypes";
 import { createBankAminoConverters, createStakingAminoConverters } from "./modules";
@@ -48,7 +48,7 @@ describe("AminoTypes", () => {
     //   const types = new AminoTypes({
     //     ...createStakingAminoConverters("cosmos"),
     //     "/cosmos.staking.otherVersion456.MsgDelegate": {
-    //       aminoType: "lbm-sdk/MsgDelegate",
+    //       aminoType: "cosmos-sdk/MsgDelegate",
     //       toAmino: (m: MsgDelegate): { readonly foo: string } => ({
     //         foo: m.delegatorAddress ?? "",
     //       }),
@@ -63,7 +63,7 @@ describe("AminoTypes", () => {
     //     value: msg,
     //   });
     //   expect(aminoMsg).toEqual({
-    //     type: "lbm-sdk/MsgDelegate",
+    //     type: "cosmos-sdk/MsgDelegate",
     //     value: {
     //       foo: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
     //     },
@@ -169,7 +169,7 @@ describe("AminoTypes", () => {
     it("works with overridden type URL", () => {
       const msg = new AminoTypes({
         "/cosmos.staking.v1beta1.MsgDelegate": {
-          aminoType: "lbm-sdk/MsgDelegate2",
+          aminoType: "cosmos-sdk/MsgDelegate2",
           toAmino: () => {},
           fromAmino: ({ foo }: { readonly foo: string }): MsgDelegate => ({
             delegatorAddress: foo,
@@ -178,7 +178,7 @@ describe("AminoTypes", () => {
           }),
         },
       }).fromAmino({
-        type: "lbm-sdk/MsgDelegate2",
+        type: "cosmos-sdk/MsgDelegate2",
         value: {
           foo: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
         },
@@ -207,11 +207,11 @@ describe("AminoTypes", () => {
     it("throws for unknown type url", () => {
       expect(() =>
         new AminoTypes(createBankAminoConverters()).fromAmino({
-          type: "lbm-sdk/MsgUnknown",
+          type: "cosmos-sdk/MsgUnknown",
           value: { foo: "bar" },
         }),
       ).toThrowError(
-        /Amino type identifier 'lbm-sdk\/MsgUnknown' does not exist in the Amino message type register./i,
+        /Amino type identifier 'cosmos-sdk\/MsgUnknown' does not exist in the Amino message type register./i,
       );
     });
   });

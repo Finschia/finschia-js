@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { coin } from "@lbmjs/proto-signing";
-import { MsgTransfer } from "lbmjs-types/ibc/applications/transfer/v1/tx";
+import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import Long from "long";
 
 import { AminoTypes } from "../../aminotypes";
@@ -27,7 +27,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgTransfer = {
-        type: "lbm-sdk/MsgTransfer",
+        type: "cosmos-sdk/MsgTransfer",
         value: {
           source_port: "testport",
           source_channel: "testchannel",
@@ -63,7 +63,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgTransfer = {
-        type: "lbm-sdk/MsgTransfer",
+        type: "cosmos-sdk/MsgTransfer",
         value: {
           source_port: "testport",
           source_channel: "testchannel",
@@ -95,7 +95,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgTransfer = {
-        type: "lbm-sdk/MsgTransfer",
+        type: "cosmos-sdk/MsgTransfer",
         value: {
           source_port: "testport",
           source_channel: "testchannel",
@@ -113,7 +113,7 @@ describe("AminoTypes", () => {
   describe("fromAmino", () => {
     it("works for MsgTransfer", () => {
       const aminoMsg: AminoMsgTransfer = {
-        type: "lbm-sdk/MsgTransfer",
+        type: "cosmos-sdk/MsgTransfer",
         value: {
           source_port: "testport",
           source_channel: "testchannel",
@@ -148,7 +148,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgTransfer with default values", () => {
       const aminoMsg: AminoMsgTransfer = {
-        type: "lbm-sdk/MsgTransfer",
+        type: "cosmos-sdk/MsgTransfer",
         value: {
           source_port: "testport",
           source_channel: "testchannel",

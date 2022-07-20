@@ -3,7 +3,7 @@ import {
   QueryAllEvidenceResponse,
   QueryClientImpl,
   QueryEvidenceResponse,
-} from "lbmjs-types/cosmos/evidence/v1beta1/query";
+} from "cosmjs-types/cosmos/evidence/v1beta1/query";
 
 import { createPagination, createProtobufRpcClient, QueryClient } from "../../queryclient";
 

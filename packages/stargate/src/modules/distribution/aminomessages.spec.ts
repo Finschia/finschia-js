@@ -5,7 +5,7 @@ import {
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "lbmjs-types/cosmos/distribution/v1beta1/tx";
+} from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 
 import { AminoTypes } from "../../aminotypes";
 import {
@@ -29,7 +29,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgFundCommunityPool = {
-        type: "lbm-sdk/MsgFundCommunityPool",
+        type: "cosmos-sdk/MsgFundCommunityPool",
         value: {
           amount: coins(1234, "cony"),
           depositor: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
@@ -49,7 +49,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgSetWithdrawAddress = {
-        type: "lbm-sdk/MsgModifyWithdrawAddress",
+        type: "cosmos-sdk/MsgModifyWithdrawAddress",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           withdraw_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -69,7 +69,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgWithdrawDelegatorReward = {
-        type: "lbm-sdk/MsgWithdrawDelegationReward",
+        type: "cosmos-sdk/MsgWithdrawDelegationReward",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -88,7 +88,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgWithdrawValidatorCommission = {
-        type: "lbm-sdk/MsgWithdrawValidatorCommission",
+        type: "cosmos-sdk/MsgWithdrawValidatorCommission",
         value: {
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         },

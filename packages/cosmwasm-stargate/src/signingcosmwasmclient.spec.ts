@@ -14,10 +14,10 @@ import {
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
 } from "@lbmjs/stargate";
-import { DeepPartial, MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
-import { AuthInfo, TxBody, TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { DeepPartial, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { MsgExecuteContract, MsgStoreCode } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
@@ -914,7 +914,7 @@ describe("SigningCosmWasmClient", () => {
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
           "/cosmos.staking.v1beta1.MsgDelegate": {
-            aminoType: "lbm-sdk/MsgDelegate",
+            aminoType: "cosmos-sdk/MsgDelegate",
             toAmino: ({
               customDelegatorAddress,
               customValidatorAddress,
@@ -1218,7 +1218,7 @@ describe("SigningCosmWasmClient", () => {
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
           "/cosmos.staking.v1beta1.MsgDelegate": {
-            aminoType: "lbm-sdk/MsgDelegate",
+            aminoType: "cosmos-sdk/MsgDelegate",
             toAmino: ({
               customDelegatorAddress,
               customValidatorAddress,

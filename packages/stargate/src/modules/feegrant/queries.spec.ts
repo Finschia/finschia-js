@@ -3,7 +3,7 @@ import { sleep } from "@cosmjs/utils";
 import { coins } from "@lbmjs/amino/build";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc/build";
 import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing/build";
-import { BasicAllowance } from "lbmjs-types/cosmos/feegrant/v1beta1/feegrant";
+import { BasicAllowance } from "cosmjs-types/cosmos/feegrant/v1beta1/feegrant";
 
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";

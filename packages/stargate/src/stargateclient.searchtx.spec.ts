@@ -10,8 +10,8 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { isMsgSendEncodeObject } from "./modules";
 import { DeliverTxResponse, isDeliverTxFailure, isDeliverTxSuccess, StargateClient } from "./stargateclient";

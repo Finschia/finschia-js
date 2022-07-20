@@ -7,7 +7,7 @@ import { AminoConverters } from "../../aminotypes";
 
 /** Unjails a jailed validator */
 export interface AminoMsgUnjail extends AminoMsg {
-  readonly type: "lbm-sdk/MsgUnjail";
+  readonly type: "cosmos-sdk/MsgUnjail";
   readonly value: {
     /** Bech32 account address */
     readonly validator_addr: string;
@@ -15,7 +15,7 @@ export interface AminoMsgUnjail extends AminoMsg {
 }
 
 export function isAminoMsgUnjail(msg: AminoMsg): msg is AminoMsgUnjail {
-  return msg.type === "lbm-sdk/MsgUnjail";
+  return msg.type === "cosmos-sdk/MsgUnjail";
 }
 
 export function createSlashingAminoConverters(): AminoConverters {

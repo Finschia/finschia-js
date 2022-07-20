@@ -7,8 +7,8 @@ import {
   Secp256k1HdWallet,
 } from "@lbmjs/amino";
 import { coins } from "@lbmjs/proto-signing";
-import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { MsgSendEncodeObject } from "./modules";
 import { makeCompactBitArray, makeMultisignedTx } from "./multisignature";
@@ -234,7 +234,6 @@ describe("multisignature", () => {
             signingInstruction.msgs,
             signingInstruction.fee,
             signingInstruction.memo,
-            // signingInstruction.sigBlockHeight,
             signerData,
           );
           return [pubkey, signatures[0], bb] as const;

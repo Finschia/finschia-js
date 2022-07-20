@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { fromBase64 } from "@cosmjs/encoding";
 import { assert } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { BaseAccount } from "lbmjs-types/cosmos/auth/v1beta1/auth";
+import { encodePubkey } from "@lbmjs/proto-signing/build";
+import { BaseAccount } from "cosmjs-types/cosmos/auth/v1beta1/auth";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { QueryClient } from "../../queryclient";
@@ -27,11 +28,7 @@ describe("AuthExtension", () => {
       expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: unused.address,
-        // pubKey not set
-        ed25519PubKey: undefined,
-        secp256k1PubKey: undefined,
-        secp256r1PubKey: undefined,
-        multisigPubKey: undefined,
+        pubKey: undefined,
         accountNumber: Long.fromNumber(unused.accountNumber, true),
         sequence: Long.fromNumber(0, true),
       });
@@ -48,10 +45,7 @@ describe("AuthExtension", () => {
       expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: validator.delegatorAddress,
-        ed25519PubKey: undefined,
-        secp256k1PubKey: { key: fromBase64(validator.pubkey.value) },
-        secp256r1PubKey: undefined,
-        multisigPubKey: undefined,
+        pubKey: Any.fromPartial(encodePubkey(validator.pubkey)),
         accountNumber: Long.fromNumber(validator.accountNumber, true),
         sequence: Long.fromNumber(validator.sequence, true),
       });
