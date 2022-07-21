@@ -28,6 +28,7 @@ import { calculateFee, GasPrice } from "./fee";
 import {
   authzTypes,
   bankTypes,
+  collectionTypes,
   distributionTypes,
   feegrantTypes,
   foundationTypes,
@@ -66,6 +67,7 @@ export const defaultRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...vestingTypes,
   ...tokenTypes,
   ...foundationTypes,
+  ...collectionTypes,
 ];
 
 function createDefaultRegistry(): Registry {

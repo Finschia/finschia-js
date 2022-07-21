@@ -109,6 +109,8 @@ export {
 export { setupStakingExtension, StakingExtension } from "./staking/queries";
 export { tokenTypes } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
+export { collectionTypes } from "./collection/messages";
+export { setupCollectionExtension, CollectionExtension } from "./collection/queries";
 export { setupTxExtension, TxExtension } from "./tx/queries";
 export { createVestingAminoConverters } from "./vesting/aminomessages";
 export { vestingTypes } from "./vesting/messages";
