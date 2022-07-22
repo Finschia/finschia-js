@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { assert } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { encodePubkey } from "@lbmjs/proto-signing/build";
+import { encodePubkey } from "@lbmjs/proto-signing";
 import { BaseAccount } from "cosmjs-types/cosmos/auth/v1beta1/auth";
 import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
@@ -28,7 +28,6 @@ describe("AuthExtension", () => {
       expect(account.typeUrl).toEqual("/cosmos.auth.v1beta1.BaseAccount");
       expect(BaseAccount.decode(account.value)).toEqual({
         address: unused.address,
-        pubKey: undefined,
         accountNumber: Long.fromNumber(unused.accountNumber, true),
         sequence: Long.fromNumber(0, true),
       });
