@@ -11,6 +11,7 @@ source "$SCRIPT_DIR"/../env
 CHAIN_ID="simd-testing"
 MONIKER="simd-testing"
 CONFIG_DIR=${SCRIPT_DIR}/.simapp
+CHAIN_DIR=${CONFIG_DIR}
 
 if [[ $1 == "docker" ]]
 then
@@ -19,6 +20,7 @@ then
         mode="testnet"
     fi
     SIMD="docker run -i --rm -p 26656:26656 -p 26657:26657 -v $CONFIG_DIR:/root/.simapp --platform=linux/amd64 $REPOSITORY:$VERSION simd"
+    CHAIN_DIR="/root/.simapp"
 elif [[ $1 == "testnet" ]]
 then
     mode="testnet"
@@ -31,7 +33,7 @@ rm -rf $CONFIG_DIR
 
 # Initialize configuration files and genesis file
 # moniker is the name of your node
-${SIMD} init simd-testing --chain-id=$CHAIN_ID
+${SIMD} init simd-testing --chain-id=$CHAIN_ID --home=${CHAIN_DIR}
 
 # configure for testnet
 if [[ ${mode} == "testnet" ]]
@@ -51,25 +53,25 @@ N=9
 # generate normal account keys
 for ((i = 0; i < N; i++))
 do
-  ${SIMD} keys add account${i} --keyring-backend=test --recover --index=${i} <<< ${TEST_MNEMONIC}
+  ${SIMD} keys add account${i} --home=${CHAIN_DIR} --keyring-backend=test --recover --index=${i} <<< ${TEST_MNEMONIC}
 done
 # generate multisig key
-${SIMD} keys add multisig0 --keyring-backend=test --multisig account0,account1,account2,account3,account4 --multisig-threshold 2
+${SIMD} keys add multisig0 --home=${CHAIN_DIR} --keyring-backend=test --multisig account0,account1,account2,account3,account4 --multisig-threshold 2
 # generate validator key
-${SIMD} keys add validator0 --keyring-backend=test --recover --account=1 <<< ${TEST_MNEMONIC}
+${SIMD} keys add validator0 --home=${CHAIN_DIR} --keyring-backend=test --recover --account=1 <<< ${TEST_MNEMONIC}
 
 
 # Add both accounts, with coins to the genesis file
 for ((i = 0; i < N; i++))
 do
-  ${SIMD} add-genesis-account $(${SIMD} keys show account${i} -a --keyring-backend=test) 100000000000cony,20000000000stake
+  ${SIMD} add-genesis-account $(${SIMD} keys show account${i} -a --home=${CHAIN_DIR} --keyring-backend=test) 100000000000cony,20000000000stake --home=${CHAIN_DIR}
 done
-${SIMD} add-genesis-account $(${SIMD} keys show multisig0 -a --keyring-backend=test) 100000000000cony,20000000000stake
-${SIMD} add-genesis-account $(${SIMD} keys show validator0 -a --keyring-backend=test) 100000000000cony,20000000000stake
+${SIMD} add-genesis-account $(${SIMD} keys show multisig0 -a --home=${CHAIN_DIR} --keyring-backend=test) 100000000000cony,20000000000stake --home=${CHAIN_DIR}
+${SIMD} add-genesis-account $(${SIMD} keys show validator0 -a --home=${CHAIN_DIR} --keyring-backend=test) 100000000000cony,20000000000stake --home=${CHAIN_DIR}
 
-${SIMD} gentx validator0 10000000000stake --keyring-backend=test --chain-id=$CHAIN_ID --moniker=$MONIKER
+${SIMD} gentx validator0 10000000000stake --home=${CHAIN_DIR} --keyring-backend=test --chain-id=$CHAIN_ID --moniker=$MONIKER
 
-${SIMD} collect-gentxs
+${SIMD} collect-gentxs --home=${CHAIN_DIR}
 
 ${SIMD} validate-genesis
 
