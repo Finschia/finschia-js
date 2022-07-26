@@ -509,7 +509,6 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: 0.46.0-rc5
     nyc: ^15.1.0
     prettier: ^2.4.1
     ses: ^0.11.0
@@ -762,7 +761,6 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: 0.46.0-rc5
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
