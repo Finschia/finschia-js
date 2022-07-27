@@ -1,4 +1,4 @@
-import { GeneratedType } from "@lbmjs/proto-signing";
+import { GeneratedType } from "@cosmjs/proto-signing";
 import {
   MsgAbandon,
   MsgApprove,

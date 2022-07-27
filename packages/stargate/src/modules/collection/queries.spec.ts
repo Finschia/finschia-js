@@ -1,7 +1,7 @@
+import { coins } from "@cosmjs/amino";
+import { DirectSecp256k1HdWallet, EncodeObject } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
-import { coins } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { DirectSecp256k1HdWallet, EncodeObject } from "@lbmjs/proto-signing";
 import {
   MsgCreateContract,
   MsgIssueFT,
@@ -10,7 +10,7 @@ import {
   MsgTransferFT,
 } from "lbmjs-types/lbm/collection/v1/tx";
 
-import { logs } from "../../";
+import { logs, makeLinkPath } from "../../";
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
@@ -52,7 +52,10 @@ describe("CollectionExtension (fungible token)", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
@@ -192,7 +195,10 @@ describe("CollectionExtension (non-fungible token)", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,

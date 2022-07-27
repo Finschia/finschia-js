@@ -1,10 +1,10 @@
+import { coins, DirectSecp256k1HdWallet, EncodeObject } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { coins, DirectSecp256k1HdWallet, EncodeObject } from "@lbmjs/proto-signing";
 import { Permission } from "lbmjs-types/lbm/token/v1/token";
 import { MsgIssue } from "lbmjs-types/lbm/token/v1/tx";
 
-import { QueryClient } from "../../queryclient";
+import { makeLinkPath, QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -38,7 +38,10 @@ describe("TokenExtension(Just Issue)", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
@@ -126,19 +129,19 @@ describe("TokenExtension(Just Issue)", () => {
 
       tmClient.disconnect();
     });
-    it("grant", async () => {
-      pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
-      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-
-      const response = await client.token.grant(contractId, owner, Permission.PERMISSION_MODIFY);
-      expect(response).toEqual({
-        grantee: owner,
-        permission: Permission.PERMISSION_MODIFY,
-      });
-
-      tmClient.disconnect();
-    });
+    // it("grant", async () => {
+    //   pendingWithoutSimapp();
+    //   assert(contractId, "Missing class ID");
+    //   const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+    //
+    //   const response = await client.token.grant(contractId, owner, Permission.PERMISSION_MODIFY);
+    //   expect(response).toEqual({
+    //     grantee: owner,
+    //     permission: Permission.PERMISSION_MODIFY,
+    //   });
+    //
+    //   tmClient.disconnect();
+    // });
   });
 });
 
@@ -160,7 +163,10 @@ describe("TokenExtension", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
@@ -239,33 +245,33 @@ describe("TokenExtension", () => {
       }
 
       // Grant
-      {
-        const msgAny: EncodeObject = {
-          typeUrl: "/lbm.token.v1.MsgGrant",
-          value: {
-            contractId: contractId,
-            granter: owner,
-            grantee: toAddress,
-            permission: Permission.PERMISSION_MODIFY,
-          },
-        };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
-        assertIsDeliverTxSuccess(result);
-      }
+      // {
+      //   const msgAny: EncodeObject = {
+      //     typeUrl: "/lbm.token.v1.MsgGrant",
+      //     value: {
+      //       contractId: contractId,
+      //       granter: owner,
+      //       grantee: toAddress,
+      //       permission: Permission.PERMISSION_MODIFY,
+      //     },
+      //   };
+      //   const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+      //   assertIsDeliverTxSuccess(result);
+      // }
 
       // Revoke
-      {
-        const msgAny: EncodeObject = {
-          typeUrl: "/lbm.token.v1.MsgAbandon",
-          value: {
-            contractId: contractId,
-            grantee: owner,
-            permission: Permission.PERMISSION_BURN,
-          },
-        };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
-        assertIsDeliverTxSuccess(result);
-      }
+      // {
+      //   const msgAny: EncodeObject = {
+      //     typeUrl: "/lbm.token.v1.MsgAbandon",
+      //     value: {
+      //       contractId: contractId,
+      //       grantee: owner,
+      //       permission: Permission.PERMISSION_BURN,
+      //     },
+      //   };
+      //   const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+      //   assertIsDeliverTxSuccess(result);
+      // }
 
       // Approve
       {
@@ -338,28 +344,28 @@ describe("TokenExtension", () => {
 
       tmClient.disconnect();
     });
-    it("grants", async () => {
-      pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
-      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-
-      const response = await client.token.grant(contractId, toAddress, Permission.PERMISSION_MODIFY);
-      expect(response).toEqual({
-        grantee: toAddress,
-        permission: Permission.PERMISSION_MODIFY,
-      });
-
-      tmClient.disconnect();
-    });
-    it("approved", async () => {
-      pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
-      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-
-      const response = await client.token.approved(contractId, toAddress, owner);
-      expect(response).toBeTrue();
-
-      tmClient.disconnect();
-    });
+    // it("grants", async () => {
+    //   pendingWithoutSimapp();
+    //   assert(contractId, "Missing class ID");
+    //   const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+    //
+    //   const response = await client.token.grant(contractId, toAddress, Permission.PERMISSION_MODIFY);
+    //   expect(response).toEqual({
+    //     grantee: toAddress,
+    //     permission: Permission.PERMISSION_MODIFY,
+    //   });
+    //
+    //   tmClient.disconnect();
+    // });
+    // it("approved", async () => {
+    //   pendingWithoutSimapp();
+    //   assert(contractId, "Missing class ID");
+    //   const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+    //
+    //   const response = await client.token.approved(contractId, toAddress, owner);
+    //   expect(response).toBeTrue();
+    //
+    //   tmClient.disconnect();
+    // });
   });
 });

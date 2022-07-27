@@ -290,6 +290,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/amino@npm:0.28.4":
+  version: 0.28.4
+  resolution: "@cosmjs/amino@npm:0.28.4"
+  dependencies:
+    "@cosmjs/crypto": 0.28.4
+    "@cosmjs/encoding": 0.28.4
+    "@cosmjs/math": 0.28.4
+    "@cosmjs/utils": 0.28.4
+  checksum: f84e6968d9f23fa17b96f23d65255a5030d055057160b2951afeb98f91b36a753c3687d25dc25e97c44fd952ff1b6b79c72f060fa6787910f6c8517b3f91f797
+  languageName: node
+  linkType: hard
+
 "@cosmjs/crypto@npm:0.28.4":
   version: 0.28.4
   resolution: "@cosmjs/crypto@npm:0.28.4"
@@ -335,6 +347,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/proto-signing@npm:0.28.4":
+  version: 0.28.4
+  resolution: "@cosmjs/proto-signing@npm:0.28.4"
+  dependencies:
+    "@cosmjs/amino": 0.28.4
+    "@cosmjs/crypto": 0.28.4
+    "@cosmjs/encoding": 0.28.4
+    "@cosmjs/math": 0.28.4
+    "@cosmjs/utils": 0.28.4
+    cosmjs-types: ^0.4.0
+    long: ^4.0.0
+    protobufjs: ~6.10.2
+  checksum: 9d6419b1109d61f6f6b50c35ee8d6673462dafb031f63496df120f3751c5b21a6c09f601d5ad48dfac7a39226a709c5dc571f4b1018b802316df66c9e5a05f30
+  languageName: node
+  linkType: hard
+
 "@cosmjs/socket@npm:0.28.4":
   version: 0.28.4
   resolution: "@cosmjs/socket@npm:0.28.4"
@@ -347,12 +375,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/stargate@npm:0.28.4":
+  version: 0.28.4
+  resolution: "@cosmjs/stargate@npm:0.28.4"
+  dependencies:
+    "@confio/ics23": ^0.6.8
+    "@cosmjs/amino": 0.28.4
+    "@cosmjs/encoding": 0.28.4
+    "@cosmjs/math": 0.28.4
+    "@cosmjs/proto-signing": 0.28.4
+    "@cosmjs/stream": 0.28.4
+    "@cosmjs/tendermint-rpc": 0.28.4
+    "@cosmjs/utils": 0.28.4
+    cosmjs-types: ^0.4.0
+    long: ^4.0.0
+    protobufjs: ~6.10.2
+    xstream: ^11.14.0
+  checksum: ce3969a4791889f624e918de930fece4da8ba641364635d6b1bf32c1f1374c7f83e87239a2776e8a82b4f179184a716efe797f386e25fb6b87b4286c66755126
+  languageName: node
+  linkType: hard
+
 "@cosmjs/stream@npm:0.28.4":
   version: 0.28.4
   resolution: "@cosmjs/stream@npm:0.28.4"
   dependencies:
     xstream: ^11.14.0
   checksum: b5d88927f259c6b20f3f316ffa6cb84c3b9e7b80ad134eb4906444690fa7233c3d7ca13a6b352b45ec0f8ecfd1bb8a49248e594837e0d50a1e10f6ecd33e9fec
+  languageName: node
+  linkType: hard
+
+"@cosmjs/tendermint-rpc@npm:0.28.4":
+  version: 0.28.4
+  resolution: "@cosmjs/tendermint-rpc@npm:0.28.4"
+  dependencies:
+    "@cosmjs/crypto": 0.28.4
+    "@cosmjs/encoding": 0.28.4
+    "@cosmjs/json-rpc": 0.28.4
+    "@cosmjs/math": 0.28.4
+    "@cosmjs/socket": 0.28.4
+    "@cosmjs/stream": 0.28.4
+    "@cosmjs/utils": 0.28.4
+    axios: ^0.21.2
+    readonly-date: ^1.0.0
+    xstream: ^11.14.0
+  checksum: fad057a14da035306f2e0809a6653a159f5cb84f415c516f08d7af987804f5ef6c4c11b83677451c3662da513b1e0065863badcf13983462e8e073701ac13714
   languageName: node
   linkType: hard
 
@@ -525,15 +591,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@lbmjs/cosmwasm-stargate@workspace:packages/cosmwasm-stargate"
   dependencies:
+    "@cosmjs/amino": 0.28.4
     "@cosmjs/crypto": 0.28.4
     "@cosmjs/encoding": 0.28.4
     "@cosmjs/math": 0.28.4
+    "@cosmjs/proto-signing": 0.28.4
+    "@cosmjs/stargate": 0.28.4
+    "@cosmjs/tendermint-rpc": 0.28.4
     "@cosmjs/utils": 0.28.4
     "@istanbuljs/nyc-config-typescript": ^1.0.1
-    "@lbmjs/amino": "workspace:packages/amino"
-    "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc"
-    "@lbmjs/proto-signing": "workspace:packages/proto-signing"
-    "@lbmjs/stargate": "workspace:packages/stargate"
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8
     "@types/karma-firefox-launcher": ^2
@@ -780,15 +846,16 @@ __metadata:
   resolution: "@lbmjs/stargate@workspace:packages/stargate"
   dependencies:
     "@confio/ics23": ^0.6.8
+    "@cosmjs/amino": 0.28.4
     "@cosmjs/crypto": 0.28.4
     "@cosmjs/encoding": 0.28.4
+    "@cosmjs/json-rpc": 0.28.4
     "@cosmjs/math": 0.28.4
+    "@cosmjs/proto-signing": 0.28.4
     "@cosmjs/stream": 0.28.4
+    "@cosmjs/tendermint-rpc": 0.28.4
     "@cosmjs/utils": 0.28.4
     "@istanbuljs/nyc-config-typescript": ^1.0.1
-    "@lbmjs/amino": "workspace:packages/amino"
-    "@lbmjs/ostracon-rpc": "workspace:packages/ostracon-rpc"
-    "@lbmjs/proto-signing": "workspace:packages/proto-signing"
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8
     "@types/karma-firefox-launcher": ^2
@@ -2572,6 +2639,16 @@ __metadata:
     long: ^4.0.0
     protobufjs: ~6.11.2
   checksum: ffc3e6451e85023f81e17ae55cc221d2be77fa01ac65cbd51ec69b695c49a7fba5ddd50a913e519db8aae821f02f0c1a231a2d20337d4646ca520bb3584631a1
+  languageName: node
+  linkType: hard
+
+"cosmjs-types@npm:^0.4.0":
+  version: 0.4.1
+  resolution: "cosmjs-types@npm:0.4.1"
+  dependencies:
+    long: ^4.0.0
+    protobufjs: ~6.11.2
+  checksum: 7921026bb7f1fef70a6d3c3cbfc71d6af21616d532e5cd9f2af15b94c53f98f8d76da65a8fd60f930df2a9ff4eebed1bb3f49baa3eac7117981fbc8f45259005
   languageName: node
   linkType: hard
 

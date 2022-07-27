@@ -1,17 +1,17 @@
-import { assert } from "@cosmjs/utils";
 import {
   createMultisigThresholdPubkey,
   encodeSecp256k1Pubkey,
-  makeLinkPath,
   pubkeyToAddress,
   Secp256k1HdWallet,
-} from "@lbmjs/amino";
-import { coins } from "@lbmjs/proto-signing";
+} from "@cosmjs/amino";
+import { coins } from "@cosmjs/proto-signing";
+import { assert } from "@cosmjs/utils";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { MsgSendEncodeObject } from "./modules";
 import { makeCompactBitArray, makeMultisignedTx } from "./multisignature";
+import { makeLinkPath } from "./queryclient";
 import { SignerData, SigningStargateClient } from "./signingstargateclient";
 import { assertIsDeliverTxSuccess, StargateClient } from "./stargateclient";
 import { faucet, pendingWithoutSimapp, simapp } from "./testutils.spec";
@@ -173,7 +173,7 @@ describe("multisignature", () => {
   describe("makeMultisignedTx", () => {
     it("works", async () => {
       pendingWithoutSimapp();
-      const multisigAccountAddress = "link15l2sszad8s390zpshtas030j48xav6nt9kp3dl";
+      const multisigAccountAddress = "link164fvwlqv6actq6tvzqwmxjnu3ry7vr4rpskl8p";
 
       // On the composer's machine signing instructions are created.
       // The composer does not need to be one of the signers.
@@ -220,6 +220,7 @@ describe("multisignature", () => {
           // Signing environment
           const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
             hdPaths: [makeLinkPath(i)],
+            prefix: "link",
           });
           const pubkey = encodeSecp256k1Pubkey((await wallet.getAccounts())[0].pubkey);
           const address = (await wallet.getAccounts())[0].address;

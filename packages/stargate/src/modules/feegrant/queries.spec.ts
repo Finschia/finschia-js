@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { coins } from "@cosmjs/amino";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
-import { coins } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
 import { BasicAllowance } from "cosmjs-types/cosmos/feegrant/v1beta1/feegrant";
 
-import { QueryClient } from "../../queryclient";
+import { makeLinkPath, QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -35,7 +35,10 @@ describe("FeeGrantExtension", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
@@ -62,6 +65,8 @@ describe("FeeGrantExtension", () => {
       assertIsDeliverTxSuccess(grantResult);
 
       await sleep(75);
+
+      client.disconnect();
     }
   });
 

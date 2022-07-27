@@ -1,19 +1,20 @@
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
-import { assert, sleep } from "@cosmjs/utils";
+import { encodePubkey } from "@cosmjs/proto-signing";
 import {
   coins,
   decodeTxRaw,
   DirectSecp256k1HdWallet,
-  encodePubkey,
   makeAuthInfoBytes,
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@lbmjs/proto-signing";
+} from "@cosmjs/proto-signing";
+import { assert, sleep } from "@cosmjs/utils";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { isMsgSendEncodeObject } from "./modules";
+import { makeLinkPath } from "./queryclient";
 import { DeliverTxResponse, isDeliverTxFailure, isDeliverTxSuccess, StargateClient } from "./stargateclient";
 import {
   defaultSigningClientOptions,
@@ -46,7 +47,7 @@ async function sendTokens(
 }> {
   const [{ address: walletAddress, pubkey: pubkeyBytes }] = await wallet.getAccounts();
   const pubkey = encodePubkey({
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: toBase64(pubkeyBytes),
   });
   const txBodyFields: TxBodyEncodeObject = {
@@ -104,7 +105,10 @@ describe("StargateClient.getTx and .searchTx", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await StargateClient.connect(simapp.tendermintUrl);
       const unsuccessfulRecipient = makeRandomAddress();
       const successfulRecipient = makeRandomAddress();

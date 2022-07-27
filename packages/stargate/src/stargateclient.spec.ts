@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
-import { assert, sleep } from "@cosmjs/utils";
 import {
-  coins, decodePubkey,
+  coins,
   DirectSecp256k1HdWallet,
   encodePubkey,
   makeAuthInfoBytes,
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@lbmjs/proto-signing";
+} from "@cosmjs/proto-signing";
+import { assert, sleep } from "@cosmjs/utils";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
+import { makeLinkPath } from "./queryclient";
 import {
   assertIsDeliverTxSuccess,
   isDeliverTxFailure,
@@ -33,7 +34,6 @@ import {
   unused,
   validator,
 } from "./testutils.spec";
-import { Any } from "cosmjs-types/google/protobuf/any";
 
 const resultFailure = {
   code: 5,
@@ -334,10 +334,13 @@ describe("StargateClient", () => {
     it("broadcasts a transaction", async () => {
       pendingWithoutSimapp();
       const client = await StargateClient.connect(simapp.tendermintUrl);
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
-        type: "ostracon/PubKeySecp256k1",
+        type: "tendermint/PubKeySecp256k1",
         value: toBase64(pubkeyBytes),
       });
       const registry = new Registry();
@@ -390,10 +393,13 @@ describe("StargateClient", () => {
     it("errors immediately for a CheckTx failure", async () => {
       pendingWithoutSimapp();
       const client = await StargateClient.connect(simapp.tendermintUrl);
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
-        type: "ostracon/PubKeySecp256k1",
+        type: "tendermint/PubKeySecp256k1",
         value: toBase64(pubkeyBytes),
       });
       const registry = new Registry();
@@ -442,10 +448,13 @@ describe("StargateClient", () => {
     it("respects user timeouts rather than RPC timeouts", async () => {
       pendingWithoutSlowSimapp();
       const client = await StargateClient.connect(slowSimapp.tendermintUrl);
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
-        type: "ostracon/PubKeySecp256k1",
+        type: "tendermint/PubKeySecp256k1",
         value: toBase64(pubkeyBytes),
       });
       const registry = new Registry();

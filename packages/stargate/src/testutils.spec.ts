@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@cosmjs/amino";
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
 import { toBech32 } from "@cosmjs/encoding";
-import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@lbmjs/amino";
 import {
   coins,
   DirectSecp256k1HdWallet,
   DirectSecp256k1HdWalletOptions,
   DirectSignResponse,
   makeAuthInfoBytes,
-} from "@lbmjs/proto-signing";
+} from "@cosmjs/proto-signing";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
@@ -86,27 +86,27 @@ export const faucet = {
   mnemonic:
     "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have",
   pubkey0: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
   pubkey1: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "Au7fdDpmcXLbuxH5z6PvvzUaKQI6EeDY5GNt9e17cYxk",
   },
   pubkey2: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "A45xEMprNuuMDvoSyN35OFzMSjgN3JfU0JrtDigGL1li",
   },
   pubkey3: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "A++1IDp1lAwqi1/nSxjRwsUAgMuabMHaOaxEgszpHH3O",
   },
   pubkey4: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "AiprmR/HER1JI4/kF49WNZUND57MygR4myw1HrqlJ8if",
   },
   pubkey5: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "A/sRpmP7Bk1LIkax7HA6DxegTIxmstJXH6xkmAzSxzXO",
   },
   address0: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
@@ -120,7 +120,7 @@ export const faucet = {
 /** Unused account */
 export const unused = {
   pubkey: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "AlPkJfV+nWxUCb2mPdMLSb/G9zNvywDir8CgxpAUoPjE",
   },
   address: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
@@ -139,7 +139,7 @@ export const validator = {
    * ```
    */
   pubkey: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "AsVtdRaoc8AsTmzIvRAKWSYgHXf97/HI4ls2wENFk9C8",
   },
   /**

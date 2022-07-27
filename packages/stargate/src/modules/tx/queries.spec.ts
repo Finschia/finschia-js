@@ -1,10 +1,10 @@
+import { coin, coins, DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assertDefined, sleep } from "@cosmjs/utils";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { coin, coins, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import Long from "long";
 
-import { longify, QueryClient } from "../../queryclient";
+import { longify, makeLinkPath, QueryClient } from "../../queryclient";
 import { defaultRegistryTypes, SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess, StargateClient } from "../../stargateclient";
 import {
@@ -33,7 +33,10 @@ describe("TxExtension", () => {
 
   beforeAll(async () => {
     if (simappEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,

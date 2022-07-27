@@ -1,7 +1,6 @@
 import { sha256 } from "@cosmjs/crypto";
 import { fromAscii, fromHex, toAscii, toHex } from "@cosmjs/encoding";
-import { assert } from "@cosmjs/utils";
-import { DirectSecp256k1HdWallet, OfflineDirectSigner, Registry } from "@lbmjs/proto-signing";
+import { DirectSecp256k1HdWallet, OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
 import {
   assertIsDeliverTxSuccess,
   Coin,
@@ -11,11 +10,13 @@ import {
   logs,
   SigningStargateClient,
   StdFee,
-} from "@lbmjs/stargate";
+} from "@cosmjs/stargate";
+import { assert } from "@cosmjs/utils";
 import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "lbmjs-types/lbm/wasm/v1/tx";
 import { ContractCodeHistoryOperationType, ContractStatus } from "lbmjs-types/lbm/wasm/v1/types";
 import Long from "long";
 
+import { makeLinkPath } from "../../paths";
 import { SigningCosmWasmClient } from "../../signingcosmwasmclient";
 import {
   alice,
@@ -136,7 +137,10 @@ describe("WasmExtension", () => {
 
   beforeAll(async () => {
     if (wasmdEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const result = await uploadContract(wallet, hackatom);
       assertIsDeliverTxSuccess(result);
       hackatomCodeId = Number.parseInt(
@@ -187,7 +191,10 @@ describe("WasmExtension", () => {
     it("works", async () => {
       pendingWithoutWasmd();
       assert(hackatomCodeId);
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await makeWasmClient(wasmd.endpoint);
 
       // create new instance and compare before and after
@@ -239,7 +246,10 @@ describe("WasmExtension", () => {
     it("can list contract history", async () => {
       pendingWithoutWasmd();
       assert(hackatomCodeId);
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await makeWasmClient(wasmd.endpoint);
 
       // create new instance and compare before and after
@@ -367,7 +377,10 @@ describe("WasmExtension", () => {
   describe("broadcastTx", () => {
     it("can upload, instantiate and execute wasm", async () => {
       pendingWithoutWasmd();
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await makeWasmClient(wasmd.endpoint);
 
       const funds = [coin(1234, "cony"), coin(321, "stake")];

@@ -406,7 +406,6 @@ timeout_precommit_delta = "100ms"
 # though we already have +2/3).
 timeout_commit = "1s"
 
-
 # How many blocks to look back to check existence of the node's consensus votes before joining consensus
 # When non-zero, the node will panic upon restart
 # if the same consensus key was used to sign {double_sign_check_height} last blocks.

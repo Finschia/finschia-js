@@ -1,4 +1,4 @@
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
 import { QueryClient } from "../../queryclient";
 import { pendingWithoutSimapp, simapp } from "../../testutils.spec";

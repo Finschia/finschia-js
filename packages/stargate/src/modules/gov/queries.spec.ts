@@ -1,8 +1,8 @@
+import { coin, coins } from "@cosmjs/amino";
 import { toAscii } from "@cosmjs/encoding";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
-import { coin, coins, makeLinkPath } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
 import {
   ProposalStatus,
   TextProposal,
@@ -13,7 +13,7 @@ import {
 import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
-import { longify, QueryClient } from "../../queryclient";
+import { longify, makeLinkPath, QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -55,6 +55,7 @@ describe("GovExtension", () => {
         // Use address 1 and 2 instead of 0 to avoid conflicts with other delegation tests
         // This must match `voterAddress` above.
         hdPaths: [makeLinkPath(1), makeLinkPath(2)],
+        prefix: "link",
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
@@ -331,22 +332,22 @@ describe("GovExtension", () => {
       expect(response.votes).toEqual([
         Vote.fromPartial({
           proposalId: longify(proposalId),
-          voter: voter1Address,
-          option: VoteOption.VOTE_OPTION_YES,
+          voter: voter2Address,
+          option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
           options: [
             WeightedVoteOption.fromPartial({
-              option: VoteOption.VOTE_OPTION_YES,
+              option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
               weight: "1000000000000000000",
             }),
           ],
         }),
         Vote.fromPartial({
           proposalId: longify(proposalId),
-          voter: voter2Address,
-          option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
+          voter: voter1Address,
+          option: VoteOption.VOTE_OPTION_YES,
           options: [
             WeightedVoteOption.fromPartial({
-              option: VoteOption.VOTE_OPTION_NO_WITH_VETO,
+              option: VoteOption.VOTE_OPTION_YES,
               weight: "1000000000000000000",
             }),
           ],

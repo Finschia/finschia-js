@@ -1,10 +1,9 @@
+import { coins, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assertDefined, sleep } from "@cosmjs/utils";
-import { makeLinkPath } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { coins, DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
 import { GenericAuthorization } from "cosmjs-types/cosmos/authz/v1beta1/authz";
 
-import { QueryClient } from "../../queryclient";
+import { makeLinkPath, QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -42,6 +41,7 @@ xdescribe("AuthzExtension", () => {
         // Use address 1 and 2 instead of 0 to avoid conflicts with other delegation tests
         // This must match `voterAddress` above.
         hdPaths: [makeLinkPath(1), makeLinkPath(2)],
+        prefix: "link",
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,

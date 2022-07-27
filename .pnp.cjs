@@ -173,6 +173,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:0.6.8"
       ],
       [
+        "@cosmjs/amino",
+        "npm:0.28.4"
+      ],
+      [
         "@cosmjs/crypto",
         "npm:0.28.4"
       ],
@@ -189,11 +193,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:0.28.4"
       ],
       [
+        "@cosmjs/proto-signing",
+        "npm:0.28.4"
+      ],
+      [
         "@cosmjs/socket",
         "npm:0.28.4"
       ],
       [
+        "@cosmjs/stargate",
+        "npm:0.28.4"
+      ],
+      [
         "@cosmjs/stream",
+        "npm:0.28.4"
+      ],
+      [
+        "@cosmjs/tendermint-rpc",
         "npm:0.28.4"
       ],
       [
@@ -3101,6 +3117,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@cosmjs/amino", [
+        ["npm:0.28.4", {
+          "packageLocation": "./.yarn/cache/@cosmjs-amino-npm-0.28.4-4ff8dafb8e-f84e6968d9.zip/node_modules/@cosmjs/amino/",
+          "packageDependencies": [
+            ["@cosmjs/amino", "npm:0.28.4"],
+            ["@cosmjs/crypto", "npm:0.28.4"],
+            ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/utils", "npm:0.28.4"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cosmjs/crypto", [
         ["npm:0.28.4", {
           "packageLocation": "./.yarn/cache/@cosmjs-crypto-npm-0.28.4-a76962f744-2ea35cc3cc.zip/node_modules/@cosmjs/crypto/",
@@ -3150,6 +3179,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@cosmjs/proto-signing", [
+        ["npm:0.28.4", {
+          "packageLocation": "./.yarn/cache/@cosmjs-proto-signing-npm-0.28.4-7e555775ea-9d6419b110.zip/node_modules/@cosmjs/proto-signing/",
+          "packageDependencies": [
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
+            ["@cosmjs/amino", "npm:0.28.4"],
+            ["@cosmjs/crypto", "npm:0.28.4"],
+            ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/utils", "npm:0.28.4"],
+            ["cosmjs-types", "npm:0.4.1"],
+            ["long", "npm:4.0.0"],
+            ["protobufjs", "npm:6.10.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cosmjs/socket", [
         ["npm:0.28.4", {
           "packageLocation": "./.yarn/cache/@cosmjs-socket-npm-0.28.4-ea3972b601-1a27c010a5.zip/node_modules/@cosmjs/socket/",
@@ -3163,11 +3209,51 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@cosmjs/stargate", [
+        ["npm:0.28.4", {
+          "packageLocation": "./.yarn/cache/@cosmjs-stargate-npm-0.28.4-876af0bc19-ce3969a479.zip/node_modules/@cosmjs/stargate/",
+          "packageDependencies": [
+            ["@cosmjs/stargate", "npm:0.28.4"],
+            ["@confio/ics23", "npm:0.6.8"],
+            ["@cosmjs/amino", "npm:0.28.4"],
+            ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
+            ["@cosmjs/stream", "npm:0.28.4"],
+            ["@cosmjs/tendermint-rpc", "npm:0.28.4"],
+            ["@cosmjs/utils", "npm:0.28.4"],
+            ["cosmjs-types", "npm:0.4.1"],
+            ["long", "npm:4.0.0"],
+            ["protobufjs", "npm:6.10.2"],
+            ["xstream", "npm:11.14.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cosmjs/stream", [
         ["npm:0.28.4", {
           "packageLocation": "./.yarn/cache/@cosmjs-stream-npm-0.28.4-96688842fa-b5d88927f2.zip/node_modules/@cosmjs/stream/",
           "packageDependencies": [
             ["@cosmjs/stream", "npm:0.28.4"],
+            ["xstream", "npm:11.14.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@cosmjs/tendermint-rpc", [
+        ["npm:0.28.4", {
+          "packageLocation": "./.yarn/cache/@cosmjs-tendermint-rpc-npm-0.28.4-c9c41913fa-fad057a14d.zip/node_modules/@cosmjs/tendermint-rpc/",
+          "packageDependencies": [
+            ["@cosmjs/tendermint-rpc", "npm:0.28.4"],
+            ["@cosmjs/crypto", "npm:0.28.4"],
+            ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/json-rpc", "npm:0.28.4"],
+            ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/socket", "npm:0.28.4"],
+            ["@cosmjs/stream", "npm:0.28.4"],
+            ["@cosmjs/utils", "npm:0.28.4"],
+            ["axios", "npm:0.21.4"],
+            ["readonly-date", "npm:1.0.0"],
             ["xstream", "npm:11.14.0"]
           ],
           "linkType": "HARD",
@@ -3376,15 +3462,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/cosmwasm-stargate/",
           "packageDependencies": [
             ["@lbmjs/cosmwasm-stargate", "workspace:packages/cosmwasm-stargate"],
+            ["@cosmjs/amino", "npm:0.28.4"],
             ["@cosmjs/crypto", "npm:0.28.4"],
             ["@cosmjs/encoding", "npm:0.28.4"],
             ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
+            ["@cosmjs/stargate", "npm:0.28.4"],
+            ["@cosmjs/tendermint-rpc", "npm:0.28.4"],
             ["@cosmjs/utils", "npm:0.28.4"],
             ["@istanbuljs/nyc-config-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.0.2"],
-            ["@lbmjs/amino", "workspace:packages/amino"],
-            ["@lbmjs/ostracon-rpc", "workspace:packages/ostracon-rpc"],
-            ["@lbmjs/proto-signing", "workspace:packages/proto-signing"],
-            ["@lbmjs/stargate", "workspace:packages/stargate"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jasmine", "npm:3.10.3"],
             ["@types/karma-firefox-launcher", "npm:2.1.1"],
@@ -3639,15 +3725,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@lbmjs/stargate", "workspace:packages/stargate"],
             ["@confio/ics23", "npm:0.6.8"],
+            ["@cosmjs/amino", "npm:0.28.4"],
             ["@cosmjs/crypto", "npm:0.28.4"],
             ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/json-rpc", "npm:0.28.4"],
             ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
             ["@cosmjs/stream", "npm:0.28.4"],
+            ["@cosmjs/tendermint-rpc", "npm:0.28.4"],
             ["@cosmjs/utils", "npm:0.28.4"],
             ["@istanbuljs/nyc-config-typescript", "virtual:5db471723ecd35131d52ce857ce6db9d3d811f119e5c303929c56fd48e4c9689c28b057043480d17ec11009ad4be10d58ed26e520bac2cbeb6cd322a2721065c#npm:1.0.2"],
-            ["@lbmjs/amino", "workspace:packages/amino"],
-            ["@lbmjs/ostracon-rpc", "workspace:packages/ostracon-rpc"],
-            ["@lbmjs/proto-signing", "workspace:packages/proto-signing"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jasmine", "npm:3.10.3"],
             ["@types/karma-firefox-launcher", "npm:2.1.1"],
@@ -6114,6 +6201,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cosmjs-types-npm-0.4.0-accb450c96-ffc3e6451e.zip/node_modules/cosmjs-types/",
           "packageDependencies": [
             ["cosmjs-types", "npm:0.4.0"],
+            ["long", "npm:4.0.0"],
+            ["protobufjs", "npm:6.11.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:0.4.1", {
+          "packageLocation": "./.yarn/cache/cosmjs-types-npm-0.4.1-7067cbeac4-7921026bb7.zip/node_modules/cosmjs-types/",
+          "packageDependencies": [
+            ["cosmjs-types", "npm:0.4.1"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],

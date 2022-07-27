@@ -2,8 +2,8 @@
 import { iavlSpec, ics23, tendermintSpec, verifyExistence, verifyNonExistence } from "@confio/ics23";
 import { toAscii, toHex } from "@cosmjs/encoding";
 import { firstEvent } from "@cosmjs/stream";
+import { tendermint34, Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { arrayContentEquals, assert, assertDefined, isNonNullObject, sleep } from "@cosmjs/utils";
-import { tendermint34, Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { ProofOps } from "lbmjs-types/ostracon/crypto/proof";
 import { Stream } from "xstream";
 

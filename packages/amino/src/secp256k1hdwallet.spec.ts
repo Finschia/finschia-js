@@ -17,7 +17,10 @@ describe("Secp256k1HdWallet", () => {
 
   describe("fromMnemonic", () => {
     it("works", async () => {
-      const wallet = await Secp256k1HdWallet.fromMnemonic(defaultMnemonic);
+      const wallet = await Secp256k1HdWallet.fromMnemonic(defaultMnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       expect(wallet).toBeTruthy();
       expect(wallet.mnemonic).toEqual(defaultMnemonic);
     });

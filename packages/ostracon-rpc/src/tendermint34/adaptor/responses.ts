@@ -158,12 +158,12 @@ interface RpcPubkey {
 function decodePubkey(data: RpcPubkey): ValidatorPubkey {
   switch (data.type) {
     // go-amino special code
-    case "ostracon/PubKeyEd25519":
+    case "tendermint/PubKeyEd25519":
       return {
         algorithm: "ed25519",
         data: fromBase64(assertNotEmpty(data.value)),
       };
-    case "ostracon/PubKeySecp256k1":
+    case "tendermint/PubKeySecp256k1":
       return {
         algorithm: "secp256k1",
         data: fromBase64(assertNotEmpty(data.value)),

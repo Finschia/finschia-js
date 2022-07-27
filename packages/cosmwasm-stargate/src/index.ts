@@ -21,6 +21,7 @@ export {
   setupWasmExtension,
   WasmExtension,
 } from "./modules";
+export { makeLinkPath } from "./paths";
 export {
   ChangeAdminResult,
   ExecuteResult,
@@ -34,4 +35,4 @@ export {
 } from "./signingcosmwasmclient";
 
 // Re-exported because this is part of the CosmWasmClient/SigningCosmWasmClient APIs
-export { HttpEndpoint } from "@lbmjs/ostracon-rpc";
+export { HttpEndpoint } from "@cosmjs/tendermint-rpc";

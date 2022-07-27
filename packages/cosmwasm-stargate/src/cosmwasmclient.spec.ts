@@ -2,7 +2,6 @@
 import { sha256 } from "@cosmjs/crypto";
 import { fromAscii, fromBase64, fromHex, toAscii } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
-import { assert, sleep } from "@cosmjs/utils";
 import {
   DirectSecp256k1HdWallet,
   encodePubkey,
@@ -10,12 +9,14 @@ import {
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@lbmjs/proto-signing";
-import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@lbmjs/stargate";
+} from "@cosmjs/proto-signing";
+import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@cosmjs/stargate";
+import { assert, sleep } from "@cosmjs/utils";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import { Code, CosmWasmClient, PrivateCosmWasmClient } from "./cosmwasmclient";
+import { makeLinkPath } from "./paths";
 import { SigningCosmWasmClient } from "./signingcosmwasmclient";
 import {
   alice,
@@ -93,7 +94,7 @@ describe("CosmWasmClient", () => {
         address: unused.address,
         accountNumber: unused.accountNumber,
         sequence: unused.sequence,
-        pubKey: null,
+        pubkey: null,
       });
     });
 
@@ -171,7 +172,10 @@ describe("CosmWasmClient", () => {
   describe("broadcastTx", () => {
     it("works", async () => {
       pendingWithoutWasmd();
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: "link",
+      });
       const client = await CosmWasmClient.connect(wasmd.endpoint);
       const registry = new Registry();
 
@@ -331,7 +335,10 @@ describe("CosmWasmClient", () => {
 
     beforeAll(async () => {
       if (wasmdEnabled()) {
-        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+          hdPaths: [makeLinkPath(0)],
+          prefix: "link",
+        });
         const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet);
         const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
         const instantiateMsg = { verifier: makeRandomAddress(), beneficiary: makeRandomAddress() };
@@ -387,7 +394,10 @@ describe("CosmWasmClient", () => {
 
     beforeAll(async () => {
       if (wasmdEnabled()) {
-        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+          hdPaths: [makeLinkPath(0)],
+          prefix: "link",
+        });
         const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet);
         const { codeId } = await client.upload(alice.address0, getHackatom().data, defaultUploadFee);
         const instantiateMsg = { verifier: makeRandomAddress(), beneficiary: makeRandomAddress() };
