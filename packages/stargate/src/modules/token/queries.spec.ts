@@ -244,34 +244,34 @@ describe("TokenExtension", () => {
         assertIsDeliverTxSuccess(result);
       }
 
-      // Grant
-      // {
-      //   const msgAny: EncodeObject = {
-      //     typeUrl: "/lbm.token.v1.MsgGrant",
-      //     value: {
-      //       contractId: contractId,
-      //       granter: owner,
-      //       grantee: toAddress,
-      //       permission: Permission.PERMISSION_MODIFY,
-      //     },
-      //   };
-      //   const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
-      //   assertIsDeliverTxSuccess(result);
-      // }
+      // GrantPermission
+      {
+        const msgAny: EncodeObject = {
+          typeUrl: "/lbm.token.v1.MsgGrantPermission",
+          value: {
+            contractId: contractId,
+            from: owner,
+            to: toAddress,
+            permission: "MODIFY", // {MODIFY, MINT, BURN}
+          },
+        };
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        assertIsDeliverTxSuccess(result);
+      }
 
       // Revoke
-      // {
-      //   const msgAny: EncodeObject = {
-      //     typeUrl: "/lbm.token.v1.MsgAbandon",
-      //     value: {
-      //       contractId: contractId,
-      //       grantee: owner,
-      //       permission: Permission.PERMISSION_BURN,
-      //     },
-      //   };
-      //   const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
-      //   assertIsDeliverTxSuccess(result);
-      // }
+      {
+        const msgAny: EncodeObject = {
+          typeUrl: "/lbm.token.v1.MsgRevokePermission",
+          value: {
+            contractId: contractId,
+            from: owner,
+            permission: "BURN", // {MODIFY, MINT, BURN}
+          },
+        };
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        assertIsDeliverTxSuccess(result);
+      }
 
       // Approve
       {
@@ -344,28 +344,25 @@ describe("TokenExtension", () => {
 
       tmClient.disconnect();
     });
-    // it("grants", async () => {
-    //   pendingWithoutSimapp();
-    //   assert(contractId, "Missing class ID");
-    //   const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-    //
-    //   const response = await client.token.grant(contractId, toAddress, Permission.PERMISSION_MODIFY);
-    //   expect(response).toEqual({
-    //     grantee: toAddress,
-    //     permission: Permission.PERMISSION_MODIFY,
-    //   });
-    //
-    //   tmClient.disconnect();
-    // });
-    // it("approved", async () => {
-    //   pendingWithoutSimapp();
-    //   assert(contractId, "Missing class ID");
-    //   const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-    //
-    //   const response = await client.token.approved(contractId, toAddress, owner);
-    //   expect(response).toBeTrue();
-    //
-    //   tmClient.disconnect();
-    // });
+    it("granteeGrants", async () => {
+      pendingWithoutSimapp();
+      assert(contractId, "Missing class ID");
+      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+
+      const response = await client.token.granteeGrants(contractId, toAddress);
+      expect(response[0]).toEqual({ grantee: toAddress, permission: Permission.PERMISSION_MODIFY });
+
+      tmClient.disconnect();
+    });
+    it("approved", async () => {
+      pendingWithoutSimapp();
+      assert(contractId, "Missing class ID");
+      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+
+      const response = await client.token.approved(contractId, toAddress, owner);
+      expect(response).toBeTrue();
+
+      tmClient.disconnect();
+    });
   });
 });

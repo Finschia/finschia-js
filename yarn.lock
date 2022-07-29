@@ -631,7 +631,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: 0.46.0-rc5
+    lbmjs-types: ../../lbmjs-types_package
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -4266,6 +4266,16 @@ __metadata:
     typescript: ~4.4
   languageName: unknown
   linkType: soft
+
+"lbmjs-types@file:../../lbmjs-types_package::locator=%40lbmjs%2Fstargate%40workspace%3Apackages%2Fstargate":
+  version: 0.46.0-rc6
+  resolution: "lbmjs-types@file:../../lbmjs-types_package#../../lbmjs-types_package::hash=40d16a&locator=%40lbmjs%2Fstargate%40workspace%3Apackages%2Fstargate"
+  dependencies:
+    long: ^4.0.0
+    protobufjs: ~6.11.2
+  checksum: 4cd984634a5d38f561393109e8d7955c0a7c642dd98264a717a10f1428ac9f898785bcd4e476720d980c965e7e693fd589e5485a907458c5948ed971dc41738b
+  languageName: node
+  linkType: hard
 
 "lbmjs-types@npm:0.46.0-rc5":
   version: 0.46.0-rc5
