@@ -2,10 +2,10 @@
 import { assert, sleep } from "@cosmjs/utils";
 import { Secp256k1HdWallet } from "@lbmjs/amino";
 import { coin, coins, decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
-import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { DeepPartial, MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
-import { AuthInfo, TxBody, TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { DeepPartial, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import Long from "long";
 import protobuf from "protobufjs/minimal";
 
@@ -63,7 +63,7 @@ describe("SigningStargateClient", () => {
       const gasUsed = await client.simulate(faucet.address0, [msgAny], memo);
       expect(gasUsed).toBeGreaterThanOrEqual(101_000);
       // todo: The estimated gas fee is higher than latest version(lbm v0.3.0). We need to check the reason.
-      expect(gasUsed).toBeLessThanOrEqual(153_000);
+      expect(gasUsed).toBeLessThanOrEqual(154_000);
 
       client.disconnect();
     });
@@ -486,7 +486,7 @@ describe("SigningStargateClient", () => {
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
           "/cosmos.staking.v1beta1.MsgDelegate": {
-            aminoType: "lbm-sdk/MsgDelegate",
+            aminoType: "cosmos-sdk/MsgDelegate",
             toAmino: ({
               customDelegatorAddress,
               customValidatorAddress,
@@ -774,7 +774,7 @@ describe("SigningStargateClient", () => {
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
         const customAminoTypes = new AminoTypes({
           "/cosmos.staking.v1beta1.MsgDelegate": {
-            aminoType: "lbm-sdk/MsgDelegate",
+            aminoType: "cosmos-sdk/MsgDelegate",
             toAmino: ({
               customDelegatorAddress,
               customValidatorAddress,

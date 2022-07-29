@@ -5,7 +5,7 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "lbmjs-types/cosmos/staking/v1beta1/tx";
+} from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 export const stakingTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmos.staking.v1beta1.MsgBeginRedelegate", MsgBeginRedelegate],

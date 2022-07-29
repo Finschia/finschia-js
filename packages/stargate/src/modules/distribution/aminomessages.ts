@@ -5,14 +5,14 @@ import {
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "lbmjs-types/cosmos/distribution/v1beta1/tx";
+} from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 
 import { AminoConverter } from "../..";
 
 /** Changes the withdraw address for a delegator (or validator self-delegation) */
 export interface AminoMsgSetWithdrawAddress extends AminoMsg {
   // NOTE: Type string and names diverge here!
-  readonly type: "lbm-sdk/MsgModifyWithdrawAddress";
+  readonly type: "cosmos-sdk/MsgModifyWithdrawAddress";
   readonly value: {
     /** Bech32 account address */
     readonly delegator_address: string;
@@ -23,13 +23,13 @@ export interface AminoMsgSetWithdrawAddress extends AminoMsg {
 
 export function isAminoMsgSetWithdrawAddress(msg: AminoMsg): msg is AminoMsgSetWithdrawAddress {
   // NOTE: Type string and names diverge here!
-  return msg.type === "lbm-sdk/MsgModifyWithdrawAddress";
+  return msg.type === "cosmos-sdk/MsgModifyWithdrawAddress";
 }
 
 /** Message for delegation withdraw from a single validator */
 export interface AminoMsgWithdrawDelegatorReward extends AminoMsg {
   // NOTE: Type string and names diverge here!
-  readonly type: "lbm-sdk/MsgWithdrawDelegationReward";
+  readonly type: "cosmos-sdk/MsgWithdrawDelegationReward";
   readonly value: {
     /** Bech32 account address */
     readonly delegator_address: string;
@@ -40,12 +40,12 @@ export interface AminoMsgWithdrawDelegatorReward extends AminoMsg {
 
 export function isAminoMsgWithdrawDelegatorReward(msg: AminoMsg): msg is AminoMsgWithdrawDelegatorReward {
   // NOTE: Type string and names diverge here!
-  return msg.type === "lbm-sdk/MsgWithdrawDelegationReward";
+  return msg.type === "cosmos-sdk/MsgWithdrawDelegationReward";
 }
 
 /** Message for validator withdraw */
 export interface AminoMsgWithdrawValidatorCommission extends AminoMsg {
-  readonly type: "lbm-sdk/MsgWithdrawValidatorCommission";
+  readonly type: "cosmos-sdk/MsgWithdrawValidatorCommission";
   readonly value: {
     /** Bech32 account address */
     readonly validator_address: string;
@@ -55,12 +55,12 @@ export interface AminoMsgWithdrawValidatorCommission extends AminoMsg {
 export function isAminoMsgWithdrawValidatorCommission(
   msg: AminoMsg,
 ): msg is AminoMsgWithdrawValidatorCommission {
-  return msg.type === "lbm-sdk/MsgWithdrawValidatorCommission";
+  return msg.type === "cosmos-sdk/MsgWithdrawValidatorCommission";
 }
 
 /** Allows an account to directly fund the community pool. */
 export interface AminoMsgFundCommunityPool extends AminoMsg {
-  readonly type: "lbm-sdk/MsgFundCommunityPool";
+  readonly type: "cosmos-sdk/MsgFundCommunityPool";
   readonly value: {
     readonly amount: readonly Coin[];
     /** Bech32 account address */
@@ -69,7 +69,7 @@ export interface AminoMsgFundCommunityPool extends AminoMsg {
 }
 
 export function isAminoMsgFundCommunityPool(msg: AminoMsg): msg is AminoMsgFundCommunityPool {
-  return msg.type === "lbm-sdk/MsgFundCommunityPool";
+  return msg.type === "cosmos-sdk/MsgFundCommunityPool";
 }
 
 export function createDistributionAminoConverters(): Record<
@@ -78,7 +78,7 @@ export function createDistributionAminoConverters(): Record<
 > {
   return {
     "/cosmos.distribution.v1beta1.MsgFundCommunityPool": {
-      aminoType: "lbm-sdk/MsgFundCommunityPool",
+      aminoType: "cosmos-sdk/MsgFundCommunityPool",
       toAmino: ({ amount, depositor }: MsgFundCommunityPool): AminoMsgFundCommunityPool["value"] => ({
         amount: [...amount],
         depositor: depositor,
@@ -89,7 +89,7 @@ export function createDistributionAminoConverters(): Record<
       }),
     },
     "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress": {
-      aminoType: "lbm-sdk/MsgModifyWithdrawAddress",
+      aminoType: "cosmos-sdk/MsgModifyWithdrawAddress",
       toAmino: ({
         delegatorAddress,
         withdrawAddress,
@@ -106,7 +106,7 @@ export function createDistributionAminoConverters(): Record<
       }),
     },
     "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward": {
-      aminoType: "lbm-sdk/MsgWithdrawDelegationReward",
+      aminoType: "cosmos-sdk/MsgWithdrawDelegationReward",
       toAmino: ({
         delegatorAddress,
         validatorAddress,
@@ -123,7 +123,7 @@ export function createDistributionAminoConverters(): Record<
       }),
     },
     "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission": {
-      aminoType: "lbm-sdk/MsgWithdrawValidatorCommission",
+      aminoType: "cosmos-sdk/MsgWithdrawValidatorCommission",
       toAmino: ({
         validatorAddress,
       }: MsgWithdrawValidatorCommission): AminoMsgWithdrawValidatorCommission["value"] => ({

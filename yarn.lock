@@ -544,6 +544,7 @@ __metadata:
     "@types/pako": ^1.0.1
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
+    cosmjs-types: 0.4.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -559,7 +560,7 @@ __metadata:
     karma-firefox-launcher: ^2.1.0
     karma-jasmine: ^4.0.1
     karma-jasmine-html-reporter: ^1.5.4
-    lbmjs-types: ^0.46.0-rc4
+    lbmjs-types: 0.46.0-rc5
     long: ^4.0.0
     nyc: ^15.1.0
     pako: ^2.0.2
@@ -742,6 +743,7 @@ __metadata:
     "@types/node": ^15.0.1
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
+    cosmjs-types: 0.4.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -759,7 +761,6 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.46.0-rc4
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -797,6 +798,7 @@ __metadata:
     "@types/node": ^15.0.1
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
+    cosmjs-types: 0.4.0
     eslint: ^7.5
     eslint-config-prettier: ^8.3.0
     eslint-import-resolver-node: ^0.3.4
@@ -814,7 +816,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.46.0-rc4
+    lbmjs-types: 0.46.0-rc5
     long: ^4.0.0
     nyc: ^15.1.0
     prettier: ^2.4.1
@@ -2560,6 +2562,16 @@ __metadata:
     object-assign: ^4
     vary: ^1
   checksum: ced838404ccd184f61ab4fdc5847035b681c90db7ac17e428f3d81d69e2989d2b680cc254da0e2554f5ed4f8a341820a1ce3d1c16b499f6e2f47a1b9b07b5006
+  languageName: node
+  linkType: hard
+
+"cosmjs-types@npm:0.4.0":
+  version: 0.4.0
+  resolution: "cosmjs-types@npm:0.4.0"
+  dependencies:
+    long: ^4.0.0
+    protobufjs: ~6.11.2
+  checksum: ffc3e6451e85023f81e17ae55cc221d2be77fa01ac65cbd51ec69b695c49a7fba5ddd50a913e519db8aae821f02f0c1a231a2d20337d4646ca520bb3584631a1
   languageName: node
   linkType: hard
 
@@ -4773,13 +4785,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"lbmjs-types@npm:^0.46.0-rc4":
-  version: 0.46.0-rc4
-  resolution: "lbmjs-types@npm:0.46.0-rc4"
+"lbmjs-types@npm:0.46.0-rc5":
+  version: 0.46.0-rc5
+  resolution: "lbmjs-types@npm:0.46.0-rc5"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: 5d0ef1dc714238e91d89dbfd7485b70f347a5f1a841809755043f4388efafb4fdb5032b7872a89af7614b16cd9dc62bb0ae24b7fd3468922103f5ed3ce5bf951
+  checksum: 2ae6fe0da1dbcce48797ce98622318caabc77ce153380ec5b9bd8e956c2a3d8305ed58e7fd0c2fc31f8130fffda3b12c5acf657481cd96c4c34676ad4bf42893
   languageName: node
   linkType: hard
 

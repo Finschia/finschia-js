@@ -10,7 +10,7 @@ import {
   QueryValidatorCommissionResponse,
   QueryValidatorOutstandingRewardsResponse,
   QueryValidatorSlashesResponse,
-} from "lbmjs-types/cosmos/distribution/v1beta1/query";
+} from "cosmjs-types/cosmos/distribution/v1beta1/query";
 import Long from "long";
 
 import { createPagination, createProtobufRpcClient, QueryClient } from "../../queryclient";

@@ -2,7 +2,7 @@ import { assertDefined, sleep } from "@cosmjs/utils";
 import { makeLinkPath } from "@lbmjs/amino";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { coins, DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
-import { GenericAuthorization } from "lbmjs-types/cosmos/authz/v1beta1/authz";
+import { GenericAuthorization } from "cosmjs-types/cosmos/authz/v1beta1/authz";
 
 import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";

@@ -32,10 +32,10 @@ import {
   SignerData,
   StdFee,
 } from "@lbmjs/stargate";
-import { MsgWithdrawDelegatorReward } from "lbmjs-types/cosmos/distribution/v1beta1/tx";
-import { MsgDelegate, MsgUndelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
-import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
+import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {
   MsgClearAdmin,
   MsgExecuteContract,

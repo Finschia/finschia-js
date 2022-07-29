@@ -8,7 +8,7 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "lbmjs-types/cosmos/staking/v1beta1/tx";
+} from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 import { AminoTypes } from "../../aminotypes";
 import {
@@ -35,7 +35,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgBeginRedelegate = {
-        type: "lbm-sdk/MsgBeginRedelegate",
+        type: "cosmos-sdk/MsgBeginRedelegate",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_src_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -75,7 +75,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgCreateValidator = {
-        type: "lbm-sdk/MsgCreateValidator",
+        type: "cosmos-sdk/MsgCreateValidator",
         value: {
           description: {
             moniker: "validator",
@@ -114,7 +114,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgDelegate = {
-        type: "lbm-sdk/MsgDelegate",
+        type: "cosmos-sdk/MsgDelegate",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -143,7 +143,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgEditValidator = {
-        type: "lbm-sdk/MsgEditValidator",
+        type: "cosmos-sdk/MsgEditValidator",
         value: {
           description: {
             moniker: "validator",
@@ -172,7 +172,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgUndelegate = {
-        type: "lbm-sdk/MsgUndelegate",
+        type: "cosmos-sdk/MsgUndelegate",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -186,7 +186,7 @@ describe("AminoTypes", () => {
   describe("fromAmino", () => {
     it("works for MsgBeginRedelegate", () => {
       const aminoMsg: AminoMsgBeginRedelegate = {
-        type: "lbm-sdk/MsgBeginRedelegate",
+        type: "cosmos-sdk/MsgBeginRedelegate",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_src_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -209,7 +209,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgCreateValidator", () => {
       const aminoMsg: AminoMsgCreateValidator = {
-        type: "lbm-sdk/MsgCreateValidator",
+        type: "cosmos-sdk/MsgCreateValidator",
         value: {
           description: {
             moniker: "validator",
@@ -264,7 +264,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgDelegate", () => {
       const aminoMsg: AminoMsgDelegate = {
-        type: "lbm-sdk/MsgDelegate",
+        type: "cosmos-sdk/MsgDelegate",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -285,7 +285,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgEditValidator", () => {
       const aminoMsg: AminoMsgEditValidator = {
-        type: "lbm-sdk/MsgEditValidator",
+        type: "cosmos-sdk/MsgEditValidator",
         value: {
           description: {
             moniker: "validator",
@@ -320,7 +320,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgUndelegate", () => {
       const aminoMsg: AminoMsgUndelegate = {
-        type: "lbm-sdk/MsgUndelegate",
+        type: "cosmos-sdk/MsgUndelegate",
         value: {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",

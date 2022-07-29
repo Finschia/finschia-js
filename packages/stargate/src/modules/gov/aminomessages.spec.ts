@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { TextProposal, VoteOption } from "lbmjs-types/cosmos/gov/v1beta1/gov";
-import { MsgDeposit, MsgSubmitProposal, MsgVote } from "lbmjs-types/cosmos/gov/v1beta1/tx";
+import { TextProposal, VoteOption } from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from "cosmjs-types/cosmos/gov/v1beta1/tx";
 import Long from "long";
 
 import { AminoTypes } from "../../aminotypes";
@@ -25,7 +25,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgDeposit = {
-        type: "lbm-sdk/MsgDeposit",
+        type: "cosmos-sdk/MsgDeposit",
         value: {
           amount: [{ amount: "12300000", denom: "ustake" }],
           depositor: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -53,12 +53,12 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgSubmitProposal = {
-        type: "lbm-sdk/MsgSubmitProposal",
+        type: "cosmos-sdk/MsgSubmitProposal",
         value: {
           initial_deposit: [{ amount: "12300000", denom: "ustake" }],
           proposer: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
           content: {
-            type: "lbm-sdk/TextProposal",
+            type: "cosmos-sdk/TextProposal",
             value: {
               description: "This proposal proposes to test whether this proposal passes",
               title: "Test Proposal",
@@ -81,7 +81,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgVote = {
-        type: "lbm-sdk/MsgVote",
+        type: "cosmos-sdk/MsgVote",
         value: {
           option: 4,
           proposal_id: "5",
@@ -95,7 +95,7 @@ describe("AminoTypes", () => {
   describe("fromAmino", () => {
     it("works for MsgDeposit", () => {
       const aminoMsg: AminoMsgDeposit = {
-        type: "lbm-sdk/MsgDeposit",
+        type: "cosmos-sdk/MsgDeposit",
         value: {
           amount: [{ amount: "12300000", denom: "ustake" }],
           depositor: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -116,12 +116,12 @@ describe("AminoTypes", () => {
 
     it("works for MsgSubmitProposal", () => {
       const aminoMsg: AminoMsgSubmitProposal = {
-        type: "lbm-sdk/MsgSubmitProposal",
+        type: "cosmos-sdk/MsgSubmitProposal",
         value: {
           initial_deposit: [{ amount: "12300000", denom: "ustake" }],
           proposer: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
           content: {
-            type: "lbm-sdk/TextProposal",
+            type: "cosmos-sdk/TextProposal",
             value: {
               description: "This proposal proposes to test whether this proposal passes",
               title: "Test Proposal",
@@ -149,7 +149,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgVote", () => {
       const aminoMsg: AminoMsgVote = {
-        type: "lbm-sdk/MsgVote",
+        type: "cosmos-sdk/MsgVote",
         value: {
           option: 4,
           proposal_id: "5",

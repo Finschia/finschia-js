@@ -1,8 +1,8 @@
 import { fromBase64, fromHex } from "@cosmjs/encoding";
-import { MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
-import { PubKey } from "lbmjs-types/cosmos/crypto/secp256k1/keys";
-import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { decodeTxRaw } from "./decode";
@@ -44,7 +44,6 @@ describe("decode", () => {
                 single: {
                   mode: SignMode.SIGN_MODE_DIRECT,
                 },
-                multi: undefined,
               },
               sequence: Long.fromNumber(0, true),
             },

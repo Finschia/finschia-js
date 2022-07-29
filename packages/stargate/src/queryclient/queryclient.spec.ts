@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { toAscii } from "@cosmjs/encoding";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
-import { Metadata } from "lbmjs-types/cosmos/bank/v1beta1/bank";
-import { QueryAllBalancesRequest, QueryAllBalancesResponse } from "lbmjs-types/cosmos/bank/v1beta1/query";
+import { Metadata } from "cosmjs-types/cosmos/bank/v1beta1/bank";
+import { QueryAllBalancesRequest, QueryAllBalancesResponse } from "cosmjs-types/cosmos/bank/v1beta1/query";
 
 import { pendingWithoutSimapp, simapp, unused } from "../testutils.spec";
 import { QueryClient } from "./queryclient";

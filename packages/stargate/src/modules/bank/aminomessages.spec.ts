@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { coins } from "@lbmjs/proto-signing";
-import { MsgMultiSend, MsgSend } from "lbmjs-types/cosmos/bank/v1beta1/tx";
+import { MsgMultiSend, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 
 import { AminoTypes } from "../../aminotypes";
 import { AminoMsgMultiSend, AminoMsgSend, createBankAminoConverters } from "./aminomessages";
@@ -19,7 +19,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgSend = {
-        type: "lbm-sdk/MsgSend",
+        type: "cosmos-sdk/MsgSend",
         value: {
           from_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           to_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -46,7 +46,7 @@ describe("AminoTypes", () => {
         value: msg,
       });
       const expected: AminoMsgMultiSend = {
-        type: "lbm-sdk/MsgMultiSend",
+        type: "cosmos-sdk/MsgMultiSend",
         value: {
           inputs: [
             { address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6", coins: coins(1234, "ucosm") },
@@ -65,7 +65,7 @@ describe("AminoTypes", () => {
   describe("fromAmino", () => {
     it("works for MsgSend", () => {
       const aminoMsg: AminoMsgSend = {
-        type: "lbm-sdk/MsgSend",
+        type: "cosmos-sdk/MsgSend",
         value: {
           from_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           to_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
@@ -86,7 +86,7 @@ describe("AminoTypes", () => {
 
     it("works for MsgMultiSend", () => {
       const aminoMsg: AminoMsgMultiSend = {
-        type: "lbm-sdk/MsgMultiSend",
+        type: "cosmos-sdk/MsgMultiSend",
         value: {
           inputs: [
             { address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6", coins: coins(1234, "ucosm") },

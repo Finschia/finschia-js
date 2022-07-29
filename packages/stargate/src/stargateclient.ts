@@ -4,10 +4,10 @@ import { Uint53 } from "@cosmjs/math";
 import { assert, sleep } from "@cosmjs/utils";
 import { addCoins } from "@lbmjs/amino";
 import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@lbmjs/ostracon-rpc";
-import { MsgData } from "lbmjs-types/cosmos/base/abci/v1beta1/abci";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { QueryDelegatorDelegationsResponse } from "lbmjs-types/cosmos/staking/v1beta1/query";
-import { DelegationResponse } from "lbmjs-types/cosmos/staking/v1beta1/staking";
+import { MsgData } from "cosmjs-types/cosmos/base/abci/v1beta1/abci";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { QueryDelegatorDelegationsResponse } from "cosmjs-types/cosmos/staking/v1beta1/query";
+import { DelegationResponse } from "cosmjs-types/cosmos/staking/v1beta1/staking";
 
 import { Account, accountFromAny, AccountParser } from "./accounts";
 import {

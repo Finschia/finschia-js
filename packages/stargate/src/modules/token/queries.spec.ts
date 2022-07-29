@@ -1,6 +1,7 @@
 import { assert, sleep } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { coins, DirectSecp256k1HdWallet, EncodeObject } from "@lbmjs/proto-signing";
+import { Permission } from "lbmjs-types/lbm/token/v1/token";
 import { MsgIssue } from "lbmjs-types/lbm/token/v1/tx";
 
 import { QueryClient } from "../../queryclient";
@@ -28,12 +29,12 @@ describe("TokenExtension(Just Issue)", () => {
     gas: "1500000", // 1.5 million
   };
 
-  const fromAddress = faucet.address0;
+  const owner = faucet.address0;
   const toAddress = faucet.address1;
   const tokenName = "TestToken";
   const symbol = "ZERO1";
   const amount = "1000";
-  let classId: string | undefined;
+  let contractId: string | undefined;
 
   beforeAll(async () => {
     if (simappEnabled()) {
@@ -47,28 +48,28 @@ describe("TokenExtension(Just Issue)", () => {
       // Issue
       {
         const msg: MsgIssue = {
-          owner: fromAddress,
-          to: toAddress,
           name: tokenName,
           symbol: symbol,
           imageUri: "",
           meta: "",
+          decimals: 6,
+          owner: owner,
+          to: toAddress,
           amount: amount,
           mintable: true,
-          decimals: 6,
         };
         const msgAny: EncodeObject = {
           typeUrl: "/lbm.token.v1.MsgIssue",
           value: msg,
         };
         const memo = "Test Token for Stargate";
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee, memo);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee, memo);
         const logs = JSON.parse(result.rawLog || "");
-        classId = logs[0].events
+        contractId = logs[0].events
           .find(({ type }: any) => type === "lbm.token.v1.EventIssue")
-          .attributes.find(({ key }: any) => key === "class_id").value;
-        assert(classId, "Missing class ID");
-        classId = classId.replace(/^"(.*)"$/, "$1");
+          .attributes.find(({ key }: any) => key === "contract_id").value;
+        assert(contractId, "Missing contract ID");
+        contractId = contractId.replace(/^"(.*)"$/, "$1");
         assertIsDeliverTxSuccess(result);
       }
 
@@ -81,40 +82,40 @@ describe("TokenExtension(Just Issue)", () => {
   describe("query", () => {
     it("totalBalance", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const totalBalace = await client.token.balance(classId, toAddress);
+      const totalBalace = await client.token.balance(contractId, toAddress);
       expect(totalBalace).toBeDefined();
       expect(totalBalace).not.toBeNull();
-      console.info("totalBalance:", totalBalace);
+      expect(totalBalace).toEqual("1000");
 
       tmClient.disconnect();
     });
     it("supply", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const supplyRes = await client.token.supply(classId, "supply");
+      const supplyRes = await client.token.supply(contractId);
       expect(supplyRes).toEqual(amount);
 
-      const mintSupplyRes = await client.token.supply(classId, "mint");
+      const mintSupplyRes = await client.token.minted(contractId);
       expect(mintSupplyRes).toEqual(amount);
 
-      const burnSupplyRes = await client.token.supply(classId, "burn");
+      const burnSupplyRes = await client.token.burnt(contractId);
       expect(burnSupplyRes).toEqual("0");
 
       tmClient.disconnect();
     });
-    it("token", async () => {
+    it("tokenClass", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const token = await client.token.token(classId);
+      const token = await client.token.tokenClass(contractId);
       expect(token).toEqual({
-        id: classId,
+        contractId: contractId,
         name: tokenName,
         symbol: symbol,
         meta: "",
@@ -125,23 +126,16 @@ describe("TokenExtension(Just Issue)", () => {
 
       tmClient.disconnect();
     });
-    it("grants", async () => {
+    it("grant", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const response = await client.token.grants(classId, toAddress);
-      expect(response).toEqual([]);
-
-      tmClient.disconnect();
-    });
-    it("approve", async () => {
-      pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
-      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-
-      const response = await client.token.approves(classId, toAddress);
-      expect(response).toEqual([]);
+      const response = await client.token.grant(contractId, owner, Permission.PERMISSION_MODIFY);
+      expect(response).toEqual({
+        grantee: owner,
+        permission: Permission.PERMISSION_MODIFY,
+      });
 
       tmClient.disconnect();
     });
@@ -154,13 +148,13 @@ describe("TokenExtension", () => {
     gas: "1500000", // 1.5 million
   };
 
-  const fromAddress = faucet.address0;
+  const owner = faucet.address0;
   const toAddress = faucet.address1;
   const otherAddress = faucet.address3;
   const tokenName = "TestToken";
   const symbol = "ZERO2";
   const amount = "1000";
-  let classId: string | undefined;
+  let contractId: string | undefined;
 
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
 
@@ -175,21 +169,10 @@ describe("TokenExtension", () => {
 
       // Issue
       {
-        // const msg: MsgIssue = {
-        //   owner: fromAddress,
-        //   to: toAddress,
-        //   name: tokenName,
-        //   symbol: symbol,
-        //   imageUri: "",
-        //   meta: "",
-        //   amount: amount,
-        //   mintable: true,
-        //   decimals: 6,
-        // };
         const msgAny: EncodeObject = {
           typeUrl: "/lbm.token.v1.MsgIssue",
           value: {
-            owner: fromAddress,
+            owner: owner,
             to: toAddress,
             name: tokenName,
             symbol: symbol,
@@ -201,13 +184,13 @@ describe("TokenExtension", () => {
           },
         };
         const memo = "Test Token for Stargate";
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee, memo);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee, memo);
         const logs = JSON.parse(result.rawLog || "");
-        classId = logs[0].events
+        contractId = logs[0].events
           .find(({ type }: any) => type === "lbm.token.v1.EventIssue")
-          .attributes.find(({ key }: any) => key === "class_id").value;
-        assert(classId, "Missing class ID");
-        classId = classId.replace(/^"(.*)"$/, "$1");
+          .attributes.find(({ key }: any) => key === "contract_id").value;
+        assert(contractId, "Missing class ID");
+        contractId = contractId.replace(/^"(.*)"$/, "$1");
         assertIsDeliverTxSuccess(result);
       }
 
@@ -216,28 +199,28 @@ describe("TokenExtension", () => {
         const msgAny: EncodeObject = {
           typeUrl: "/lbm.token.v1.MsgMint",
           value: {
-            classId: classId,
-            grantee: fromAddress,
-            to: fromAddress,
+            contractId: contractId,
+            from: owner,
+            to: owner,
             amount: "500",
           },
         };
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Transfer
       {
         const msgAny: EncodeObject = {
-          typeUrl: "/lbm.token.v1.MsgTransfer",
+          typeUrl: "/lbm.token.v1.MsgSend",
           value: {
-            classId: classId,
-            from: fromAddress,
+            contractId: contractId,
+            from: owner,
             to: otherAddress,
             amount: "100",
           },
         };
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -246,12 +229,12 @@ describe("TokenExtension", () => {
         const msgAny: EncodeObject = {
           typeUrl: "/lbm.token.v1.MsgBurn",
           value: {
-            classId: classId,
-            from: fromAddress,
+            contractId: contractId,
+            from: owner,
             amount: "200",
           },
         };
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -260,27 +243,27 @@ describe("TokenExtension", () => {
         const msgAny: EncodeObject = {
           typeUrl: "/lbm.token.v1.MsgGrant",
           value: {
-            classId: classId,
-            granter: fromAddress,
+            contractId: contractId,
+            granter: owner,
             grantee: toAddress,
-            action: "modify",
+            permission: Permission.PERMISSION_MODIFY,
           },
         };
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Revoke
       {
         const msgAny: EncodeObject = {
-          typeUrl: "/lbm.token.v1.MsgRevoke",
+          typeUrl: "/lbm.token.v1.MsgAbandon",
           value: {
-            classId: classId,
-            grantee: fromAddress,
-            action: "burn",
+            contractId: contractId,
+            grantee: owner,
+            permission: Permission.PERMISSION_BURN,
           },
         };
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -289,12 +272,12 @@ describe("TokenExtension", () => {
         const msgAny: EncodeObject = {
           typeUrl: "/lbm.token.v1.MsgApprove",
           value: {
-            classId: classId,
-            approver: fromAddress,
+            contractId: contractId,
+            approver: owner,
             proxy: toAddress,
           },
         };
-        const result = await client.signAndBroadcast(fromAddress, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -307,48 +290,48 @@ describe("TokenExtension", () => {
   describe("query", () => {
     it("totalBalance", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const balance1 = await client.token.balance(classId, toAddress);
+      const balance1 = await client.token.balance(contractId, toAddress);
       expect(balance1).toEqual("1000");
 
-      const balance2 = await client.token.balance(classId, fromAddress);
+      const balance2 = await client.token.balance(contractId, owner);
       expect(balance2).toEqual("200");
 
-      const balance3 = await client.token.balance(classId, otherAddress);
+      const balance3 = await client.token.balance(contractId, otherAddress);
       expect(balance3).toEqual("100");
 
       tmClient.disconnect();
     });
     it("supply", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const supplyRes = await client.token.supply(classId, "supply");
+      const supplyRes = await client.token.supply(contractId);
       expect(supplyRes).toEqual("1300");
 
-      const mintSupplyRes = await client.token.supply(classId, "mint");
+      const mintSupplyRes = await client.token.minted(contractId);
       expect(mintSupplyRes).toEqual("1500");
 
-      const burnSupplyRes = await client.token.supply(classId, "burn");
+      const burnSupplyRes = await client.token.burnt(contractId);
       expect(burnSupplyRes).toEqual("200");
 
       tmClient.disconnect();
     });
     it("token", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const token = await client.token.token(classId);
+      const token = await client.token.tokenClass(contractId);
       expect(token).toEqual({
-        id: classId,
+        contractId: contractId,
         name: tokenName,
         symbol: symbol,
-        meta: "",
         imageUri: "",
+        meta: "",
         decimals: 6,
         mintable: true,
       });
@@ -357,33 +340,24 @@ describe("TokenExtension", () => {
     });
     it("grants", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const response = await client.token.grants(classId, toAddress);
-      expect(response).toEqual([
-        {
-          grantee: toAddress,
-          classId: classId,
-          action: "modify",
-        },
-      ]);
+      const response = await client.token.grant(contractId, toAddress, Permission.PERMISSION_MODIFY);
+      expect(response).toEqual({
+        grantee: toAddress,
+        permission: Permission.PERMISSION_MODIFY,
+      });
 
       tmClient.disconnect();
     });
-    it("approve", async () => {
+    it("approved", async () => {
       pendingWithoutSimapp();
-      assert(classId, "Missing class ID");
+      assert(contractId, "Missing class ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const response = await client.token.approves(classId, toAddress);
-      expect(response).toEqual([
-        {
-          approver: fromAddress,
-          proxy: toAddress,
-          classId: classId,
-        },
-      ]);
+      const response = await client.token.approved(contractId, toAddress, owner);
+      expect(response).toBeTrue();
 
       tmClient.disconnect();
     });

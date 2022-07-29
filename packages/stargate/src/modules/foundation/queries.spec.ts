@@ -1,8 +1,8 @@
 import { Decimal } from "@cosmjs/math";
 import { sleep } from "@cosmjs/utils";
-import { coins } from "@lbmjs/amino/build";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc/build";
-import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing/build";
+import { coins } from "@lbmjs/amino";
+import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
 import { ThresholdDecisionPolicy } from "lbmjs-types/lbm/foundation/v1/foundation";
 
 import { QueryClient } from "../../queryclient";

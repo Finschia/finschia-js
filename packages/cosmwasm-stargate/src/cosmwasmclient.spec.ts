@@ -12,7 +12,7 @@ import {
   TxBodyEncodeObject,
 } from "@lbmjs/proto-signing";
 import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@lbmjs/stargate";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
 import { Code, CosmWasmClient, PrivateCosmWasmClient } from "./cosmwasmclient";
@@ -93,10 +93,7 @@ describe("CosmWasmClient", () => {
         address: unused.address,
         accountNumber: unused.accountNumber,
         sequence: unused.sequence,
-        ed25519PubKey: null,
-        secp256k1PubKey: null,
-        secp256r1PubKey: null,
-        multisigPubKey: null,
+        pubKey: null,
       });
     });
 

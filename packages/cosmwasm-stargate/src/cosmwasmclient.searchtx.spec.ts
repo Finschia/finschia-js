@@ -18,7 +18,7 @@ import {
   isDeliverTxSuccess,
   isMsgSendEncodeObject,
 } from "@lbmjs/stargate";
-import { TxRaw } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { CosmWasmClient } from "./cosmwasmclient";
 import {

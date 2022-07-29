@@ -14,7 +14,7 @@ import {
 import { fromBase64, fromUtf8, toBase64, toBech32, toUtf8 } from "@cosmjs/encoding";
 import { assert, isNonNullObject } from "@cosmjs/utils";
 import { encodeSecp256k1Signature, makeLinkPath, rawSecp256k1PubkeyToRawAddress } from "@lbmjs/amino";
-import { SignDoc } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { AccountData, DirectSignResponse, OfflineDirectSigner } from "./signer";
 import { makeSignBytes } from "./signing";

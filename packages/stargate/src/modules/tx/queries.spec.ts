@@ -1,7 +1,7 @@
 import { assertDefined, sleep } from "@cosmjs/utils";
 import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import { coin, coins, DirectSecp256k1HdWallet, Registry } from "@lbmjs/proto-signing";
-import { MsgDelegate } from "lbmjs-types/cosmos/staking/v1beta1/tx";
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import Long from "long";
 
 import { longify, QueryClient } from "../../queryclient";

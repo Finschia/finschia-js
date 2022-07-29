@@ -1,6 +1,6 @@
 import { fromAscii, fromBech32 } from "@cosmjs/encoding";
 import { Decimal, Uint64 } from "@cosmjs/math";
-import { PageRequest } from "lbmjs-types/cosmos/base/query/v1beta1/pagination";
+import { PageRequest } from "cosmjs-types/cosmos/base/query/v1beta1/pagination";
 import Long from "long";
 
 import { QueryClient } from "./queryclient";

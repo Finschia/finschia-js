@@ -8,7 +8,7 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "lbmjs-types/cosmos/staking/v1beta1/tx";
+} from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 import { AminoConverter } from "../..";
 
@@ -30,7 +30,7 @@ interface Description {
 
 /** Creates a new validator. */
 export interface AminoMsgCreateValidator extends AminoMsg {
-  readonly type: "lbm-sdk/MsgCreateValidator";
+  readonly type: "cosmos-sdk/MsgCreateValidator";
   readonly value: {
     readonly description: Description;
     readonly commission: CommissionRates;
@@ -46,12 +46,12 @@ export interface AminoMsgCreateValidator extends AminoMsg {
 }
 
 export function isAminoMsgCreateValidator(msg: AminoMsg): msg is AminoMsgCreateValidator {
-  return msg.type === "lbm-sdk/MsgCreateValidator";
+  return msg.type === "cosmos-sdk/MsgCreateValidator";
 }
 
 /** Edits an existing validator. */
 export interface AminoMsgEditValidator extends AminoMsg {
-  readonly type: "lbm-sdk/MsgEditValidator";
+  readonly type: "cosmos-sdk/MsgEditValidator";
   readonly value: {
     readonly description: Description;
     /** Bech32 encoded validator address */
@@ -62,7 +62,7 @@ export interface AminoMsgEditValidator extends AminoMsg {
 }
 
 export function isAminoMsgEditValidator(msg: AminoMsg): msg is AminoMsgEditValidator {
-  return msg.type === "lbm-sdk/MsgEditValidator";
+  return msg.type === "cosmos-sdk/MsgEditValidator";
 }
 
 /**
@@ -71,7 +71,7 @@ export function isAminoMsgEditValidator(msg: AminoMsg): msg is AminoMsgEditValid
  * @see https://docs.cosmos.network/master/modules/staking/03_messages.html#msgdelegate
  */
 export interface AminoMsgDelegate extends AminoMsg {
-  readonly type: "lbm-sdk/MsgDelegate";
+  readonly type: "cosmos-sdk/MsgDelegate";
   readonly value: {
     /** Bech32 encoded delegator address */
     readonly delegator_address: string;
@@ -82,12 +82,12 @@ export interface AminoMsgDelegate extends AminoMsg {
 }
 
 export function isAminoMsgDelegate(msg: AminoMsg): msg is AminoMsgDelegate {
-  return msg.type === "lbm-sdk/MsgDelegate";
+  return msg.type === "cosmos-sdk/MsgDelegate";
 }
 
 /** Performs a redelegation from a delegate and source validator to a destination validator */
 export interface AminoMsgBeginRedelegate extends AminoMsg {
-  readonly type: "lbm-sdk/MsgBeginRedelegate";
+  readonly type: "cosmos-sdk/MsgBeginRedelegate";
   readonly value: {
     /** Bech32 encoded delegator address */
     readonly delegator_address: string;
@@ -100,12 +100,12 @@ export interface AminoMsgBeginRedelegate extends AminoMsg {
 }
 
 export function isAminoMsgBeginRedelegate(msg: AminoMsg): msg is AminoMsgBeginRedelegate {
-  return msg.type === "lbm-sdk/MsgBeginRedelegate";
+  return msg.type === "cosmos-sdk/MsgBeginRedelegate";
 }
 
 /** Performs an undelegation from a delegate and a validator */
 export interface AminoMsgUndelegate extends AminoMsg {
-  readonly type: "lbm-sdk/MsgUndelegate";
+  readonly type: "cosmos-sdk/MsgUndelegate";
   readonly value: {
     /** Bech32 encoded delegator address */
     readonly delegator_address: string;
@@ -116,7 +116,7 @@ export interface AminoMsgUndelegate extends AminoMsg {
 }
 
 export function isAminoMsgUndelegate(msg: AminoMsg): msg is AminoMsgUndelegate {
-  return msg.type === "lbm-sdk/MsgUndelegate";
+  return msg.type === "cosmos-sdk/MsgUndelegate";
 }
 
 export function createStakingAminoConverters(
@@ -124,7 +124,7 @@ export function createStakingAminoConverters(
 ): Record<string, AminoConverter | "not_supported_by_chain"> {
   return {
     "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
-      aminoType: "lbm-sdk/MsgBeginRedelegate",
+      aminoType: "cosmos-sdk/MsgBeginRedelegate",
       toAmino: ({
         delegatorAddress,
         validatorSrcAddress,
@@ -152,7 +152,7 @@ export function createStakingAminoConverters(
       }),
     },
     "/cosmos.staking.v1beta1.MsgCreateValidator": {
-      aminoType: "lbm-sdk/MsgCreateValidator",
+      aminoType: "cosmos-sdk/MsgCreateValidator",
       toAmino: ({
         description,
         commission,
@@ -230,7 +230,7 @@ export function createStakingAminoConverters(
       },
     },
     "/cosmos.staking.v1beta1.MsgDelegate": {
-      aminoType: "lbm-sdk/MsgDelegate",
+      aminoType: "cosmos-sdk/MsgDelegate",
       toAmino: ({ delegatorAddress, validatorAddress, amount }: MsgDelegate): AminoMsgDelegate["value"] => {
         assertDefinedAndNotNull(amount, "missing amount");
         return {
@@ -250,7 +250,7 @@ export function createStakingAminoConverters(
       }),
     },
     "/cosmos.staking.v1beta1.MsgEditValidator": {
-      aminoType: "lbm-sdk/MsgEditValidator",
+      aminoType: "cosmos-sdk/MsgEditValidator",
       toAmino: ({
         description,
         commissionRate,
@@ -290,7 +290,7 @@ export function createStakingAminoConverters(
       }),
     },
     "/cosmos.staking.v1beta1.MsgUndelegate": {
-      aminoType: "lbm-sdk/MsgUndelegate",
+      aminoType: "cosmos-sdk/MsgUndelegate",
       toAmino: ({
         delegatorAddress,
         validatorAddress,

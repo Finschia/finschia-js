@@ -12,7 +12,7 @@ interface Any {
 
 /** Supports submitting arbitrary evidence */
 export interface AminoMsgSubmitEvidence extends AminoMsg {
-  readonly type: "lbm-sdk/MsgSubmitEvidence";
+  readonly type: "cosmos-sdk/MsgSubmitEvidence";
   readonly value: {
     /** Bech32 account address */
     readonly submitter: string;
@@ -21,7 +21,7 @@ export interface AminoMsgSubmitEvidence extends AminoMsg {
 }
 
 export function isAminoMsgSubmitEvidence(msg: AminoMsg): msg is AminoMsgSubmitEvidence {
-  return msg.type === "lbm-sdk/MsgSubmitEvidence";
+  return msg.type === "cosmos-sdk/MsgSubmitEvidence";
 }
 
 export function createEvidenceAminoConverters(): AminoConverters {

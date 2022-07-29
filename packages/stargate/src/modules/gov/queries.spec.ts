@@ -9,8 +9,8 @@ import {
   Vote,
   VoteOption,
   WeightedVoteOption,
-} from "lbmjs-types/cosmos/gov/v1beta1/gov";
-import { Any } from "lbmjs-types/google/protobuf/any";
+} from "cosmjs-types/cosmos/gov/v1beta1/gov";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { longify, QueryClient } from "../../queryclient";

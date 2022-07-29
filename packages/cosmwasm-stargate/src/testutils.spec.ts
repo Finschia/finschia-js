@@ -19,8 +19,8 @@ import {
   setupAuthExtension,
   setupBankExtension,
 } from "@lbmjs/stargate";
-import { SignMode } from "lbmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, SignDoc, TxBody } from "lbmjs-types/cosmos/tx/v1beta1/tx";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { setupWasmExtension, WasmExtension } from "./modules";
 import { SigningCosmWasmClientOptions } from "./signingcosmwasmclient";

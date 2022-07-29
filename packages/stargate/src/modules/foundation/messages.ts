@@ -1,7 +1,7 @@
 import { Decimal } from "@cosmjs/math";
-import { EncodeObject, GeneratedType } from "@lbmjs/proto-signing/build";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { Duration } from "lbmjs-types/google/protobuf/duration";
+import { EncodeObject, GeneratedType } from "@lbmjs/proto-signing";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   DecisionPolicyWindows,
