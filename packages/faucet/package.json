@@ -32,17 +32,17 @@
     "test-node": "yarn node jasmine-testrunner.js",
     "test": "yarn build-or-skip && yarn test-node",
     "coverage": "nyc --reporter=text --reporter=lcov yarn test --quiet",
-    "start-dev": "FAUCET_ADDRESS_PREFIX=link FAUCET_CREDIT_AMOUNT_CONY=10000000 FAUCET_CREDIT_AMOUNT_STAKE=100000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have\" ./bin/lbm-faucet start \"localhost:26657\"",
+    "start-dev": "FAUCET_ADDRESS_PREFIX=link FAUCET_CREDIT_AMOUNT_CONY=10000000 FAUCET_CREDIT_AMOUNT_STAKE=100000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have\" ./bin/lbm-faucet start \"localhost:26658\"",
     "pack-node": "yarn build-or-skip && webpack --mode production --config webpack.node.config.js"
   },
   "dependencies": {
     "@cosmjs/crypto": "0.28.4",
     "@cosmjs/encoding": "0.28.4",
     "@cosmjs/math": "0.28.4",
+    "@cosmjs/proto-signing": "0.28.4",
+    "@cosmjs/stargate": "0.28.4",
     "@cosmjs/utils": "0.28.4",
     "@koa/cors": "^3.0.0",
-    "@lbmjs/proto-signing": "workspace:packages/proto-signing",
-    "@lbmjs/stargate": "workspace:packages/stargate",
     "bn.js": "^5.2.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1"

@@ -1,4 +1,4 @@
-import { StargateClient } from "@lbmjs/stargate";
+import { StargateClient } from "@cosmjs/stargate";
 
 import { Webserver } from "../api/webserver";
 import * as constants from "../constants";

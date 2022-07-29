@@ -1,5 +1,5 @@
 import { Decimal } from "@cosmjs/math";
-import { Coin } from "@lbmjs/stargate";
+import { Coin } from "@cosmjs/stargate";
 import BN from "bn.js";
 
 import { MinimalAccount } from "./types";

@@ -1,7 +1,7 @@
 import { Slip10RawIndex } from "@cosmjs/crypto";
-import { makeLinkPath } from "@lbmjs/proto-signing";
 
 import { makePathBuilder, PathBuilder } from "./pathbuilder";
+import { makeLinkPath } from "./paths";
 
 describe("pathbuilder", () => {
   describe("PathBuilder", () => {

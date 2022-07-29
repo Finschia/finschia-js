@@ -1,9 +1,10 @@
 import { Random } from "@cosmjs/crypto";
 import { toBech32 } from "@cosmjs/encoding";
+import { StargateClient } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
-import { makeLinkPath, StargateClient } from "@lbmjs/stargate";
 
 import { Faucet } from "./faucet";
+import { makeLinkPath } from "./paths";
 import { TokenConfiguration } from "./tokenmanager";
 
 function pendingWithoutSimapp(): void {
