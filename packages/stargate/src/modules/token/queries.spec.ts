@@ -85,7 +85,7 @@ describe("TokenExtension(Just Issue)", () => {
   describe("query", () => {
     it("totalBalance", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const totalBalace = await client.token.balance(contractId, toAddress);
@@ -97,7 +97,7 @@ describe("TokenExtension(Just Issue)", () => {
     });
     it("supply", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const supplyRes = await client.token.supply(contractId);
@@ -113,7 +113,7 @@ describe("TokenExtension(Just Issue)", () => {
     });
     it("tokenClass", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const token = await client.token.tokenClass(contractId);
@@ -129,19 +129,25 @@ describe("TokenExtension(Just Issue)", () => {
 
       tmClient.disconnect();
     });
-    // it("grant", async () => {
-    //   pendingWithoutSimapp();
-    //   assert(contractId, "Missing class ID");
-    //   const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
-    //
-    //   const response = await client.token.grant(contractId, owner, Permission.PERMISSION_MODIFY);
-    //   expect(response).toEqual({
-    //     grantee: owner,
-    //     permission: Permission.PERMISSION_MODIFY,
-    //   });
-    //
-    //   tmClient.disconnect();
-    // });
+    it("grant", async () => {
+      pendingWithoutSimapp();
+      assert(contractId, "Missing contract ID");
+      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+
+      const response = await client.token.granteeGrants(contractId, owner);
+      expect(response[0]).toEqual({ grantee: owner, permission: Permission.PERMISSION_MODIFY });
+
+      tmClient.disconnect();
+    });
+  });
+  it("tokenClasses", async () => {
+    pendingWithoutSimapp();
+    const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+
+    const response = await client.token.tokenClasses();
+    expect(response.length).toBeGreaterThan(1);
+
+    tmClient.disconnect();
   });
 });
 
@@ -195,7 +201,7 @@ describe("TokenExtension", () => {
         contractId = logs[0].events
           .find(({ type }: any) => type === "lbm.token.v1.EventIssue")
           .attributes.find(({ key }: any) => key === "contract_id").value;
-        assert(contractId, "Missing class ID");
+        assert(contractId, "Missing contract ID");
         contractId = contractId.replace(/^"(.*)"$/, "$1");
         assertIsDeliverTxSuccess(result);
       }
@@ -296,7 +302,7 @@ describe("TokenExtension", () => {
   describe("query", () => {
     it("totalBalance", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const balance1 = await client.token.balance(contractId, toAddress);
@@ -312,7 +318,7 @@ describe("TokenExtension", () => {
     });
     it("supply", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const supplyRes = await client.token.supply(contractId);
@@ -328,7 +334,7 @@ describe("TokenExtension", () => {
     });
     it("token", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const token = await client.token.tokenClass(contractId);
@@ -346,7 +352,7 @@ describe("TokenExtension", () => {
     });
     it("granteeGrants", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const response = await client.token.granteeGrants(contractId, toAddress);
@@ -356,11 +362,21 @@ describe("TokenExtension", () => {
     });
     it("approved", async () => {
       pendingWithoutSimapp();
-      assert(contractId, "Missing class ID");
+      assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
       const response = await client.token.approved(contractId, toAddress, owner);
       expect(response).toBeTrue();
+
+      tmClient.disconnect();
+    });
+    it("approvers", async () => {
+      pendingWithoutSimapp();
+      assert(contractId, "Mission contract ID");
+      const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
+
+      const response = await client.token.approvers(contractId, toAddress);
+      expect(response[0]).toEqual(owner);
 
       tmClient.disconnect();
     });
