@@ -1637,7 +1637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "lbmjs-types",
-        "npm:0.46.0-rc5"
+        "npm:0.46.0-rc6"
       ],
       [
         "levn",
@@ -3237,7 +3237,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-firefox-launcher", "npm:2.1.2"],
             ["karma-jasmine", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:4.0.1"],
             ["karma-jasmine-html-reporter", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:1.7.0"],
-            ["lbmjs-types", "npm:0.46.0-rc5"],
+            ["lbmjs-types", "npm:0.46.0-rc6"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -3298,7 +3298,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:26e5161f9334867c32e64ba710d150b793423888353a1f38ef374e114f66ab3bd954121c8c836600895fce8de791269d42d96437ce1fd17b65f1988c2ccf9850#npm:0.0.33"],
             ["karma-typescript", "virtual:26e5161f9334867c32e64ba710d150b793423888353a1f38ef374e114f66ab3bd954121c8c836600895fce8de791269d42d96437ce1fd17b65f1988c2ccf9850#npm:5.5.3"],
-            ["lbmjs-types", "file:../../lbmjs-types_package#../../lbmjs-types_package::hash=40d16a&locator=%40lbmjs%2Fstargate%40workspace%3Apackages%2Fstargate"],
+            ["lbmjs-types", "npm:0.46.0-rc6"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["prettier", "npm:2.5.1"],
@@ -7852,19 +7852,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lbmjs-types", [
-        ["file:../../lbmjs-types_package#../../lbmjs-types_package::hash=40d16a&locator=%40lbmjs%2Fstargate%40workspace%3Apackages%2Fstargate", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-file-e7bf45804f-4cd984634a.zip/node_modules/lbmjs-types/",
+        ["npm:0.46.0-rc6", {
+          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc6-100102778d-95e559d752.zip/node_modules/lbmjs-types/",
           "packageDependencies": [
-            ["lbmjs-types", "file:../../lbmjs-types_package#../../lbmjs-types_package::hash=40d16a&locator=%40lbmjs%2Fstargate%40workspace%3Apackages%2Fstargate"],
-            ["long", "npm:4.0.0"],
-            ["protobufjs", "npm:6.11.2"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:0.46.0-rc5", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc5-ae8d827f9d-2ae6fe0da1.zip/node_modules/lbmjs-types/",
-          "packageDependencies": [
-            ["lbmjs-types", "npm:0.46.0-rc5"],
+            ["lbmjs-types", "npm:0.46.0-rc6"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],
