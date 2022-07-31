@@ -88,10 +88,10 @@ describe("TokenExtension(Just Issue)", () => {
       assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
-      const totalBalace = await client.token.balance(contractId, toAddress);
-      expect(totalBalace).toBeDefined();
-      expect(totalBalace).not.toBeNull();
-      expect(totalBalace).toEqual("1000");
+      const totalBalance = await client.token.balance(contractId, toAddress);
+      expect(totalBalance).toBeDefined();
+      expect(totalBalance).not.toBeNull();
+      expect(totalBalance).toEqual("1000");
 
       tmClient.disconnect();
     });
@@ -145,7 +145,7 @@ describe("TokenExtension(Just Issue)", () => {
     const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
 
     const response = await client.token.tokenClasses();
-    expect(response.length).toBeGreaterThan(1);
+    expect(response.length).toBeGreaterThanOrEqual(1);
 
     tmClient.disconnect();
   });
@@ -189,7 +189,7 @@ describe("TokenExtension", () => {
             name: tokenName,
             symbol: symbol,
             imageUri: "",
-            meta: "",
+            meta: "https://test.network",
             amount: amount,
             mintable: true,
             decimals: 6,
@@ -343,7 +343,7 @@ describe("TokenExtension", () => {
         name: tokenName,
         symbol: symbol,
         imageUri: "",
-        meta: "",
+        meta: "https://test.network",
         decimals: 6,
         mintable: true,
       });
