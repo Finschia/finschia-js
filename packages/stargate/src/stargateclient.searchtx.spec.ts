@@ -14,7 +14,7 @@ import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { isMsgSendEncodeObject } from "./modules";
-import { makeLinkPath } from "./queryclient";
+import { makeLinkPath } from "./paths";
 import { DeliverTxResponse, isDeliverTxFailure, isDeliverTxSuccess, StargateClient } from "./stargateclient";
 import {
   defaultSigningClientOptions,
@@ -107,7 +107,7 @@ describe("StargateClient.getTx and .searchTx", () => {
     if (simappEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await StargateClient.connect(simapp.tendermintUrl);
       const unsuccessfulRecipient = makeRandomAddress();

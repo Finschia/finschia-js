@@ -4,6 +4,5 @@ export {
   createProtobufRpcClient,
   decodeCosmosSdkDecFromProto,
   longify,
-  makeLinkPath,
   ProtobufRpcClient,
 } from "./utils";

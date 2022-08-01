@@ -11,10 +11,10 @@ import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { MsgSendEncodeObject } from "./modules";
 import { makeCompactBitArray, makeMultisignedTx } from "./multisignature";
-import { makeLinkPath } from "./queryclient";
 import { SignerData, SigningStargateClient } from "./signingstargateclient";
 import { assertIsDeliverTxSuccess, StargateClient } from "./stargateclient";
 import { faucet, pendingWithoutSimapp, simapp } from "./testutils.spec";
+import { makeLinkPath } from "./paths";
 
 describe("multisignature", () => {
   describe("makeCompactBitArray", () => {
@@ -220,7 +220,7 @@ describe("multisignature", () => {
           // Signing environment
           const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
             hdPaths: [makeLinkPath(i)],
-            prefix: "link",
+            prefix: simapp.prefix,
           });
           const pubkey = encodeSecp256k1Pubkey((await wallet.getAccounts())[0].pubkey);
           const address = (await wallet.getAccounts())[0].address;

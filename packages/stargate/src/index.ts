@@ -94,11 +94,11 @@ export {
   createStakingAminoConverters,
 } from "./modules";
 export { makeMultisignedTx } from "./multisignature";
+export { makeLinkPath } from "./paths";
 export {
   createPagination,
   createProtobufRpcClient,
   decodeCosmosSdkDecFromProto,
-  makeLinkPath,
   ProtobufRpcClient,
   QueryClient,
 } from "./queryclient";

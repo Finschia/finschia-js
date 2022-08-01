@@ -13,7 +13,7 @@ import { assert, sleep } from "@cosmjs/utils";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
 
-import { makeLinkPath } from "./queryclient";
+import { makeLinkPath } from "./paths";
 import {
   assertIsDeliverTxSuccess,
   isDeliverTxFailure,
@@ -336,7 +336,7 @@ describe("StargateClient", () => {
       const client = await StargateClient.connect(simapp.tendermintUrl);
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
@@ -395,7 +395,7 @@ describe("StargateClient", () => {
       const client = await StargateClient.connect(simapp.tendermintUrl);
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({
@@ -450,7 +450,7 @@ describe("StargateClient", () => {
       const client = await StargateClient.connect(slowSimapp.tendermintUrl);
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const [{ address, pubkey: pubkeyBytes }] = await wallet.getAccounts();
       const pubkey = encodePubkey({

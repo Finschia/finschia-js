@@ -4,7 +4,8 @@ import { assertDefined, sleep } from "@cosmjs/utils";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import Long from "long";
 
-import { longify, makeLinkPath, QueryClient } from "../../queryclient";
+import { makeLinkPath } from "../../paths";
+import { longify, QueryClient } from "../../queryclient";
 import { defaultRegistryTypes, SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess, StargateClient } from "../../stargateclient";
 import {
@@ -35,7 +36,7 @@ describe("TxExtension", () => {
     if (simappEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,

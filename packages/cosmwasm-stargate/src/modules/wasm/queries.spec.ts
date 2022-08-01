@@ -139,7 +139,7 @@ describe("WasmExtension", () => {
     if (wasmdEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: wasmd.prefix,
       });
       const result = await uploadContract(wallet, hackatom);
       assertIsDeliverTxSuccess(result);
@@ -193,7 +193,7 @@ describe("WasmExtension", () => {
       assert(hackatomCodeId);
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: wasmd.prefix,
       });
       const client = await makeWasmClient(wasmd.endpoint);
 
@@ -248,7 +248,7 @@ describe("WasmExtension", () => {
       assert(hackatomCodeId);
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: wasmd.prefix,
       });
       const client = await makeWasmClient(wasmd.endpoint);
 
@@ -379,7 +379,7 @@ describe("WasmExtension", () => {
       pendingWithoutWasmd();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: wasmd.prefix,
       });
       const client = await makeWasmClient(wasmd.endpoint);
 

@@ -13,7 +13,8 @@ import {
 import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
-import { longify, makeLinkPath, QueryClient } from "../../queryclient";
+import { makeLinkPath } from "../../paths";
+import { longify, QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -55,7 +56,7 @@ describe("GovExtension", () => {
         // Use address 1 and 2 instead of 0 to avoid conflicts with other delegation tests
         // This must match `voterAddress` above.
         hdPaths: [makeLinkPath(1), makeLinkPath(2)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,

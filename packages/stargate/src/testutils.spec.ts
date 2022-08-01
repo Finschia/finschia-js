@@ -57,6 +57,7 @@ export const simapp = {
   tendermintUrlWs: "ws://localhost:26658",
   tendermintUrlHttp: "http://localhost:26658",
   chainId: "simd-testing",
+  prefix: "link",
   denomStaking: "stake",
   denomFee: "cony",
   blockTime: 1_000, // ms

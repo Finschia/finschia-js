@@ -4,7 +4,8 @@ import { assert, sleep } from "@cosmjs/utils";
 import { Permission } from "lbmjs-types/lbm/token/v1/token";
 import { MsgIssue } from "lbmjs-types/lbm/token/v1/tx";
 
-import { makeLinkPath, QueryClient } from "../../queryclient";
+import { makeLinkPath } from "../../paths";
+import { QueryClient } from "../../queryclient";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -40,7 +41,7 @@ describe("TokenExtension(Just Issue)", () => {
     if (simappEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
@@ -171,7 +172,7 @@ describe("TokenExtension", () => {
     if (simappEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,

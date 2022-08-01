@@ -58,7 +58,7 @@ describe("CollectionExtension (fungible token)", () => {
     if (simappEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
@@ -264,7 +264,7 @@ describe("CollectionExtension (non-fungible token)", () => {
     if (simappEnabled()) {
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0), makeLinkPath(1)],
-        prefix: "link",
+        prefix: simapp.prefix,
       });
       const client = await SigningStargateClient.connectWithSigner(
         simapp.tendermintUrl,
