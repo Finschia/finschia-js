@@ -1,4 +1,4 @@
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import Long from "long";
 
 import { QueryClient } from "../../queryclient";
@@ -12,7 +12,7 @@ async function makeClientWithIbc(rpcUrl: string): Promise<[QueryClient & IbcExte
 }
 
 // todo : check ibc unittest
-describe("IbcExtension", () => {
+// describe("IbcExtension", () => {
   // describe("channel", () => {
   //   describe("channel", () => {
   //     it("works", async () => {
@@ -556,4 +556,4 @@ describe("IbcExtension", () => {
   //     });
   //   });
   // });
-});
+// });

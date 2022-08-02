@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { AminoMsg, Coin, decodeBech32Pubkey, encodeBech32Pubkey } from "@cosmjs/amino";
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
-import { AminoMsg, Coin, decodeBech32Pubkey, encodeBech32Pubkey } from "@lbmjs/amino";
 import {
   MsgBeginRedelegate,
   MsgCreateValidator,
@@ -184,7 +184,7 @@ export function createStakingAminoConverters(
           validator_address: validatorAddress,
           pubkey: encodeBech32Pubkey(
             {
-              type: "ostracon/PubKeySecp256k1",
+              type: "tendermint/PubKeySecp256k1",
               value: toBase64(pubkey.value),
             },
             prefix,
@@ -202,7 +202,7 @@ export function createStakingAminoConverters(
         value,
       }: AminoMsgCreateValidator["value"]): MsgCreateValidator => {
         const decodedPubkey = decodeBech32Pubkey(pubkey);
-        if (decodedPubkey.type !== "ostracon/PubKeySecp256k1") {
+        if (decodedPubkey.type !== "tendermint/PubKeySecp256k1") {
           throw new Error("Only Secp256k1 public keys are supported");
         }
         return {

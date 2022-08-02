@@ -1,8 +1,9 @@
-import { coin, coins } from "@lbmjs/amino";
-import { DirectSecp256k1HdWallet } from "@lbmjs/proto-signing";
+import { coin, coins } from "@cosmjs/amino";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { MsgCreateVestingAccount } from "cosmjs-types/cosmos/vesting/v1beta1/tx";
 import Long from "long";
 
+import { makeLinkPath } from "../../paths";
 import { SigningStargateClient } from "../../signingstargateclient";
 import { assertIsDeliverTxSuccess } from "../../stargateclient";
 import {
@@ -16,7 +17,10 @@ import {
 describe("vestingTypes", () => {
   it("can sign MsgCreateVestingAccount with sign mode direct", async () => {
     pendingWithoutSimapp();
-    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+      hdPaths: [makeLinkPath(0)],
+      prefix: simapp.prefix,
+    });
     const client = await SigningStargateClient.connectWithSigner(
       simapp.tendermintUrl,
       wallet,

@@ -1,4 +1,4 @@
-import { EncodeObject, GeneratedType } from "@lbmjs/proto-signing";
+import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
 import {
   MsgBeginRedelegate,
   MsgCreateValidator,

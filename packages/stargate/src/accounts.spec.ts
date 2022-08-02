@@ -1,5 +1,5 @@
 import { toBase64 } from "@cosmjs/encoding";
-import { encodePubkey } from "@lbmjs/proto-signing";
+import { encodePubkey } from "@cosmjs/proto-signing";
 import { PeriodicVestingAccount } from "cosmjs-types/cosmos/vesting/v1beta1/vesting";
 import { Any } from "cosmjs-types/google/protobuf/any";
 
@@ -20,7 +20,7 @@ describe("accounts", () => {
       expect(account).toEqual({
         address: "link1zl6ag6c8nlfhj8twgmy7typt9305svqghgc3vm",
         pubKey: {
-          type: "ostracon/PubKeySecp256k1",
+          type: "tendermint/PubKeySecp256k1",
           value: "AstbMBd9y9Hpr4LS0M4+4uDfWZc3XkozII9kHuDcYW/q",
         },
         accountNumber: 50,
@@ -34,7 +34,7 @@ describe("accounts", () => {
           baseAccount: {
             address: "link1zl6ag6c8nlfhj8twgmy7typt9305svqghgc3vm",
             pubKey: encodePubkey({
-              type: "ostracon/PubKeySecp256k1",
+              type: "tendermint/PubKeySecp256k1",
               value: "AstbMBd9y9Hpr4LS0M4+4uDfWZc3XkozII9kHuDcYW/q",
             }),
             accountNumber: 50,

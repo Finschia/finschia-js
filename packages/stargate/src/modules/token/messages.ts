@@ -1,17 +1,12 @@
-import { GeneratedType } from "@lbmjs/proto-signing";
+import { GeneratedType } from "@cosmjs/proto-signing";
 import {
-  MsgAbandon,
   MsgApprove,
-  MsgAuthorizeOperator,
   MsgBurn,
   MsgBurnFrom,
-  MsgGrant,
   MsgGrantPermission,
   MsgIssue,
   MsgMint,
   MsgModify,
-  MsgOperatorBurn,
-  MsgOperatorSend,
   MsgRevokeOperator,
   MsgRevokePermission,
   MsgSend,
@@ -20,19 +15,14 @@ import {
 
 export const tokenTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.token.v1.MsgSend", MsgSend],
-  ["/lbm.token.v1.MsgOperatorSend", MsgOperatorSend],
   ["/lbm.token.v1.MsgTransferFrom", MsgTransferFrom],
-  ["/lbm.token.v1.MsgAuthorizeOperator", MsgAuthorizeOperator],
   ["/lbm.token.v1.MsgRevokeOperator", MsgRevokeOperator],
   ["/lbm.token.v1.MsgApprove", MsgApprove],
   ["/lbm.token.v1.MsgIssue", MsgIssue],
-  ["/lbm.token.v1.MsgGrant", MsgGrant],
-  ["/lbm.token.v1.MsgAbandon", MsgAbandon],
   ["/lbm.token.v1.MsgGrantPermission", MsgGrantPermission],
   ["/lbm.token.v1.MsgRevokePermission", MsgRevokePermission],
   ["/lbm.token.v1.MsgMint", MsgMint],
   ["/lbm.token.v1.MsgBurn", MsgBurn],
-  ["/lbm.token.v1.MsgOperatorBurn", MsgOperatorBurn],
   ["/lbm.token.v1.MsgBurnFrom", MsgBurnFrom],
   ["/lbm.token.v1.MsgModify", MsgModify],
 ];

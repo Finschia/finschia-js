@@ -1,6 +1,6 @@
 import { assert } from "@cosmjs/utils";
 import { QueryClientImpl } from "lbmjs-types/lbm/token/v1/query";
-import { Authorization, Grant, Permission, TokenClass } from "lbmjs-types/lbm/token/v1/token";
+import { Grant, TokenClass } from "lbmjs-types/lbm/token/v1/token";
 
 import { createProtobufRpcClient, QueryClient } from "../../queryclient";
 
@@ -12,11 +12,9 @@ export interface TokenExtension {
     readonly burnt: (contractId: string) => Promise<string>;
     readonly tokenClass: (contractId: string) => Promise<TokenClass>;
     readonly tokenClasses: () => Promise<TokenClass[]>;
-    readonly grant: (contractId: string, grantee: string, permission: Permission) => Promise<Grant>;
     readonly granteeGrants: (contractId: string, grantee: string) => Promise<Grant[]>;
-    readonly authorization: (contractId: string, operator: string, holder: string) => Promise<Authorization>;
-    readonly operatorAuthorizations: (contractId: string, operator: string) => Promise<Authorization[]>;
     readonly approved: (contractId: string, address: string, approver: string) => Promise<boolean>;
+    readonly approvers: (contractId: string, address: string) => Promise<string[]>;
   };
 }
 
@@ -57,42 +55,21 @@ export function setupTokenExtension(base: QueryClient): TokenExtension {
         const { classes } = await queryService.TokenClasses({ pagination: undefined });
         return classes;
       },
-      grant: async (contractId: string, grantee: string, permission: Permission) => {
-        const { grant } = await queryService.Grant({
-          contractId: contractId,
-          grantee: grantee,
-          permission: permission,
-        });
-        assert(grant);
-        return grant;
-      },
       granteeGrants: async (contractId: string, grantee: string) => {
         const { grants } = await queryService.GranteeGrants({ contractId: contractId, grantee: grantee });
         return grants;
       },
-      authorization: async (contractId: string, operator: string, holder: string) => {
-        const { authorization } = await queryService.Authorization({
-          contractId: contractId,
-          operator: operator,
-          holder: holder,
-        });
-        assert(authorization);
-        return authorization;
-      },
-      operatorAuthorizations: async (contractId: string, operator: string) => {
-        const { authorizations } = await queryService.OperatorAuthorizations({
-          contractId: contractId,
-          operator: operator,
-        });
-        return authorizations;
-      },
       approved: async (contractId: string, address: string, approver: string) => {
         const { approved } = await queryService.Approved({
           contractId: contractId,
-          address: address,
+          proxy: address,
           approver: approver,
         });
         return approved;
+      },
+      approvers: async (contractId: string, address: string) => {
+        const { approvers } = await queryService.Approvers({ contractId: contractId, address: address });
+        return approvers;
       },
     },
   };

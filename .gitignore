@@ -36,3 +36,4 @@ coverage/
 # We are not using yarn's deferred versioning for now (see https://yarnpkg.com/features/release-workflow)
 # !.yarn/versions
 scripts/simapp_local/test_chain_data
+scripts/simapp/test_chain_data

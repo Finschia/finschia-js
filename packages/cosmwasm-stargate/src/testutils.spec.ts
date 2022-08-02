@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@cosmjs/amino";
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
 import { fromBase64, toBech32 } from "@cosmjs/encoding";
-import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@lbmjs/amino";
-import { Tendermint34Client } from "@lbmjs/ostracon-rpc";
 import {
   DirectSecp256k1HdWallet,
   DirectSecp256k1HdWalletOptions,
   DirectSignResponse,
   makeAuthInfoBytes,
-} from "@lbmjs/proto-signing";
+} from "@cosmjs/proto-signing";
 import {
   AuthExtension,
   BankExtension,
@@ -18,7 +17,8 @@ import {
   QueryClient,
   setupAuthExtension,
   setupBankExtension,
-} from "@lbmjs/stargate";
+} from "@cosmjs/stargate";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
@@ -78,7 +78,7 @@ export const alice = {
   mnemonic:
     "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have",
   pubkey0: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "AgT2QPS4Eu6M+cfHeba+3tumsM/hNEBGdM7nRojSZRjF",
   },
   address0: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
@@ -91,11 +91,11 @@ export const alice = {
 /** Unused account */
 export const unused = {
   pubkey: {
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
-  address: "link1tfcuj70ssvwnxv9ryk4p9xywyq626asgfktaxv",
-  accountNumber: 12,
+  address: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
+  accountNumber: 8,
   sequence: 0,
 };
 
@@ -105,13 +105,13 @@ export const validator = {
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].delegator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */
-  delegatorAddress: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
+  delegatorAddress: "link1twsfmuj28ndph54k4nw8crwu8h9c8mh3rtx705",
   /**
    * validator_address from /cosmos.staking.v1beta1.MsgCreateValidator in scripts/wasmd/template/.wasmd/config/genesis.json
    *
    * `jq ".app_state.genutil.gen_txs[0].body.messages[0].validator_address" scripts/wasmd/template/.wasmd/config/genesis.json`
    */
-  validatorAddress: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
+  validatorAddress: "linkvaloper1twsfmuj28ndph54k4nw8crwu8h9c8mh33lyrp8",
   sequence: 1,
 };
 

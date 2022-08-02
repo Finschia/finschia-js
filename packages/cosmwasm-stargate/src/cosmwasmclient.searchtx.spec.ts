@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
-import { assert, sleep } from "@cosmjs/utils";
 import {
   decodeTxRaw,
   DirectSecp256k1HdWallet,
@@ -9,7 +8,7 @@ import {
   makeSignDoc,
   Registry,
   TxBodyEncodeObject,
-} from "@lbmjs/proto-signing";
+} from "@cosmjs/proto-signing";
 import {
   Coin,
   coins,
@@ -17,10 +16,12 @@ import {
   isDeliverTxFailure,
   isDeliverTxSuccess,
   isMsgSendEncodeObject,
-} from "@lbmjs/stargate";
+} from "@cosmjs/stargate";
+import { assert, sleep } from "@cosmjs/utils";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { CosmWasmClient } from "./cosmwasmclient";
+import { makeLinkPath } from "./paths";
 import {
   alice,
   defaultSigningClientOptions,
@@ -52,7 +53,7 @@ async function sendTokens(
 }> {
   const [{ address: walletAddress, pubkey: pubkeyBytes }] = await wallet.getAccounts();
   const pubkey = encodePubkey({
-    type: "ostracon/PubKeySecp256k1",
+    type: "tendermint/PubKeySecp256k1",
     value: toBase64(pubkeyBytes),
   });
   const txBodyFields: TxBodyEncodeObject = {
@@ -110,7 +111,10 @@ describe("CosmWasmClient.getTx and .searchTx", () => {
 
   beforeAll(async () => {
     if (wasmdEnabled()) {
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { prefix: wasmd.prefix });
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: wasmd.prefix,
+      });
       const client = await CosmWasmClient.connect(wasmd.endpoint);
       const unsuccessfulRecipient = makeRandomAddress();
       const successfulRecipient = makeRandomAddress();
@@ -151,6 +155,8 @@ describe("CosmWasmClient.getTx and .searchTx", () => {
       }
 
       await sleep(75); // wait until transactions are indexed
+
+      client.disconnect();
     }
   });
 

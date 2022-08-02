@@ -94,6 +94,7 @@ export {
   createStakingAminoConverters,
 } from "./modules";
 export { makeMultisignedTx } from "./multisignature";
+export { makeLinkPath } from "./paths";
 export {
   createPagination,
   createProtobufRpcClient,
@@ -131,8 +132,8 @@ export {
   StargateClientOptions,
   TimeoutError,
 } from "./stargateclient";
-export { StdFee } from "@lbmjs/amino";
-export { Coin, coin, coins, makeLinkPath, parseCoins } from "@lbmjs/proto-signing";
+export { StdFee } from "@cosmjs/amino";
+export { Coin, coin, coins, parseCoins } from "@cosmjs/proto-signing";
 
 // Re-exported because this is part of the StargateClient/SigningStargateClient APIs
-export { HttpEndpoint } from "@lbmjs/ostracon-rpc";
+export { HttpEndpoint } from "@cosmjs/tendermint-rpc";

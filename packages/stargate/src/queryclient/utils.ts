@@ -1,3 +1,4 @@
+import { HdPath, Slip10RawIndex } from "@cosmjs/crypto";
 import { fromAscii, fromBech32 } from "@cosmjs/encoding";
 import { Decimal, Uint64 } from "@cosmjs/math";
 import { PageRequest } from "cosmjs-types/cosmos/base/query/v1beta1/pagination";

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { encodeBech32Pubkey } from "@cosmjs/amino";
 import { fromBase64 } from "@cosmjs/encoding";
-import { encodeBech32Pubkey } from "@lbmjs/amino";
-import { coin } from "@lbmjs/proto-signing";
+import { coin } from "@cosmjs/proto-signing";
 import {
   MsgBeginRedelegate,
   MsgCreateValidator,
@@ -93,7 +93,7 @@ describe("AminoTypes", () => {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
           pubkey: encodeBech32Pubkey(
-            { type: "ostracon/PubKeySecp256k1", value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ" },
+            { type: "tendermint/PubKeySecp256k1", value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ" },
             "cosmos",
           ),
           value: coin(1234, "ucosm"),
@@ -227,7 +227,7 @@ describe("AminoTypes", () => {
           delegator_address: "cosmos1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
           validator_address: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
           pubkey: encodeBech32Pubkey(
-            { type: "ostracon/PubKeySecp256k1", value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ" },
+            { type: "tendermint/PubKeySecp256k1", value: "A08EGB7ro1ORuFhjOnZcSgwYlpe0DSFjVNUIkNNQxwKQ" },
             "cosmos",
           ),
           value: coin(1234, "ucosm"),
