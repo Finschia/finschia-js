@@ -70,7 +70,7 @@ describe("TokenExtension(Just Issue)", () => {
         const result = await client.signAndBroadcast(owner, [msgAny], defaultFee, memo);
         const logs = JSON.parse(result.rawLog || "");
         contractId = logs[0].events
-          .find(({ type }: any) => type === "lbm.token.v1.EventIssue")
+          .find(({ type }: any) => type === "lbm.token.v1.EventIssued")
           .attributes.find(({ key }: any) => key === "contract_id").value;
         assert(contractId, "Missing contract ID");
         contractId = contractId.replace(/^"(.*)"$/, "$1");
@@ -200,7 +200,7 @@ describe("TokenExtension", () => {
         const result = await client.signAndBroadcast(owner, [msgAny], defaultFee, memo);
         const logs = JSON.parse(result.rawLog || "");
         contractId = logs[0].events
-          .find(({ type }: any) => type === "lbm.token.v1.EventIssue")
+          .find(({ type }: any) => type === "lbm.token.v1.EventIssued")
           .attributes.find(({ key }: any) => key === "contract_id").value;
         assert(contractId, "Missing contract ID");
         contractId = contractId.replace(/^"(.*)"$/, "$1");

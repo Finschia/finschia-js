@@ -16,6 +16,7 @@ export interface CollectionExtension {
     readonly nftMinted: (contractId: string, tokenType: string) => Promise<string>;
     readonly nftBurnt: (contractId: string, tokenType: string) => Promise<string>;
     readonly contract: (contractId: string) => Promise<Contract>;
+    readonly tokenClassTypeName: (contractId: string, classId: string) => Promise<string>;
     readonly tokenType: (contractId: string, tokenType: string) => Promise<TokenType>;
     readonly tokenTypes: (contractId: string) => Promise<TokenType[]>;
     readonly token: (contractId: string, tokenId: string) => Promise<Any>;
@@ -86,6 +87,11 @@ export function setupCollectionExtension(base: QueryClient): CollectionExtension
         const { contract } = await queryService.Contract({ contractId: contractId });
         assert(contract);
         return contract;
+      },
+      tokenClassTypeName: async (contractId: string, classId: string) => {
+        const { name } = await queryService.TokenClassTypeName({ contractId, classId });
+        assert(name);
+        return name;
       },
       tokenType: async (contractId: string, sTokenType: string) => {
         const { tokenType } = await queryService.TokenType({ contractId: contractId, tokenType: sTokenType });
