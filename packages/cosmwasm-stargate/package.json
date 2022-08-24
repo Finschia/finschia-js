@@ -44,7 +44,7 @@
     "@cosmjs/tendermint-rpc": "0.28.4",
     "@cosmjs/utils": "0.28.4",
     "cosmjs-types": "0.4.0",
-    "lbmjs-types": "0.46.0-rc6",
+    "lbmjs-types": "^0.46.0-rc7",
     "long": "^4.0.0",
     "pako": "^2.0.2",
     "protobufjs": "~6.10.2"

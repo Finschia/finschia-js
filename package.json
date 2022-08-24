@@ -38,6 +38,7 @@
   "devDependencies": {
     "@cosmjs/crypto": "0.28.4",
     "@cosmjs/encoding": "0.28.4",
+    "@cosmjs/proto-signing": "0.28.4",
     "@lbmjs/cosmwasm-stargate": "workspace:packages/cosmwasm-stargate",
     "@lbmjs/stargate": "workspace:packages/stargate",
     "eslint": "^7.5",

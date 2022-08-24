@@ -1637,7 +1637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "lbmjs-types",
-        "npm:0.46.0-rc6"
+        "npm:0.46.0-rc7"
       ],
       [
         "levn",
@@ -2571,6 +2571,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@cosmjs/crypto", "npm:0.28.4"],
             ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
             ["@lbmjs/cosmwasm-stargate", "workspace:packages/cosmwasm-stargate"],
             ["@lbmjs/stargate", "workspace:packages/stargate"],
             ["eslint", "npm:7.32.0"],
@@ -3237,7 +3238,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-firefox-launcher", "npm:2.1.2"],
             ["karma-jasmine", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:4.0.1"],
             ["karma-jasmine-html-reporter", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:1.7.0"],
-            ["lbmjs-types", "npm:0.46.0-rc6"],
+            ["lbmjs-types", "npm:0.46.0-rc7"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -3298,7 +3299,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:26e5161f9334867c32e64ba710d150b793423888353a1f38ef374e114f66ab3bd954121c8c836600895fce8de791269d42d96437ce1fd17b65f1988c2ccf9850#npm:0.0.33"],
             ["karma-typescript", "virtual:26e5161f9334867c32e64ba710d150b793423888353a1f38ef374e114f66ab3bd954121c8c836600895fce8de791269d42d96437ce1fd17b65f1988c2ccf9850#npm:5.5.3"],
-            ["lbmjs-types", "npm:0.46.0-rc6"],
+            ["lbmjs-types", "npm:0.46.0-rc7"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["prettier", "npm:2.5.1"],
@@ -7837,6 +7838,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lbmjs-monorepo-root", "workspace:."],
             ["@cosmjs/crypto", "npm:0.28.4"],
             ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
             ["@lbmjs/cosmwasm-stargate", "workspace:packages/cosmwasm-stargate"],
             ["@lbmjs/stargate", "workspace:packages/stargate"],
             ["eslint", "npm:7.32.0"],
@@ -7852,10 +7854,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lbmjs-types", [
-        ["npm:0.46.0-rc6", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc6-100102778d-95e559d752.zip/node_modules/lbmjs-types/",
+        ["npm:0.46.0-rc7", {
+          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc7-02743dd713-e3fb4e283e.zip/node_modules/lbmjs-types/",
           "packageDependencies": [
-            ["lbmjs-types", "npm:0.46.0-rc6"],
+            ["lbmjs-types", "npm:0.46.0-rc7"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],
