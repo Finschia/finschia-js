@@ -9,7 +9,7 @@ import {
   QueryContractInfoResponse,
   QueryContractsByCodeResponse,
   QueryRawContractStateResponse,
-} from "lbmjs-types/lbm/wasm/v1/query";
+} from "lbmjs-types/cosmwasm/wasm/v1/query";
 import Long from "long";
 
 /**

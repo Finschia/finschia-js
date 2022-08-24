@@ -30,6 +30,7 @@ export const defaultGasPrice = GasPrice.fromString("0.025cony");
 export const defaultSendFee = calculateFee(100_000, defaultGasPrice);
 export const defaultUploadFee = calculateFee(1_500_000, defaultGasPrice);
 export const defaultInstantiateFee = calculateFee(500_000, defaultGasPrice);
+export const defaultUploadAndInstantiateFee = calculateFee(2_000_000, defaultGasPrice);
 export const defaultExecuteFee = calculateFee(200_000, defaultGasPrice);
 export const defaultMigrateFee = calculateFee(200_000, defaultGasPrice);
 export const defaultUpdateAdminFee = calculateFee(80_000, defaultGasPrice);
@@ -118,21 +119,21 @@ export const validator = {
 /** Deployed as part of scripts/wasmd/init.sh */
 export const deployedHackatom = {
   codeId: 1,
-  checksum: "7e1c540fc892e708a5b7e9ba5d8e05ca4f86ff32869a60a0a8a71f05064f4af6",
+  checksum: "470c5b703a682f778b8b088d48169b8d6e43f7f44ac70316692cdbe69e6605e3",
   instances: [
     {
       beneficiary: alice.address0,
-      address: "link14hj2tavq8fpesdwxxcu44rty3hh90vhud63e6j",
+      address: "link14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sgf2vn8",
       label: "From deploy_hackatom.js (0)",
     },
     {
       beneficiary: alice.address1,
-      address: "link1suhgf5svhu4usrurvxzlgn54ksxmn8gl0svq59",
+      address: "link1suhgf5svhu4usrurvxzlgn54ksxmn8gljarjtxqnapv8kjnp4nrshuxemw",
       label: "From deploy_hackatom.js (1)",
     },
     {
       beneficiary: alice.address2,
-      address: "link1yyca08xqdgvjz0psg56z67ejh9xms6l46p6euv",
+      address: "link1yyca08xqdgvjz0psg56z67ejh9xms6l436u8y58m82npdqqhmmtq6cjue5",
       label: "From deploy_hackatom.js (2)",
     },
   ],
@@ -143,8 +144,8 @@ export const deployedIbcReflect = {
   codeId: 2,
   instances: [
     {
-      address: "link1aakfpghcanxtc45gpqlx8j3rq0zcpyf4jw4fg2",
-      ibcPortId: "wasm.link1aakfpghcanxtc45gpqlx8j3rq0zcpyf4jw4fg2",
+      address: "link1aakfpghcanxtc45gpqlx8j3rq0zcpyf49qmhm9mdjrfx036h4z5s782d42",
+      ibcPortId: "wasm.link1aakfpghcanxtc45gpqlx8j3rq0zcpyf49qmhm9mdjrfx036h4z5s782d42",
     },
   ],
 };

@@ -18,7 +18,7 @@ import { DeepPartial, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { MsgExecuteContract, MsgStoreCode } from "lbmjs-types/lbm/wasm/v1/tx";
+import { MsgExecuteContract, MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
@@ -47,6 +47,7 @@ import {
   unused,
   validator,
   wasmd,
+  defaultUploadAndInstantiateFee,
 } from "./testutils.spec";
 
 describe("SigningCosmWasmClient", () => {
@@ -91,7 +92,7 @@ describe("SigningCosmWasmClient", () => {
       const client = await SigningCosmWasmClient.connectWithSigner(wasmd.endpoint, wallet, options);
 
       const executeContractMsg: MsgExecuteContractEncodeObject = {
-        typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
+        typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
         value: MsgExecuteContract.fromPartial({
           sender: alice.address0,
           contract: deployedHackatom.instances[0].address,
@@ -101,8 +102,8 @@ describe("SigningCosmWasmClient", () => {
       };
       const memo = "Go go go";
       const gasUsed = await client.simulate(alice.address0, [executeContractMsg], memo);
-      expect(gasUsed).toBeGreaterThanOrEqual(61_000);
-      expect(gasUsed).toBeLessThanOrEqual(67_000);
+      expect(gasUsed).toBeGreaterThanOrEqual(80_000);
+      expect(gasUsed).toBeLessThanOrEqual(95_000);
       client.disconnect();
     });
   });
@@ -296,7 +297,7 @@ describe("SigningCosmWasmClient", () => {
             beneficiary: beneficiaryAddress,
           },
           "My Test label",
-          defaultUploadFee,
+          defaultUploadAndInstantiateFee,
           {
             memo: "Let's see if the memo is used",
             funds: funds,
@@ -330,7 +331,7 @@ describe("SigningCosmWasmClient", () => {
         wasm,
         { verifier: alice.address0, beneficiary: beneficiaryAddress },
         "My test label",
-        defaultUploadFee,
+        defaultUploadAndInstantiateFee,
         { admin: unused.address },
       );
       const wasmClient = await makeWasmClient(wasmd.endpoint);
@@ -907,7 +908,7 @@ describe("SigningCosmWasmClient", () => {
           instantiatePermission: undefined,
         };
         const msgAny: MsgStoreCodeEncodeObject = {
-          typeUrl: "/lbm.wasm.v1.MsgStoreCode",
+          typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
           value: msgStoreCode,
         };
         const fee = {

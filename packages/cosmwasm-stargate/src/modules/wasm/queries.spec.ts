@@ -12,8 +12,8 @@ import {
   StdFee,
 } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
-import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "lbmjs-types/lbm/wasm/v1/tx";
-import { ContractCodeHistoryOperationType, ContractStatus } from "lbmjs-types/lbm/wasm/v1/types";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { ContractCodeHistoryOperationType, ContractStatus } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import Long from "long";
 
 import { makeLinkPath } from "../../paths";
@@ -48,7 +48,7 @@ async function uploadContract(
 ): Promise<DeliverTxResponse> {
   const memo = "My first contract on chain";
   const theMsg: MsgStoreCodeEncodeObject = {
-    typeUrl: "/lbm.wasm.v1.MsgStoreCode",
+    typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
     value: MsgStoreCode.fromPartial({
       sender: alice.address0,
       wasmByteCode: contract.data,
@@ -74,7 +74,7 @@ async function instantiateContract(
 ): Promise<DeliverTxResponse> {
   const memo = "Create an escrow instance";
   const theMsg: MsgInstantiateContractEncodeObject = {
-    typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
+    typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
     value: MsgInstantiateContract.fromPartial({
       sender: alice.address0,
       codeId: Long.fromNumber(codeId),
@@ -108,7 +108,7 @@ async function executeContract(
 ): Promise<DeliverTxResponse> {
   const memo = "Time for action";
   const theMsg: MsgExecuteContractEncodeObject = {
-    typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
+    typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
     value: MsgExecuteContract.fromPartial({
       sender: alice.address0,
       contract: contractAddress,

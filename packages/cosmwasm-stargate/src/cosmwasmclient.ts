@@ -29,8 +29,8 @@ import {
   CodeInfoResponse,
   QueryCodesResponse,
   QueryContractsByCodeResponse,
-} from "lbmjs-types/lbm/wasm/v1/query";
-import { ContractCodeHistoryOperationType } from "lbmjs-types/lbm/wasm/v1/types";
+} from "lbmjs-types/cosmwasm/wasm/v1/query";
+import { ContractCodeHistoryOperationType } from "lbmjs-types/cosmwasm/wasm/v1/types";
 
 import { JsonObject, setupWasmExtension, WasmExtension } from "./modules";
 
