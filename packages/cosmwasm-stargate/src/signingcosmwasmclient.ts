@@ -42,10 +42,10 @@ import {
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
-  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
-} from "lbmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessType } from "lbmjs-types/cosmwasm/wasm/v1/types";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 

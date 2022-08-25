@@ -12,8 +12,9 @@ import {
   StdFee,
 } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
-import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
-import { ContractCodeHistoryOperationType, ContractStatus } from "lbmjs-types/cosmwasm/wasm/v1/types";
+import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { ContractStatus } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import Long from "long";
 
 import { makeLinkPath } from "../../paths";

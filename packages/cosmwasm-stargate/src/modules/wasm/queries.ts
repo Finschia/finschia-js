@@ -2,14 +2,13 @@ import { fromUtf8, toAscii } from "@cosmjs/encoding";
 import { createPagination, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
 import {
   QueryAllContractStateResponse,
-  QueryClientImpl,
   QueryCodeResponse,
   QueryCodesResponse,
   QueryContractHistoryResponse,
-  QueryContractInfoResponse,
   QueryContractsByCodeResponse,
   QueryRawContractStateResponse,
-} from "lbmjs-types/cosmwasm/wasm/v1/query";
+} from "cosmjs-types/cosmwasm/wasm/v1/query";
+import { QueryClientImpl, QueryContractInfoResponse } from "lbmjs-types/cosmwasm/wasm/v1/query";
 import Long from "long";
 
 /**

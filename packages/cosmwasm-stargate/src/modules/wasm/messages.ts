@@ -5,9 +5,9 @@ import {
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
-  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
-} from "lbmjs-types/cosmwasm/wasm/v1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 
 export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgClearAdmin", MsgClearAdmin],

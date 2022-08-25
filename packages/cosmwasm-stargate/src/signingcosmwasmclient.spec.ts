@@ -18,7 +18,7 @@ import { DeepPartial, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { MsgExecuteContract, MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgExecuteContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
@@ -36,6 +36,7 @@ import {
   defaultSendFee,
   defaultSigningClientOptions,
   defaultUpdateAdminFee,
+  defaultUploadAndInstantiateFee,
   defaultUploadFee,
   deployedHackatom,
   getHackatom,
@@ -47,7 +48,6 @@ import {
   unused,
   validator,
   wasmd,
-  defaultUploadAndInstantiateFee,
 } from "./testutils.spec";
 
 describe("SigningCosmWasmClient", () => {
