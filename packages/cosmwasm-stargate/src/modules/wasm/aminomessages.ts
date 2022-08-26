@@ -8,7 +8,7 @@ import {
   MsgMigrateContract,
   MsgStoreCode,
   MsgUpdateAdmin,
-} from "lbmjs-types/lbm/wasm/v1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import Long from "long";
 
 // TODO: implement
@@ -126,7 +126,7 @@ export interface AminoMsgClearAdmin {
 
 export function createWasmAminoConverters(): AminoConverters {
   return {
-    "/lbm.wasm.v1.MsgStoreCode": {
+    "/cosmwasm.wasm.v1.MsgStoreCode": {
       aminoType: "wasm/MsgStoreCode",
       toAmino: ({ sender, wasmByteCode }: MsgStoreCode): AminoMsgStoreCode["value"] => ({
         sender: sender,
@@ -138,7 +138,7 @@ export function createWasmAminoConverters(): AminoConverters {
         instantiatePermission: undefined,
       }),
     },
-    "/lbm.wasm.v1.MsgInstantiateContract": {
+    "/cosmwasm.wasm.v1.MsgInstantiateContract": {
       aminoType: "wasm/MsgInstantiateContract",
       toAmino: ({
         sender,
@@ -171,7 +171,7 @@ export function createWasmAminoConverters(): AminoConverters {
         admin: admin ?? "",
       }),
     },
-    "/lbm.wasm.v1.MsgUpdateAdmin": {
+    "/cosmwasm.wasm.v1.MsgUpdateAdmin": {
       aminoType: "wasm/MsgUpdateAdmin",
       toAmino: ({ sender, newAdmin, contract }: MsgUpdateAdmin): AminoMsgUpdateAdmin["value"] => ({
         sender: sender,
@@ -184,7 +184,7 @@ export function createWasmAminoConverters(): AminoConverters {
         contract: contract,
       }),
     },
-    "/lbm.wasm.v1.MsgClearAdmin": {
+    "/cosmwasm.wasm.v1.MsgClearAdmin": {
       aminoType: "wasm/MsgClearAdmin",
       toAmino: ({ sender, contract }: MsgClearAdmin): AminoMsgClearAdmin["value"] => ({
         sender: sender,
@@ -195,7 +195,7 @@ export function createWasmAminoConverters(): AminoConverters {
         contract: contract,
       }),
     },
-    "/lbm.wasm.v1.MsgExecuteContract": {
+    "/cosmwasm.wasm.v1.MsgExecuteContract": {
       aminoType: "wasm/MsgExecuteContract",
       toAmino: ({ sender, contract, msg, funds }: MsgExecuteContract): AminoMsgExecuteContract["value"] => ({
         sender: sender,
@@ -215,7 +215,7 @@ export function createWasmAminoConverters(): AminoConverters {
         funds: [...funds],
       }),
     },
-    "/lbm.wasm.v1.MsgMigrateContract": {
+    "/cosmwasm.wasm.v1.MsgMigrateContract": {
       aminoType: "wasm/MsgMigrateContract",
       toAmino: ({ sender, contract, codeId, msg }: MsgMigrateContract): AminoMsgMigrateContract["value"] => ({
         sender: sender,

@@ -42,10 +42,10 @@ import {
   MsgInstantiateContract,
   MsgMigrateContract,
   MsgStoreCode,
-  MsgStoreCodeAndInstantiateContract,
   MsgUpdateAdmin,
-} from "lbmjs-types/lbm/wasm/v1/tx";
-import { AccessType } from "lbmjs-types/lbm/wasm/v1/types";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 
@@ -263,7 +263,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
   ): Promise<UploadResult> {
     const compressed = pako.gzip(wasmCode, { level: 9 });
     const storeCodeMsg: MsgStoreCodeEncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgStoreCode",
+      typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
       value: MsgStoreCode.fromPartial({
         sender: senderAddress,
         wasmByteCode: compressed,
@@ -299,7 +299,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     options: InstantiateOptions = {},
   ): Promise<InstantiateResult> {
     const instantiateContractMsg: MsgInstantiateContractEncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
+      typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
       value: MsgInstantiateContract.fromPartial({
         sender: senderAddress,
         codeId: Long.fromString(new Uint53(codeId).toString()),
@@ -335,7 +335,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
   ): Promise<UploadAndInstantiateResult> {
     const compressed = pako.gzip(wasmCode, { level: 9 });
     const storeCodeAndInstantiateMsg: EncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract",
+      typeUrl: "/cosmwasm.wasm.v1.MsgStoreCodeAndInstantiateContract",
       value: MsgStoreCodeAndInstantiateContract.fromPartial({
         sender: signerAddress,
         wasmByteCode: compressed,
@@ -382,7 +382,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<ChangeAdminResult> {
     const updateAdminMsg: MsgUpdateAdminEncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgUpdateAdmin",
+      typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin",
       value: MsgUpdateAdmin.fromPartial({
         sender: senderAddress,
         contract: contractAddress,
@@ -409,7 +409,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<ChangeAdminResult> {
     const clearAdminMsg: MsgClearAdminEncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgClearAdmin",
+      typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin",
       value: MsgClearAdmin.fromPartial({
         sender: senderAddress,
         contract: contractAddress,
@@ -437,7 +437,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     memo = "",
   ): Promise<MigrateResult> {
     const migrateContractMsg: MsgMigrateContractEncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgMigrateContract",
+      typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract",
       value: MsgMigrateContract.fromPartial({
         sender: senderAddress,
         contract: contractAddress,
@@ -467,7 +467,7 @@ export class SigningCosmWasmClient extends CosmWasmClient {
     funds?: readonly Coin[],
   ): Promise<ExecuteResult> {
     const executeContractMsg: MsgExecuteContractEncodeObject = {
-      typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
+      typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: senderAddress,
         contract: contractAddress,

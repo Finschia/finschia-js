@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {
-  QueryAllowanceResponse,
-  QueryAllowancesResponse,
-  QueryClientImpl,
-} from "cosmjs-types/cosmos/feegrant/v1beta1/query";
+import { QueryAllowanceResponse, QueryAllowancesResponse } from "cosmjs-types/cosmos/feegrant/v1beta1/query";
+import { QueryAllowancesByGranterResponse, QueryClientImpl } from "lbmjs-types/cosmos/feegrant/v1beta1/query";
 
 import { createPagination, createProtobufRpcClient, QueryClient } from "../../queryclient";
 
@@ -11,6 +8,10 @@ export interface FeeGrantExtension {
   readonly feegrant: {
     readonly allowance: (granter: string, grantee: string) => Promise<QueryAllowanceResponse>;
     readonly allowances: (grantee: string, paginationKey?: Uint8Array) => Promise<QueryAllowancesResponse>;
+    readonly allowancesByGranter: (
+      granter: string,
+      paginationKey?: Uint8Array,
+    ) => Promise<QueryAllowancesByGranterResponse>;
   };
 }
 
@@ -26,6 +27,12 @@ export function setupFeeGrantExtension(base: QueryClient): FeeGrantExtension {
       allowances: async (grantee: string, paginationKey?: Uint8Array) => {
         return await queryService.Allowances({
           grantee: grantee,
+          pagination: createPagination(paginationKey),
+        });
+      },
+      allowancesByGranter: async (granter: string, paginationKey?: Uint8Array) => {
+        return await queryService.AllowancesByGranter({
+          granter,
           pagination: createPagination(paginationKey),
         });
       },

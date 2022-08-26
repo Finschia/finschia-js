@@ -8,7 +8,7 @@ import {
   MsgMigrateContract,
   MsgStoreCode,
   MsgUpdateAdmin,
-} from "lbmjs-types/lbm/wasm/v1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import Long from "long";
 
 import {
@@ -30,7 +30,7 @@ describe("AminoTypes", () => {
         instantiatePermission: undefined,
       };
       const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-        typeUrl: "/lbm.wasm.v1.MsgStoreCode",
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
         value: msg,
       });
       const expected: AminoMsgStoreCode = {
@@ -55,7 +55,7 @@ describe("AminoTypes", () => {
           admin: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         };
         const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-          typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
+          typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
           value: msg,
         });
         const expected: AminoMsgInstantiateContract = {
@@ -84,7 +84,7 @@ describe("AminoTypes", () => {
           admin: "",
         };
         const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-          typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
+          typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
           value: msg,
         });
         const expected: AminoMsgInstantiateContract = {
@@ -109,7 +109,7 @@ describe("AminoTypes", () => {
         contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
       };
       const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-        typeUrl: "/lbm.wasm.v1.MsgUpdateAdmin",
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin",
         value: msg,
       });
       const expected: AminoMsgUpdateAdmin = {
@@ -129,7 +129,7 @@ describe("AminoTypes", () => {
         contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
       };
       const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-        typeUrl: "/lbm.wasm.v1.MsgClearAdmin",
+        typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin",
         value: msg,
       });
       const expected: AminoMsgClearAdmin = {
@@ -150,7 +150,7 @@ describe("AminoTypes", () => {
         funds: coins(1234, "cony"),
       };
       const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-        typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
+        typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
         value: msg,
       });
       const expected: AminoMsgExecuteContract = {
@@ -173,7 +173,7 @@ describe("AminoTypes", () => {
         msg: toUtf8(`{"foo":"bar"}`),
       };
       const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
-        typeUrl: "/lbm.wasm.v1.MsgMigrateContract",
+        typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract",
         value: msg,
       });
       const expected: AminoMsgMigrateContract = {
@@ -205,7 +205,7 @@ describe("AminoTypes", () => {
         instantiatePermission: undefined,
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.wasm.v1.MsgStoreCode",
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode",
         value: expectedValue,
       });
     });
@@ -234,7 +234,7 @@ describe("AminoTypes", () => {
           admin: "cosmos10dyr9899g6t0pelew4nvf4j5c3jcgv0r73qga5",
         };
         expect(msg).toEqual({
-          typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
+          typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
           value: expectedValue,
         });
       }
@@ -261,7 +261,7 @@ describe("AminoTypes", () => {
           admin: "",
         };
         expect(msg).toEqual({
-          typeUrl: "/lbm.wasm.v1.MsgInstantiateContract",
+          typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract",
           value: expectedValue,
         });
       }
@@ -283,7 +283,7 @@ describe("AminoTypes", () => {
         contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.wasm.v1.MsgUpdateAdmin",
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateAdmin",
         value: expectedValue,
       });
     });
@@ -302,7 +302,7 @@ describe("AminoTypes", () => {
         contract: "cosmos1xy4yqngt0nlkdcenxymg8tenrghmek4nmqm28k",
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.wasm.v1.MsgClearAdmin",
+        typeUrl: "/cosmwasm.wasm.v1.MsgClearAdmin",
         value: expectedValue,
       });
     });
@@ -325,7 +325,7 @@ describe("AminoTypes", () => {
         funds: coins(1234, "cony"),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.wasm.v1.MsgExecuteContract",
+        typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
         value: expectedValue,
       });
     });
@@ -348,7 +348,7 @@ describe("AminoTypes", () => {
         msg: toUtf8(`{"foo":"bar"}`),
       };
       expect(msg).toEqual({
-        typeUrl: "/lbm.wasm.v1.MsgMigrateContract",
+        typeUrl: "/cosmwasm.wasm.v1.MsgMigrateContract",
         value: expectedValue,
       });
     });
