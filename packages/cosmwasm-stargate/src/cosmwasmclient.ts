@@ -25,9 +25,12 @@ import {
 } from "@cosmjs/stargate";
 import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
-import { QueryCodesResponse, QueryContractsByCodeResponse } from "cosmjs-types/cosmwasm/wasm/v1/query";
+import {
+  CodeInfoResponse,
+  QueryCodesResponse,
+  QueryContractsByCodeResponse,
+} from "cosmjs-types/cosmwasm/wasm/v1/query";
 import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
-import { CodeInfoResponse } from "lbmjs-types/cosmwasm/wasm/v1/query";
 
 import { JsonObject, setupWasmExtension, WasmExtension } from "./modules";
 
