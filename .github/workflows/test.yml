@@ -15,6 +15,12 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
+      - name: start simd
+        run: CI= $GITHUB_WORKSPACE/scripts/simapp/start.sh
+
+      - name: init contract on simd
+        run: $GITHUB_WORKSPACE/scripts/simapp/init.sh
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -32,5 +38,12 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Unit Test
-        run: yarn test
+      - name: Unit Test Stargate
+        run: |
+        cd ./packages/stargate
+        SIMAPP_ENABLED=true yarn run test
+      
+      - name: Unit Test Cosmwasm-stargate
+        run: |
+        cd ../cosmwasm-stargate
+        WASMD_ENABLED=true yarn run test
