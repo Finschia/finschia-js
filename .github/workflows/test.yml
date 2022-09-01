@@ -3,8 +3,7 @@ name: Test
 on:
   pull_request:
   push:
-    branches:
-      - main
+    branches: main
 
 jobs:
   tests:
@@ -15,11 +14,11 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
 
-      - name: start simd
-        run: CI= $GITHUB_WORKSPACE/scripts/simapp/start.sh
-
-      - name: init contract on simd
-        run: $GITHUB_WORKSPACE/scripts/simapp/init.sh
+      - name: download contracts
+        run: |
+        cd $GITHUB_WORKSPACE/scripts/simapp/contracts
+        sh download.sh
+        cd $GITHUB_WORKSPACE
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -38,8 +37,18 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: start simd
+        run: CI= $GITHUB_WORKSPACE/scripts/simapp/start.sh
+
+      - name: init contract on simd
+        run: sh $GITHUB_WORKSPACE/scripts/simapp/init.sh
+
       - name: Unit Test Stargate
-        run: cd ./packages/stargate && SIMAPP_ENABLED=true yarn run test
+        run: |
+          cd $GITHUB_WORKSPACE/packages/stargate
+          SIMAPP_ENABLED=true yarn run test
 
       - name: Unit Test Cosmwasm-stargate
-        run: cd ../cosmwasm-stargate && WASMD_ENABLED=true yarn run test
+        run: |
+          cd $GITHUB_WORKSPACE/packages/cosmwasm-stargate
+          WASMD_ENABLED=true yarn run test
