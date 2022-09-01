@@ -17,6 +17,7 @@ jobs:
       - name: download contracts
         run: |
         cd $GITHUB_WORKSPACE/scripts/simapp/contracts
+        rm checksums.sha256 hackatom.wasm ibc_reflect.wasm
         sh download.sh
         cd $GITHUB_WORKSPACE
 
