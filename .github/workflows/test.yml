@@ -18,7 +18,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/scripts/simapp/contracts
           rm checksums.sha256 hackatom.wasm ibc_reflect.wasm
-          download.sh
+          sh download.sh
           cd $GITHUB_WORKSPACE
 
       - name: Set up Node.js
