@@ -589,6 +589,63 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@lbmjs/finschia@workspace:packages/finschia":
+  version: 0.0.0-use.local
+  resolution: "@lbmjs/finschia@workspace:packages/finschia"
+  dependencies:
+    "@cosmjs/amino": 0.28.4
+    "@cosmjs/crypto": 0.28.4
+    "@cosmjs/encoding": 0.28.4
+    "@cosmjs/math": 0.28.4
+    "@cosmjs/proto-signing": 0.28.4
+    "@cosmjs/stargate": 0.28.4
+    "@cosmjs/tendermint-rpc": 0.28.4
+    "@cosmjs/utils": 0.28.4
+    "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@types/eslint-plugin-prettier": ^3
+    "@types/jasmine": ^3.8
+    "@types/karma-firefox-launcher": ^2
+    "@types/karma-jasmine": ^4
+    "@types/karma-jasmine-html-reporter": ^1
+    "@types/long": ^4.0.1
+    "@types/node": ^15.0.1
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
+    cosmjs-types: 0.4.0
+    eslint: ^7.5
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-node: ^0.3.4
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    eslint-plugin-simple-import-sort: ^7.0.0
+    esm: ^3.2.25
+    glob: ^7.1.6
+    jasmine: ^3.99
+    jasmine-spec-reporter: ^6
+    karma: ^6.3.17
+    karma-chrome-launcher: ^3.1.0
+    karma-firefox-launcher: ^2.1.0
+    karma-jasmine: ^4.0.1
+    karma-jasmine-html-reporter: ^1.5.4
+    karma-spec-reporter: ^0.0.33
+    karma-typescript: ^5.5.3
+    lbmjs-types: ^0.46.0-rc7
+    long: ^4.0.0
+    nyc: ^15.1.0
+    prettier: ^2.4.1
+    protobufjs: ~6.10.2
+    readonly-date: ^1.0.0
+    ses: ^0.11.0
+    source-map-support: ^0.5.19
+    ts-node: ^8
+    typedoc: ^0.22
+    typescript: ~4.4
+    webpack: ^5.32.0
+    webpack-cli: ^4.6.0
+    xstream: ^11.14.0
+  languageName: unknown
+  linkType: soft
+
 "@lbmjs/stargate@workspace:packages/stargate":
   version: 0.0.0-use.local
   resolution: "@lbmjs/stargate@workspace:packages/stargate"
