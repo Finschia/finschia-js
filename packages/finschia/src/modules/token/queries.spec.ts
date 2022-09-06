@@ -5,9 +5,8 @@ import { assert, sleep } from "@cosmjs/utils";
 import { Permission } from "lbmjs-types/lbm/token/v1/token";
 import { MsgIssue } from "lbmjs-types/lbm/token/v1/tx";
 
-import { FinschiaClient } from "../../finschiaClient";
-
 import { makeLinkPath } from "../../paths";
+import { SigningFinschiaClient } from "../../signingfinschiaclient";
 import {
   defaultSigningClientOptions,
   faucet,
@@ -43,7 +42,7 @@ describe("TokenExtension(Just Issue)", () => {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,
@@ -174,7 +173,7 @@ describe("TokenExtension", () => {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,

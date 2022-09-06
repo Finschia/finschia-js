@@ -30,3 +30,31 @@ export { ibcTypes, isMsgTransferEncodeObject, MsgTransferEncodeObject } from "./
 export { IbcExtension, setupIbcExtension } from "./ibc/queries";
 export { tokenTypes } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
+export {
+  AminoMsgClearAdmin,
+  AminoMsgExecuteContract,
+  AminoMsgInstantiateContract,
+  AminoMsgMigrateContract,
+  AminoMsgStoreCode,
+  AminoMsgUpdateAdmin,
+  cosmWasmTypes,
+  createWasmAminoConverters,
+} from "./wasm/aminomessages";
+export {
+  isMsgClearAdminEncodeObject,
+  isMsgExecuteEncodeObject,
+  isMsgInstantiateContractEncodeObject,
+  isMsgMigrateEncodeObject,
+  isMsgStoreCodeAndInstantiateContract,
+  isMsgStoreCodeEncodeObject,
+  isMsgUpdateAdminEncodeObject,
+  MsgClearAdminEncodeObject,
+  MsgExecuteContractEncodeObject,
+  MsgInstantiateContractEncodeObject,
+  MsgMigrateContractEncodeObject,
+  MsgStoreCodeAndInstantiateContractEncodeObject,
+  MsgStoreCodeEncodeObject,
+  MsgUpdateAdminEncodeObject,
+  wasmTypes,
+} from "./wasm/messages";
+export { JsonObject, setupWasmExtension, WasmExtension } from "./wasm/queries";

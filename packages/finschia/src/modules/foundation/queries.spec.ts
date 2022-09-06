@@ -6,8 +6,8 @@ import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
 import { ThresholdDecisionPolicy } from "lbmjs-types/lbm/foundation/v1/foundation";
 
-import { FinschiaClient } from "../../finschiaClient";
 import { makeLinkPath } from "../../paths";
+import { SigningFinschiaClient } from "../../signingfinschiaclient";
 import {
   defaultSigningClientOptions,
   faucet,
@@ -44,7 +44,7 @@ describe("FoundationExtension", () => {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,
@@ -93,7 +93,7 @@ describe("FoundationExtension grant and withdrawFromTreasury", () => {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,
@@ -153,7 +153,7 @@ describe("FoundationExtension DecisionPolicy", () => {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,

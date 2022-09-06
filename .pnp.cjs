@@ -157,6 +157,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "npm:0.28.4"
       ],
       [
+        "@cosmjs/cosmwasm-stargate",
+        "npm:0.28.4"
+      ],
+      [
         "@cosmjs/crypto",
         "npm:0.28.4"
       ],
@@ -2937,6 +2941,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@cosmjs/cosmwasm-stargate", [
+        ["npm:0.28.4", {
+          "packageLocation": "./.yarn/cache/@cosmjs-cosmwasm-stargate-npm-0.28.4-6628baefb3-6b1142c45f.zip/node_modules/@cosmjs/cosmwasm-stargate/",
+          "packageDependencies": [
+            ["@cosmjs/cosmwasm-stargate", "npm:0.28.4"],
+            ["@cosmjs/amino", "npm:0.28.4"],
+            ["@cosmjs/crypto", "npm:0.28.4"],
+            ["@cosmjs/encoding", "npm:0.28.4"],
+            ["@cosmjs/math", "npm:0.28.4"],
+            ["@cosmjs/proto-signing", "npm:0.28.4"],
+            ["@cosmjs/stargate", "npm:0.28.4"],
+            ["@cosmjs/tendermint-rpc", "npm:0.28.4"],
+            ["@cosmjs/utils", "npm:0.28.4"],
+            ["cosmjs-types", "npm:0.4.1"],
+            ["long", "npm:4.0.0"],
+            ["pako", "npm:2.0.4"],
+            ["protobufjs", "npm:6.10.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cosmjs/crypto", [
         ["npm:0.28.4", {
           "packageLocation": "./.yarn/cache/@cosmjs-crypto-npm-0.28.4-a76962f744-2ea35cc3cc.zip/node_modules/@cosmjs/crypto/",
@@ -3271,6 +3296,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@lbmjs/finschia", "workspace:packages/finschia"],
             ["@cosmjs/amino", "npm:0.28.4"],
+            ["@cosmjs/cosmwasm-stargate", "npm:0.28.4"],
             ["@cosmjs/crypto", "npm:0.28.4"],
             ["@cosmjs/encoding", "npm:0.28.4"],
             ["@cosmjs/math", "npm:0.28.4"],
@@ -3286,6 +3312,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/karma-jasmine-html-reporter", "npm:1.7.0"],
             ["@types/long", "npm:4.0.1"],
             ["@types/node", "npm:15.14.9"],
+            ["@types/pako", "npm:1.0.3"],
             ["@typescript-eslint/eslint-plugin", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:5.17.0"],
             ["@typescript-eslint/parser", "virtual:347c8c0906ec181c138f6225d81c4df52dece4761135b9026ba511abbecae55e3eba9b6cc78fd5c41b05b03d91a1f59c3e7e772c052dd04c102a2b687d6e5011#npm:5.17.0"],
             ["cosmjs-types", "npm:0.4.0"],
@@ -3309,6 +3336,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["lbmjs-types", "npm:0.46.0-rc7"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
+            ["pako", "npm:2.0.4"],
             ["prettier", "npm:2.5.1"],
             ["protobufjs", "npm:6.10.2"],
             ["readonly-date", "npm:1.0.0"],

@@ -15,8 +15,8 @@ import {
   MsgTransferNFT,
 } from "lbmjs-types/lbm/collection/v1/tx";
 
-import { FinschiaClient } from "../../finschiaClient";
 import { makeLinkPath } from "../../paths";
+import { SigningFinschiaClient } from "../../signingfinschiaclient";
 import {
   defaultSigningClientOptions,
   faucet,
@@ -59,7 +59,7 @@ describe("CollectionExtension (fungible token)", () => {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,
@@ -276,7 +276,7 @@ describe("CollectionExtension (non-fungible token)", () => {
         hdPaths: [makeLinkPath(0), makeLinkPath(1)],
         prefix: simapp.prefix,
       });
-      const client = await FinschiaClient.connectWithSigner(
+      const client = await SigningFinschiaClient.connectWithSigner(
         simapp.tendermintUrl,
         wallet,
         defaultSigningClientOptions,
