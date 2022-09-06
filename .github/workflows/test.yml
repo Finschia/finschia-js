@@ -17,7 +17,7 @@ jobs:
 
       - name: download contracts
         run: |
-          cd /scripts/simapp/contracts
+          cd scripts/simapp/contracts
           download.sh
 
       - name: Set up Node.js
@@ -45,10 +45,10 @@ jobs:
 
       - name: Unit Test Stargate
         run: |
-          cd /packages/stargate
+          cd packages/stargate
           SIMAPP_ENABLED=true yarn run test
 
       - name: Unit Test Cosmwasm-stargate
         run: |
-          cd /packages/cosmwasm-stargate
+          cd packages/cosmwasm-stargate
           WASMD_ENABLED=true yarn run test
