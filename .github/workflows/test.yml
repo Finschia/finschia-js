@@ -17,10 +17,8 @@ jobs:
 
       - name: download contracts
         run: |
-          cd $GITHUB_WORKSPACE/scripts/simapp/contracts
-          rm checksums.sha256 hackatom.wasm ibc_reflect.wasm
-          sh download.sh
-          cd $GITHUB_WORKSPACE
+          cd /scripts/simapp/contracts
+          download.sh
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -40,17 +38,17 @@ jobs:
         run: yarn build
 
       - name: start simd
-        run: CI= $GITHUB_WORKSPACE/scripts/simapp/start.sh
+        run: CI= /scripts/simapp/start.sh
 
       - name: init contract on simd
-        run: $GITHUB_WORKSPACE/scripts/simapp/init.sh
+        run: /scripts/simapp/init.sh
 
       - name: Unit Test Stargate
         run: |
-          cd $GITHUB_WORKSPACE/packages/stargate
+          cd /packages/stargate
           SIMAPP_ENABLED=true yarn run test
 
       - name: Unit Test Cosmwasm-stargate
         run: |
-          cd $GITHUB_WORKSPACE/packages/cosmwasm-stargate
+          cd /packages/cosmwasm-stargate
           WASMD_ENABLED=true yarn run test
