@@ -104,6 +104,7 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
 /** Use for testing only */
 export interface PrivateFinschiaClient {
   readonly tmClient: Tendermint34Client | undefined;
+  readonly queryClient: QueryClientWithExtensions | undefined;
 }
 
 export class FinschiaClient {

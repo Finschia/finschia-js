@@ -1,54 +1,46 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@cosmjs/amino";
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
-import { toBech32 } from "@cosmjs/encoding";
+import { fromBase64, toBech32 } from "@cosmjs/encoding";
 import {
-  coins,
   DirectSecp256k1HdWallet,
   DirectSecp256k1HdWalletOptions,
   DirectSignResponse,
   makeAuthInfoBytes,
 } from "@cosmjs/proto-signing";
-import { calculateFee, GasPrice, SigningStargateClientOptions } from "@cosmjs/stargate";
+import {
+  AuthExtension,
+  BankExtension,
+  calculateFee,
+  coins,
+  GasPrice,
+  QueryClient,
+  setupAuthExtension,
+  setupBankExtension,
+} from "@cosmjs/stargate";
+import { SigningStargateClientOptions } from "@cosmjs/stargate";
+import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
-export function simappEnabled(): boolean {
-  return !!process.env.SIMAPP_ENABLED;
-}
-
-export function pendingWithoutSimapp(): void {
-  if (!simappEnabled()) {
-    return pending("Set SIMAPP42_ENABLED or SIMAPP44_ENABLED to enable Simapp based tests");
-  }
-}
-
-export function slowSimappEnabled(): boolean {
-  return !!process.env.SIMAPP_ENABLED;
-}
-
-export function pendingWithoutSlowSimapp(): void {
-  if (!slowSimappEnabled()) {
-    return pending("Set SLOW_SIMAPP42_ENABLED or SLOW_SIMAPP44_ENABLED to enable slow Simapp based tests");
-  }
-}
-
-export function makeRandomAddressBytes(): Uint8Array {
-  return Random.getBytes(20);
-}
-
-export function makeRandomAddress(): string {
-  return toBech32("link", makeRandomAddressBytes());
-}
-
-/** Returns first element. Throws if array has a different length than 1. */
-export function fromOneElementArray<T>(elements: ArrayLike<T>): T {
-  if (elements.length !== 1) throw new Error(`Expected exactly one element but got ${elements.length}`);
-  return elements[0];
-}
+import { setupWasmExtension, WasmExtension } from "./modules";
+import hackatom from "./testdata/contract.json";
 
 export const defaultGasPrice = GasPrice.fromString("0.025cony");
 export const defaultSendFee = calculateFee(100_000, defaultGasPrice);
+export const defaultUploadFee = calculateFee(1_500_000, defaultGasPrice);
+export const defaultInstantiateFee = calculateFee(500_000, defaultGasPrice);
+export const defaultUploadAndInstantiateFee = calculateFee(2_000_000, defaultGasPrice);
+export const defaultExecuteFee = calculateFee(200_000, defaultGasPrice);
+export const defaultMigrateFee = calculateFee(200_000, defaultGasPrice);
+export const defaultUpdateAdminFee = calculateFee(80_000, defaultGasPrice);
+export const defaultClearAdminFee = calculateFee(80_000, defaultGasPrice);
+
+/** An internal testing type. SigningCosmWasmClient has a similar but different interface */
+export interface ContractUploadInstructions {
+  /** The wasm bytecode */
+  readonly data: Uint8Array;
+}
 
 export const simapp = {
   tendermintUrl: "localhost:26658",
@@ -61,25 +53,33 @@ export const simapp = {
   blockTime: 1_000, // ms
   totalSupply: 1100000000000, // cony
   govMinDeposit: coins(10000000, "stake"),
-};
-
-export const slowSimapp = {
-  tendermintUrl: "localhost:26660",
-  tendermintUrlWs: "ws://localhost:26660",
-  tendermintUrlHttp: "http://localhost:26660",
-  chainId: "simd-testing",
-  denomStaking: "ustake",
-  denomFee: "cony",
-  blockTime: 10_000, // ms
-  totalSupply: 21000000000, // cony
+  validator: {
+    address: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
+  },
 };
 
 /** Setting to speed up testing */
 export const defaultSigningClientOptions: SigningStargateClientOptions = {
   broadcastPollIntervalMs: 300,
   broadcastTimeoutMs: 8_000,
-  gasPrice: GasPrice.fromString("0.01cony"),
 };
+
+export function getHackatom(): ContractUploadInstructions {
+  return {
+    data: fromBase64(hackatom.data),
+  };
+}
+
+export function makeRandomAddress(): string {
+  return toBech32("link", Random.getBytes(20));
+}
+
+export const tendermintIdMatcher = /^[0-9A-F]{64}$/;
+/** @see https://rgxdb.com/r/1NUN74O6 */
+export const base64Matcher =
+  /^(?:[a-zA-Z0-9+/]{4})*(?:|(?:[a-zA-Z0-9+/]{3}=)|(?:[a-zA-Z0-9+/]{2}==)|(?:[a-zA-Z0-9+/]{1}===))$/;
+// https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#bech32
+export const bech32AddressMatcher = /^[\x21-\x7e]{1,83}1[02-9ac-hj-np-z]{38,58}$/;
 
 export const faucet = {
   mnemonic:
@@ -120,7 +120,7 @@ export const faucet = {
 export const unused = {
   pubkey: {
     type: "tendermint/PubKeySecp256k1",
-    value: "AlPkJfV+nWxUCb2mPdMLSb/G9zNvywDir8CgxpAUoPjE",
+    value: "A7Tvuh48+JzNyBnTeK2Qw987f5FqFHK/QH65pTVsZvuh",
   },
   address: "link1g7gsgktl9yjqatacswlwvns5yzy4u5jehsx2pz",
   accountNumber: 8,
@@ -163,8 +163,61 @@ export const validator = {
 
 export const nonExistentAddress = "link1hvuxwh9sp2zlc3ee5nnhngln6auv4ak4kyuspq";
 
-export const nonNegativeIntegerMatcher = /^[0-9]+$/;
-export const tendermintIdMatcher = /^[0-9A-F]{64}$/;
+/** Deployed as part of scripts/wasmd/init.sh */
+export const deployedHackatom = {
+  codeId: 1,
+  checksum: "470c5b703a682f778b8b088d48169b8d6e43f7f44ac70316692cdbe69e6605e3",
+  instances: [
+    {
+      beneficiary: faucet.address0,
+      address: "link14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9sgf2vn8",
+      label: "From deploy_hackatom.js (0)",
+    },
+    {
+      beneficiary: faucet.address1,
+      address: "link1suhgf5svhu4usrurvxzlgn54ksxmn8gljarjtxqnapv8kjnp4nrshuxemw",
+      label: "From deploy_hackatom.js (1)",
+    },
+    {
+      beneficiary: faucet.address2,
+      address: "link1yyca08xqdgvjz0psg56z67ejh9xms6l436u8y58m82npdqqhmmtq6cjue5",
+      label: "From deploy_hackatom.js (2)",
+    },
+  ],
+};
+
+/** Deployed as part of scripts/wasmd/init.sh */
+export const deployedIbcReflect = {
+  codeId: 2,
+  instances: [
+    {
+      address: "link1aakfpghcanxtc45gpqlx8j3rq0zcpyf49qmhm9mdjrfx036h4z5s782d42",
+      ibcPortId: "wasm.link1aakfpghcanxtc45gpqlx8j3rq0zcpyf49qmhm9mdjrfx036h4z5s782d42",
+    },
+  ],
+};
+export function simappEnabled(): boolean {
+  return !!process.env.SIMAPP_ENABLED;
+}
+
+export function pendingWithoutSimapp(): void {
+  if (!simappEnabled()) {
+    return pending("Set SIMAPP_ENABLED to enable simapp-based tests");
+  }
+}
+
+/** Returns first element. Throws if array has a different length than 1. */
+export function fromOneElementArray<T>(elements: ArrayLike<T>): T {
+  if (elements.length !== 1) throw new Error(`Expected exactly one element but got ${elements.length}`);
+  return elements[0];
+}
+
+export async function makeWasmClient(
+  endpoint: string,
+): Promise<QueryClient & AuthExtension & BankExtension & WasmExtension> {
+  const tmClient = await Tendermint34Client.connect(endpoint);
+  return QueryClient.withExtensions(tmClient, setupAuthExtension, setupBankExtension, setupWasmExtension);
+}
 
 /**
  * A class for testing clients using an Amino signer which modifies the transaction it receives before signing
