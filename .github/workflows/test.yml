@@ -19,7 +19,6 @@ jobs:
         run: |
           cd scripts/simapp/contracts
           bash download.sh
-        shell: bash
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
