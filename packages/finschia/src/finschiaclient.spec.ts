@@ -370,20 +370,20 @@ describe("FinschiaClient", () => {
 
     describe("getBalanceStaked", () => {
       beforeAll(async () => {
-        pendingWithoutSimapp();
-        pendingWithoutSimapp();
-        const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-          hdPaths: [makeLinkPath(4)],
-          prefix: simapp.prefix,
-        });
-        const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
-          ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
-        });
-        await client.delegateTokens(faucet.address4, validator.validatorAddress, coin(1234, "stake"), {
-          amount: coins(2000, "cony"),
-          gas: "200000",
-        });
+        if (simappEnabled()) {
+          const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+            hdPaths: [makeLinkPath(4)],
+            prefix: simapp.prefix,
+          });
+          const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
+            ...defaultSigningClientOptions,
+            prefix: simapp.prefix,
+          });
+          await client.delegateTokens(faucet.address4, validator.validatorAddress, coin(1234, "stake"), {
+            amount: coins(2000, "cony"),
+            gas: "200000",
+          });
+        }
       });
       it("works", async () => {
         pendingWithoutSimapp();
