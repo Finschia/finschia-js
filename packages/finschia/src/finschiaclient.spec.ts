@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { coin, Secp256k1HdWallet } from "@cosmjs/amino";
 import { Code } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { fromAscii, fromBase64, fromHex, toAscii, toBase64 } from "@cosmjs/encoding";
@@ -29,6 +30,7 @@ import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
 import {
   defaultInstantiateFee,
+  defaultSigningClientOptions,
   defaultUploadFee,
   deployedHackatom,
   deployedIbcReflect,
@@ -367,12 +369,28 @@ describe("FinschiaClient", () => {
     });
 
     describe("getBalanceStaked", () => {
+      beforeAll(async () => {
+        pendingWithoutSimapp();
+        pendingWithoutSimapp();
+        const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+          hdPaths: [makeLinkPath(4)],
+          prefix: simapp.prefix,
+        });
+        const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
+          ...defaultSigningClientOptions,
+          prefix: simapp.prefix,
+        });
+        await client.delegateTokens(faucet.address4, validator.validatorAddress, coin(1234, "stake"), {
+          amount: coins(2000, "cony"),
+          gas: "200000",
+        });
+      });
       it("works", async () => {
         pendingWithoutSimapp();
         const client = await FinschiaClient.connect(simapp.tendermintUrl);
-        const response = await client.getBalanceStaked(faucet.address0);
+        const response = await client.getBalanceStaked(faucet.address4);
 
-        expect(response).toEqual({ denom: "stake", amount: "63474" });
+        expect(response).toEqual({ denom: "stake", amount: "1234" });
       });
     });
 
