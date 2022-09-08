@@ -26,7 +26,7 @@ export function pendingWithoutSimapp(): void {
 }
 
 export function slowSimappEnabled(): boolean {
-  return !!process.env.SIMAPP_ENABLED;
+  return !!process.env.SLOW_SIMAPP_ENABLED;
 }
 
 export function pendingWithoutSlowSimapp(): void {
