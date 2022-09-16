@@ -4,7 +4,8 @@
   "description": "Utilities for LBM SDK 0.45.0-rc7",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
-    "zemyblue <zemyblue@users.noreply.github.com>"
+    "zemyblue <zemyblue@users.noreply.github.com>",
+    "loin3 <ya6675@naver.com>"
   ],
   "license": "Apache-2.0",
   "main": "build/index.js",
