@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Secp256k1HdWallet } from "@cosmjs/amino";
+import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { toHex, toUtf8 } from "@cosmjs/encoding";
 import { decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
@@ -25,7 +26,6 @@ import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
 
-import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "./modules";
 import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
 import {

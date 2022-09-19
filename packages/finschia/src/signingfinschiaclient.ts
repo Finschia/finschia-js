@@ -8,6 +8,15 @@ import {
   MigrateResult,
   UploadResult,
 } from "@cosmjs/cosmwasm-stargate";
+import {
+  createWasmAminoConverters,
+  MsgClearAdminEncodeObject,
+  MsgExecuteContractEncodeObject,
+  MsgInstantiateContractEncodeObject,
+  MsgMigrateContractEncodeObject,
+  MsgStoreCodeEncodeObject,
+  MsgUpdateAdminEncodeObject,
+} from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
@@ -45,6 +54,11 @@ import {
   SigningStargateClientOptions,
   StdFee,
 } from "@cosmjs/stargate";
+import {
+  createFreegrantAminoConverters,
+  createIbcAminoConverters,
+  MsgTransferEncodeObject,
+} from "@cosmjs/stargate";
 import { HttpEndpoint, Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, assertDefined } from "@cosmjs/utils";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
@@ -67,24 +81,7 @@ import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
-import {
-  collectionTypes,
-  createFreegrantAminoConverters,
-  createIbcAminoConverters,
-  createWasmAminoConverters,
-  feegrantTypes,
-  foundationTypes,
-  ibcTypes,
-  MsgClearAdminEncodeObject,
-  MsgExecuteContractEncodeObject,
-  MsgInstantiateContractEncodeObject,
-  MsgMigrateContractEncodeObject,
-  MsgStoreCodeEncodeObject,
-  MsgTransferEncodeObject,
-  MsgUpdateAdminEncodeObject,
-  tokenTypes,
-  wasmTypes,
-} from "./modules";
+import { collectionTypes, feegrantTypes, foundationTypes, ibcTypes, tokenTypes, wasmTypes } from "./modules";
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */

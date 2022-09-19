@@ -1,3 +1,8 @@
+import {
+  MsgExecuteContractEncodeObject,
+  MsgInstantiateContractEncodeObject,
+  MsgStoreCodeEncodeObject,
+} from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { fromAscii, fromHex, toAscii, toHex } from "@cosmjs/encoding";
 import { DirectSecp256k1HdWallet, OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
@@ -31,12 +36,7 @@ import {
   simapp,
   simappEnabled,
 } from "../../testutils.spec";
-import {
-  MsgExecuteContractEncodeObject,
-  MsgInstantiateContractEncodeObject,
-  MsgStoreCodeEncodeObject,
-  wasmTypes,
-} from "./messages";
+import { wasmTypes } from "./messages";
 
 const registry = new Registry(wasmTypes);
 
