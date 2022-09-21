@@ -1,2 +1,1 @@
-# @lbmjs/stargate
-
+# @lbmjs/finschia
