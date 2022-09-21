@@ -4,24 +4,23 @@ As of [v0.40](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.40.0), the
 Cosmos SDK uses
 [Protocol Buffers](https://developers.google.com/protocol-buffers) (also known
 as "protobuf") as its standard serialization format for blockchain state and
-wire communication. CosmJS by default supports Protocol Buffer serialization for
-many of the standard queries and messages defined by the Cosmos SDK, as well as
-[CosmWasm](https://github.com/CosmWasm/wasmd). This document explains how you
-can make use of Protocol Buffer serialization for your own custom modules with
-CosmJS.
+wire communication. LBMJS by default supports Protocol Buffer serialization for
+many of the standard queries and messages defined by the LBM SDK. This document
+explains how you can make use of Protocol Buffer serialization for your own
+custom modules with LBMJS.
 
 ## Prerequisites
 
 - You are working on a TypeScript project. (Plain JS is possible but not covered
   by this document. It should work if you just strip out the type information.)
-- You have installed `@cosmjs/proto-signing`, `@cosmjs/stargate` and
-  `@cosmjs/tendermint-rpc` as dependencies. In general these dependencies should
-  all have the same version, and this document is accurate as of version 0.26.
+- You have installed `@cosmjs/proto-signing`, `@cosmjs/tendermint-rpc` and
+  `@lbmjs/finschia` as dependencies. In general CosmJS dependencies should all
+  have the same version, and this document is accurate as of version 0.26.
   ```
   "dependencies": {
     "@cosmjs/proto-signing": "^0.26.4",
-    "@cosmjs/stargate": "^0.26.4",
     "@cosmjs/tendermint-rpc": "^0.26.4",
+    "@lbmjs/finschia": "^0.4.0-rc8",
     // ...
   }
   ```
@@ -43,14 +42,14 @@ You will need these files locally. There are two ways this is typically done:
    to download the definition files from the Cosmos SDK repository.
 2. **Git submodules** allow linking external repositories into the current
    project's git. This is done in
-   [the cosmjs-types repo](https://github.com/confio/cosmjs-types).
+   [the lbmjs-types repo](https://github.com/line/lbmjs-types).
 
 If the proto files are not publicly available, the first way should be
 preferred. Otherwise permission management can become very complicated.
 
 ## Step 2: Generate codec files
 
-In CosmJS we use [ts-proto](https://github.com/stephenh/ts-proto) to generate
+In LBMJS we use [ts-proto](https://github.com/stephenh/ts-proto) to generate
 codec files, and in this document we assume you will follow the same route. Here
 is an example usage:
 
@@ -85,9 +84,9 @@ helps. The name of the script renames the protoc plugin from `ts_proto` to
 `--ts_proto_yarn_2_opt="…"`.
 
 A full example is available in the cosmjs-types repo:
-[protoc-gen-ts_proto_yarn_2](https://github.com/confio/cosmjs-types/blob/v0.2.1/bin/protoc-gen-ts_proto_yarn_2)
+[protoc-gen-ts_proto_yarn_2](https://github.com/line/lbmjs-types/blob/v0.46.0-rc7/bin/protoc-gen-ts_proto_yarn_2)
 and
-[codegen.sh](https://github.com/confio/cosmjs-types/blob/v0.2.1/scripts/codegen.sh).
+[codegen.sh](https://github.com/line/lbmjs-types/blob/v0.46.0-rc7/scripts/codegen.sh).
 
 ### Step 3
 
@@ -100,8 +99,8 @@ generation). Now we look into using this codec. This section is split in
 ## Step 3a: Instantiate a signing client using your custom message types
 
 This section assumes that your definition files included `MsgXxx` `message`
-definitions for use in submitting transactions to a Cosmos SDK blockchain. You
-can instantiate a signing client for Stargate which supports those message types
+definitions for use in submitting transactions to a LBM SDK blockchain. You can
+instantiate a signing client for Finschia which supports those message types
 using a custom registry. We expose a `Registry` class from
 `@cosmjs/proto-signing` for you to use, which maps type URLs to codec objects.
 For example:
@@ -109,12 +108,12 @@ For example:
 ```ts
 import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
 import {
-  defaultRegistryTypes as defaultStargateTypes,
-  SigningStargateClient,
-} from "@cosmjs/stargate";
+  finschiaRegistryTypes as defaultRegistryTypes,
+  SigningFinschiaClient,
+} from "@lbmjs/finschia";
 import { MsgXxx } from "./path/to/generated/codec/my/custom/tx"; // Replace with your own Msg import
 
-const myRegistry = new Registry(defaultStargateTypes);
+const myRegistry = new Registry(defaultRegistryTypes);
 myRegistry.register("/my.custom.MsgXxx", MsgXxx); // Replace with your own type URL and Msg class
 const mnemonic = // Replace with your own mnemonic
   "economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone";
@@ -124,7 +123,7 @@ const signer = await DirectSecp256k1HdWallet.fromMnemonic(
   mnemonic,
   { prefix: "myprefix" }, // Replace with your own Bech32 address prefix
 );
-const client = await SigningStargateClient.connectWithSigner(
+const client = await SigningFinschiaClient.connectWithSigner(
   "my.endpoint.com", // Replace with your own RPC endpoint
   signer,
   { registry: myRegistry },
@@ -229,5 +228,6 @@ const queryClient = QueryClient.withExtensions(
 const queryResult = await queryClient.mymodule.customQuery("bar");
 ```
 
-You can see how CosmJS sets up the `bank` extension for its default query client
-[here](https://github.com/cosmos/cosmjs/blob/v0.26.4/packages/stargate/src/queries/bank.ts).
+You can see how LBMJS sets up the `foundation` extension for its default query
+client
+[here](https://github.com/cosmos/lbmjs/blob/v0.4.0-rc8/packages/finscha/src/modules/foundation/queries.ts).
