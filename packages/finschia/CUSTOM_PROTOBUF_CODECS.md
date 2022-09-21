@@ -36,11 +36,7 @@ custom modules with LBMJS.
 
 You will need these files locally. There are two ways this is typically done:
 
-1. **Download copies** from an external source into the project. For example, we
-   used
-   [this script](https://github.com/cosmos/cosmjs/blob/v0.25.6/packages/stargate/scripts/get-proto.sh)
-   to download the definition files from the Cosmos SDK repository.
-2. **Git submodules** allow linking external repositories into the current
+1. **Git submodules** allow linking external repositories into the current
    project's git. This is done in
    [the lbmjs-types repo](https://github.com/line/lbmjs-types).
 
