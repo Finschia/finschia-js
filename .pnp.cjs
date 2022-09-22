@@ -144,7 +144,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@cosmjs/amino",
-        "npm:0.28.4"
+        "npm:0.29.0"
       ],
       [
         "@cosmjs/cosmwasm-stargate",
@@ -152,11 +152,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@cosmjs/crypto",
-        "npm:0.28.4"
+        "npm:0.29.0"
       ],
       [
         "@cosmjs/encoding",
-        "npm:0.28.4"
+        "npm:0.29.0"
       ],
       [
         "@cosmjs/json-rpc",
@@ -164,11 +164,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@cosmjs/math",
-        "npm:0.28.4"
+        "npm:0.29.0"
       ],
       [
         "@cosmjs/proto-signing",
-        "npm:0.28.4"
+        "npm:0.29.0"
       ],
       [
         "@cosmjs/socket",
@@ -188,7 +188,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@cosmjs/utils",
-        "npm:0.28.4"
+        "npm:0.29.0"
       ],
       [
         "@discoveryjs/json-ext",
@@ -2564,9 +2564,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
-            ["@cosmjs/crypto", "npm:0.28.4"],
-            ["@cosmjs/encoding", "npm:0.28.4"],
-            ["@cosmjs/proto-signing", "npm:0.28.4"],
+            ["@cosmjs/crypto", "npm:0.29.0"],
+            ["@cosmjs/encoding", "npm:0.29.0"],
+            ["@cosmjs/proto-signing", "npm:0.29.0"],
             ["@cosmjs/stargate", "npm:0.28.4"],
             ["@lbmjs/finschia", "workspace:packages/finschia"],
             ["eslint", "npm:7.32.0"],
@@ -7883,9 +7883,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["lbmjs-monorepo-root", "workspace:."],
-            ["@cosmjs/crypto", "npm:0.28.4"],
-            ["@cosmjs/encoding", "npm:0.28.4"],
-            ["@cosmjs/proto-signing", "npm:0.28.4"],
+            ["@cosmjs/crypto", "npm:0.29.0"],
+            ["@cosmjs/encoding", "npm:0.29.0"],
+            ["@cosmjs/proto-signing", "npm:0.29.0"],
             ["@cosmjs/stargate", "npm:0.28.4"],
             ["@lbmjs/finschia", "workspace:packages/finschia"],
             ["eslint", "npm:7.32.0"],
