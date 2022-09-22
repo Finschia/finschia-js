@@ -22,10 +22,12 @@ import {
   SearchTxQuery,
   SequenceResponse,
   setupAuthExtension,
+  setupAuthzExtension,
   setupBankExtension,
   setupDistributionExtension,
   setupGovExtension,
   setupMintExtension,
+  setupSlashingExtension,
   setupStakingExtension,
   setupTxExtension,
   StakingExtension,
@@ -33,6 +35,8 @@ import {
   TimeoutError,
   TxExtension,
 } from "@cosmjs/stargate";
+import { SlashingExtension } from "@cosmjs/stargate/build/modules";
+import { AuthzExtension } from "@cosmjs/stargate/build/modules/authz/queries";
 import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
@@ -66,6 +70,8 @@ import {
 export type QueryClientWithExtensions = QueryClient &
   AuthExtension &
   BankExtension &
+  AuthzExtension &
+  SlashingExtension &
   CollectionExtension &
   DistributionExtension &
   EvidenceExtension &
@@ -84,8 +90,8 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
     tmClient,
     setupAuthExtension,
     setupBankExtension,
-    // setupAuthzExtension, this is omitted in cosmjs export
-    // setupSlashingExtension, this is omitted in cosmjs export
+    setupAuthzExtension,
+    setupSlashingExtension,
     setupCollectionExtension,
     setupDistributionExtension,
     setupEvidenceExtension,
@@ -362,7 +368,7 @@ export class FinschiaClient {
     if (broadcasted.code) {
       return Promise.reject(
         new Error(
-          `Broadcasting transaction failed with code ${broadcasted.code} (codespace: ${broadcasted.codeSpace}). Log: ${broadcasted.log}`,
+          `Broadcasting transaction failed with code ${broadcasted.code} (codespace: ${broadcasted.codespace}). Log: ${broadcasted.log}`,
         ),
       );
     }
