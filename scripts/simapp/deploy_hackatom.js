@@ -1,14 +1,15 @@
 #!/usr/bin/env -S yarn node
 
 /* eslint-disable @typescript-eslint/naming-convention */
-const { SigningCosmWasmClient } = require("@lbmjs/cosmwasm-stargate");
+const { SigningFinschiaClient, makeLinkPath } = require("@lbmjs/finschia");
 const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
-const { calculateFee, GasPrice, makeLinkPath } = require("@lbmjs/stargate");
+const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 const fs = require("fs");
 
 const endpoint = "http://localhost:26658";
 const alice = {
-  mnemonic: "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have",
+  mnemonic:
+    "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have",
   address0: "link146asaycmtydq45kxc8evntqfgepagygelel00h",
   address1: "link1aaffxdz4dwcnjzumjm7h89yjw5c5wul88zvzuu",
   address2: "link1ey0w0xj9v48vk82ht6mhqdlh9wqkx8enkpjwpr",
@@ -45,17 +46,15 @@ const inits = [
 
 async function main() {
   const gasPrice = GasPrice.fromString("0.025cony");
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, { hdPaths: [makeLinkPath(0)], prefix: "link" });
-  const client = await SigningCosmWasmClient.connectWithSigner(endpoint, wallet);
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(alice.mnemonic, {
+    hdPaths: [makeLinkPath(0)],
+    prefix: "link",
+  });
+  const client = await SigningFinschiaClient.connectWithSigner(endpoint, wallet);
 
   const wasm = fs.readFileSync(__dirname + "/contracts/hackatom.wasm");
   const uploadFee = calculateFee(1_500_000, gasPrice);
-  const uploadReceipt = await client.upload(
-    alice.address0,
-    wasm,
-    uploadFee,
-    "Upload hackatom contract",
-  );
+  const uploadReceipt = await client.upload(alice.address0, wasm, uploadFee, "Upload hackatom contract");
   console.info(`Upload succeeded. Receipt: ${JSON.stringify(uploadReceipt)}`);
 
   const instantiateFee = calculateFee(500_000, gasPrice);
