@@ -376,7 +376,7 @@ export class SigningFinschiaClient extends FinschiaClient {
   ): Promise<UploadAndInstantiateResult> {
     const compressed = pako.gzip(wasmCode, { level: 9 });
     const storeCodeAndInstantiateMsg: EncodeObject = {
-      typeUrl: "/cosmwasm.wasm.v1.MsgStoreCodeAndInstantiateContract",
+      typeUrl: "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract",
       value: MsgStoreCodeAndInstantiateContract.fromPartial({
         sender: signerAddress,
         wasmByteCode: compressed,
