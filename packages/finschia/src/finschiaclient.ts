@@ -1,5 +1,13 @@
 import { addCoins } from "@cosmjs/amino";
-import { Code, CodeDetails, Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
+import {
+  Code,
+  CodeDetails,
+  Contract,
+  ContractCodeHistoryEntry,
+  JsonObject,
+  setupWasmExtension,
+  WasmExtension,
+} from "@cosmjs/cosmwasm-stargate";
 import { fromAscii, toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
 import {
@@ -55,16 +63,15 @@ import {
   FeeGrantExtension,
   FoundationExtension,
   IbcExtension,
-  JsonObject,
   setupCollectionExtension,
   setupEvidenceExtension,
   setupFeeGrantExtension,
   setupFoundationExtension,
   setupIbcExtension,
   setupTokenExtension,
-  setupWasmExtension,
+  setupWasmplusExtension,
   TokenExtension,
-  WasmExtension,
+  WasmplusExtension,
 } from "./modules";
 
 export type QueryClientWithExtensions = QueryClient &
@@ -83,7 +90,8 @@ export type QueryClientWithExtensions = QueryClient &
   StakingExtension &
   TokenExtension &
   TxExtension &
-  WasmExtension;
+  WasmExtension &
+  WasmplusExtension;
 
 function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryClientWithExtensions {
   return QueryClient.withExtensions(
@@ -104,6 +112,7 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
     setupTokenExtension,
     setupTxExtension,
     setupWasmExtension,
+    setupWasmplusExtension,
   );
 }
 

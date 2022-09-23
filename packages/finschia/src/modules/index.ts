@@ -23,9 +23,10 @@ export { ibcTypes } from "./ibc/messages";
 export { IbcExtension, setupIbcExtension } from "./ibc/queries";
 export { tokenTypes } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
+export { wasmTypes } from "./wasm/messages";
 export {
   isMsgStoreCodeAndInstantiateContract,
   MsgStoreCodeAndInstantiateContractEncodeObject,
-  wasmTypes,
-} from "./wasm/messages";
-export { JsonObject, setupWasmExtension, WasmExtension } from "./wasm/queries";
+  wasmplusTypes,
+} from "./wasmplus/messages";
+export { setupWasmplusExtension, WasmplusExtension } from "./wasmplus/queries";

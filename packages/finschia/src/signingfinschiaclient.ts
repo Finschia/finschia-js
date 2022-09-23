@@ -81,7 +81,15 @@ import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
-import { collectionTypes, feegrantTypes, foundationTypes, ibcTypes, tokenTypes, wasmTypes } from "./modules";
+import {
+  collectionTypes,
+  feegrantTypes,
+  foundationTypes,
+  ibcTypes,
+  tokenTypes,
+  wasmplusTypes,
+  wasmTypes,
+} from "./modules";
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */
@@ -114,6 +122,7 @@ export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...foundationTypes,
   ...collectionTypes,
   ...wasmTypes,
+  ...wasmplusTypes,
 ];
 
 function createDefaultRegistry(): Registry {

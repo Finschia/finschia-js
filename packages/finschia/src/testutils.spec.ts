@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AminoSignResponse, Secp256k1HdWallet, Secp256k1HdWalletOptions, StdSignDoc } from "@cosmjs/amino";
+import { setupWasmExtension, WasmExtension } from "@cosmjs/cosmwasm-stargate";
 import { Bip39, EnglishMnemonic, Random } from "@cosmjs/crypto";
 import { fromBase64, toBech32 } from "@cosmjs/encoding";
 import {
@@ -23,7 +24,7 @@ import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, SignDoc, TxBody } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
-import { setupWasmExtension, WasmExtension } from "./modules";
+import { setupWasmplusExtension, WasmplusExtension } from "./modules";
 import hackatom from "./testdata/contract.json";
 
 export const defaultGasPrice = GasPrice.fromString("0.025cony");
@@ -214,9 +215,15 @@ export function fromOneElementArray<T>(elements: ArrayLike<T>): T {
 
 export async function makeWasmClient(
   endpoint: string,
-): Promise<QueryClient & AuthExtension & BankExtension & WasmExtension> {
+): Promise<QueryClient & AuthExtension & BankExtension & WasmExtension & WasmplusExtension> {
   const tmClient = await Tendermint34Client.connect(endpoint);
-  return QueryClient.withExtensions(tmClient, setupAuthExtension, setupBankExtension, setupWasmExtension);
+  return QueryClient.withExtensions(
+    tmClient,
+    setupAuthExtension,
+    setupBankExtension,
+    setupWasmExtension,
+    setupWasmplusExtension,
+  );
 }
 
 /**

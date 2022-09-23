@@ -1,4 +1,4 @@
-import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
+import { GeneratedType } from "@cosmjs/proto-signing";
 import {
   MsgClearAdmin,
   MsgExecuteContract,
@@ -7,7 +7,6 @@ import {
   MsgStoreCode,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 
 export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgClearAdmin", MsgClearAdmin],
@@ -16,19 +15,4 @@ export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgStoreCode", MsgStoreCode],
   ["/cosmwasm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract],
   ["/cosmwasm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin],
-  ["/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract", MsgStoreCodeAndInstantiateContract],
 ];
-
-export interface MsgStoreCodeAndInstantiateContractEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract";
-  readonly value: Partial<MsgStoreCodeAndInstantiateContract>;
-}
-
-export function isMsgStoreCodeAndInstantiateContract(
-  object: EncodeObject,
-): object is MsgStoreCodeAndInstantiateContractEncodeObject {
-  return (
-    (object as MsgStoreCodeAndInstantiateContractEncodeObject).typeUrl ===
-    "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract"
-  );
-}
