@@ -63,7 +63,7 @@ import {
   WasmExtension,
 } from "./modules";
 
-type QueryClientWithExtensions = QueryClient &
+export type QueryClientWithExtensions = QueryClient &
   AuthExtension &
   BankExtension &
   CollectionExtension &
