@@ -1,5 +1,13 @@
 import { addCoins } from "@cosmjs/amino";
-import { Code, CodeDetails, Contract, ContractCodeHistoryEntry } from "@cosmjs/cosmwasm-stargate";
+import {
+  Code,
+  CodeDetails,
+  Contract,
+  ContractCodeHistoryEntry,
+  JsonObject,
+  setupWasmExtension,
+  WasmExtension,
+} from "@cosmjs/cosmwasm-stargate";
 import { fromAscii, toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
 import {
@@ -22,10 +30,12 @@ import {
   SearchTxQuery,
   SequenceResponse,
   setupAuthExtension,
+  setupAuthzExtension,
   setupBankExtension,
   setupDistributionExtension,
   setupGovExtension,
   setupMintExtension,
+  setupSlashingExtension,
   setupStakingExtension,
   setupTxExtension,
   StakingExtension,
@@ -33,6 +43,8 @@ import {
   TimeoutError,
   TxExtension,
 } from "@cosmjs/stargate";
+import { SlashingExtension } from "@cosmjs/stargate/build/modules";
+import { AuthzExtension } from "@cosmjs/stargate/build/modules/authz/queries";
 import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
@@ -51,21 +63,22 @@ import {
   FeeGrantExtension,
   FoundationExtension,
   IbcExtension,
-  JsonObject,
   setupCollectionExtension,
   setupEvidenceExtension,
   setupFeeGrantExtension,
   setupFoundationExtension,
   setupIbcExtension,
   setupTokenExtension,
-  setupWasmExtension,
+  setupWasmplusExtension,
   TokenExtension,
-  WasmExtension,
+  WasmplusExtension,
 } from "./modules";
 
 export type QueryClientWithExtensions = QueryClient &
   AuthExtension &
   BankExtension &
+  AuthzExtension &
+  SlashingExtension &
   CollectionExtension &
   DistributionExtension &
   EvidenceExtension &
@@ -77,15 +90,16 @@ export type QueryClientWithExtensions = QueryClient &
   StakingExtension &
   TokenExtension &
   TxExtension &
-  WasmExtension;
+  WasmExtension &
+  WasmplusExtension;
 
 function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryClientWithExtensions {
   return QueryClient.withExtensions(
     tmClient,
     setupAuthExtension,
     setupBankExtension,
-    // setupAuthzExtension, this is omitted in cosmjs export
-    // setupSlashingExtension, this is omitted in cosmjs export
+    setupAuthzExtension,
+    setupSlashingExtension,
     setupCollectionExtension,
     setupDistributionExtension,
     setupEvidenceExtension,
@@ -98,6 +112,7 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
     setupTokenExtension,
     setupTxExtension,
     setupWasmExtension,
+    setupWasmplusExtension,
   );
 }
 
@@ -362,7 +377,7 @@ export class FinschiaClient {
     if (broadcasted.code) {
       return Promise.reject(
         new Error(
-          `Broadcasting transaction failed with code ${broadcasted.code} (codespace: ${broadcasted.codeSpace}). Log: ${broadcasted.log}`,
+          `Broadcasting transaction failed with code ${broadcasted.code} (codespace: ${broadcasted.codespace}). Log: ${broadcasted.log}`,
         ),
       );
     }

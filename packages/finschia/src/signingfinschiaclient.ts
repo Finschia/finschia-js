@@ -55,7 +55,7 @@ import {
   StdFee,
 } from "@cosmjs/stargate";
 import {
-  createFreegrantAminoConverters,
+  createFeegrantAminoConverters,
   createIbcAminoConverters,
   MsgTransferEncodeObject,
 } from "@cosmjs/stargate";
@@ -76,12 +76,20 @@ import {
 import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
-import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
-import { collectionTypes, feegrantTypes, foundationTypes, ibcTypes, tokenTypes, wasmTypes } from "./modules";
+import {
+  collectionTypes,
+  feegrantTypes,
+  foundationTypes,
+  ibcTypes,
+  tokenTypes,
+  wasmplusTypes,
+  wasmTypes,
+} from "./modules";
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */
@@ -114,6 +122,7 @@ export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...foundationTypes,
   ...collectionTypes,
   ...wasmTypes,
+  ...wasmplusTypes,
 ];
 
 function createDefaultRegistry(): Registry {
@@ -125,7 +134,7 @@ function createDefaultTypes(prefix: string): AminoConverters {
     ...createAuthzAminoConverters(),
     ...createBankAminoConverters(),
     ...createDistributionAminoConverters(),
-    ...createFreegrantAminoConverters(),
+    ...createFeegrantAminoConverters(),
     ...createGovAminoConverters(),
     ...createIbcAminoConverters(),
     ...createStakingAminoConverters(prefix),
@@ -376,7 +385,7 @@ export class SigningFinschiaClient extends FinschiaClient {
   ): Promise<UploadAndInstantiateResult> {
     const compressed = pako.gzip(wasmCode, { level: 9 });
     const storeCodeAndInstantiateMsg: EncodeObject = {
-      typeUrl: "/cosmwasm.wasm.v1.MsgStoreCodeAndInstantiateContract",
+      typeUrl: "/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract",
       value: MsgStoreCodeAndInstantiateContract.fromPartial({
         sender: signerAddress,
         wasmByteCode: compressed,
@@ -615,6 +624,8 @@ export class SigningFinschiaClient extends FinschiaClient {
       [{ pubkey, sequence: signedSequence }],
       signed.fee.amount,
       signedGasLimit,
+      signed.fee.granter,
+      signed.fee.payer,
       signMode,
     );
     return TxRaw.fromPartial({
@@ -648,7 +659,13 @@ export class SigningFinschiaClient extends FinschiaClient {
     };
     const txBodyBytes = this.registry.encode(txBody);
     const gasLimit = Int53.fromString(fee.gas).toNumber();
-    const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit);
+    const authInfoBytes = makeAuthInfoBytes(
+      [{ pubkey, sequence }],
+      fee.amount,
+      gasLimit,
+      fee.granter,
+      fee.payer,
+    );
     const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
     const { signature, signed } = await this.signer.signDirect(signerAddress, signDoc);
     return TxRaw.fromPartial({

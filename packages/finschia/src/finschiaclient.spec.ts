@@ -277,7 +277,15 @@ describe("FinschiaClient", () => {
       };
       const txBodyBytes = registry.encode(txBody);
       const gasLimit = Int53.fromString(fee.gas).toNumber();
-      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], fee.amount, gasLimit);
+      const feeGranter = undefined;
+      const feePayer = undefined;
+      const authInfoBytes = makeAuthInfoBytes(
+        [{ pubkey, sequence }],
+        fee.amount,
+        gasLimit,
+        feeGranter,
+        feePayer,
+      );
       const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);
       const { signed, signature } = await wallet.signDirect(faucet.address0, signDoc);
       const txRaw = TxRaw.fromPartial({
@@ -331,7 +339,16 @@ describe("FinschiaClient", () => {
       const { accountNumber, sequence } = (await client.getSequence(address))!;
       const feeAmount = coins(2000, "cony");
       const gasLimit = 200000;
-      const authInfoBytes = makeAuthInfoBytes([{ pubkey, sequence }], feeAmount, gasLimit, sequence);
+      const feeGranter = undefined;
+      const feePayer = undefined;
+      const authInfoBytes = makeAuthInfoBytes(
+        [{ pubkey, sequence }],
+        feeAmount,
+        gasLimit,
+        feeGranter,
+        feePayer,
+        sequence,
+      );
 
       const chainId = await client.getChainId();
       const signDoc = makeSignDoc(txBodyBytes, authInfoBytes, chainId, accountNumber);

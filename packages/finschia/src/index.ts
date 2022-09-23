@@ -29,7 +29,7 @@ export {
   MsgStoreCodeAndInstantiateContractEncodeObject,
   wasmTypes,
 } from "./modules";
-export { JsonObject, setupWasmExtension, WasmExtension } from "./modules";
+export { setupWasmplusExtension, WasmplusExtension } from "./modules";
 export { makeLinkPath } from "./paths";
 export {
   finschiaRegistryTypes,
