@@ -1,7 +1,7 @@
 {
   "name": "@lbmjs/finschia",
-  "version": "0.4.0-rc7",
-  "description": "Utilities for LBM SDK 0.45.0-rc7",
+  "version": "0.4.0-rc8",
+  "description": "Utilities for LBM SDK 0.45.0-rc8",
   "contributors": [
     "Simon Warta <webmaster128@users.noreply.github.com>",
     "zemyblue <zemyblue@users.noreply.github.com>",
