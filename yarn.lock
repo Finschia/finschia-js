@@ -732,7 +732,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^0.46.0-rc7
+    lbmjs-types: ^0.46.0-rc8
     long: ^4.0.0
     nyc: ^15.1.0
     pako: ^2.0.2
@@ -4387,6 +4387,16 @@ __metadata:
     long: ^4.0.0
     protobufjs: ~6.11.2
   checksum: e3fb4e283ebe29ff666d32fbbdfa8f69cf1620bc699fc26a4f2552e083f02f3460f3fbdf72d342c5fef928a6371f4ae6a774b63d4877628855529a01d9c65831
+  languageName: node
+  linkType: hard
+
+"lbmjs-types@npm:^0.46.0-rc8":
+  version: 0.46.0-rc8
+  resolution: "lbmjs-types@npm:0.46.0-rc8"
+  dependencies:
+    long: ^4.0.0
+    protobufjs: ~6.11.2
+  checksum: 01d37472a60f51fc13ec84e3c3f25bd07dcf138fe8e35d6bf6012c62c7a74a601f28d4b2e8813181a5e4267a9df47c1e985b178dd7cd3ce96cd3dea048c7bcce
   languageName: node
   linkType: hard
 
