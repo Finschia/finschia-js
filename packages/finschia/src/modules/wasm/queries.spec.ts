@@ -19,7 +19,6 @@ import {
 import { assert } from "@cosmjs/utils";
 import { MsgExecuteContract, MsgInstantiateContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
-import { ContractStatus } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import Long from "long";
 
 import { makeLinkPath } from "../../paths";
@@ -227,7 +226,6 @@ describe("WasmExtension", () => {
         label: "my escrow",
         admin: "",
         ibcPortId: "",
-        status: ContractStatus.CONTRACT_STATUS_ACTIVE,
         created: undefined,
         extension: undefined,
       });
