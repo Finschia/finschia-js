@@ -7,8 +7,6 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-- cosmjs: bump up cosmjs from v0.28.1 to v0.28.4  ([#22])
-- @lbmjs/stargate: add unimplemented query/tx apis of evidence and feegrant, gov, token ([#23])
 
 ### Changed
 
@@ -20,27 +18,27 @@ and this project adheres to
 
 ### Security
 
-[#22]: https://github.com/line/lbmjs/pull/22
-[#23]: https://github.com/line/lbmjs/pull/23
 
+## [0.4.0] - 2022-10-07
 
-## [0.4.0-rc0] - 2022-04-20
-
-- bump up @cosmjs v0.28.1
-- support lbm v0.4.0-rc0
+- bump up @cosmjs v0.29
+- support lbm v0.6.0
+- support lbm-sdk v0.46.0-rc8
 
 ### Added
-- ci: add unittest CI ([#18])
+- [\#18](https://github.com/line/lbmjs/pull/18) ci: add unittest CI
+- [\#35](https://github.com/line/lbmjs/pull/35) ci: run simapp and enable simapp test in GitHub action
 
 ### Changed
-- cosmjs: feat: bump up v0.28.1 ([#20])
+- [\#20](https://github.com/line/lbmjs/pull/20) cosmjs: bump up v0.28.1
+- [\#22](https://github.com/line/lbmjs/pull/22) cosmjs: bump up v0.28.4
+- [\#37](https://github.com/line/lbmjs/pull/37) merge stargate and cosmwasm-stargate into finschia
+- [\#39](https://github.com/line/lbmjs/pull/39) delete stargate, cosmwasm-stargate
+- [\#38](https://github.com/line/lbmjs/pull/38) support lbm-sdk-rc8 and bump up cosmjs 0.29
+  - add token/collection/foundation module APIs
 
 ### Fixed
-- @lbmjs/stargate: fix multisignature spec file error ([#19])
-
-[#18]: https://github.com/line/lbmjs/pull/18
-[#19]: https://github.com/line/lbmjs/pull/19
-[#20]: https://github.com/line/lbmjs/pull/20
+- [\#19](https://github.com/line/lbmjs/pull/19) @lbmjs/stargate: fix multisignature spec file error
 
 
 ## 0.1.0 - 2022-03-29
@@ -69,5 +67,5 @@ and this project adheres to
 [#14]: https://github.com/line/lbmjs/pull/14
 
 
-[Unreleased]: https://github.com/line/lbmjs/compare/v0.4.0-rc0...HEAD
-[v0.4.0-rc0]: https://github.com/line/lbmjs/compare/v0.1.0...v0.4.0-rc0
+[Unreleased]: https://github.com/line/lbmjs/compare/v0.4.0...HEAD
+[v0.4.0]: https://github.com/line/lbmjs/compare/v0.1.0...v0.4.0

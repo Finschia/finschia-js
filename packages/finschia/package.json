@@ -1,6 +1,6 @@
 {
   "name": "@lbmjs/finschia",
-  "version": "0.4.0-rc8",
+  "version": "0.4.0",
   "description": "Utilities for LBM SDK 0.46.0-rc8",
   "contributors": [
     "zemyblue <zemyblue@users.noreply.github.com>",
