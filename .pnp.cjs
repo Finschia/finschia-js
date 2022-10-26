@@ -1632,7 +1632,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "lbmjs-types",
-        "npm:0.46.0-rc8"
+        "file:/Users/user/line/js/lbmjs-folder/lbmjs-types#/Users/user/line/js/lbmjs-folder/lbmjs-types::hash=e97319&locator=%40lbmjs%2Ffinschia%40workspace%3Apackages%2Ffinschia"
       ],
       [
         "levn",
@@ -3255,7 +3255,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:0.0.33"],
             ["karma-typescript", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:5.5.3"],
-            ["lbmjs-types", "npm:0.46.0-rc8"],
+            ["lbmjs-types", "file:/Users/user/line/js/lbmjs-folder/lbmjs-types#/Users/user/line/js/lbmjs-folder/lbmjs-types::hash=e97319&locator=%40lbmjs%2Ffinschia%40workspace%3Apackages%2Ffinschia"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -7754,10 +7754,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lbmjs-types", [
-        ["npm:0.46.0-rc8", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-0.46.0-rc8-b4d5876543-01d37472a6.zip/node_modules/lbmjs-types/",
+        ["file:/Users/user/line/js/lbmjs-folder/lbmjs-types#/Users/user/line/js/lbmjs-folder/lbmjs-types::hash=e97319&locator=%40lbmjs%2Ffinschia%40workspace%3Apackages%2Ffinschia", {
+          "packageLocation": "./.yarn/unplugged/lbmjs-types-file-2a11f9bd15/node_modules/lbmjs-types/",
           "packageDependencies": [
-            ["lbmjs-types", "npm:0.46.0-rc8"],
+            ["lbmjs-types", "file:/Users/user/line/js/lbmjs-folder/lbmjs-types#/Users/user/line/js/lbmjs-folder/lbmjs-types::hash=e97319&locator=%40lbmjs%2Ffinschia%40workspace%3Apackages%2Ffinschia"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],
