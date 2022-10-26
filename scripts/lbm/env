@@ -1,5 +1,0 @@
-# Choose from https://hub.docker.com/r/interchainio/simapp/tags
-REPOSITORY="line/lbm"
-VERSION="0.3.0-rc0"
-CONTAINER_NAME="lbmapp"
-CONTAINER_NAME_SLOW="lbmapp-slow"
