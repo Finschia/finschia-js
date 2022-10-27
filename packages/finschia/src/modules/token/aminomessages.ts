@@ -70,7 +70,7 @@ export function isAminoMsgRevokeOperator(msg: AminoMsg): msg is AminoMsgRevokeOp
 }
 
 export interface AminoMsgApprove extends AminoMsg {
-  readonly type: "lbm-sdk/MsgApprove";
+  readonly type: "lbm-sdk/token/MsgApprove";
   readonly value: {
     /** contract id associated with the token class. */
     readonly contractId: string;
@@ -82,7 +82,7 @@ export interface AminoMsgApprove extends AminoMsg {
 }
 
 export function isAminoMsgApprove(msg: AminoMsg): msg is AminoMsgApprove {
-  return msg.type === "lbm-sdk/MsgApprove";
+  return msg.type === "lbm-sdk/token/MsgApprove";
 }
 
 export interface AminoMsgIssue extends AminoMsg {
@@ -114,7 +114,7 @@ export function isAminoMsgIssue(msg: AminoMsg): msg is AminoMsgIssue {
 }
 
 export interface AminoMsgGrantPermission extends AminoMsg {
-  readonly type: "lbm-sdk/MsgGrantPermission";
+  readonly type: "lbm-sdk/token/MsgGrantPermission";
   readonly value: {
     /** contract id associated with the token class. */
     readonly contractId: string;
@@ -128,11 +128,11 @@ export interface AminoMsgGrantPermission extends AminoMsg {
 }
 
 export function isAminoMsgGrantPermission(msg: AminoMsg): msg is AminoMsgGrantPermission {
-  return msg.type === "lbm-sdk/MsgGrantPermission";
+  return msg.type === "lbm-sdk/token/MsgGrantPermission";
 }
 
 export interface AminoMsgRevokePermission extends AminoMsg {
-  readonly type: "lbm-sdk/MsgRevokePermission";
+  readonly type: "lbm-sdk/token/MsgRevokePermission";
   readonly value: {
     /** contract id associated with the token class. */
     readonly contractId: string;
@@ -144,7 +144,7 @@ export interface AminoMsgRevokePermission extends AminoMsg {
 }
 
 export function isAminoMsgRevokePermission(msg: AminoMsg): msg is AminoMsgRevokePermission {
-  return msg.type === "lbm-sdk/MsgRevokePermission";
+  return msg.type === "lbm-sdk/token/MsgRevokePermission";
 }
 
 export interface AminoMsgMint extends AminoMsg {
@@ -200,7 +200,7 @@ export function isAminoMsgBurnFrom(msg: AminoMsg): msg is AminoMsgBurnFrom {
 }
 
 export interface AminoMsgModify extends AminoMsg {
-  readonly type: "lbm-sdk/MsgModify";
+  readonly type: "lbm-sdk/token/MsgModify";
   readonly value: {
     /** contract id associated with the contract. */
     contractId: string;
@@ -212,7 +212,7 @@ export interface AminoMsgModify extends AminoMsg {
 }
 
 export function isAminoMsgModify(msg: AminoMsg): msg is AminoMsgModify {
-  return msg.type === "lbm-sdk/MsgModify";
+  return msg.type === "lbm-sdk/token/MsgModify";
 }
 
 export function createTokenAminoConverters(): AminoConverters {
@@ -281,7 +281,7 @@ export function createTokenAminoConverters(): AminoConverters {
       },
     },
     "/lbm.token.v1.MsgApprove": {
-      aminoType: "lbm-sdk/MsgApprove",
+      aminoType: "lbm-sdk/token/MsgApprove",
       toAmino: ({ contractId, approver, proxy }: MsgApprove): AminoMsgApprove["value"] => {
         return {
           contractId: contractId,
@@ -347,7 +347,7 @@ export function createTokenAminoConverters(): AminoConverters {
       },
     },
     "/lbm.token.v1.MsgGrantPermission": {
-      aminoType: "lbm-sdk/MsgGrantPermission",
+      aminoType: "lbm-sdk/token/MsgGrantPermission",
       toAmino: ({
         contractId,
         from,
@@ -376,7 +376,7 @@ export function createTokenAminoConverters(): AminoConverters {
       },
     },
     "/lbm.token.v1.MsgRevokePermission": {
-      aminoType: "lbm-sdk/MsgRevokePermission",
+      aminoType: "lbm-sdk/token/MsgRevokePermission",
       toAmino: ({ contractId, from, permission }: MsgRevokePermission): AminoMsgRevokePermission["value"] => {
         return {
           contractId: contractId,
@@ -452,7 +452,7 @@ export function createTokenAminoConverters(): AminoConverters {
       },
     },
     "/lbm.token.v1.MsgModify": {
-      aminoType: "lbm-sdk/MsgModify",
+      aminoType: "lbm-sdk/token/MsgModify",
       toAmino: ({ contractId, owner, changes }: MsgModify): AminoMsgModify["value"] => {
         return {
           contractId: contractId,
