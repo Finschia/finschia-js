@@ -215,9 +215,9 @@ export function isAminoMsgModify(msg: AminoMsg): msg is AminoMsgModify {
   return msg.type === "lbm-sdk/MsgModify";
 }
 
-export function createCollectionAminoConverters(): AminoConverters {
+export function createTokenAminoConverters(): AminoConverters {
   return {
-    "/lbm.foundation.v1.MsgSend": {
+    "/lbm.token.v1.MsgSend": {
       aminoType: "lbm-sdk/MsgSend",
       toAmino: ({ contractId, from, to, amount }: MsgSend): AminoMsgSend["value"] => {
         return {
@@ -236,7 +236,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgTransferFrom": {
+    "/lbm.token.v1.MsgTransferFrom": {
       aminoType: "lbm-sdk/MsgTransferFrom",
       toAmino: ({ contractId, proxy, from, to, amount }: MsgTransferFrom): AminoMsgTransferFrom["value"] => {
         return {
@@ -263,7 +263,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgRevokeOperator": {
+    "/lbm.token.v1.MsgRevokeOperator": {
       aminoType: "lbm-sdk/MsgRevokeOperator",
       toAmino: ({ contractId, holder, operator }: MsgRevokeOperator): AminoMsgRevokeOperator["value"] => {
         return {
@@ -280,7 +280,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgApprove": {
+    "/lbm.token.v1.MsgApprove": {
       aminoType: "lbm-sdk/MsgApprove",
       toAmino: ({ contractId, approver, proxy }: MsgApprove): AminoMsgApprove["value"] => {
         return {
@@ -297,7 +297,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgIssue": {
+    "/lbm.token.v1.MsgIssue": {
       aminoType: "lbm-sdk/MsgIssue",
       toAmino: ({
         name,
@@ -346,7 +346,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgGrantPermission": {
+    "/lbm.token.v1.MsgGrantPermission": {
       aminoType: "lbm-sdk/MsgGrantPermission",
       toAmino: ({
         contractId,
@@ -375,7 +375,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgRevokePermission": {
+    "/lbm.token.v1.MsgRevokePermission": {
       aminoType: "lbm-sdk/MsgRevokePermission",
       toAmino: ({ contractId, from, permission }: MsgRevokePermission): AminoMsgRevokePermission["value"] => {
         return {
@@ -396,7 +396,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgMint": {
+    "/lbm.token.v1.MsgMint": {
       aminoType: "lbm-sdk/MsgMint",
       toAmino: ({ contractId, from, to, amount }: MsgMint): AminoMsgMint["value"] => {
         return {
@@ -415,7 +415,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgBurn": {
+    "/lbm.token.v1.MsgBurn": {
       aminoType: "lbm-sdk/MsgBurn",
       toAmino: ({ contractId, from, amount }: MsgBurn): AminoMsgBurn["value"] => {
         return {
@@ -432,7 +432,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgBurnFrom": {
+    "/lbm.token.v1.MsgBurnFrom": {
       aminoType: "lbm-sdk/MsgBurnFrom",
       toAmino: ({ contractId, proxy, from, amount }: MsgBurnFrom): AminoMsgBurnFrom["value"] => {
         return {
@@ -451,7 +451,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgModify": {
+    "/lbm.token.v1.MsgModify": {
       aminoType: "lbm-sdk/MsgModify",
       toAmino: ({ contractId, owner, changes }: MsgModify): AminoMsgModify["value"] => {
         return {

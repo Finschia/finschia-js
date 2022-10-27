@@ -477,7 +477,7 @@ export function isAminoMsgDetachFrom(msg: AminoMsg): msg is AminoMsgDetachFrom {
 
 export function createCollectionAminoConverters(): AminoConverters {
   return {
-    "/lbm.foundation.v1.MsgTransferFT": {
+    "/lbm.collection.v1.MsgTransferFT": {
       aminoType: "lbm-sdk/MsgTransferFT",
       toAmino: ({ contractId, from, to, amount }: MsgTransferFT): AminoMsgTransferFT["value"] => {
         return {
@@ -496,7 +496,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgTransferFTFrom": {
+    "/lbm.collection.v1.MsgTransferFTFrom": {
       aminoType: "lbm-sdk/MsgTransferFTFrom",
       toAmino: ({
         contractId,
@@ -529,7 +529,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgTransferNFT": {
+    "/lbm.collection.v1.MsgTransferNFT": {
       aminoType: "lbm-sdk/MsgTransferNFT",
       toAmino: ({ contractId, from, to, tokenIds }: MsgTransferNFT): AminoMsgTransferNFT["value"] => {
         return {
@@ -548,7 +548,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgTransferNFTFrom": {
+    "/lbm.collection.v1.MsgTransferNFTFrom": {
       aminoType: "lbm-sdk/MsgTransferNFTFrom",
       toAmino: ({
         contractId,
@@ -581,7 +581,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgApprove": {
+    "/lbm.collection.v1.MsgApprove": {
       aminoType: "lbm-sdk/MsgApprove",
       toAmino: ({ contractId, approver, proxy }: MsgApprove): AminoMsgApprove["value"] => {
         return {
@@ -598,7 +598,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgDisapprove": {
+    "/lbm.collection.v1.MsgDisapprove": {
       aminoType: "lbm-sdk/MsgDisapprove",
       toAmino: ({ contractId, approver, proxy }: MsgDisapprove): AminoMsgDisapprove["value"] => {
         return {
@@ -615,7 +615,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgCreateContract": {
+    "/lbm.collection.v1.MsgCreateContract": {
       aminoType: "lbm-sdk/MsgCreateContract",
       toAmino: ({ owner, name, baseImgUri, meta }: MsgCreateContract): AminoMsgCreateContract["value"] => {
         return {
@@ -634,7 +634,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgIssueFT": {
+    "/lbm.collection.v1.MsgIssueFT": {
       aminoType: "lbm-sdk/MsgIssueFT",
       toAmino: ({
         contractId,
@@ -679,7 +679,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgIssueNFT": {
+    "/lbm.collection.v1.MsgIssueNFT": {
       aminoType: "lbm-sdk/MsgIssueNFT",
       toAmino: ({ contractId, name, meta, owner }: MsgIssueNFT): AminoMsgIssueNFT["value"] => {
         return {
@@ -698,7 +698,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgMintFT": {
+    "/lbm.collection.v1.MsgMintFT": {
       aminoType: "lbm-sdk/MsgMintFT",
       toAmino: ({ contractId, from, to, amount }: MsgMintFT): AminoMsgMintFT["value"] => {
         return {
@@ -717,7 +717,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgMintNFT": {
+    "/lbm.collection.v1.MsgMintNFT": {
       aminoType: "lbm-sdk/MsgMintNFT",
       toAmino: ({ contractId, from, to, params }: MsgMintNFT): AminoMsgMintNFT["value"] => {
         return {
@@ -736,7 +736,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgBurnFT": {
+    "/lbm.collection.v1.MsgBurnFT": {
       aminoType: "lbm-sdk/MsgBurnFT",
       toAmino: ({ contractId, from, amount }: MsgBurnFT): AminoMsgBurnFT["value"] => {
         return {
@@ -753,7 +753,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgBurnFTFrom": {
+    "/lbm.collection.v1.MsgBurnFTFrom": {
       aminoType: "lbm-sdk/MsgBurnFTFrom",
       toAmino: ({ contractId, proxy, from, amount }: MsgBurnFTFrom): AminoMsgBurnFTFrom["value"] => {
         return {
@@ -772,7 +772,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgBurnNFT": {
+    "/lbm.collection.v1.MsgBurnNFT": {
       aminoType: "lbm-sdk/MsgBurnNFT",
       toAmino: ({ contractId, from, tokenIds }: MsgBurnNFT): AminoMsgBurnNFT["value"] => {
         return {
@@ -789,7 +789,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgBurnNFTFrom": {
+    "/lbm.collection.v1.MsgBurnNFTFrom": {
       aminoType: "lbm-sdk/MsgBurnNFTFrom",
       toAmino: ({ contractId, proxy, from, tokenIds }: MsgBurnNFTFrom): AminoMsgBurnNFTFrom["value"] => {
         return {
@@ -808,7 +808,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgModify": {
+    "/lbm.collection.v1.MsgModify": {
       aminoType: "lbm-sdk/MsgModify",
       toAmino: ({
         contractId,
@@ -841,7 +841,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgGrantPermission": {
+    "/lbm.collection.v1.MsgGrantPermission": {
       aminoType: "lbm-sdk/MsgGrantPermission",
       toAmino: ({
         contractId,
@@ -870,7 +870,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgRevokePermission": {
+    "/lbm.collection.v1.MsgRevokePermission": {
       aminoType: "lbm-sdk/MsgRevokePermission",
       toAmino: ({ contractId, from, permission }: MsgRevokePermission): AminoMsgRevokePermission["value"] => {
         return {
@@ -891,7 +891,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgAttach": {
+    "/lbm.collection.v1.MsgAttach": {
       aminoType: "lbm-sdk/MsgAttach",
       toAmino: ({ contractId, from, tokenId, toTokenId }: MsgAttach): AminoMsgAttach["value"] => {
         return {
@@ -910,7 +910,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgDetach": {
+    "/lbm.collection.v1.MsgDetach": {
       aminoType: "lbm-sdk/MsgDetach",
       toAmino: ({ contractId, from, tokenId }: MsgDetach): AminoMsgDetach["value"] => {
         return {
@@ -927,7 +927,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgAttachFrom": {
+    "/lbm.collection.v1.MsgAttachFrom": {
       aminoType: "lbm-sdk/MsgAttachFrom",
       toAmino: ({
         contractId,
@@ -960,7 +960,7 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.foundation.v1.MsgDetachFrom": {
+    "/lbm.collection.v1.MsgDetachFrom": {
       aminoType: "lbm-sdk/MsgDetachFrom",
       toAmino: ({ contractId, proxy, from, tokenId }: MsgDetachFrom): AminoMsgDetachFrom["value"] => {
         return {
