@@ -2,7 +2,15 @@ import { AminoMsg, Coin } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
 import { Any } from "lbmjs-types/google/protobuf/any";
-import { MemberRequest, Params, VoteOption } from "lbmjs-types/lbm/foundation/v1/foundation";
+import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
+import {
+  DecisionPolicyWindows,
+  MemberRequest,
+  Params,
+  PercentageDecisionPolicy,
+  ThresholdDecisionPolicy,
+  VoteOption,
+} from "lbmjs-types/lbm/foundation/v1/foundation";
 import {
   Exec,
   MsgExec,
@@ -216,6 +224,44 @@ export interface AminoMsgGovMint extends AminoMsg {
 
 export function isAminoMsgGovMint(msg: AminoMsg): msg is AminoMsgGovMint {
   return msg.type === "lbm-sdk/MsgGovMint";
+}
+
+export interface AminoThresholdDecisionPolicy extends AminoMsg {
+  readonly type: "lbm-sdk/ThresholdDecisionPolicy";
+  readonly value: {
+    /** threshold is the minimum sum of yes votes that must be met or exceeded for a proposal to succeed. */
+    readonly threshold: string;
+    /** windows defines the different windows for voting and execution. */
+    readonly windows?: DecisionPolicyWindows;
+  };
+}
+
+export function isAminoThresholdDecisionPolicy(msg: AminoMsg): msg is AminoThresholdDecisionPolicy {
+  return msg.type === "lbm-sdk/ThresholdDecisionPolicy";
+}
+export interface AminoPercentageDecisionPolicy extends AminoMsg {
+  readonly type: "lbm-sdk/PercentageDecisionPolicy";
+  readonly value: {
+    /** percentage is the minimum percentage the sum of yes votes must meet for a proposal to succeed. */
+    readonly percentage: string;
+    /** windows defines the different windows for voting and execution. */
+    readonly windows?: DecisionPolicyWindows;
+  };
+}
+
+export function isAminoPercentageDecisionPolicy(msg: AminoMsg): msg is AminoPercentageDecisionPolicy {
+  return msg.type === "lbm-sdk/PercentageDecisionPolicy";
+}
+
+export interface AminoReceiveFromTreasuryAuthorization extends AminoMsg {
+  readonly type: "lbm-sdk/ReceiveFromTreasuryAuthorization";
+  readonly value: {};
+}
+
+export function isAminoReceiveFromTreasuryAuthorization(
+  msg: AminoMsg,
+): msg is AminoReceiveFromTreasuryAuthorization {
+  return msg.type === "lbm-sdk/ReceiveFromTreasuryAuthorization";
 }
 
 export function createFoundationAminoConverters(): AminoConverters {
@@ -452,6 +498,53 @@ export function createFoundationAminoConverters(): AminoConverters {
           authority: authority,
           amount: amount,
         };
+      },
+    },
+    "/lbm.foundation.v1.ThresholdDecisionPolicy": {
+      aminoType: "lbm-sdk/ThresholdDecisionPolicy",
+      toAmino: ({ threshold, windows }: ThresholdDecisionPolicy): AminoThresholdDecisionPolicy["value"] => {
+        return {
+          threshold: threshold,
+          windows: windows,
+        };
+      },
+      fromAmino: ({ threshold, windows }: AminoThresholdDecisionPolicy["value"]): ThresholdDecisionPolicy => {
+        return {
+          threshold: threshold,
+          windows: windows,
+        };
+      },
+    },
+    "/lbm.foundation.v1.PercentageDecisionPolicy": {
+      aminoType: "lbm-sdk/PercentageDecisionPolicy",
+      toAmino: ({
+        percentage,
+        windows,
+      }: PercentageDecisionPolicy): AminoPercentageDecisionPolicy["value"] => {
+        return {
+          percentage: percentage,
+          windows: windows,
+        };
+      },
+      fromAmino: ({
+        percentage,
+        windows,
+      }: AminoPercentageDecisionPolicy["value"]): PercentageDecisionPolicy => {
+        return {
+          percentage: percentage,
+          windows: windows,
+        };
+      },
+    },
+    "/lbm.foundation.v1.ReceiveFromTreasuryAuthorization": {
+      aminoType: "lbm-sdk/ReceiveFromTreasuryAuthorization",
+      // eslint-disable-next-line no-empty-pattern
+      toAmino: ({}: ReceiveFromTreasuryAuthorization): AminoReceiveFromTreasuryAuthorization["value"] => {
+        return {};
+      },
+      // eslint-disable-next-line no-empty-pattern
+      fromAmino: ({}: AminoReceiveFromTreasuryAuthorization["value"]): ReceiveFromTreasuryAuthorization => {
+        return {};
       },
     },
   };
