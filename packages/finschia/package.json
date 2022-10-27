@@ -1,7 +1,7 @@
 {
   "name": "@lbmjs/finschia",
-  "version": "0.4.0",
-  "description": "Utilities for LBM SDK 0.46.0-rc8",
+  "version": "0.7.0",
+  "description": "Utilities for LBM SDK 0.46.0-rc9",
   "contributors": [
     "zemyblue <zemyblue@users.noreply.github.com>",
     "loin3 <55660267+loin3@users.noreply.github.com>"
@@ -44,7 +44,7 @@
     "@cosmjs/tendermint-rpc": "^0.29.0",
     "@cosmjs/utils": "^0.29.0",
     "cosmjs-types": "^0.5.1",
-    "lbmjs-types": "/Users/user/line/js/lbmjs-folder/lbmjs-types",
+    "lbmjs-types": "^0.46.0-rc9",
     "long": "^4.0.0",
     "pako": "^2.0.2",
     "protobufjs": "~6.10.2",

@@ -593,7 +593,7 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: /Users/user/line/js/lbmjs-folder/lbmjs-types
+    lbmjs-types: ^0.46.0-rc9
     long: ^4.0.0
     nyc: ^15.1.0
     pako: ^2.0.2
@@ -4221,13 +4221,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"lbmjs-types@file:/Users/user/line/js/lbmjs-folder/lbmjs-types::locator=%40lbmjs%2Ffinschia%40workspace%3Apackages%2Ffinschia":
-  version: 0.46.0-rc8
-  resolution: "lbmjs-types@file:/Users/user/line/js/lbmjs-folder/lbmjs-types#/Users/user/line/js/lbmjs-folder/lbmjs-types::hash=e97319&locator=%40lbmjs%2Ffinschia%40workspace%3Apackages%2Ffinschia"
+"lbmjs-types@npm:^0.46.0-rc9":
+  version: 0.46.0-rc9
+  resolution: "lbmjs-types@npm:0.46.0-rc9"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: 36b8dfc7dbd590ca685010401b1a4cc32684457e77905f2dd1bda73ba55aba58108ad786ae69721eda71ce10948aabfb851a3fb2b63c00535e4a51affa0a9588
+  checksum: 809231c30ee82591bcfeddb4d25b41f57d163763336111362684221739db055e0036f3784dd99cbfa9fc0e63c7661c46bbb0f1025115fccfe18462dc33480e2c
   languageName: node
   linkType: hard
 
