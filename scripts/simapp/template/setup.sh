@@ -73,6 +73,6 @@ ${SIMD} gentx validator0 10000000000stake --home=${CHAIN_DIR} --keyring-backend=
 
 ${SIMD} collect-gentxs --home=${CHAIN_DIR}
 
-${SIMD} validate-genesis
+${SIMD} validate-genesis --home=${CHAIN_DIR}
 
 # ${SIMD} start --log_level *:debug --rpc.laddr=tcp://0.0.0.0:26657 --p2p.laddr=tcp://0.0.0.0:26656
