@@ -7,7 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-
+- [\#44](https://github.com/line/lbmjs/pull/44) @lbmjs/finshia: Add amino messages to lbm specific modules, support changed foundation module
 ### Changed
 
 ### Deprecated
