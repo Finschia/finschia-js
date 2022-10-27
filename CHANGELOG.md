@@ -13,6 +13,7 @@ and this project adheres to
 ### Deprecated
 
 ### Removed
+- [\#43](https://github.com/line/lbmjs/pull/43) chore: remove unused scripts and ci files
 
 ### Fixed
 

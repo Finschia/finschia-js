@@ -1,5 +1,0 @@
-# Choose from https://hub.docker.com/r/cosmwasm/wasmd/tags
-REPOSITORY="cosmwasm/wasmd"
-VERSION="v0.23.0"
-
-CONTAINER_NAME="wasmd"
