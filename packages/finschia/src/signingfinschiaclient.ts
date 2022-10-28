@@ -90,6 +90,9 @@ import {
   wasmplusTypes,
   wasmTypes,
 } from "./modules";
+import { createCollectionAminoConverters } from "./modules/collection/aminomessages";
+import { createTokenAminoConverters } from "./modules/token/aminomessages";
+import { createWasmplusAminoConverters } from "./modules/wasmplus/aminomessages";
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */
@@ -140,6 +143,9 @@ function createDefaultTypes(prefix: string): AminoConverters {
     ...createStakingAminoConverters(prefix),
     // ...createVestingAminoConverters(), this is omitted in cosmjs export
     ...createWasmAminoConverters(),
+    ...createCollectionAminoConverters(),
+    ...createTokenAminoConverters(),
+    ...createWasmplusAminoConverters(),
   };
 }
 

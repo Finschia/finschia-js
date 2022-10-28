@@ -5,7 +5,7 @@ import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   DecisionPolicyWindows,
-  Member,
+  MemberRequest,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
 } from "lbmjs-types/lbm/foundation/v1/foundation";
@@ -13,12 +13,14 @@ import {
   Exec,
   MsgExec,
   MsgFundTreasury,
+  MsgGovMint,
   MsgGrant,
   MsgLeaveFoundation,
   MsgRevoke,
   MsgSubmitProposal,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
+  MsgUpdateParams,
   MsgVote,
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
@@ -27,6 +29,7 @@ import {
 import { longify } from "../../utils";
 
 export const foundationTypes: ReadonlyArray<[string, GeneratedType]> = [
+  ["/lbm.foundation.v1.MsgUpdateParams", MsgUpdateParams],
   ["/lbm.foundation.v1.MsgFundTreasury", MsgFundTreasury],
   ["/lbm.foundation.v1.MsgWithdrawFromTreasury", MsgWithdrawFromTreasury],
   ["/lbm.foundation.v1.MsgUpdateMembers", MsgUpdateMembers],
@@ -38,6 +41,7 @@ export const foundationTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.foundation.v1.MsgLeaveFoundation", MsgLeaveFoundation],
   ["/lbm.foundation.v1.MsgGrant", MsgGrant],
   ["/lbm.foundation.v1.MsgRevoke", MsgRevoke],
+  ["/lbm.foundation.v1.MsgGovMint", MsgGovMint],
   ["/lbm.foundation.v1.ReceiveFromTreasuryAuthorization", ReceiveFromTreasuryAuthorization],
   ["/lbm.foundation.v1.DecisionPolicyWindows", DecisionPolicyWindows],
   ["/lbm.foundation.v1.ThresholdDecisionPolicy", ThresholdDecisionPolicy],
@@ -61,12 +65,12 @@ export function createMsgSubmitProposal(
   };
 }
 
-export function createMsgGrant(operator: string, grantee: string): EncodeObject {
+export function createMsgGrant(authority: string, grantee: string): EncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.MsgGrant",
     value: Uint8Array.from(
       MsgGrant.encode({
-        operator: operator,
+        authority: authority,
         grantee: grantee,
         authorization: {
           typeUrl: "/lbm.foundation.v1.ReceiveFromTreasuryAuthorization",
@@ -77,12 +81,12 @@ export function createMsgGrant(operator: string, grantee: string): EncodeObject 
   };
 }
 
-export function createMsgRevoke(operator: string, grantee: string, msgTypeUrl: string): EncodeObject {
+export function createMsgRevoke(authority: string, grantee: string, msgTypeUrl: string): EncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.MsgRevoke",
     value: Uint8Array.from(
       MsgRevoke.encode({
-        operator: operator,
+        authority: authority,
         grantee: grantee,
         msgTypeUrl: msgTypeUrl,
       }).finish(),
@@ -91,7 +95,7 @@ export function createMsgRevoke(operator: string, grantee: string, msgTypeUrl: s
 }
 
 export function createMsgWithdrawFromTreasury(
-  operator: string,
+  authority: string,
   toAddress: string,
   amount: Coin[],
 ): EncodeObject {
@@ -99,7 +103,7 @@ export function createMsgWithdrawFromTreasury(
     typeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
     value: Uint8Array.from(
       MsgWithdrawFromTreasury.encode({
-        operator: operator,
+        authority: authority,
         to: toAddress,
         amount: amount,
       }).finish(),
@@ -107,27 +111,27 @@ export function createMsgWithdrawFromTreasury(
   };
 }
 
-export function createMsgUpdateMembers(operator: string, members: Member[]): EncodeObject {
+export function createMsgUpdateMembers(authority: string, memberRequest: MemberRequest[]): EncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.MsgUpdateMembers",
     value: Uint8Array.from(
       MsgUpdateMembers.encode({
-        operator: operator,
-        memberUpdates: members,
+        authority: authority,
+        memberUpdates: memberRequest,
       }).finish(),
     ),
   };
 }
 
 export function createMsgUpdateDecisionPolicy(
-  operator: string,
+  authority: string,
   decisionPolicy: ThresholdDecisionPolicyEncodeObject | PercentageDecisionPolicyEncodeObject,
 ): EncodeObject {
   return {
     typeUrl: "/lbm.foundation.v1.MsgUpdateDecisionPolicy",
     value: Uint8Array.from(
       MsgUpdateDecisionPolicy.encode({
-        operator: operator,
+        authority: authority,
         decisionPolicy: decisionPolicy,
       }).finish(),
     ),

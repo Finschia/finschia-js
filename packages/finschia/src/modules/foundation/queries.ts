@@ -4,6 +4,7 @@ import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import {
   FoundationInfo,
   Member,
+  Params,
   Proposal,
   TallyResult,
   Vote,
@@ -22,6 +23,7 @@ export type FoundationProposalId = string | number | Long | Uint64;
 
 export interface FoundationExtension {
   readonly foundation: {
+    readonly params: () => Promise<Params | undefined>;
     readonly treasury: () => Promise<Coin[]>;
     readonly foundationInfo: () => Promise<FoundationInfo | undefined>;
     readonly member: (address: string) => Promise<Member | undefined>;
@@ -39,6 +41,7 @@ export interface FoundationExtension {
       msgTypeUrl: string,
       paginationKey?: Uint8Array,
     ) => Promise<QueryGrantsResponse>;
+    readonly govMint: () => Promise<number>;
   };
 }
 
@@ -51,6 +54,10 @@ export function setupFoundationExtension(base: QueryClient): FoundationExtension
 
   return {
     foundation: {
+      params: async () => {
+        const response = await queryService.Params({});
+        return response.params;
+      },
       treasury: async () => {
         const response = await queryService.Treasury({});
         return response.amount;
@@ -93,6 +100,10 @@ export function setupFoundationExtension(base: QueryClient): FoundationExtension
           msgTypeUrl: msgTypeUrl,
           pagination: createPagination(paginationKey),
         });
+      },
+      govMint: async () => {
+        const response = await queryService.GovMint({});
+        return response.leftCount;
       },
     },
   };
