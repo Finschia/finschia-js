@@ -1,4 +1,49 @@
-export { collectionTypes } from "./collection/messages";
+export {
+  collectionTypes,
+  isMsgAttachEncodeObject,
+  isMsgAttachFromEncodeObject,
+  isMsgBurnFTEncodeObject,
+  isMsgBurnFTFromEncodeObject,
+  isMsgBurnNFTEncodeObject,
+  isMsgBurnNFTFromEncodeObject,
+  isMsgApproveEncodeObject as isMsgCollectionApproveEncodeObject,
+  isMsgGrantPermissionEncodeObject as isMsgCollectionGrantPermissionEncodeObject,
+  isMsgModifyEncodeObject as isMsgCollectionModifyEncodeObject,
+  isMsgRevokePermissionEncodeObject as isMsgCollectionRevokePermissionEncodeObject,
+  isMsgCreateContractEncodeObject,
+  isMsgDetachFromEncodeObject,
+  isMsgDisapproveEncodeObject,
+  isMsgIssueFTEncodeObject,
+  isMsgIssueNFTEncodeObject,
+  isMsgMintFTEncodeObject,
+  isMsgMintNFTEncodeObject,
+  isMsgTransferFTEncodeObject,
+  isMsgTransferFTFromEncodeObject,
+  isMsgTransferNFTEncodeObject,
+  isMsgTransferNFTFromEncodeObject,
+  MsgAttachEncodeObject,
+  MsgAttachFromEncodeObject,
+  MsgBurnFTEncodeObject,
+  MsgBurnFTFromEncodeObject,
+  MsgBurnNFTEncodeObject,
+  MsgBurnNFTFromEncodeObject,
+  MsgApproveEncodeObject as MsgCollectionApproveEncodeObject,
+  MsgGrantPermissionEncodeObject as MsgCollectionGrantPermissionEncodeObject,
+  MsgModifyEncodeObject as MsgCollectionModifyEncodeObject,
+  MsgRevokePermissionEncodeObject as MsgCollectionRevokePermissionEncodeObject,
+  MsgCreateContractEncodeObject,
+  MsgDetachEncodeObject,
+  MsgDetachFromEncodeObject,
+  MsgDisapproveEncodeObject,
+  MsgIssueFTEncodeObject,
+  MsgIssueNFTEncodeObject,
+  MsgMintFTEncodeObject,
+  MsgMintNFTEncodeObject,
+  MsgTransferFTEncodeObject,
+  MsgTransferFTFromEncodeObject,
+  MsgTransferNFTEncodeObject,
+  MsgTransferNFTFromEncodeObject,
+} from "./collection/messages";
 export { CollectionExtension, setupCollectionExtension } from "./collection/queries";
 export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { feegrantTypes } from "./feegrant/messages";
@@ -21,7 +66,31 @@ export {
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
 export { ibcTypes } from "./ibc/messages";
 export { IbcExtension, setupIbcExtension } from "./ibc/queries";
-export { tokenTypes } from "./token/messages";
+export {
+  isMsgBurnEncodeObject,
+  isMsgBurnFromEncodeObject,
+  isMsgIssueEncodeObject,
+  isMsgMintEncodeObject,
+  isMsgRevokeOperatorEncodeObject,
+  isMsgSendEncodeObject,
+  isMsgApproveEncodeObject as isMsgTokenApproveEncodeObject,
+  isMsgGrantPermissionEncodeObject as isMsgTokenGrantPermissionEncodeObject,
+  isMsgModifyEncodeObject as isMsgTokenModifyEncodeObject,
+  isMsgRevokePermissionEncodeObject as isMsgTokenRevokePermissionEncodeObject,
+  isMsgTransferFromEncodeObject,
+  MsgBurnEncodeObject,
+  MsgBurnFromEncodeObject,
+  MsgIssueEncodeObject,
+  MsgMintEncodeObject,
+  MsgRevokeOperatorEncodeObject,
+  MsgSendEncodeObject,
+  MsgApproveEncodeObject as MsgTokenApproveEncodeObject,
+  MsgGrantPermissionEncodeObject as MsgTokenGrantPermissionEncodeObject,
+  MsgModifyEncodeObject as MsgTokenModifyEncodeObject,
+  MsgRevokePermissionEncodeObject as MsgTokenRevokePermissionEncodeObject,
+  MsgTransferFromEncodeObject,
+  tokenTypes,
+} from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
 export { wasmTypes } from "./wasm/messages";
 export {
