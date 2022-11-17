@@ -1,19 +1,9 @@
 import { coins } from "@cosmjs/amino";
-import { DirectSecp256k1HdWallet, EncodeObject } from "@cosmjs/proto-signing";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, logs, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
 import { FT, OwnerNFT } from "lbmjs-types/lbm/collection/v1/collection";
-import {
-  MsgApprove,
-  MsgAttach,
-  MsgCreateContract,
-  MsgIssueFT,
-  MsgIssueNFT,
-  MsgMintNFT,
-  MsgTransferFT,
-  MsgTransferNFT,
-} from "lbmjs-types/lbm/collection/v1/tx";
 
 import { makeLinkPath } from "../../paths";
 import { SigningFinschiaClient } from "../../signingfinschiaclient";
@@ -24,6 +14,16 @@ import {
   simapp,
   simappEnabled,
 } from "../../testutils.spec";
+import {
+  MsgAttachEncodeObject,
+  MsgCreateContractEncodeObject,
+  MsgIssueFTEncodeObject,
+  MsgIssueNFTEncodeObject,
+  MsgMintNFTEncodeObject,
+  MsgTransferFTEncodeObject,
+  MsgTransferNFTEncodeObject,
+} from "./messages";
+import { MsgApproveEncodeObject } from "./messages";
 import { CollectionExtension, setupCollectionExtension } from "./queries";
 import { ftCoins } from "./utils";
 
@@ -67,17 +67,16 @@ describe("CollectionExtension (fungible token)", () => {
 
       // CreateContract
       {
-        const msg: MsgCreateContract = {
-          owner: owner,
-          name: contractName,
-          baseImgUri: baseImgUrl,
-          meta: "test",
-        };
-        const msgAny: EncodeObject = {
+        const msgCreateContract: MsgCreateContractEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgCreateContract",
-          value: msg,
+          value: {
+            owner: owner,
+            name: contractName,
+            baseImgUri: baseImgUrl,
+            meta: "test",
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgCreateContract], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         contractId = logs.findAttribute(
           parsedLogs,
@@ -91,21 +90,20 @@ describe("CollectionExtension (fungible token)", () => {
 
       // IssueFT
       {
-        const msg: MsgIssueFT = {
-          contractId: contractId,
-          name: tokenName,
-          meta: tokenMeta,
-          decimals: decimals,
-          mintable: true,
-          owner: owner,
-          to: owner,
-          amount: amount,
-        };
-        const msgAny: EncodeObject = {
+        const msgIssueFT: MsgIssueFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgIssueFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            name: tokenName,
+            meta: tokenMeta,
+            decimals: decimals,
+            mintable: true,
+            owner: owner,
+            to: owner,
+            amount: amount,
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgIssueFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         tokenId = logs.findAttribute(parsedLogs, "issue_ft", "token_id").value;
         assert(tokenId, "Missing token ID");
@@ -115,17 +113,16 @@ describe("CollectionExtension (fungible token)", () => {
 
       // TransferFT
       {
-        const msg: MsgTransferFT = {
-          contractId: contractId,
-          from: owner,
-          to: toAddr,
-          amount: ftCoins(sentAmount, tokenId),
-        };
-        const msgAny: EncodeObject = {
+        const msgTransferFT: MsgTransferFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgTransferFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            from: owner,
+            to: toAddr,
+            amount: ftCoins(sentAmount, tokenId),
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgTransferFT], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -284,17 +281,16 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // CreateContract
       {
-        const msg: MsgCreateContract = {
-          owner: owner,
-          name: contractName,
-          baseImgUri: contractBaseImgUrl,
-          meta: "Test NFT Contract",
-        };
-        const msgAny: EncodeObject = {
+        const msgCreateContract: MsgCreateContractEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgCreateContract",
-          value: msg,
+          value: {
+            owner: owner,
+            name: contractName,
+            baseImgUri: contractBaseImgUrl,
+            meta: "Test NFT Contract",
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgCreateContract], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         contractId = logs.findAttribute(
           parsedLogs,
@@ -308,17 +304,16 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // IssueFT
       {
-        const msg: MsgIssueNFT = {
-          contractId: contractId,
-          name: tokenName,
-          meta: "Test Meta data",
-          owner: owner,
-        };
-        const msgAny: EncodeObject = {
+        const msgIssueNFT: MsgIssueNFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgIssueNFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            name: tokenName,
+            meta: "Test Meta data",
+            owner: owner,
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgIssueNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         tokenType = logs.findAttribute(parsedLogs, "issue_nft", "token_type").value;
         assert(tokenType, "Missing contract ID");
@@ -328,23 +323,22 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // MintNFT(1)
       {
-        const msg: MsgMintNFT = {
-          contractId: contractId,
-          from: owner,
-          to: owner,
-          params: [
-            {
-              tokenType: tokenType,
-              name: "Minted TestToken 1",
-              meta: "Test NFT 1",
-            },
-          ],
-        };
-        const msgAny: EncodeObject = {
+        const msgMintNFT: MsgMintNFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgMintNFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            from: owner,
+            to: owner,
+            params: [
+              {
+                tokenType: tokenType,
+                name: "Minted TestToken 1",
+                meta: "Test NFT 1",
+              },
+            ],
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgMintNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         tokenId1 = logs.findAttribute(parsedLogs, "mint_nft", "token_id").value;
         assertIsDeliverTxSuccess(result);
@@ -352,23 +346,22 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // MintNFT(2)
       {
-        const msg: MsgMintNFT = {
-          contractId: contractId,
-          from: owner,
-          to: owner,
-          params: [
-            {
-              tokenType: tokenType,
-              name: "Minted TestToken 2",
-              meta: "Test NFT 2",
-            },
-          ],
-        };
-        const msgAny: EncodeObject = {
+        const msgMintNFT: MsgMintNFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgMintNFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            from: owner,
+            to: owner,
+            params: [
+              {
+                tokenType: tokenType,
+                name: "Minted TestToken 2",
+                meta: "Test NFT 2",
+              },
+            ],
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgMintNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         tokenId2 = logs.findAttribute(parsedLogs, "mint_nft", "token_id").value;
         assertIsDeliverTxSuccess(result);
@@ -376,23 +369,22 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // MintNFT(3)
       {
-        const msg: MsgMintNFT = {
-          contractId: contractId,
-          from: owner,
-          to: owner,
-          params: [
-            {
-              tokenType: tokenType,
-              name: "Minted TestToken 3",
-              meta: "Test NFT 3",
-            },
-          ],
-        };
-        const msgAny: EncodeObject = {
+        const msgMintNFT: MsgMintNFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgMintNFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            from: owner,
+            to: owner,
+            params: [
+              {
+                tokenType: tokenType,
+                name: "Minted TestToken 3",
+                meta: "Test NFT 3",
+              },
+            ],
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgMintNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
         tokenId3 = logs.findAttribute(parsedLogs, "mint_nft", "token_id").value;
         assertIsDeliverTxSuccess(result);
@@ -400,48 +392,45 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // TransferNFT
       {
-        const msg: MsgTransferNFT = {
-          contractId: contractId,
-          from: owner,
-          to: toAddr,
-          tokenIds: [tokenId2],
-        };
-        const msgAny: EncodeObject = {
+        const msgTransferNFT: MsgTransferNFTEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgTransferNFT",
-          value: msg,
+          value: {
+            contractId: contractId,
+            from: owner,
+            to: toAddr,
+            tokenIds: [tokenId2],
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgTransferNFT], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Attach ( tokenId1(parent) <--- tokenId3(child) )
       {
-        const msg: MsgAttach = {
-          contractId: contractId,
-          from: owner,
-          tokenId: tokenId3,
-          toTokenId: tokenId1,
-        };
-        const msgAny: EncodeObject = {
+        const msgAttach: MsgAttachEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgAttach",
-          value: msg,
+          value: {
+            contractId: contractId,
+            from: owner,
+            tokenId: tokenId3,
+            toTokenId: tokenId1,
+          },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAttach], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Approve
       {
-        const msg: MsgApprove = {
-          contractId: contractId,
-          approver: toAddr,
-          proxy: owner,
-        };
-        const msgAny: EncodeObject = {
+        const msgApprove: MsgApproveEncodeObject = {
           typeUrl: "/lbm.collection.v1.MsgApprove",
-          value: msg,
+          value: {
+            contractId: contractId,
+            approver: toAddr,
+            proxy: owner,
+          },
         };
-        const result = await client.signAndBroadcast(toAddr, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(toAddr, [msgApprove], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 

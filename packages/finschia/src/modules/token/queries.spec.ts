@@ -1,9 +1,8 @@
-import { coins, DirectSecp256k1HdWallet, EncodeObject } from "@cosmjs/proto-signing";
+import { coins, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
 import { Permission } from "lbmjs-types/lbm/token/v1/token";
-import { MsgIssue } from "lbmjs-types/lbm/token/v1/tx";
 
 import { makeLinkPath } from "../../paths";
 import { SigningFinschiaClient } from "../../signingfinschiaclient";
@@ -14,6 +13,15 @@ import {
   simapp,
   simappEnabled,
 } from "../../testutils.spec";
+import {
+  MsgApproveEncodeObject,
+  MsgBurnEncodeObject,
+  MsgGrantPermissionEncodeObject,
+  MsgIssueEncodeObject,
+  MsgMintEncodeObject,
+  MsgRevokePermissionEncodeObject,
+  MsgSendEncodeObject,
+} from "./messages";
 import { setupTokenExtension, TokenExtension } from "./queries";
 
 async function makeClientWithToken(
@@ -50,23 +58,22 @@ describe("TokenExtension(Just Issue)", () => {
 
       // Issue
       {
-        const msg: MsgIssue = {
-          name: tokenName,
-          symbol: symbol,
-          imageUri: "",
-          meta: "",
-          decimals: 6,
-          owner: owner,
-          to: toAddress,
-          amount: amount,
-          mintable: true,
-        };
-        const msgAny: EncodeObject = {
+        const msgIssue: MsgIssueEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgIssue",
-          value: msg,
+          value: {
+            name: tokenName,
+            symbol: symbol,
+            imageUri: "",
+            meta: "",
+            decimals: 6,
+            owner: owner,
+            to: toAddress,
+            amount: amount,
+            mintable: true,
+          },
         };
         const memo = "Test Token for Stargate";
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee, memo);
+        const result = await client.signAndBroadcast(owner, [msgIssue], defaultFee, memo);
         const logs = JSON.parse(result.rawLog || "");
         contractId = logs[0].events
           .find(({ type }: any) => type === "lbm.token.v1.EventIssued")
@@ -181,7 +188,7 @@ describe("TokenExtension", () => {
 
       // Issue
       {
-        const msgAny: EncodeObject = {
+        const msgIssue: MsgIssueEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgIssue",
           value: {
             owner: owner,
@@ -196,7 +203,7 @@ describe("TokenExtension", () => {
           },
         };
         const memo = "Test Token for Stargate";
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee, memo);
+        const result = await client.signAndBroadcast(owner, [msgIssue], defaultFee, memo);
         const logs = JSON.parse(result.rawLog || "");
         contractId = logs[0].events
           .find(({ type }: any) => type === "lbm.token.v1.EventIssued")
@@ -208,7 +215,7 @@ describe("TokenExtension", () => {
 
       // Mint
       {
-        const msgAny: EncodeObject = {
+        const msgMint: MsgMintEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgMint",
           value: {
             contractId: contractId,
@@ -217,13 +224,13 @@ describe("TokenExtension", () => {
             amount: "500",
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgMint], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Transfer
       {
-        const msgAny: EncodeObject = {
+        const msgSend: MsgSendEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgSend",
           value: {
             contractId: contractId,
@@ -232,13 +239,13 @@ describe("TokenExtension", () => {
             amount: "100",
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgSend], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Burn
       {
-        const msgAny: EncodeObject = {
+        const msgBurn: MsgBurnEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgBurn",
           value: {
             contractId: contractId,
@@ -246,13 +253,13 @@ describe("TokenExtension", () => {
             amount: "200",
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgBurn], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // GrantPermission
       {
-        const msgAny: EncodeObject = {
+        const msgGrantPermission: MsgGrantPermissionEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgGrantPermission",
           value: {
             contractId: contractId,
@@ -261,13 +268,13 @@ describe("TokenExtension", () => {
             permission: "MODIFY", // {MODIFY, MINT, BURN}
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgGrantPermission], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Revoke
       {
-        const msgAny: EncodeObject = {
+        const msgRevokePermission: MsgRevokePermissionEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgRevokePermission",
           value: {
             contractId: contractId,
@@ -275,13 +282,13 @@ describe("TokenExtension", () => {
             permission: "BURN", // {MODIFY, MINT, BURN}
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgRevokePermission], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
       // Approve
       {
-        const msgAny: EncodeObject = {
+        const msgApprove: MsgApproveEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgApprove",
           value: {
             contractId: contractId,
@@ -289,7 +296,7 @@ describe("TokenExtension", () => {
             proxy: toAddress,
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgAny], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgApprove], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 

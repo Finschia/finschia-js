@@ -98,7 +98,7 @@ export function isMsgRevokePermissionEncodeObject(
 
 export interface MsgMintEncodeObject extends EncodeObject {
   readonly typeUrl: "/lbm.token.v1.MsgMint";
-  readonly value: Partial<MsgRevokePermission>;
+  readonly value: Partial<MsgMint>;
 }
 
 export function isMsgMintEncodeObject(object: EncodeObject): object is MsgMintEncodeObject {
