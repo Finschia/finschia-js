@@ -12,6 +12,6 @@ keyring-backend = "os"
 # CLI output format (text|json), it will override the default values of both query and tx
 output = ""
 # <host>:<port> to Tendermint RPC interface for this chain
-node = "tcp://localhost:26658"
+node = "tcp://localhost:26657"
 # Transaction broadcasting mode (sync|async|block)
 broadcast-mode = "sync"
