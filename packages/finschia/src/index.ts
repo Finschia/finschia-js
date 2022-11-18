@@ -1,7 +1,7 @@
 export { FinschiaClient, QueryClientWithExtensions } from "./finschiaclient";
-export { collectionTypes } from "./modules";
-export { CollectionExtension, setupCollectionExtension } from "./modules";
 export {
+  CollectionExtension,
+  collectionTypes,
   isMsgAttachEncodeObject,
   isMsgAttachFromEncodeObject,
   isMsgBurnFTEncodeObject,
@@ -45,10 +45,10 @@ export {
   MsgTransferFTFromEncodeObject,
   MsgTransferNFTEncodeObject,
   MsgTransferNFTFromEncodeObject,
+  setupCollectionExtension,
 } from "./modules";
 export { EvidenceExtension, setupEvidenceExtension } from "./modules";
-export { feegrantTypes } from "./modules";
-export { FeeGrantExtension, setupFeeGrantExtension } from "./modules";
+export { FeeGrantExtension, feegrantTypes, setupFeeGrantExtension } from "./modules";
 export {
   createMsgGrant,
   createMsgRevoke,
@@ -58,17 +58,42 @@ export {
   createMsgWithdrawFromTreasury,
   createPercentageDecisionPolicy,
   createThresholdDecisionPolicy,
+  FoundationExtension,
+  FoundationProposalId,
   foundationTypes,
+  isMsgExecEncodeObject,
+  isMsgFundTreasuryEncodeObject,
+  isMsgGovMintEncodeObject,
+  isMsgGrantEncodeObject,
+  isMsgLeaveFoundationEncodeObject,
+  isMsgRevokeEncodeObject,
+  isMsgSubmitProposalEncodeObject,
+  isMsgUpdateDecisionPolicyEncodeObject,
+  isMsgUpdateMembersEncodeObject,
+  isMsgUpdateParamsEncodeObject,
+  isMsgVoteEncodeObject,
+  isMsgWithdrawFromTreasuryEncodeObject,
+  isMsgWithdrawProposalEncodeObject,
   isPercentageDecisionPolicyEncodeObject,
   isThresholdDecisionPolicyEncodeObject,
+  MsgExecEncodeObject,
+  MsgFundTreasuryEncodeObject,
+  MsgGovMintEncodeObject,
+  MsgGrantEncodeObject,
+  MsgLeaveFoundationEncodeObject,
+  MsgRevokeEncodeObject,
+  MsgSubmitProposalEncodeObject,
+  MsgUpdateDecisionPolicyEncodeObject,
+  MsgUpdateMembersEncodeObject,
+  MsgUpdateParamsEncodeObject,
+  MsgVoteEncodeObject,
+  MsgWithdrawFromTreasuryEncodeObject,
+  MsgWithdrawProposalEncodeObject,
   PercentageDecisionPolicyEncodeObject,
+  setupFoundationExtension,
   ThresholdDecisionPolicyEncodeObject,
 } from "./modules";
-export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./modules";
-export { ibcTypes } from "./modules";
-export { IbcExtension, setupIbcExtension } from "./modules";
-export { tokenTypes } from "./modules";
-export { setupTokenExtension, TokenExtension } from "./modules";
+export { IbcExtension, ibcTypes, setupIbcExtension } from "./modules";
 export {
   isMsgBurnEncodeObject,
   isMsgBurnFromEncodeObject,
@@ -92,13 +117,17 @@ export {
   MsgTokenModifyEncodeObject,
   MsgTokenRevokePermissionEncodeObject,
   MsgTransferFromEncodeObject,
+  setupTokenExtension,
+  TokenExtension,
+  tokenTypes,
 } from "./modules";
 export {
   isMsgStoreCodeAndInstantiateContract,
   MsgStoreCodeAndInstantiateContractEncodeObject,
+  setupWasmplusExtension,
+  WasmplusExtension,
   wasmTypes,
 } from "./modules";
-export { setupWasmplusExtension, WasmplusExtension } from "./modules";
 export { makeLinkPath } from "./paths";
 export {
   finschiaRegistryTypes,
