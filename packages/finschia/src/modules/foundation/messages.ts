@@ -1,7 +1,6 @@
 import { Decimal } from "@cosmjs/math";
 import { EncodeObject, GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { Any } from "cosmjs-types/google/protobuf/any";
 import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
