@@ -11,6 +11,7 @@ export {
   isMsgModifyEncodeObject as isMsgCollectionModifyEncodeObject,
   isMsgRevokePermissionEncodeObject as isMsgCollectionRevokePermissionEncodeObject,
   isMsgCreateContractEncodeObject,
+  isMsgDetachEncodeObject,
   isMsgDetachFromEncodeObject,
   isMsgDisapproveEncodeObject,
   isMsgIssueFTEncodeObject,
