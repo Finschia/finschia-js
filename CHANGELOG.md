@@ -16,7 +16,7 @@ and this project adheres to
 - [\#43](https://github.com/line/lbmjs/pull/43) chore: remove unused scripts and ci files
 
 ### Fixed
-
+- [\#49](https://github.com/line/lbmjs/pull/49) fix: change not to override rpc server address as 26657
 ### Security
 
 
