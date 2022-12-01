@@ -8,6 +8,7 @@ and this project adheres to
 
 ### Added
 - [\#44](https://github.com/line/lbmjs/pull/44) @lbmjs/finshia: Add amino messages to lbm specific modules, support changed foundation module
+- [\#47](https://github.com/line/lbmjs/pull/47) @lbmjs/finshia: Add message encode object interface to token, collection, foundation module
 ### Changed
 
 ### Deprecated
