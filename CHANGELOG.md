@@ -7,21 +7,32 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-- [\#44](https://github.com/line/lbmjs/pull/44) @lbmjs/finshia: Add amino messages to lbm specific modules, support changed foundation module
-- [\#47](https://github.com/line/lbmjs/pull/47) @lbmjs/finshia: Add message encode object interface to token, collection, foundation module
+
 ### Changed
 
 ### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+## [v0.7.0] - 2022-12-08
+
+### Added
+- [\#44](https://github.com/line/lbmjs/pull/44) @lbmjs/finshia: Add amino messages to lbm specific modules, support changed foundation module
+- [\#47](https://github.com/line/lbmjs/pull/47) @lbmjs/finshia: Add message encode object interface to token, collection, foundation module
 
 ### Removed
 - [\#43](https://github.com/line/lbmjs/pull/43) chore: remove unused scripts and ci files
 
 ### Fixed
 - [\#49](https://github.com/line/lbmjs/pull/49) fix: change not to override rpc server address as 26657
-### Security
 
 
-## [0.4.0] - 2022-10-07
+## [v0.4.0] - 2022-10-07
 
 - bump up @cosmjs v0.29
 - support lbm v0.6.0
@@ -69,5 +80,6 @@ and this project adheres to
 [#14]: https://github.com/line/lbmjs/pull/14
 
 
-[Unreleased]: https://github.com/line/lbmjs/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/line/lbmjs/compare/v0.7.0...HEAD
+[v0.7.0]: https://github.com/line/lbmjs/compare/v0.4.0...v0.7.0
 [v0.4.0]: https://github.com/line/lbmjs/compare/v0.1.0...v0.4.0
