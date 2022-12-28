@@ -15,7 +15,7 @@ and this project adheres to
 ### Removed
 
 ### Fixed
-
+- [\#54](https://github.com/line/lbmjs/pull/54) @lbmjs/finschia: Fix not to import wrong execute msg
 ### Security
 
 
