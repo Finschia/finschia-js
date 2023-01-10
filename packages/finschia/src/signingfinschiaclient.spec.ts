@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Secp256k1HdWallet } from "@cosmjs/amino";
+import { addCoins, Secp256k1HdWallet } from "@cosmjs/amino";
 import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { toHex, toUtf8 } from "@cosmjs/encoding";
@@ -767,6 +767,64 @@ describe("SigningFinschiaClient", () => {
       expect(beneficiaryBalanceCony).toEqual(funds[0]);
       const beneficiaryBalanceStake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
       expect(beneficiaryBalanceStake).toEqual(funds[1]);
+      const contractBalanceCony = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(contractBalanceCony).toEqual(coin(0, "cony"));
+      const contractBalanceStake = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(contractBalanceStake).toEqual(coin(0, "stake"));
+
+      client.disconnect();
+    });
+
+    it("works with fund", async () => {
+      pendingWithoutSimapp();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: simapp.prefix,
+      });
+      const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
+      const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
+      const { codeId } = await client.upload(faucet.address0, getHackatom().data, defaultUploadFee);
+      // instantiate
+      const funds = [coin(233444, "cony"), coin(5454, "stake")];
+      const beneficiaryAddress = makeRandomAddress();
+      const { contractAddress } = await client.instantiate(
+        faucet.address0,
+        codeId,
+        {
+          verifier: faucet.address0,
+          beneficiary: beneficiaryAddress,
+        },
+        "amazing random contract",
+        defaultInstantiateFee,
+        {
+          funds: funds,
+        },
+      );
+      // execute
+      const result = await client.execute(
+        faucet.address0,
+        contractAddress,
+        { release: {} },
+        defaultExecuteFee,
+        "",
+        funds,
+      );
+      expect(result.height).toBeGreaterThan(0);
+      expect(result.gasWanted).toBeGreaterThan(0);
+      expect(result.gasUsed).toBeGreaterThan(0);
+      const wasmEvent = result.logs[0].events.find((e) => e.type === "wasm");
+      assert(wasmEvent, "Event of type wasm expected");
+      expect(wasmEvent.attributes).toContain({ key: "action", value: "release" });
+      expect(wasmEvent.attributes).toContain({
+        key: "destination",
+        value: beneficiaryAddress,
+      });
+      // Verify token transfer from contract to beneficiary
+      const wasmClient = await makeWasmClient(simapp.tendermintUrl);
+      const beneficiaryBalanceCony = await wasmClient.bank.balance(beneficiaryAddress, "cony");
+      expect(beneficiaryBalanceCony).toEqual(addCoins(funds[0], funds[0]));
+      const beneficiaryBalanceStake = await wasmClient.bank.balance(beneficiaryAddress, "stake");
+      expect(beneficiaryBalanceStake).toEqual(addCoins(funds[1], funds[1]));
       const contractBalanceCony = await wasmClient.bank.balance(contractAddress, "cony");
       expect(contractBalanceCony).toEqual(coin(0, "cony"));
       const contractBalanceStake = await wasmClient.bank.balance(contractAddress, "stake");
