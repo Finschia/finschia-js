@@ -4,15 +4,13 @@ import { assertDefinedAndNotNull } from "@cosmjs/utils";
 import { Any } from "lbmjs-types/google/protobuf/any";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
-  DecisionPolicyWindows,
   MemberRequest,
-  Params,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
-  VoteOption,
+  voteOptionFromJSON,
 } from "lbmjs-types/lbm/foundation/v1/foundation";
 import {
-  Exec,
+  execFromJSON,
   MsgExec,
   MsgFundTreasury,
   MsgGovMint,
@@ -27,6 +25,22 @@ import {
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
 } from "lbmjs-types/lbm/foundation/v1/tx";
+import Long from "long";
+
+interface Params {
+  foundation_tax: string;
+  censored_msg_type_urls: string[];
+}
+
+interface Duration {
+  seconds: string;
+  nanos: number;
+}
+
+interface DecisionPolicyWindows {
+  voting_period?: Duration;
+  min_execution_period?: Duration;
+}
 
 export interface AminoMsgUpdateParams extends AminoMsg {
   readonly type: "lbm-sdk/MsgUpdateParams";
@@ -75,7 +89,7 @@ export interface AminoMsgUpdateMembers extends AminoMsg {
   readonly type: "lbm-sdk/MsgUpdateMembers";
   readonly value: {
     readonly authority: string;
-    readonly memberUpdates: MemberRequest[];
+    readonly member_updates: MemberRequest[];
   };
 }
 
@@ -89,7 +103,10 @@ export interface AminoMsgUpdateDecisionPolicy extends AminoMsg {
     /** authority is the address of the privileged account. */
     readonly authority: string;
     /** decision_policy is the updated decision policy. */
-    readonly decisionPolicy?: Any;
+    readonly decision_policy: {
+      readonly type: string;
+      readonly value: any;
+    };
   };
 }
 
@@ -108,13 +125,16 @@ export interface AminoMsgSubmitProposal extends AminoMsg {
     /** metadata is any arbitrary metadata to attached to the proposal. */
     readonly metadata: string;
     /** messages is a list of `sdk.Msg`s that will be executed if the proposal passes. */
-    readonly messages: Any[];
+    readonly messages: Array<{
+      readonly type: string;
+      readonly value: any;
+    }>;
     /**
      * exec defines the mode of execution of the proposal,
      * whether it should be executed immediately on creation or not.
      * If so, proposers signatures are considered as Yes votes.
      */
-    readonly exec: Exec;
+    readonly exec: number;
   };
 }
 
@@ -126,7 +146,7 @@ export interface AminoMsgWithdrawProposal extends AminoMsg {
   readonly type: "lbm-sdk/MsgWithdrawProposal";
   readonly value: {
     /** proposal is the unique ID of the proposal. */
-    readonly proposalId: Long;
+    readonly proposal_id: string;
     /** address of one of the proposer of the proposal. */
     readonly address: string;
   };
@@ -140,18 +160,18 @@ export interface AminoMsgVote extends AminoMsg {
   readonly type: "lbm-sdk/MsgVote";
   readonly value: {
     /** proposal is the unique ID of the proposal. */
-    readonly proposalId: Long;
+    readonly proposal_id: string;
     /** voter is the voter account address. */
     readonly voter: string;
     /** option is the voter's choice on the proposal. */
-    readonly option: VoteOption;
+    readonly option: number;
     /** metadata is any arbitrary metadata to attached to the vote. */
     readonly metadata: string;
     /**
      * exec defines whether the proposal should be executed
      * immediately after voting or not.
      */
-    readonly exec: Exec;
+    readonly exec: number;
   };
 }
 
@@ -163,7 +183,7 @@ export interface AminoMsgExec extends AminoMsg {
   readonly type: "lbm-sdk/MsgExec";
   readonly value: {
     /** proposal is the unique ID of the proposal. */
-    readonly proposalId: Long;
+    readonly proposal_id: string;
     /** signer is the account address used to execute the proposal. */
     readonly signer: string;
   };
@@ -191,7 +211,10 @@ export interface AminoMsgGrant extends AminoMsg {
     /** authority is the address of the privileged account. */
     readonly authority: string;
     readonly grantee: string;
-    readonly authorization?: Any;
+    readonly authorization: {
+      readonly type: string;
+      readonly value: any;
+    };
   };
 }
 
@@ -205,7 +228,7 @@ export interface AminoMsgRevoke extends AminoMsg {
     /** authority is the address of the privileged account. */
     readonly authority: string;
     readonly grantee: string;
-    readonly msgTypeUrl: string;
+    readonly msg_type_url: string;
   };
 }
 
@@ -272,13 +295,20 @@ export function createFoundationAminoConverters(): AminoConverters {
         assertDefinedAndNotNull(params);
         return {
           authority: authority,
-          params: params,
+          params: {
+            foundation_tax: params.foundationTax,
+            censored_msg_type_urls: params.censoredMsgTypeUrls,
+          },
         };
       },
       fromAmino: ({ authority, params }: AminoMsgUpdateParams["value"]): MsgUpdateParams => {
+        assertDefinedAndNotNull(params);
         return {
           authority: authority,
-          params: params,
+          params: {
+            foundationTax: params.foundation_tax,
+            censoredMsgTypeUrls: params.censored_msg_type_urls,
+          },
         };
       },
     },
@@ -293,7 +323,7 @@ export function createFoundationAminoConverters(): AminoConverters {
       fromAmino: ({ from, amount }: AminoMsgFundTreasury["value"]): MsgFundTreasury => {
         return {
           from: from,
-          amount: amount,
+          amount: Array.from(amount),
         };
       },
     },
@@ -318,7 +348,7 @@ export function createFoundationAminoConverters(): AminoConverters {
         return {
           authority: authority,
           to: to,
-          amount: amount,
+          amount: Array.from(amount),
         };
       },
     },
@@ -327,13 +357,13 @@ export function createFoundationAminoConverters(): AminoConverters {
       toAmino: ({ authority, memberUpdates }: MsgUpdateMembers): AminoMsgUpdateMembers["value"] => {
         return {
           authority: authority,
-          memberUpdates: memberUpdates,
+          member_updates: memberUpdates,
         };
       },
-      fromAmino: ({ authority, memberUpdates }: AminoMsgUpdateMembers["value"]): MsgUpdateMembers => {
+      fromAmino: ({ authority, member_updates }: AminoMsgUpdateMembers["value"]): MsgUpdateMembers => {
         return {
           authority: authority,
-          memberUpdates: memberUpdates,
+          memberUpdates: member_updates,
         };
       },
     },
@@ -343,18 +373,58 @@ export function createFoundationAminoConverters(): AminoConverters {
         authority,
         decisionPolicy,
       }: MsgUpdateDecisionPolicy): AminoMsgUpdateDecisionPolicy["value"] => {
+        assertDefinedAndNotNull(decisionPolicy);
+        let anyDecisionPolicy: any;
+        switch (decisionPolicy.typeUrl) {
+          case "/lbm.foundation.v1.ThresholdDecisionPolicy": {
+            anyDecisionPolicy = {
+              type: "lbm-sdk/ThresholdDecisionPolicy",
+              value: ThresholdDecisionPolicy.toJSON(ThresholdDecisionPolicy.decode(decisionPolicy.value)),
+            };
+            break;
+          }
+          case "/lbm.foundation.v1.PercentageDecisionPolicy": {
+            anyDecisionPolicy = {
+              type: "lbm-sdk/PercentageDecisionPolicy",
+              value: PercentageDecisionPolicy.toJSON(PercentageDecisionPolicy.decode(decisionPolicy.value)),
+            };
+            break;
+          }
+          default: {
+            throw new Error(`Unsupported authorization type: '${decisionPolicy.typeUrl}'`);
+          }
+        }
         return {
           authority: authority,
-          decisionPolicy: decisionPolicy,
+          decision_policy: anyDecisionPolicy,
         };
       },
       fromAmino: ({
         authority,
-        decisionPolicy,
+        decision_policy,
       }: AminoMsgUpdateDecisionPolicy["value"]): MsgUpdateDecisionPolicy => {
+        let anyDecisionPolicy: Any;
+        switch (decision_policy.type) {
+          case "lbm-sdk/ThresholdDecisionPolicy": {
+            anyDecisionPolicy = Any.fromPartial({
+              typeUrl: "/lbm.foundation.v1.ThresholdDecisionPolicy",
+              value: ThresholdDecisionPolicy.encode(decision_policy.value).finish(),
+            });
+            break;
+          }
+          case "lbm-sdk/PercentageDecisionPolicy": {
+            anyDecisionPolicy = Any.fromPartial({
+              typeUrl: "/lbm.foundation.v1.PercentageDecisionPolicy",
+              value: PercentageDecisionPolicy.encode(decision_policy.value).finish(),
+            });
+            break;
+          }
+          default:
+            throw new Error(`Unsupported authorization type: '${decision_policy.type}'`);
+        }
         return {
           authority: authority,
-          decisionPolicy: decisionPolicy,
+          decisionPolicy: anyDecisionPolicy,
         };
       },
     },
@@ -366,12 +436,7 @@ export function createFoundationAminoConverters(): AminoConverters {
         messages,
         exec,
       }: MsgSubmitProposal): AminoMsgSubmitProposal["value"] => {
-        return {
-          proposers: proposers,
-          metadata: metadata,
-          messages: messages,
-          exec: exec,
-        };
+        throw new Error(`MsgSubmitProposal cannot be converted to Amino`);
       },
       fromAmino: ({
         proposers,
@@ -379,25 +444,20 @@ export function createFoundationAminoConverters(): AminoConverters {
         messages,
         exec,
       }: AminoMsgSubmitProposal["value"]): MsgSubmitProposal => {
-        return {
-          proposers: proposers,
-          metadata: metadata,
-          messages: messages,
-          exec: exec,
-        };
+        throw new Error(`MsgSubmitProposal cannot be converted to Protobuf`);
       },
     },
     "/lbm.foundation.v1.MsgWithdrawProposal": {
       aminoType: "lbm-sdk/MsgWithdrawProposal",
       toAmino: ({ proposalId, address }: MsgWithdrawProposal): AminoMsgWithdrawProposal["value"] => {
         return {
-          proposalId: proposalId,
+          proposal_id: proposalId.toString(),
           address: address,
         };
       },
-      fromAmino: ({ proposalId, address }: AminoMsgWithdrawProposal["value"]): MsgWithdrawProposal => {
+      fromAmino: ({ proposal_id, address }: AminoMsgWithdrawProposal["value"]): MsgWithdrawProposal => {
         return {
-          proposalId: proposalId,
+          proposalId: Long.fromString(proposal_id),
           address: address,
         };
       },
@@ -406,20 +466,20 @@ export function createFoundationAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/MsgVote",
       toAmino: ({ proposalId, voter, option, metadata, exec }: MsgVote): AminoMsgVote["value"] => {
         return {
-          proposalId: proposalId,
+          proposal_id: proposalId.toString(),
           voter: voter,
           option: option,
           metadata: metadata,
           exec: exec,
         };
       },
-      fromAmino: ({ proposalId, voter, option, metadata, exec }: AminoMsgVote["value"]): MsgVote => {
+      fromAmino: ({ proposal_id, voter, option, metadata, exec }: AminoMsgVote["value"]): MsgVote => {
         return {
-          proposalId: proposalId,
+          proposalId: Long.fromString(proposal_id),
           voter: voter,
-          option: option,
+          option: voteOptionFromJSON(option),
           metadata: metadata,
-          exec: exec,
+          exec: execFromJSON(exec),
         };
       },
     },
@@ -427,13 +487,13 @@ export function createFoundationAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/MsgExec",
       toAmino: ({ proposalId, signer }: MsgExec): AminoMsgExec["value"] => {
         return {
-          proposalId: proposalId,
+          proposal_id: proposalId.toString(),
           signer: signer,
         };
       },
-      fromAmino: ({ proposalId, signer }: AminoMsgExec["value"]): MsgExec => {
+      fromAmino: ({ proposal_id, signer }: AminoMsgExec["value"]): MsgExec => {
         return {
-          proposalId: proposalId,
+          proposalId: Long.fromString(proposal_id),
           signer: signer,
         };
       },
@@ -454,17 +514,43 @@ export function createFoundationAminoConverters(): AminoConverters {
     "/lbm.foundation.v1.MsgGrant": {
       aminoType: "lbm-sdk/MsgGrant",
       toAmino: ({ authority, grantee, authorization }: MsgGrant): AminoMsgGrant["value"] => {
+        assertDefinedAndNotNull(authorization);
+        let anyAuthorization: any;
+        switch (authorization.typeUrl) {
+          case "/lbm.foundation.v1.ReceiveFromTreasuryAuthorization": {
+            anyAuthorization = {
+              type: "lbm-sdk/ReceiveFromTreasuryAuthorization",
+              value: {},
+            };
+            break;
+          }
+          default: {
+            throw new Error(`Unsupported authorization type: '${authorization.typeUrl}'`);
+          }
+        }
         return {
           authority: authority,
           grantee: grantee,
-          authorization: authorization,
+          authorization: anyAuthorization,
         };
       },
       fromAmino: ({ authority, grantee, authorization }: AminoMsgGrant["value"]): MsgGrant => {
+        let anyAuthorization: Any;
+        switch (authorization.type) {
+          case "lbm-sdk/ReceiveFromTreasuryAuthorization": {
+            anyAuthorization = Any.fromPartial({
+              typeUrl: "/lbm.foundation.v1.ReceiveFromTreasuryAuthorization",
+              value: ReceiveFromTreasuryAuthorization.encode(authorization.value).finish(),
+            });
+            break;
+          }
+          default:
+            throw new Error(`Unsupported authorization type: '${authorization.type}'`);
+        }
         return {
           authority: authority,
           grantee: grantee,
-          authorization: authorization,
+          authorization: anyAuthorization,
         };
       },
     },
@@ -474,14 +560,14 @@ export function createFoundationAminoConverters(): AminoConverters {
         return {
           authority: authority,
           grantee: grantee,
-          msgTypeUrl: msgTypeUrl,
+          msg_type_url: msgTypeUrl,
         };
       },
-      fromAmino: ({ authority, grantee, msgTypeUrl }: AminoMsgRevoke["value"]): MsgRevoke => {
+      fromAmino: ({ authority, grantee, msg_type_url }: AminoMsgRevoke["value"]): MsgRevoke => {
         return {
           authority: authority,
           grantee: grantee,
-          msgTypeUrl: msgTypeUrl,
+          msgTypeUrl: msg_type_url,
         };
       },
     },
@@ -503,15 +589,39 @@ export function createFoundationAminoConverters(): AminoConverters {
     "/lbm.foundation.v1.ThresholdDecisionPolicy": {
       aminoType: "lbm-sdk/ThresholdDecisionPolicy",
       toAmino: ({ threshold, windows }: ThresholdDecisionPolicy): AminoThresholdDecisionPolicy["value"] => {
+        assertDefinedAndNotNull(windows);
+        assertDefinedAndNotNull(windows.votingPeriod);
+        assertDefinedAndNotNull(windows.minExecutionPeriod);
         return {
           threshold: threshold,
-          windows: windows,
+          windows: {
+            voting_period: {
+              seconds: windows.votingPeriod.seconds.toString(),
+              nanos: windows.votingPeriod.nanos,
+            },
+            min_execution_period: {
+              seconds: windows.minExecutionPeriod.seconds.toString(),
+              nanos: windows.minExecutionPeriod.nanos,
+            },
+          },
         };
       },
       fromAmino: ({ threshold, windows }: AminoThresholdDecisionPolicy["value"]): ThresholdDecisionPolicy => {
+        assertDefinedAndNotNull(windows);
+        assertDefinedAndNotNull(windows.voting_period);
+        assertDefinedAndNotNull(windows.min_execution_period);
         return {
           threshold: threshold,
-          windows: windows,
+          windows: {
+            votingPeriod: {
+              seconds: Long.fromString(windows.voting_period.seconds),
+              nanos: windows.voting_period.nanos,
+            },
+            minExecutionPeriod: {
+              seconds: Long.fromString(windows.min_execution_period.seconds),
+              nanos: windows.min_execution_period.nanos,
+            },
+          },
         };
       },
     },
@@ -521,18 +631,42 @@ export function createFoundationAminoConverters(): AminoConverters {
         percentage,
         windows,
       }: PercentageDecisionPolicy): AminoPercentageDecisionPolicy["value"] => {
+        assertDefinedAndNotNull(windows);
+        assertDefinedAndNotNull(windows.votingPeriod);
+        assertDefinedAndNotNull(windows.minExecutionPeriod);
         return {
           percentage: percentage,
-          windows: windows,
+          windows: {
+            voting_period: {
+              seconds: windows.votingPeriod.seconds.toString(),
+              nanos: windows.votingPeriod.nanos,
+            },
+            min_execution_period: {
+              seconds: windows.minExecutionPeriod.seconds.toString(),
+              nanos: windows.minExecutionPeriod.nanos,
+            },
+          },
         };
       },
       fromAmino: ({
         percentage,
         windows,
       }: AminoPercentageDecisionPolicy["value"]): PercentageDecisionPolicy => {
+        assertDefinedAndNotNull(windows);
+        assertDefinedAndNotNull(windows.voting_period);
+        assertDefinedAndNotNull(windows.min_execution_period);
         return {
           percentage: percentage,
-          windows: windows,
+          windows: {
+            votingPeriod: {
+              seconds: Long.fromString(windows.voting_period.seconds),
+              nanos: windows.voting_period.nanos,
+            },
+            minExecutionPeriod: {
+              seconds: Long.fromString(windows.min_execution_period.seconds),
+              nanos: windows.min_execution_period.nanos,
+            },
+          },
         };
       },
     },
