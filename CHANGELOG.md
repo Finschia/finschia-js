@@ -15,8 +15,14 @@ and this project adheres to
 ### Removed
 
 ### Fixed
-- [\#54](https://github.com/line/lbmjs/pull/54) @lbmjs/finschia: Fix not to import wrong execute msg
+
 ### Security
+
+
+## [v0.7.1] - 2023-01-10
+
+### Fixed
+- [\#54](https://github.com/line/lbmjs/pull/54) @lbmjs/finschia: Fix not to import wrong execute msg
 
 
 ## [v0.7.0] - 2022-12-08
@@ -80,6 +86,7 @@ and this project adheres to
 [#14]: https://github.com/line/lbmjs/pull/14
 
 
-[Unreleased]: https://github.com/line/lbmjs/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/line/lbmjs/compare/v0.7.1...HEAD
+[v0.7.1]: https://github.com/line/lbmjs/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/line/lbmjs/compare/v0.4.0...v0.7.0
 [v0.4.0]: https://github.com/line/lbmjs/compare/v0.1.0...v0.4.0
