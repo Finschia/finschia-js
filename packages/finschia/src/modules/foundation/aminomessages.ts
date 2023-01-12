@@ -377,16 +377,42 @@ export function createFoundationAminoConverters(): AminoConverters {
         let anyDecisionPolicy: any;
         switch (decisionPolicy.typeUrl) {
           case "/lbm.foundation.v1.ThresholdDecisionPolicy": {
+            const thresholdDecisionPolicy = ThresholdDecisionPolicy.decode(decisionPolicy.value);
             anyDecisionPolicy = {
               type: "lbm-sdk/ThresholdDecisionPolicy",
-              value: ThresholdDecisionPolicy.toJSON(ThresholdDecisionPolicy.decode(decisionPolicy.value)),
+              value: {
+                threshold: thresholdDecisionPolicy.threshold,
+                windows: {
+                  voting_period: {
+                    seconds: thresholdDecisionPolicy.windows?.votingPeriod?.seconds.toString(),
+                    nanos: thresholdDecisionPolicy.windows?.votingPeriod?.nanos,
+                  },
+                  min_execution_period: {
+                    seconds: thresholdDecisionPolicy.windows?.minExecutionPeriod?.seconds.toString(),
+                    nanos: thresholdDecisionPolicy.windows?.minExecutionPeriod?.nanos,
+                  },
+                },
+              },
             };
             break;
           }
           case "/lbm.foundation.v1.PercentageDecisionPolicy": {
+            const percentageDecisionPolicy = PercentageDecisionPolicy.decode(decisionPolicy.value);
             anyDecisionPolicy = {
               type: "lbm-sdk/PercentageDecisionPolicy",
-              value: PercentageDecisionPolicy.toJSON(PercentageDecisionPolicy.decode(decisionPolicy.value)),
+              value: {
+                percentage: percentageDecisionPolicy.percentage,
+                windows: {
+                  voting_period: {
+                    seconds: percentageDecisionPolicy.windows?.votingPeriod?.seconds.toString(),
+                    nanos: percentageDecisionPolicy.windows?.votingPeriod?.nanos,
+                  },
+                  min_execution_period: {
+                    seconds: percentageDecisionPolicy.windows?.minExecutionPeriod?.seconds.toString(),
+                    nanos: percentageDecisionPolicy.windows?.minExecutionPeriod?.nanos,
+                  },
+                },
+              },
             };
             break;
           }
@@ -406,16 +432,48 @@ export function createFoundationAminoConverters(): AminoConverters {
         let anyDecisionPolicy: Any;
         switch (decision_policy.type) {
           case "lbm-sdk/ThresholdDecisionPolicy": {
+            const decisionPolicy: ThresholdDecisionPolicy = {
+              threshold: decision_policy.value.threshold,
+              windows: {
+                votingPeriod: {
+                  seconds: Long.fromString(decision_policy.value.windows?.voting_period?.seconds, true),
+                  nanos: decision_policy.value.windows?.voting_period?.nanos,
+                },
+                minExecutionPeriod: {
+                  seconds: Long.fromString(
+                    decision_policy.value.windows?.min_execution_period?.seconds,
+                    true,
+                  ),
+                  nanos: decision_policy.value.windows?.min_execution_period?.nanos,
+                },
+              },
+            };
             anyDecisionPolicy = Any.fromPartial({
               typeUrl: "/lbm.foundation.v1.ThresholdDecisionPolicy",
-              value: ThresholdDecisionPolicy.encode(decision_policy.value).finish(),
+              value: ThresholdDecisionPolicy.encode(decisionPolicy).finish(),
             });
             break;
           }
           case "lbm-sdk/PercentageDecisionPolicy": {
+            const decisionPolicy: PercentageDecisionPolicy = {
+              percentage: decision_policy.value.threshold,
+              windows: {
+                votingPeriod: {
+                  seconds: Long.fromString(decision_policy.value.windows?.voting_period?.seconds, true),
+                  nanos: decision_policy.value.windows?.voting_period?.nanos,
+                },
+                minExecutionPeriod: {
+                  seconds: Long.fromString(
+                    decision_policy.value.windows?.min_execution_period?.seconds,
+                    true,
+                  ),
+                  nanos: decision_policy.value.windows?.min_execution_period?.nanos,
+                },
+              },
+            };
             anyDecisionPolicy = Any.fromPartial({
               typeUrl: "/lbm.foundation.v1.PercentageDecisionPolicy",
-              value: PercentageDecisionPolicy.encode(decision_policy.value).finish(),
+              value: PercentageDecisionPolicy.encode(decisionPolicy).finish(),
             });
             break;
           }
@@ -614,11 +672,11 @@ export function createFoundationAminoConverters(): AminoConverters {
           threshold: threshold,
           windows: {
             votingPeriod: {
-              seconds: Long.fromString(windows.voting_period.seconds),
+              seconds: Long.fromString(windows.voting_period.seconds, true),
               nanos: windows.voting_period.nanos,
             },
             minExecutionPeriod: {
-              seconds: Long.fromString(windows.min_execution_period.seconds),
+              seconds: Long.fromString(windows.min_execution_period.seconds, true),
               nanos: windows.min_execution_period.nanos,
             },
           },
@@ -659,11 +717,11 @@ export function createFoundationAminoConverters(): AminoConverters {
           percentage: percentage,
           windows: {
             votingPeriod: {
-              seconds: Long.fromString(windows.voting_period.seconds),
+              seconds: Long.fromString(windows.voting_period.seconds, true),
               nanos: windows.voting_period.nanos,
             },
             minExecutionPeriod: {
-              seconds: Long.fromString(windows.min_execution_period.seconds),
+              seconds: Long.fromString(windows.min_execution_period.seconds, true),
               nanos: windows.min_execution_period.nanos,
             },
           },
