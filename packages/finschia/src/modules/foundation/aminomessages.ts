@@ -1,15 +1,16 @@
 import { AminoMsg, Coin } from "@cosmjs/amino";
-import { AminoConverters } from "@cosmjs/stargate";
+import { EncodeObject, Registry } from "@cosmjs/proto-signing";
+import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
 import { Any } from "lbmjs-types/google/protobuf/any";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
-  MemberRequest,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
   voteOptionFromJSON,
 } from "lbmjs-types/lbm/foundation/v1/foundation";
 import {
+  Exec,
   execFromJSON,
   MsgExec,
   MsgFundTreasury,
@@ -27,19 +28,27 @@ import {
 } from "lbmjs-types/lbm/foundation/v1/tx";
 import Long from "long";
 
+import { finschiaRegistryTypes } from "../../signingfinschiaclient";
+import {
+  jsonDecimalToProto,
+  jsonDurationToProto,
+  protoDecimalToJson,
+  protoDurationToJson,
+} from "../../utils";
+
 interface Params {
   foundation_tax: string;
   censored_msg_type_urls: string[];
 }
 
-interface Duration {
-  seconds: string;
-  nanos: number;
-}
-
 interface DecisionPolicyWindows {
-  voting_period?: Duration;
-  min_execution_period?: Duration;
+  voting_period: string;
+  min_execution_period: string;
+}
+interface MemberRequest {
+  address: string;
+  remove?: boolean;
+  metadata?: string;
 }
 
 export interface AminoMsgUpdateParams extends AminoMsg {
@@ -123,7 +132,7 @@ export interface AminoMsgSubmitProposal extends AminoMsg {
      */
     readonly proposers: string[];
     /** metadata is any arbitrary metadata to attached to the proposal. */
-    readonly metadata: string;
+    readonly metadata?: string;
     /** messages is a list of `sdk.Msg`s that will be executed if the proposal passes. */
     readonly messages: Array<{
       readonly type: string;
@@ -134,7 +143,7 @@ export interface AminoMsgSubmitProposal extends AminoMsg {
      * whether it should be executed immediately on creation or not.
      * If so, proposers signatures are considered as Yes votes.
      */
-    readonly exec: number;
+    readonly exec?: number;
   };
 }
 
@@ -166,12 +175,12 @@ export interface AminoMsgVote extends AminoMsg {
     /** option is the voter's choice on the proposal. */
     readonly option: number;
     /** metadata is any arbitrary metadata to attached to the vote. */
-    readonly metadata: string;
+    readonly metadata?: string;
     /**
      * exec defines whether the proposal should be executed
      * immediately after voting or not.
      */
-    readonly exec: number;
+    readonly exec?: number;
   };
 }
 
@@ -287,7 +296,7 @@ export function isAminoReceiveFromTreasuryAuthorization(
   return msg.type === "lbm-sdk/ReceiveFromTreasuryAuthorization";
 }
 
-export function createFoundationAminoConverters(): AminoConverters {
+export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoConverters {
   return {
     "/lbm.foundation.v1.MsgUpdateParams": {
       aminoType: "lbm-sdk/MsgUpdateParams",
@@ -296,7 +305,7 @@ export function createFoundationAminoConverters(): AminoConverters {
         return {
           authority: authority,
           params: {
-            foundation_tax: params.foundationTax,
+            foundation_tax: protoDecimalToJson(params.foundationTax),
             censored_msg_type_urls: params.censoredMsgTypeUrls,
           },
         };
@@ -306,7 +315,7 @@ export function createFoundationAminoConverters(): AminoConverters {
         return {
           authority: authority,
           params: {
-            foundationTax: params.foundation_tax,
+            foundationTax: jsonDecimalToProto(params.foundation_tax),
             censoredMsgTypeUrls: params.censored_msg_type_urls,
           },
         };
@@ -357,13 +366,25 @@ export function createFoundationAminoConverters(): AminoConverters {
       toAmino: ({ authority, memberUpdates }: MsgUpdateMembers): AminoMsgUpdateMembers["value"] => {
         return {
           authority: authority,
-          member_updates: memberUpdates,
+          member_updates: memberUpdates.map((memberUpdate) => {
+            return {
+              address: memberUpdate.address,
+              remove: memberUpdate.remove ? memberUpdate.remove : undefined,
+              metadata: memberUpdate.metadata ? memberUpdate.metadata : undefined,
+            };
+          }),
         };
       },
       fromAmino: ({ authority, member_updates }: AminoMsgUpdateMembers["value"]): MsgUpdateMembers => {
         return {
           authority: authority,
-          memberUpdates: member_updates,
+          memberUpdates: member_updates.map((memberUpdate) => {
+            return {
+              address: memberUpdate.address,
+              remove: memberUpdate.remove ?? false,
+              metadata: memberUpdate.metadata ?? "",
+            };
+          }),
         };
       },
     },
@@ -378,19 +399,19 @@ export function createFoundationAminoConverters(): AminoConverters {
         switch (decisionPolicy.typeUrl) {
           case "/lbm.foundation.v1.ThresholdDecisionPolicy": {
             const thresholdDecisionPolicy = ThresholdDecisionPolicy.decode(decisionPolicy.value);
+            assertDefinedAndNotNull(thresholdDecisionPolicy);
+            assertDefinedAndNotNull(thresholdDecisionPolicy.windows);
+            assertDefinedAndNotNull(thresholdDecisionPolicy.windows.votingPeriod);
+            assertDefinedAndNotNull(thresholdDecisionPolicy.windows.minExecutionPeriod);
             anyDecisionPolicy = {
               type: "lbm-sdk/ThresholdDecisionPolicy",
               value: {
-                threshold: thresholdDecisionPolicy.threshold,
+                threshold: protoDecimalToJson(thresholdDecisionPolicy.threshold),
                 windows: {
-                  voting_period: {
-                    seconds: thresholdDecisionPolicy.windows?.votingPeriod?.seconds.toString(),
-                    nanos: thresholdDecisionPolicy.windows?.votingPeriod?.nanos,
-                  },
-                  min_execution_period: {
-                    seconds: thresholdDecisionPolicy.windows?.minExecutionPeriod?.seconds.toString(),
-                    nanos: thresholdDecisionPolicy.windows?.minExecutionPeriod?.nanos,
-                  },
+                  voting_period: protoDurationToJson(thresholdDecisionPolicy.windows.votingPeriod),
+                  min_execution_period: protoDurationToJson(
+                    thresholdDecisionPolicy.windows.minExecutionPeriod,
+                  ),
                 },
               },
             };
@@ -398,19 +419,19 @@ export function createFoundationAminoConverters(): AminoConverters {
           }
           case "/lbm.foundation.v1.PercentageDecisionPolicy": {
             const percentageDecisionPolicy = PercentageDecisionPolicy.decode(decisionPolicy.value);
+            assertDefinedAndNotNull(percentageDecisionPolicy);
+            assertDefinedAndNotNull(percentageDecisionPolicy.windows);
+            assertDefinedAndNotNull(percentageDecisionPolicy.windows.votingPeriod);
+            assertDefinedAndNotNull(percentageDecisionPolicy.windows.minExecutionPeriod);
             anyDecisionPolicy = {
               type: "lbm-sdk/PercentageDecisionPolicy",
               value: {
-                percentage: percentageDecisionPolicy.percentage,
+                percentage: protoDecimalToJson(percentageDecisionPolicy.percentage),
                 windows: {
-                  voting_period: {
-                    seconds: percentageDecisionPolicy.windows?.votingPeriod?.seconds.toString(),
-                    nanos: percentageDecisionPolicy.windows?.votingPeriod?.nanos,
-                  },
-                  min_execution_period: {
-                    seconds: percentageDecisionPolicy.windows?.minExecutionPeriod?.seconds.toString(),
-                    nanos: percentageDecisionPolicy.windows?.minExecutionPeriod?.nanos,
-                  },
+                  voting_period: protoDurationToJson(percentageDecisionPolicy.windows.votingPeriod),
+                  min_execution_period: protoDurationToJson(
+                    percentageDecisionPolicy.windows.minExecutionPeriod,
+                  ),
                 },
               },
             };
@@ -433,19 +454,10 @@ export function createFoundationAminoConverters(): AminoConverters {
         switch (decision_policy.type) {
           case "lbm-sdk/ThresholdDecisionPolicy": {
             const decisionPolicy: ThresholdDecisionPolicy = {
-              threshold: decision_policy.value.threshold,
+              threshold: jsonDecimalToProto(decision_policy.value.threshold),
               windows: {
-                votingPeriod: {
-                  seconds: Long.fromString(decision_policy.value.windows?.voting_period?.seconds, true),
-                  nanos: decision_policy.value.windows?.voting_period?.nanos,
-                },
-                minExecutionPeriod: {
-                  seconds: Long.fromString(
-                    decision_policy.value.windows?.min_execution_period?.seconds,
-                    true,
-                  ),
-                  nanos: decision_policy.value.windows?.min_execution_period?.nanos,
-                },
+                votingPeriod: jsonDurationToProto(decision_policy.value.windows.voting_period),
+                minExecutionPeriod: jsonDurationToProto(decision_policy.value.windows.min_execution_period),
               },
             };
             anyDecisionPolicy = Any.fromPartial({
@@ -456,19 +468,10 @@ export function createFoundationAminoConverters(): AminoConverters {
           }
           case "lbm-sdk/PercentageDecisionPolicy": {
             const decisionPolicy: PercentageDecisionPolicy = {
-              percentage: decision_policy.value.threshold,
+              percentage: jsonDecimalToProto(decision_policy.value.percentage),
               windows: {
-                votingPeriod: {
-                  seconds: Long.fromString(decision_policy.value.windows?.voting_period?.seconds, true),
-                  nanos: decision_policy.value.windows?.voting_period?.nanos,
-                },
-                minExecutionPeriod: {
-                  seconds: Long.fromString(
-                    decision_policy.value.windows?.min_execution_period?.seconds,
-                    true,
-                  ),
-                  nanos: decision_policy.value.windows?.min_execution_period?.nanos,
-                },
+                votingPeriod: jsonDurationToProto(decision_policy.value.windows.voting_period),
+                minExecutionPeriod: jsonDurationToProto(decision_policy.value.windows.min_execution_period),
               },
             };
             anyDecisionPolicy = Any.fromPartial({
@@ -484,25 +487,6 @@ export function createFoundationAminoConverters(): AminoConverters {
           authority: authority,
           decisionPolicy: anyDecisionPolicy,
         };
-      },
-    },
-    "/lbm.foundation.v1.MsgSubmitProposal": {
-      aminoType: "lbm-sdk/MsgSubmitProposal",
-      toAmino: ({
-        proposers,
-        metadata,
-        messages,
-        exec,
-      }: MsgSubmitProposal): AminoMsgSubmitProposal["value"] => {
-        throw new Error(`MsgSubmitProposal cannot be converted to Amino`);
-      },
-      fromAmino: ({
-        proposers,
-        metadata,
-        messages,
-        exec,
-      }: AminoMsgSubmitProposal["value"]): MsgSubmitProposal => {
-        throw new Error(`MsgSubmitProposal cannot be converted to Protobuf`);
       },
     },
     "/lbm.foundation.v1.MsgWithdrawProposal": {
@@ -527,8 +511,8 @@ export function createFoundationAminoConverters(): AminoConverters {
           proposal_id: proposalId.toString(),
           voter: voter,
           option: option,
-          metadata: metadata,
-          exec: exec,
+          metadata: metadata ? metadata : undefined,
+          exec: exec ? exec : undefined,
         };
       },
       fromAmino: ({ proposal_id, voter, option, metadata, exec }: AminoMsgVote["value"]): MsgVote => {
@@ -536,8 +520,8 @@ export function createFoundationAminoConverters(): AminoConverters {
           proposalId: Long.fromString(proposal_id),
           voter: voter,
           option: voteOptionFromJSON(option),
-          metadata: metadata,
-          exec: execFromJSON(exec),
+          metadata: metadata ?? "",
+          exec: exec ? execFromJSON(exec) : execFromJSON(0),
         };
       },
     },
@@ -651,16 +635,10 @@ export function createFoundationAminoConverters(): AminoConverters {
         assertDefinedAndNotNull(windows.votingPeriod);
         assertDefinedAndNotNull(windows.minExecutionPeriod);
         return {
-          threshold: threshold,
+          threshold: protoDecimalToJson(threshold),
           windows: {
-            voting_period: {
-              seconds: windows.votingPeriod.seconds.toString(),
-              nanos: windows.votingPeriod.nanos,
-            },
-            min_execution_period: {
-              seconds: windows.minExecutionPeriod.seconds.toString(),
-              nanos: windows.minExecutionPeriod.nanos,
-            },
+            voting_period: protoDurationToJson(windows.votingPeriod),
+            min_execution_period: protoDurationToJson(windows.minExecutionPeriod),
           },
         };
       },
@@ -669,16 +647,10 @@ export function createFoundationAminoConverters(): AminoConverters {
         assertDefinedAndNotNull(windows.voting_period);
         assertDefinedAndNotNull(windows.min_execution_period);
         return {
-          threshold: threshold,
+          threshold: jsonDecimalToProto(threshold),
           windows: {
-            votingPeriod: {
-              seconds: Long.fromString(windows.voting_period.seconds, true),
-              nanos: windows.voting_period.nanos,
-            },
-            minExecutionPeriod: {
-              seconds: Long.fromString(windows.min_execution_period.seconds, true),
-              nanos: windows.min_execution_period.nanos,
-            },
+            votingPeriod: jsonDurationToProto(windows.voting_period),
+            minExecutionPeriod: jsonDurationToProto(windows.min_execution_period),
           },
         };
       },
@@ -693,16 +665,10 @@ export function createFoundationAminoConverters(): AminoConverters {
         assertDefinedAndNotNull(windows.votingPeriod);
         assertDefinedAndNotNull(windows.minExecutionPeriod);
         return {
-          percentage: percentage,
+          percentage: protoDecimalToJson(percentage),
           windows: {
-            voting_period: {
-              seconds: windows.votingPeriod.seconds.toString(),
-              nanos: windows.votingPeriod.nanos,
-            },
-            min_execution_period: {
-              seconds: windows.minExecutionPeriod.seconds.toString(),
-              nanos: windows.minExecutionPeriod.nanos,
-            },
+            voting_period: protoDurationToJson(windows.votingPeriod),
+            min_execution_period: protoDurationToJson(windows.minExecutionPeriod),
           },
         };
       },
@@ -714,16 +680,10 @@ export function createFoundationAminoConverters(): AminoConverters {
         assertDefinedAndNotNull(windows.voting_period);
         assertDefinedAndNotNull(windows.min_execution_period);
         return {
-          percentage: percentage,
+          percentage: jsonDecimalToProto(percentage),
           windows: {
-            votingPeriod: {
-              seconds: Long.fromString(windows.voting_period.seconds, true),
-              nanos: windows.voting_period.nanos,
-            },
-            minExecutionPeriod: {
-              seconds: Long.fromString(windows.min_execution_period.seconds, true),
-              nanos: windows.min_execution_period.nanos,
-            },
+            votingPeriod: jsonDurationToProto(windows.voting_period),
+            minExecutionPeriod: jsonDurationToProto(windows.min_execution_period),
           },
         };
       },
@@ -739,5 +699,76 @@ export function createFoundationAminoConverters(): AminoConverters {
         return {};
       },
     },
+  };
+}
+
+function isAminoConverter(
+  converter: [string, AminoConverter | "not_supported_by_chain"],
+): converter is [string, AminoConverter] {
+  return typeof converter[1] !== "string";
+}
+
+function createMsgSubmitProposalAminoConverter(): AminoConverters {
+  const aminoConvertersWithoutSubmitProposal = createFoundationAminoConvertersWithoutSubmitProposal();
+  const registry = new Registry(finschiaRegistryTypes);
+  const aminoTypes = new AminoTypes({ ...aminoConvertersWithoutSubmitProposal });
+  return {
+    "/lbm.foundation.v1.MsgSubmitProposal": {
+      aminoType: "lbm-sdk/MsgSubmitProposal",
+      toAmino: ({
+        proposers,
+        metadata,
+        messages,
+        exec,
+      }: MsgSubmitProposal): AminoMsgSubmitProposal["value"] => {
+        const decodedMessages = messages.map((message) => {
+          const encodeObject: EncodeObject = {
+            typeUrl: message.typeUrl,
+            value: registry.decode(message),
+          };
+          return aminoTypes.toAmino(encodeObject);
+        });
+        return {
+          proposers: proposers,
+          metadata: metadata ? metadata : undefined,
+          messages: decodedMessages,
+          exec: exec ? exec : undefined,
+        };
+      },
+      fromAmino: ({
+        proposers,
+        metadata,
+        messages,
+        exec,
+      }: AminoMsgSubmitProposal["value"]): MsgSubmitProposal => {
+        const encodedMessages: Any[] = messages.map((message: AminoMsg) => {
+          const matches = Object.entries(aminoConvertersWithoutSubmitProposal)
+            .filter(isAminoConverter)
+            .filter(([_typeUrl, { aminoType }]) => aminoType === message.type);
+          if (matches.length === 0) {
+            throw new Error(
+              `Amino type identifier '${message.type}' does not exist in the Amino message type register. `,
+            );
+          }
+          return {
+            typeUrl: matches[0][0],
+            value: registry.encode(aminoTypes.fromAmino(message)),
+          };
+        });
+        return {
+          proposers: proposers,
+          metadata: metadata ?? "",
+          messages: encodedMessages,
+          exec: exec ? execFromJSON(exec) : Exec.EXEC_UNSPECIFIED,
+        };
+      },
+    },
+  };
+}
+
+export function createFoundationAminoConverters(): AminoConverters {
+  return {
+    ...createMsgSubmitProposalAminoConverter(),
+    ...createFoundationAminoConvertersWithoutSubmitProposal(),
   };
 }

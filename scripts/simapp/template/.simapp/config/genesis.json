@@ -350,7 +350,10 @@
     "foundation": {
       "params": {
         "foundation_tax": "0.000000000000000000",
-        "censored_msg_type_urls": ["/lbm.foundation.v1.MsgWithdrawFromTreasury"]
+        "censored_msg_type_urls": [
+          "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+          "/lbm.foundation.v1.MsgUpdateParams"
+        ]
       },
       "foundation": {
         "version": "1",
