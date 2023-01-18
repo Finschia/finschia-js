@@ -51,6 +51,7 @@ export {
 export { EvidenceExtension, setupEvidenceExtension } from "./modules";
 export { FeeGrantExtension, feegrantTypes, setupFeeGrantExtension } from "./modules";
 export {
+  createFoundationAminoConverters,
   createMsgGrant,
   createMsgRevoke,
   createMsgSubmitProposal,
@@ -95,6 +96,7 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./modules";
 export { IbcExtension, ibcTypes, setupIbcExtension } from "./modules";
+export { stakingplusTypes } from "./modules";
 export {
   isMsgBurnEncodeObject,
   isMsgBurnFromEncodeObject,

@@ -86,15 +86,17 @@ import {
   feegrantTypes,
   foundationTypes,
   ibcTypes,
+  stakingplusTypes,
   tokenTypes,
   wasmplusTypes,
   wasmTypes,
 } from "./modules";
-import { createCollectionAminoConverters } from "./modules/collection/aminomessages";
-import { createFoundationAminoConverters } from "./modules/foundation/aminomessages";
-import { stakingplusTypes } from "./modules/stakingplus/messages";
-import { createTokenAminoConverters } from "./modules/token/aminomessages";
-import { createWasmplusAminoConverters } from "./modules/wasmplus/aminomessages";
+import {
+  createCollectionAminoConverters,
+  createFoundationAminoConverters,
+  createTokenAminoConverters,
+  createWasmplusAminoConverters,
+} from "./modules";
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */
