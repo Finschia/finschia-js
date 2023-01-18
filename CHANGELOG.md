@@ -7,7 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-
+- [\#58](https://github.com/line/lbmjs/pull/58) @lbmjs/finschia: Add test foundation amino
 ### Changed
 
 ### Deprecated
