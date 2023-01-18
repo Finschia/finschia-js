@@ -26,6 +26,7 @@ import {
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
 } from "lbmjs-types/lbm/foundation/v1/tx";
+import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
 import Long from "long";
 
 import { finschiaRegistryTypes } from "../../signingfinschiaclient";
@@ -566,6 +567,16 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
             };
             break;
           }
+          case "/lbm.stakingplus.v1.CreateValidatorAuthorization": {
+            const decoded = CreateValidatorAuthorization.decode(authorization.value);
+            anyAuthorization = {
+              type: "lbm-sdk/CreateValidatorAuthorization",
+              value: {
+                validator_address: decoded.validatorAddress,
+              },
+            };
+            break;
+          }
           default: {
             throw new Error(`Unsupported authorization type: '${authorization.typeUrl}'`);
           }
@@ -583,6 +594,15 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
             anyAuthorization = Any.fromPartial({
               typeUrl: "/lbm.foundation.v1.ReceiveFromTreasuryAuthorization",
               value: ReceiveFromTreasuryAuthorization.encode(authorization.value).finish(),
+            });
+            break;
+          }
+          case "lbm-sdk/CreateValidatorAuthorization": {
+            anyAuthorization = Any.fromPartial({
+              typeUrl: "/lbm.stakingplus.v1.CreateValidatorAuthorization",
+              value: CreateValidatorAuthorization.encode({
+                validatorAddress: authorization.value.validator_address,
+              }).finish(),
             });
             break;
           }

@@ -92,6 +92,7 @@ import {
 } from "./modules";
 import { createCollectionAminoConverters } from "./modules/collection/aminomessages";
 import { createFoundationAminoConverters } from "./modules/foundation/aminomessages";
+import { stakingplusTypes } from "./modules/stakingplus/messages";
 import { createTokenAminoConverters } from "./modules/token/aminomessages";
 import { createWasmplusAminoConverters } from "./modules/wasmplus/aminomessages";
 
@@ -127,6 +128,7 @@ export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...collectionTypes,
   ...wasmTypes,
   ...wasmplusTypes,
+  ...stakingplusTypes,
 ];
 
 function createDefaultRegistry(): Registry {

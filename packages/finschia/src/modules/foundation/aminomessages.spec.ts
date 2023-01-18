@@ -3,6 +3,7 @@ import { Decimal } from "@cosmjs/math";
 import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
 import { AminoTypes, assertIsDeliverTxSuccess, coins, logs } from "@cosmjs/stargate";
 import { sleep } from "@cosmjs/utils";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import { Duration } from "lbmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
@@ -25,6 +26,7 @@ import {
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
 } from "lbmjs-types/lbm/foundation/v1/tx";
+import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
 import Long from "long";
 import { MsgUpdateParamsEncodeObject } from "src";
 
@@ -36,6 +38,7 @@ import {
   pendingWithoutSimapp,
   simapp,
   simappEnabled,
+  validator,
 } from "../../testutils.spec";
 import { longify } from "../../utils";
 import {
@@ -61,6 +64,7 @@ import {
   createMsgUpdateDecisionPolicy,
   createPercentageDecisionPolicy,
   MsgExecEncodeObject,
+  MsgGrantEncodeObject,
   MsgLeaveFoundationEncodeObject,
   MsgUpdateMembersEncodeObject,
   MsgVoteEncodeObject,
@@ -386,7 +390,7 @@ describe("Amino sign", () => {
     assertIsDeliverTxSuccess(result);
   });
 
-  it("MsgGrant", async () => {
+  it("MsgGrant ReceiveFromTreasuryAuthorization", async () => {
     pendingWithoutSimapp();
     const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
       hdPaths: [makeLinkPath(0)],
@@ -399,6 +403,38 @@ describe("Amino sign", () => {
     );
 
     const msgGrant = createMsgGrant(authorityAddress, faucet.address0);
+    const msg = createMsgSubmitProposal([faucet.address0], [msgGrant]);
+    const result = await signingFinschiaClient.signAndBroadcast(faucet.address0, [msg], defaultFee);
+    assertIsDeliverTxSuccess(result);
+  });
+
+  it("MsgGrant CreateValidatorAuthorization", async () => {
+    pendingWithoutSimapp();
+    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+      hdPaths: [makeLinkPath(0)],
+      prefix: simapp.prefix,
+    });
+    const signingFinschiaClient = await SigningFinschiaClient.connectWithSigner(
+      simapp.tendermintUrl,
+      wallet,
+      defaultSigningClientOptions,
+    );
+
+    const msgGrant: MsgGrantEncodeObject = {
+      typeUrl: "/lbm.foundation.v1.MsgGrant",
+      value: {
+        authority: authorityAddress,
+        grantee: faucet.address0,
+        authorization: Any.fromPartial({
+          typeUrl: "/lbm.stakingplus.v1.CreateValidatorAuthorization",
+          value: Uint8Array.from(
+            CreateValidatorAuthorization.encode({
+              validatorAddress: validator.validatorAddress,
+            }).finish(),
+          ),
+        }),
+      },
+    };
     const msg = createMsgSubmitProposal([faucet.address0], [msgGrant]);
     const result = await signingFinschiaClient.signAndBroadcast(faucet.address0, [msg], defaultFee);
     assertIsDeliverTxSuccess(result);
