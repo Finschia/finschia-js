@@ -687,4 +687,15 @@ describe("FinschiaClient", () => {
       ).toBeRejectedWithError(/not found/i);
     });
   });
+
+  describe("Query minimum gas price", () => {
+    it("works", async () => {
+      pendingWithoutSimapp();
+
+      const client = await FinschiaClient.connect(simapp.tendermintUrl);
+      const minimumGasPrice = await client.queryMinimumGasPrice();
+      expect(minimumGasPrice).not.toBeNull();
+      expect(minimumGasPrice).toBe("0.000100000000000000cony");
+    });
+  });
 });

@@ -93,6 +93,7 @@ export {
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
 export { ibcTypes } from "./ibc/messages";
 export { IbcExtension, setupIbcExtension } from "./ibc/queries";
+export { NodeExtension, setupNodeExtension } from "./node/queries";
 export {
   isMsgBurnEncodeObject,
   isMsgBurnFromEncodeObject,

@@ -95,6 +95,7 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./modules";
 export { IbcExtension, ibcTypes, setupIbcExtension } from "./modules";
+export { NodeExtension, setupNodeExtension } from "./modules";
 export {
   isMsgBurnEncodeObject,
   isMsgBurnFromEncodeObject,
