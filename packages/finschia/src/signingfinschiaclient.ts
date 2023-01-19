@@ -9,7 +9,6 @@ import {
   UploadResult,
 } from "@cosmjs/cosmwasm-stargate";
 import {
-  createWasmAminoConverters,
   MsgClearAdminEncodeObject,
   MsgExecuteContractEncodeObject,
   MsgInstantiateContractEncodeObject,
@@ -23,7 +22,6 @@ import { Int53, Uint53 } from "@cosmjs/math";
 import {
   EncodeObject,
   encodePubkey,
-  GeneratedType,
   isOfflineDirectSigner,
   makeAuthInfoBytes,
   makeSignDoc,
@@ -32,16 +30,9 @@ import {
   TxBodyEncodeObject,
 } from "@cosmjs/proto-signing";
 import {
-  AminoConverters,
   AminoTypes,
   calculateFee,
   Coin,
-  createAuthzAminoConverters,
-  createBankAminoConverters,
-  createDistributionAminoConverters,
-  createGovAminoConverters,
-  createStakingAminoConverters,
-  defaultRegistryTypes,
   DeliverTxResponse,
   GasPrice,
   isDeliverTxFailure,
@@ -54,11 +45,7 @@ import {
   SigningStargateClientOptions,
   StdFee,
 } from "@cosmjs/stargate";
-import {
-  createFeegrantAminoConverters,
-  createIbcAminoConverters,
-  MsgTransferEncodeObject,
-} from "@cosmjs/stargate";
+import { MsgTransferEncodeObject } from "@cosmjs/stargate";
 import { HttpEndpoint, Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, assertDefined } from "@cosmjs/utils";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
@@ -81,22 +68,7 @@ import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
-import {
-  collectionTypes,
-  feegrantTypes,
-  foundationTypes,
-  ibcTypes,
-  stakingplusTypes,
-  tokenTypes,
-  wasmplusTypes,
-  wasmTypes,
-} from "./modules";
-import {
-  createCollectionAminoConverters,
-  createFoundationAminoConverters,
-  createTokenAminoConverters,
-  createWasmplusAminoConverters,
-} from "./modules";
+import { createDefaultRegistry, createDefaultTypes } from "./types";
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */
@@ -119,40 +91,6 @@ export interface UploadAndInstantiateResult {
 
 function createDeliverTxResponseErrorMessage(result: DeliverTxResponse): string {
   return `Error when broadcasting tx ${result.transactionHash} at height ${result.height}. Code: ${result.code}; Raw log: ${result.rawLog}`;
-}
-
-export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ...defaultRegistryTypes,
-  ...feegrantTypes,
-  ...ibcTypes,
-  ...tokenTypes,
-  ...foundationTypes,
-  ...collectionTypes,
-  ...wasmTypes,
-  ...wasmplusTypes,
-  ...stakingplusTypes,
-];
-
-function createDefaultRegistry(): Registry {
-  return new Registry(finschiaRegistryTypes);
-}
-
-function createDefaultTypes(prefix: string): AminoConverters {
-  return {
-    ...createAuthzAminoConverters(),
-    ...createBankAminoConverters(),
-    ...createDistributionAminoConverters(),
-    ...createFeegrantAminoConverters(),
-    ...createGovAminoConverters(),
-    ...createIbcAminoConverters(),
-    ...createStakingAminoConverters(prefix),
-    // ...createVestingAminoConverters(), this is omitted in cosmjs export
-    ...createWasmAminoConverters(),
-    ...createCollectionAminoConverters(),
-    ...createFoundationAminoConverters(),
-    ...createTokenAminoConverters(),
-    ...createWasmplusAminoConverters(),
-  };
 }
 
 export class SigningFinschiaClient extends FinschiaClient {

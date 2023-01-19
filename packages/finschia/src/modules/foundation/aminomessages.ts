@@ -1,5 +1,5 @@
 import { AminoMsg, Coin } from "@cosmjs/amino";
-import { EncodeObject, Registry } from "@cosmjs/proto-signing";
+import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
 import { Any } from "lbmjs-types/google/protobuf/any";
@@ -29,7 +29,7 @@ import {
 import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
 import Long from "long";
 
-import { finschiaRegistryTypes } from "../../signingfinschiaclient";
+import { createDefaultRegistry, createDefaultTypes, createDefaultTypesWithoutFoundation } from "../../types";
 import {
   jsonDecimalToProto,
   jsonDurationToProto,
@@ -730,8 +730,11 @@ function isAminoConverter(
 
 function createMsgSubmitProposalAminoConverter(): AminoConverters {
   const aminoConvertersWithoutSubmitProposal = createFoundationAminoConvertersWithoutSubmitProposal();
-  const registry = new Registry(finschiaRegistryTypes);
-  const aminoTypes = new AminoTypes({ ...aminoConvertersWithoutSubmitProposal });
+  const registry = createDefaultRegistry();
+  const aminoTypes = new AminoTypes({
+    ...createDefaultTypesWithoutFoundation("link"),
+    ...aminoConvertersWithoutSubmitProposal,
+  });
   return {
     "/lbm.foundation.v1.MsgSubmitProposal": {
       aminoType: "lbm-sdk/MsgSubmitProposal",
@@ -788,7 +791,7 @@ function createMsgSubmitProposalAminoConverter(): AminoConverters {
 
 export function createFoundationAminoConverters(): AminoConverters {
   return {
-    ...createMsgSubmitProposalAminoConverter(),
     ...createFoundationAminoConvertersWithoutSubmitProposal(),
+    ...createMsgSubmitProposalAminoConverter(),
   };
 }

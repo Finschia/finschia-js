@@ -48,7 +48,6 @@ export {
 } from "./collection/messages";
 export { CollectionExtension, setupCollectionExtension } from "./collection/queries";
 export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
-export { feegrantTypes } from "./feegrant/messages";
 export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
 export { createFoundationAminoConverters } from "./foundation/aminomessages";
 export {
@@ -93,7 +92,6 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
-export { ibcTypes } from "./ibc/messages";
 export { IbcExtension, setupIbcExtension } from "./ibc/queries";
 export { stakingplusTypes } from "./stakingplus/messages";
 export { createTokenAminoConverters } from "./token/aminomessages";
