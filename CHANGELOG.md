@@ -7,7 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-
+- [\#61](https://github.com/line/lbmjs/pull/61) @lbmjs/finschia: Add query minimum gas price
 ### Changed
 
 ### Deprecated
