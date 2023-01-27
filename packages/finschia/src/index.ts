@@ -49,8 +49,9 @@ export {
   setupCollectionExtension,
 } from "./modules";
 export { EvidenceExtension, setupEvidenceExtension } from "./modules";
-export { FeeGrantExtension, feegrantTypes, setupFeeGrantExtension } from "./modules";
+export { FeeGrantExtension, setupFeeGrantExtension } from "./modules";
 export {
+  createFoundationAminoConverters,
   createMsgGrant,
   createMsgRevoke,
   createMsgSubmitProposal,
@@ -94,7 +95,8 @@ export {
   setupFoundationExtension,
   ThresholdDecisionPolicyEncodeObject,
 } from "./modules";
-export { IbcExtension, ibcTypes, setupIbcExtension } from "./modules";
+export { IbcExtension, setupIbcExtension } from "./modules";
+export { stakingplusTypes } from "./modules";
 export {
   isMsgBurnEncodeObject,
   isMsgBurnFromEncodeObject,
@@ -130,9 +132,6 @@ export {
   wasmTypes,
 } from "./modules";
 export { makeLinkPath } from "./paths";
-export {
-  finschiaRegistryTypes,
-  SigningFinschiaClient,
-  UploadAndInstantiateResult,
-} from "./signingfinschiaclient";
+export { SigningFinschiaClient, UploadAndInstantiateResult } from "./signingfinschiaclient";
+export { finschiaRegistryTypes } from "./types";
 export { longify } from "./utils";

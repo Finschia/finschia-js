@@ -8,6 +8,7 @@ import {
   MemberRequest,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
+  VoteOption,
 } from "lbmjs-types/lbm/foundation/v1/foundation";
 import {
   Exec,
@@ -235,6 +236,25 @@ export function createMsgGrant(authority: string, grantee: string): MsgGrantEnco
         typeUrl: "/lbm.foundation.v1.ReceiveFromTreasuryAuthorization",
         value: Uint8Array.from(ReceiveFromTreasuryAuthorization.encode({}).finish()),
       }),
+    },
+  };
+}
+
+export function createMsgVote(
+  proposalId: Long,
+  voter: string,
+  option: VoteOption = VoteOption.VOTE_OPTION_YES,
+  metadata = "",
+  exec: Exec = Exec.EXEC_UNSPECIFIED,
+): MsgVoteEncodeObject {
+  return {
+    typeUrl: "/lbm.foundation.v1.MsgVote",
+    value: {
+      proposalId: proposalId,
+      voter: voter,
+      option: option,
+      metadata: metadata,
+      exec: exec,
     },
   };
 }
