@@ -28,7 +28,7 @@ import {
 } from "./messages";
 import { FoundationExtension, setupFoundationExtension } from "./queries";
 
-async function makeClientWithFoundation(
+export async function makeClientWithFoundation(
   rpcUrl: string,
 ): Promise<[QueryClient & FoundationExtension, Tendermint34Client]> {
   const tmClient = await Tendermint34Client.connect(rpcUrl);

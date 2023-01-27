@@ -8,6 +8,7 @@ and this project adheres to
 
 ### Added
 - [\#61](https://github.com/line/lbmjs/pull/61) @lbmjs/finschia: Add query minimum gas price
+- [\#58](https://github.com/line/lbmjs/pull/58) @lbmjs/finschia: Add test foundation amino
 ### Changed
 
 ### Deprecated

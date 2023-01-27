@@ -1,3 +1,4 @@
+export { createCollectionAminoConverters } from "./collection/aminomessages";
 export {
   collectionTypes,
   isMsgAttachEncodeObject,
@@ -47,8 +48,8 @@ export {
 } from "./collection/messages";
 export { CollectionExtension, setupCollectionExtension } from "./collection/queries";
 export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
-export { feegrantTypes } from "./feegrant/messages";
 export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
+export { createFoundationAminoConverters } from "./foundation/aminomessages";
 export {
   createMsgGrant,
   createMsgRevoke,
@@ -91,9 +92,10 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
-export { ibcTypes } from "./ibc/messages";
 export { IbcExtension, setupIbcExtension } from "./ibc/queries";
 export { NodeExtension, setupNodeExtension } from "./node/queries";
+export { stakingplusTypes } from "./stakingplus/messages";
+export { createTokenAminoConverters } from "./token/aminomessages";
 export {
   isMsgBurnEncodeObject,
   isMsgBurnFromEncodeObject,
@@ -121,6 +123,7 @@ export {
 } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
 export { wasmTypes } from "./wasm/messages";
+export { createWasmplusAminoConverters } from "./wasmplus/aminomessages";
 export {
   isMsgStoreCodeAndInstantiateContract,
   MsgStoreCodeAndInstantiateContractEncodeObject,
