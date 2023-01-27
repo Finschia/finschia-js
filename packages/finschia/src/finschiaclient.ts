@@ -63,11 +63,13 @@ import {
   FeeGrantExtension,
   FoundationExtension,
   IbcExtension,
+  NodeExtension,
   setupCollectionExtension,
   setupEvidenceExtension,
   setupFeeGrantExtension,
   setupFoundationExtension,
   setupIbcExtension,
+  setupNodeExtension,
   setupTokenExtension,
   setupWasmplusExtension,
   TokenExtension,
@@ -91,7 +93,8 @@ export type QueryClientWithExtensions = QueryClient &
   TokenExtension &
   TxExtension &
   WasmExtension &
-  WasmplusExtension;
+  WasmplusExtension &
+  NodeExtension;
 
 function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryClientWithExtensions {
   return QueryClient.withExtensions(
@@ -113,6 +116,7 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
     setupTxExtension,
     setupWasmExtension,
     setupWasmplusExtension,
+    setupNodeExtension,
   );
 }
 
@@ -539,6 +543,10 @@ export class FinschiaClient {
         throw error;
       }
     }
+  }
+
+  public async queryMinimumGasPrice(): Promise<string | null> {
+    return await this.forceGetQueryClient().node.config();
   }
 
   private async txsQuery(query: string): Promise<readonly IndexedTx[]> {

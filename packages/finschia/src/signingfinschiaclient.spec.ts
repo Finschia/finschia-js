@@ -1081,7 +1081,7 @@ describe("SigningFinschiaClient", () => {
           value: msgDelegate,
         };
         const fee = {
-          amount: coins(2000, "stake"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1113,7 +1113,7 @@ describe("SigningFinschiaClient", () => {
           value: msgStoreCode,
         };
         const fee = {
-          amount: coins(2000, "stake"),
+          amount: coins(2000, "cony"),
           gas: "1500000",
         };
         const memo = "Use your tokens wisely";
@@ -1428,7 +1428,7 @@ describe("SigningFinschiaClient", () => {
           value: msgDelegate,
         };
         const fee = {
-          amount: coins(2000, "stake"),
+          amount: coins(2000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
