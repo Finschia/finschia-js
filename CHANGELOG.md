@@ -7,8 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-- [\#61](https://github.com/line/lbmjs/pull/61) @lbmjs/finschia: Add query minimum gas price
-- [\#58](https://github.com/line/lbmjs/pull/58) @lbmjs/finschia: Add test foundation amino
+
 ### Changed
 
 ### Deprecated
@@ -18,6 +17,13 @@ and this project adheres to
 ### Fixed
 
 ### Security
+
+
+## [v0.7.2]
+
+### Added
+- [\#61](https://github.com/line/lbmjs/pull/61) @lbmjs/finschia: Add query minimum gas price
+- [\#58](https://github.com/line/lbmjs/pull/58) @lbmjs/finschia: Add test foundation amino
 
 
 ## [v0.7.1] - 2023-01-10
@@ -87,7 +93,8 @@ and this project adheres to
 [#14]: https://github.com/line/lbmjs/pull/14
 
 
-[Unreleased]: https://github.com/line/lbmjs/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/line/lbmjs/compare/v0.7.2...HEAD
+[v0.7.1]: https://github.com/line/lbmjs/compare/v0.7.1...v0.7.2
 [v0.7.1]: https://github.com/line/lbmjs/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/line/lbmjs/compare/v0.4.0...v0.7.0
 [v0.4.0]: https://github.com/line/lbmjs/compare/v0.1.0...v0.4.0
