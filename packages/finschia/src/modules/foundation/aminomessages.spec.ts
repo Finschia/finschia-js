@@ -15,7 +15,6 @@ import {
   Exec,
   MsgExec,
   MsgFundTreasury,
-  MsgGovMint,
   MsgGrant,
   MsgLeaveFoundation,
   MsgRevoke,
@@ -44,7 +43,6 @@ import { longify } from "../../utils";
 import {
   AminoMsgExec,
   AminoMsgFundTreasury,
-  AminoMsgGovMint,
   AminoMsgGrant,
   AminoMsgLeaveFoundation,
   AminoMsgRevoke,
@@ -746,26 +744,6 @@ describe("AminoTypes", () => {
       expect(aminoMsg).toEqual(expected);
     });
 
-    it("MsgGovMint", () => {
-      const msg: MsgGovMint = {
-        authority: faucet.address0,
-        amount: coins(1234, "cony"),
-      };
-      const aminoTypes = new AminoTypes(createFoundationAminoConverters());
-      const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.foundation.v1.MsgGovMint",
-        value: msg,
-      });
-      const expected: AminoMsgGovMint = {
-        type: "lbm-sdk/MsgGovMint",
-        value: {
-          authority: faucet.address0,
-          amount: coins(1234, "cony"),
-        },
-      };
-      expect(aminoMsg).toEqual(expected);
-    });
-
     it("ThresholdDecisionPolicy", () => {
       const msg: ThresholdDecisionPolicy = {
         threshold: Decimal.fromUserInput("10", 18).atomics,
@@ -1089,26 +1067,6 @@ describe("AminoTypes", () => {
       };
       expect(msg).toEqual({
         typeUrl: "/lbm.foundation.v1.MsgRevoke",
-        value: expectedValue,
-      });
-    });
-
-    it("MsgGovMint", () => {
-      const aminoMsg: AminoMsgGovMint = {
-        type: "lbm-sdk/MsgGovMint",
-        value: {
-          authority: faucet.address0,
-          amount: coins(1234, "cony"),
-        },
-      };
-      const aminoTypes = new AminoTypes(createFoundationAminoConverters());
-      const msg = aminoTypes.fromAmino(aminoMsg);
-      const expectedValue: MsgGovMint = {
-        authority: faucet.address0,
-        amount: coins(1234, "cony"),
-      };
-      expect(msg).toEqual({
-        typeUrl: "/lbm.foundation.v1.MsgGovMint",
         value: expectedValue,
       });
     });

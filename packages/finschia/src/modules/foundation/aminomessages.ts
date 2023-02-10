@@ -14,7 +14,6 @@ import {
   execFromJSON,
   MsgExec,
   MsgFundTreasury,
-  MsgGovMint,
   MsgGrant,
   MsgLeaveFoundation,
   MsgRevoke,
@@ -245,20 +244,6 @@ export interface AminoMsgRevoke extends AminoMsg {
 export function isAminoMsgRevoke(msg: AminoMsg): msg is AminoMsgRevoke {
   return msg.type === "lbm-sdk/MsgRevoke";
 }
-
-export interface AminoMsgGovMint extends AminoMsg {
-  readonly type: "lbm-sdk/MsgGovMint";
-  readonly value: {
-    /** authority is the address of the privileged account. */
-    readonly authority: string;
-    readonly amount: Coin[];
-  };
-}
-
-export function isAminoMsgGovMint(msg: AminoMsg): msg is AminoMsgGovMint {
-  return msg.type === "lbm-sdk/MsgGovMint";
-}
-
 export interface AminoThresholdDecisionPolicy extends AminoMsg {
   readonly type: "lbm-sdk/ThresholdDecisionPolicy";
   readonly value: {
@@ -630,21 +615,6 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
           authority: authority,
           grantee: grantee,
           msgTypeUrl: msg_type_url,
-        };
-      },
-    },
-    "/lbm.foundation.v1.MsgGovMint": {
-      aminoType: "lbm-sdk/MsgGovMint",
-      toAmino: ({ authority, amount }: MsgGovMint): AminoMsgGovMint["value"] => {
-        return {
-          authority: authority,
-          amount: amount,
-        };
-      },
-      fromAmino: ({ authority, amount }: AminoMsgGovMint["value"]): MsgGovMint => {
-        return {
-          authority: authority,
-          amount: amount,
         };
       },
     },
