@@ -219,7 +219,7 @@ describe("TokenExtension", () => {
         assertIsDeliverTxSuccess(result);
       }
 
-      // Transfer
+      // Send
       {
         const msgSend: MsgSendEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgSend",
@@ -277,9 +277,9 @@ describe("TokenExtension", () => {
         assertIsDeliverTxSuccess(result);
       }
 
-      // Approve
+      // AuthorizeOperator
       {
-        const msgApprove: MsgAuthorizeOperatorEncodeObject = {
+        const msgAuthorizeOperator: MsgAuthorizeOperatorEncodeObject = {
           typeUrl: "/lbm.token.v1.MsgAuthorizeOperator",
           value: {
             contractId: contractId,
@@ -287,7 +287,7 @@ describe("TokenExtension", () => {
             operator: toAddress,
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgApprove], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgAuthorizeOperator], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -358,7 +358,7 @@ describe("TokenExtension", () => {
 
       tmClient.disconnect();
     });
-    it("approved", async () => {
+    it("isOperatorFor", async () => {
       pendingWithoutSimapp();
       assert(contractId, "Missing contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
@@ -368,7 +368,7 @@ describe("TokenExtension", () => {
 
       tmClient.disconnect();
     });
-    it("approvers", async () => {
+    it("holdersByOperator", async () => {
       pendingWithoutSimapp();
       assert(contractId, "Mission contract ID");
       const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);

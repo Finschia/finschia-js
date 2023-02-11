@@ -1,25 +1,25 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
-import { Pair } from "lbmjs-types/lbm/token/v1/token";
+import { Attribute } from "lbmjs-types/lbm/token/v1/token";
 import {
-  MsgApprove,
+  MsgAuthorizeOperator,
   MsgBurn,
-  MsgBurnFrom,
   MsgGrantPermission,
   MsgIssue,
   MsgMint,
   MsgModify,
+  MsgOperatorBurn,
+  MsgOperatorSend,
   MsgRevokeOperator,
   MsgRevokePermission,
   MsgSend,
-  MsgTransferFrom,
 } from "lbmjs-types/lbm/token/v1/tx";
 
 export interface AminoMsgSend extends AminoMsg {
   readonly type: "lbm-sdk/MsgSend";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** approver whose tokens are being sent. */
     readonly from: string;
     /** recipient of the tokens. */
@@ -33,13 +33,13 @@ export function isAminoMsgSend(msg: AminoMsg): msg is AminoMsgSend {
   return msg.type === "lbm-sdk/MsgSend";
 }
 
-export interface AminoMsgTransferFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgTransferFrom";
+export interface AminoMsgOperatorSend extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorSend";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
-    /** the address of the proxy. */
-    readonly proxy: string;
+    readonly contract_id: string;
+    /** the address of the operator. */
+    readonly operator: string;
     /** the address which the transfer is from. */
     readonly from: string;
     /** the address which the transfer is to. */
@@ -49,15 +49,15 @@ export interface AminoMsgTransferFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgTransferFrom(msg: AminoMsg): msg is AminoMsgTransferFrom {
-  return msg.type === "lbm-sdk/MsgTransferFrom";
+export function isAminoMsgOperatorSend(msg: AminoMsg): msg is AminoMsgOperatorSend {
+  return msg.type === "lbm-sdk/MsgOperatorSend";
 }
 
 export interface AminoMsgRevokeOperator extends AminoMsg {
   readonly type: "lbm-sdk/MsgRevokeOperator";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** address of a holder which revokes the `operator` address as an operator. */
     readonly holder: string;
     /** address to rescind as an operator for `holder`. */
@@ -69,20 +69,21 @@ export function isAminoMsgRevokeOperator(msg: AminoMsg): msg is AminoMsgRevokeOp
   return msg.type === "lbm-sdk/MsgRevokeOperator";
 }
 
-export interface AminoMsgApprove extends AminoMsg {
-  readonly type: "lbm-sdk/token/MsgApprove";
+// todo : how to distinguish between token lbm-sdk/MsgAuthorizeOperator and collection lbm-sdk/MsgAuthorizeOperator
+export interface AminoMsgAuthorizeOperator extends AminoMsg {
+  readonly type: "lbm-sdk/token/MsgAuthorizeOperator";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
-    /** address of the token approver which approves the authorization. */
-    readonly approver: string;
-    /** address of the proxy which the authorization is granted to. */
-    readonly proxy: string;
+    readonly contract_id: string;
+    /** address of the token holder which approves the authorization. */
+    readonly holder: string;
+    /** address of the operator which the authorization is granted to. */
+    readonly operator: string;
   };
 }
 
-export function isAminoMsgApprove(msg: AminoMsg): msg is AminoMsgApprove {
-  return msg.type === "lbm-sdk/token/MsgApprove";
+export function isAminoMsgAuthorizeOperator(msg: AminoMsg): msg is AminoMsgAuthorizeOperator {
+  return msg.type === "lbm-sdk/token/MsgAuthorizeOperator";
 }
 
 export interface AminoMsgIssue extends AminoMsg {
@@ -92,8 +93,8 @@ export interface AminoMsgIssue extends AminoMsg {
     readonly name: string;
     /** symbol is an abbreviated name for token class. mandatory (not ERC20 compliant). */
     readonly symbol: string;
-    /** image_uri is an uri for the image of the token class stored off chain. */
-    readonly imageUri: string;
+    /** uri for the image of the token class stored off chain. */
+    readonly uri: string;
     /** meta is a brief description of token class. */
     readonly meta: string;
     /** decimals is the number of decimals which one must divide the amount by to get its user representation. */
@@ -113,11 +114,12 @@ export function isAminoMsgIssue(msg: AminoMsg): msg is AminoMsgIssue {
   return msg.type === "lbm-sdk/MsgIssue";
 }
 
+// todo : how to distinguish between token lbm-sdk/MsgGrantPermission and collection lbm-sdk/MsgGrantPermission
 export interface AminoMsgGrantPermission extends AminoMsg {
   readonly type: "lbm-sdk/token/MsgGrantPermission";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** address of the granter which must have the permission to give. */
     readonly from: string;
     /** address of the grantee. */
@@ -131,11 +133,12 @@ export function isAminoMsgGrantPermission(msg: AminoMsg): msg is AminoMsgGrantPe
   return msg.type === "lbm-sdk/token/MsgGrantPermission";
 }
 
+// todo : how to distinguish between token lbm-sdk/MsgRevokePermission and collection lbm-sdk/MsgRevokePermission
 export interface AminoMsgRevokePermission extends AminoMsg {
   readonly type: "lbm-sdk/token/MsgRevokePermission";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** address of the grantee which abandons the permission. */
     readonly from: string;
     /** permission on the token class. */
@@ -151,7 +154,7 @@ export interface AminoMsgMint extends AminoMsg {
   readonly type: "lbm-sdk/MsgMint";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** address which triggers the mint. */
     readonly from: string;
     /** recipient of the tokens. */
@@ -169,7 +172,7 @@ export interface AminoMsgBurn extends AminoMsg {
   readonly type: "lbm-sdk/MsgBurn";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** address whose tokens are being burned. */
     readonly from: string;
     /** number of tokens to burn. */
@@ -181,13 +184,13 @@ export function isAminoMsgBurn(msg: AminoMsg): msg is AminoMsgBurn {
   return msg.type === "lbm-sdk/MsgBurn";
 }
 
-export interface AminoMsgBurnFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgBurnFrom";
+export interface AminoMsgOperatorBurn extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorBurn";
   readonly value: {
     /** contract id associated with the token class. */
-    readonly contractId: string;
+    readonly contract_id: string;
     /** address which triggers the burn. */
-    readonly proxy: string;
+    readonly operator: string;
     /** address which the tokens will be burnt from. */
     readonly from: string;
     /** the amount of the burn. */
@@ -195,19 +198,20 @@ export interface AminoMsgBurnFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgBurnFrom(msg: AminoMsg): msg is AminoMsgBurnFrom {
-  return msg.type === "lbm-sdk/MsgBurnFrom";
+export function isAminoMsgOperatorBurn(msg: AminoMsg): msg is AminoMsgOperatorBurn {
+  return msg.type === "lbm-sdk/MsgOperatorBurn";
 }
 
+// todo : how to distinguish between token lbm-sdk/MsgModify and collection lbm-sdk/MsgModify
 export interface AminoMsgModify extends AminoMsg {
   readonly type: "lbm-sdk/token/MsgModify";
   readonly value: {
     /** contract id associated with the contract. */
-    contractId: string;
+    contract_id: string;
     /** the address of the grantee which must have modify permission. */
     owner: string;
     /** changes to apply. */
-    changes: Pair[];
+    changes: Attribute[];
   };
 }
 
@@ -221,42 +225,48 @@ export function createTokenAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/MsgSend",
       toAmino: ({ contractId, from, to, amount }: MsgSend): AminoMsgSend["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           from: from,
           to: to,
           amount: amount,
         };
       },
-      fromAmino: ({ contractId, from, to, amount }: AminoMsgSend["value"]): MsgSend => {
+      fromAmino: ({ contract_id, from, to, amount }: AminoMsgSend["value"]): MsgSend => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           from: from,
           to: to,
           amount: amount,
         };
       },
     },
-    "/lbm.token.v1.MsgTransferFrom": {
-      aminoType: "lbm-sdk/MsgTransferFrom",
-      toAmino: ({ contractId, proxy, from, to, amount }: MsgTransferFrom): AminoMsgTransferFrom["value"] => {
+    "/lbm.token.v1.MsgOperatorSend": {
+      aminoType: "lbm-sdk/MsgOperatorSend",
+      toAmino: ({
+        contractId,
+        operator,
+        from,
+        to,
+        amount,
+      }: MsgOperatorSend): AminoMsgOperatorSend["value"] => {
         return {
-          contractId: contractId,
-          proxy: proxy,
+          contract_id: contractId,
+          operator: operator,
           from: from,
           to: to,
           amount: amount,
         };
       },
       fromAmino: ({
-        contractId,
-        proxy,
+        contract_id,
+        operator,
         from,
         to,
         amount,
-      }: AminoMsgTransferFrom["value"]): MsgTransferFrom => {
+      }: AminoMsgOperatorSend["value"]): MsgOperatorSend => {
         return {
-          contractId: contractId,
-          proxy: proxy,
+          contractId: contract_id,
+          operator: operator,
           from: from,
           to: to,
           amount: amount,
@@ -267,33 +277,41 @@ export function createTokenAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/MsgRevokeOperator",
       toAmino: ({ contractId, holder, operator }: MsgRevokeOperator): AminoMsgRevokeOperator["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           holder: holder,
           operator: operator,
         };
       },
-      fromAmino: ({ contractId, holder, operator }: AminoMsgRevokeOperator["value"]): MsgRevokeOperator => {
+      fromAmino: ({ contract_id, holder, operator }: AminoMsgRevokeOperator["value"]): MsgRevokeOperator => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           holder: holder,
           operator: operator,
         };
       },
     },
-    "/lbm.token.v1.MsgApprove": {
-      aminoType: "lbm-sdk/token/MsgApprove",
-      toAmino: ({ contractId, approver, proxy }: MsgApprove): AminoMsgApprove["value"] => {
+    "/lbm.token.v1.MsgAuthorizeOperator": {
+      aminoType: "lbm-sdk/token/MsgAuthorizeOperator",
+      toAmino: ({
+        contractId,
+        holder,
+        operator,
+      }: MsgAuthorizeOperator): AminoMsgAuthorizeOperator["value"] => {
         return {
-          contractId: contractId,
-          approver: approver,
-          proxy: proxy,
+          contract_id: contractId,
+          holder: holder,
+          operator: operator,
         };
       },
-      fromAmino: ({ contractId, approver, proxy }: AminoMsgApprove["value"]): MsgApprove => {
+      fromAmino: ({
+        contract_id,
+        holder,
+        operator,
+      }: AminoMsgAuthorizeOperator["value"]): MsgAuthorizeOperator => {
         return {
-          contractId: contractId,
-          approver: approver,
-          proxy: proxy,
+          contractId: contract_id,
+          holder: holder,
+          operator: operator,
         };
       },
     },
@@ -302,7 +320,7 @@ export function createTokenAminoConverters(): AminoConverters {
       toAmino: ({
         name,
         symbol,
-        imageUri,
+        uri,
         meta,
         decimals,
         mintable,
@@ -313,7 +331,7 @@ export function createTokenAminoConverters(): AminoConverters {
         return {
           name: name,
           symbol: symbol,
-          imageUri: imageUri,
+          uri: uri,
           meta: meta,
           decimals: decimals,
           mintable: mintable,
@@ -325,7 +343,7 @@ export function createTokenAminoConverters(): AminoConverters {
       fromAmino: ({
         name,
         symbol,
-        imageUri,
+        uri,
         meta,
         decimals,
         mintable,
@@ -336,7 +354,7 @@ export function createTokenAminoConverters(): AminoConverters {
         return {
           name: name,
           symbol: symbol,
-          imageUri: imageUri,
+          uri: uri,
           meta: meta,
           decimals: decimals,
           mintable: mintable,
@@ -355,20 +373,20 @@ export function createTokenAminoConverters(): AminoConverters {
         permission,
       }: MsgGrantPermission): AminoMsgGrantPermission["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           from: from,
           to: to,
           permission: permission,
         };
       },
       fromAmino: ({
-        contractId,
+        contract_id,
         from,
         to,
         permission,
       }: AminoMsgGrantPermission["value"]): MsgGrantPermission => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           from: from,
           to: to,
           permission: permission,
@@ -379,18 +397,18 @@ export function createTokenAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/token/MsgRevokePermission",
       toAmino: ({ contractId, from, permission }: MsgRevokePermission): AminoMsgRevokePermission["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           from: from,
           permission: permission,
         };
       },
       fromAmino: ({
-        contractId,
+        contract_id,
         from,
         permission,
       }: AminoMsgRevokePermission["value"]): MsgRevokePermission => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           from: from,
           permission: permission,
         };
@@ -400,15 +418,15 @@ export function createTokenAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/MsgMint",
       toAmino: ({ contractId, from, to, amount }: MsgMint): AminoMsgMint["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           from: from,
           to: to,
           amount: amount,
         };
       },
-      fromAmino: ({ contractId, from, to, amount }: AminoMsgMint["value"]): MsgMint => {
+      fromAmino: ({ contract_id, from, to, amount }: AminoMsgMint["value"]): MsgMint => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           from: from,
           to: to,
           amount: amount,
@@ -419,33 +437,38 @@ export function createTokenAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/MsgBurn",
       toAmino: ({ contractId, from, amount }: MsgBurn): AminoMsgBurn["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           from: from,
           amount: amount,
         };
       },
-      fromAmino: ({ contractId, from, amount }: AminoMsgBurn["value"]): MsgBurn => {
+      fromAmino: ({ contract_id, from, amount }: AminoMsgBurn["value"]): MsgBurn => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           from: from,
           amount: amount,
         };
       },
     },
-    "/lbm.token.v1.MsgBurnFrom": {
-      aminoType: "lbm-sdk/MsgBurnFrom",
-      toAmino: ({ contractId, proxy, from, amount }: MsgBurnFrom): AminoMsgBurnFrom["value"] => {
+    "/lbm.token.v1.MsgOperatorBurn": {
+      aminoType: "lbm-sdk/MsgOperatorBurn",
+      toAmino: ({ contractId, operator, from, amount }: MsgOperatorBurn): AminoMsgOperatorBurn["value"] => {
         return {
-          contractId: contractId,
-          proxy: proxy,
+          contract_id: contractId,
+          operator: operator,
           from: from,
           amount: amount,
         };
       },
-      fromAmino: ({ contractId, proxy, from, amount }: AminoMsgBurnFrom["value"]): MsgBurnFrom => {
+      fromAmino: ({
+        contract_id,
+        operator,
+        from,
+        amount,
+      }: AminoMsgOperatorBurn["value"]): MsgOperatorBurn => {
         return {
-          contractId: contractId,
-          proxy: proxy,
+          contractId: contract_id,
+          operator: operator,
           from: from,
           amount: amount,
         };
@@ -455,16 +478,16 @@ export function createTokenAminoConverters(): AminoConverters {
       aminoType: "lbm-sdk/token/MsgModify",
       toAmino: ({ contractId, owner, changes }: MsgModify): AminoMsgModify["value"] => {
         return {
-          contractId: contractId,
+          contract_id: contractId,
           owner: owner,
-          changes: changes,
+          changes: [...changes],
         };
       },
-      fromAmino: ({ contractId, owner, changes }: AminoMsgModify["value"]): MsgModify => {
+      fromAmino: ({ contract_id, owner, changes }: AminoMsgModify["value"]): MsgModify => {
         return {
-          contractId: contractId,
+          contractId: contract_id,
           owner: owner,
-          changes: changes,
+          changes: [...changes],
         };
       },
     },
