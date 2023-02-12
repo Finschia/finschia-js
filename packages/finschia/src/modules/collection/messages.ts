@@ -1,110 +1,114 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
 import {
-  MsgApprove,
   MsgAttach,
-  MsgAttachFrom,
+  MsgAuthorizeOperator,
   MsgBurnFT,
-  MsgBurnFTFrom,
   MsgBurnNFT,
-  MsgBurnNFTFrom,
   MsgCreateContract,
   MsgDetach,
-  MsgDetachFrom,
-  MsgDisapprove,
   MsgGrantPermission,
   MsgIssueFT,
   MsgIssueNFT,
   MsgMintFT,
   MsgMintNFT,
   MsgModify,
+  MsgOperatorAttach,
+  MsgOperatorBurnFT,
+  MsgOperatorBurnNFT,
+  MsgOperatorDetach,
+  MsgOperatorSendFT,
+  MsgOperatorSendNFT,
+  MsgRevokeOperator,
   MsgRevokePermission,
-  MsgTransferFT,
-  MsgTransferFTFrom,
-  MsgTransferNFT,
-  MsgTransferNFTFrom,
+  MsgSendFT,
+  MsgSendNFT,
 } from "lbmjs-types/lbm/collection/v1/tx";
 
 export const collectionTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.collection.v1.MsgTransferFT", MsgTransferFT],
-  ["/lbm.collection.v1.MsgTransferFTFrom", MsgTransferFTFrom],
-  ["/lbm.collection.v1.MsgTransferNFT", MsgTransferNFT],
-  ["/lbm.collection.v1.MsgTransferNFTFrom", MsgTransferNFTFrom],
-  ["/lbm.collection.v1.MsgApprove", MsgApprove],
-  ["/lbm.collection.v1.MsgDisapprove", MsgDisapprove],
+  ["/lbm.collection.v1.MsgSendFT", MsgSendFT],
+  ["/lbm.collection.v1.MsgOperatorSendFT", MsgOperatorSendFT],
+  ["/lbm.collection.v1.MsgSendNFT", MsgSendNFT],
+  ["/lbm.collection.v1.MsgOperatorSendNFT", MsgOperatorSendNFT],
+  ["/lbm.collection.v1.MsgAuthorizeOperator", MsgAuthorizeOperator],
+  ["/lbm.collection.v1.MsgRevokeOperator", MsgRevokeOperator],
   ["/lbm.collection.v1.MsgCreateContract", MsgCreateContract],
   ["/lbm.collection.v1.MsgIssueFT", MsgIssueFT],
   ["/lbm.collection.v1.MsgIssueNFT", MsgIssueNFT],
   ["/lbm.collection.v1.MsgMintFT", MsgMintFT],
   ["/lbm.collection.v1.MsgMintNFT", MsgMintNFT],
   ["/lbm.collection.v1.MsgBurnFT", MsgBurnFT],
-  ["/lbm.collection.v1.MsgBurnFTFrom", MsgBurnFTFrom],
+  ["/lbm.collection.v1.MsgOperatorBurnFT", MsgOperatorBurnFT],
   ["/lbm.collection.v1.MsgBurnNFT", MsgBurnNFT],
-  ["/lbm.collection.v1.MsgBurnNFTFrom", MsgBurnNFTFrom],
+  ["/lbm.collection.v1.MsgOperatorBurnNFT", MsgOperatorBurnNFT],
   ["/lbm.collection.v1.MsgModify", MsgModify],
   ["/lbm.collection.v1.MsgGrantPermission", MsgGrantPermission],
   ["/lbm.collection.v1.MsgRevokePermission", MsgRevokePermission],
   ["/lbm.collection.v1.MsgAttach", MsgAttach],
   ["/lbm.collection.v1.MsgDetach", MsgDetach],
-  ["/lbm.collection.v1.MsgAttachFrom", MsgAttachFrom],
-  ["/lbm.collection.v1.MsgDetachFrom", MsgDetachFrom],
+  ["/lbm.collection.v1.MsgOperatorAttach", MsgOperatorAttach],
+  ["/lbm.collection.v1.MsgOperatorDetach", MsgOperatorDetach],
 ];
 
-export interface MsgTransferFTEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgTransferFT";
-  readonly value: Partial<MsgTransferFT>;
+export interface MsgSendFTEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgSendFT";
+  readonly value: Partial<MsgSendFT>;
 }
 
-export function isMsgTransferFTEncodeObject(object: EncodeObject): object is MsgTransferFTEncodeObject {
-  return (object as MsgTransferFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgTransferFT";
+export function isMsgSendFTEncodeObject(object: EncodeObject): object is MsgSendFTEncodeObject {
+  return (object as MsgSendFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgSendFT";
 }
 
-export interface MsgTransferFTFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgTransferFTFrom";
-  readonly value: Partial<MsgTransferFTFrom>;
+export interface MsgOperatorSendFTEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgOperatorSendFT";
+  readonly value: Partial<MsgOperatorSendFT>;
 }
 
-export function isMsgTransferFTFromEncodeObject(
+export function isMsgOperatorSendFTEncodeObject(
   object: EncodeObject,
-): object is MsgTransferFTFromEncodeObject {
-  return (object as MsgTransferFTFromEncodeObject).typeUrl === "/lbm.collection.v1.MsgTransferFTFrom";
+): object is MsgOperatorSendFTEncodeObject {
+  return (object as MsgOperatorSendFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgOperatorSendFT";
 }
 
-export interface MsgTransferNFTEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgTransferNFT";
-  readonly value: Partial<MsgTransferNFT>;
+export interface MsgSendNFTEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgSendNFT";
+  readonly value: Partial<MsgSendNFT>;
 }
 
-export function isMsgTransferNFTEncodeObject(object: EncodeObject): object is MsgTransferNFTEncodeObject {
-  return (object as MsgTransferNFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgTransferNFT";
+export function isMsgSendNFTEncodeObject(object: EncodeObject): object is MsgSendNFTEncodeObject {
+  return (object as MsgSendNFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgSendNFT";
 }
 
-export interface MsgTransferNFTFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgTransferNFTFrom";
-  readonly value: Partial<MsgTransferNFTFrom>;
+export interface MsgOperatorSendNFTEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgOperatorSendNFT";
+  readonly value: Partial<MsgOperatorSendNFT>;
 }
 
-export function isMsgTransferNFTFromEncodeObject(
+export function isMsgOperatorSendNFTEncodeObject(
   object: EncodeObject,
-): object is MsgTransferNFTFromEncodeObject {
-  return (object as MsgTransferNFTFromEncodeObject).typeUrl === "/lbm.collection.v1.MsgTransferNFTFrom";
+): object is MsgOperatorSendNFTEncodeObject {
+  return (object as MsgOperatorSendNFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgOperatorSendNFT";
 }
 
-export interface MsgApproveEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgApprove";
-  readonly value: Partial<MsgApprove>;
+export interface MsgAuthorizeOperatorEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgAuthorizeOperator";
+  readonly value: Partial<MsgAuthorizeOperator>;
 }
 
-export function isMsgApproveEncodeObject(object: EncodeObject): object is MsgApproveEncodeObject {
-  return (object as MsgApproveEncodeObject).typeUrl === "/lbm.collection.v1.MsgApprove";
+export function isMsgAuthorizeOperatorEncodeObject(
+  object: EncodeObject,
+): object is MsgAuthorizeOperatorEncodeObject {
+  return (object as MsgAuthorizeOperatorEncodeObject).typeUrl === "/lbm.collection.v1.MsgAuthorizeOperator";
 }
 
-export interface MsgDisapproveEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgDisapprove";
-  readonly value: Partial<MsgDisapprove>;
+export interface MsgRevokeOperatorEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgRevokeOperator";
+  readonly value: Partial<MsgRevokeOperator>;
 }
 
-export function isMsgDisapproveEncodeObject(object: EncodeObject): object is MsgDisapproveEncodeObject {
-  return (object as MsgDisapproveEncodeObject).typeUrl === "/lbm.collection.v1.MsgDisapprove";
+export function isMsgRevokeOperatorEncodeObject(
+  object: EncodeObject,
+): object is MsgRevokeOperatorEncodeObject {
+  return (object as MsgRevokeOperatorEncodeObject).typeUrl === "/lbm.collection.v1.MsgRevokeOperator";
 }
 
 export interface MsgCreateContractEncodeObject extends EncodeObject {
@@ -163,13 +167,15 @@ export function isMsgBurnFTEncodeObject(object: EncodeObject): object is MsgBurn
   return (object as MsgBurnFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgBurnFT";
 }
 
-export interface MsgBurnFTFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgBurnFTFrom";
-  readonly value: Partial<MsgBurnFTFrom>;
+export interface MsgOperatorBurnFTEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgOperatorBurnFT";
+  readonly value: Partial<MsgOperatorBurnFT>;
 }
 
-export function isMsgBurnFTFromEncodeObject(object: EncodeObject): object is MsgBurnFTFromEncodeObject {
-  return (object as MsgBurnFTFromEncodeObject).typeUrl === "/lbm.collection.v1.MsgBurnFTFrom";
+export function isMsgOperatorBurnFTEncodeObject(
+  object: EncodeObject,
+): object is MsgOperatorBurnFTEncodeObject {
+  return (object as MsgOperatorBurnFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgOperatorBurnFT";
 }
 
 export interface MsgBurnNFTEncodeObject extends EncodeObject {
@@ -181,13 +187,15 @@ export function isMsgBurnNFTEncodeObject(object: EncodeObject): object is MsgBur
   return (object as MsgBurnNFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgBurnNFT";
 }
 
-export interface MsgBurnNFTFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgBurnNFTFrom";
-  readonly value: Partial<MsgBurnNFTFrom>;
+export interface MsgOperatorBurnNFTEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgOperatorBurnNFT";
+  readonly value: Partial<MsgOperatorBurnNFT>;
 }
 
-export function isMsgBurnNFTFromEncodeObject(object: EncodeObject): object is MsgBurnNFTFromEncodeObject {
-  return (object as MsgBurnNFTFromEncodeObject).typeUrl === "/lbm.collection.v1.MsgBurnNFTFrom";
+export function isMsgOperatorBurnNFTEncodeObject(
+  object: EncodeObject,
+): object is MsgOperatorBurnNFTEncodeObject {
+  return (object as MsgOperatorBurnNFTEncodeObject).typeUrl === "/lbm.collection.v1.MsgOperatorBurnNFT";
 }
 
 export interface MsgModifyEncodeObject extends EncodeObject {
@@ -239,20 +247,24 @@ export function isMsgDetachEncodeObject(object: EncodeObject): object is MsgDeta
   return (object as MsgDetachEncodeObject).typeUrl === "/lbm.collection.v1.MsgDetach";
 }
 
-export interface MsgAttachFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgAttachFrom";
-  readonly value: Partial<MsgAttachFrom>;
+export interface MsgOperatorAttachEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgOperatorAttach";
+  readonly value: Partial<MsgOperatorAttach>;
 }
 
-export function isMsgAttachFromEncodeObject(object: EncodeObject): object is MsgAttachFromEncodeObject {
-  return (object as MsgAttachFromEncodeObject).typeUrl === "/lbm.collection.v1.MsgAttachFrom";
+export function isMsgOperatorAttachEncodeObject(
+  object: EncodeObject,
+): object is MsgOperatorAttachEncodeObject {
+  return (object as MsgOperatorAttachEncodeObject).typeUrl === "/lbm.collection.v1.MsgOperatorAttach";
 }
 
-export interface MsgDetachFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.collection.v1.MsgDetachFrom";
-  readonly value: Partial<MsgDetachFrom>;
+export interface MsgOperatorDetachEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.collection.v1.MsgOperatorDetach";
+  readonly value: Partial<MsgOperatorDetach>;
 }
 
-export function isMsgDetachFromEncodeObject(object: EncodeObject): object is MsgDetachFromEncodeObject {
-  return (object as MsgDetachFromEncodeObject).typeUrl === "/lbm.collection.v1.MsgDetachFrom";
+export function isMsgOperatorDetachEncodeObject(
+  object: EncodeObject,
+): object is MsgOperatorDetachEncodeObject {
+  return (object as MsgOperatorDetachEncodeObject).typeUrl === "/lbm.collection.v1.MsgOperatorDetach";
 }

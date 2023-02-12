@@ -20,10 +20,10 @@ import {
   MsgIssueFTEncodeObject,
   MsgIssueNFTEncodeObject,
   MsgMintNFTEncodeObject,
-  MsgTransferFTEncodeObject,
-  MsgTransferNFTEncodeObject,
+  MsgSendFTEncodeObject,
+  MsgSendNFTEncodeObject,
 } from "./messages";
-import { MsgApproveEncodeObject } from "./messages";
+import { MsgAuthorizeOperatorEncodeObject } from "./messages";
 import { CollectionExtension, setupCollectionExtension } from "./queries";
 import { ftCoins } from "./utils";
 
@@ -72,7 +72,7 @@ describe("CollectionExtension (fungible token)", () => {
           value: {
             owner: owner,
             name: contractName,
-            baseImgUri: baseImgUrl,
+            uri: baseImgUrl,
             meta: "test",
           },
         };
@@ -111,10 +111,10 @@ describe("CollectionExtension (fungible token)", () => {
         assertIsDeliverTxSuccess(result);
       }
 
-      // TransferFT
+      // SendFT
       {
-        const msgTransferFT: MsgTransferFTEncodeObject = {
-          typeUrl: "/lbm.collection.v1.MsgTransferFT",
+        const msgSendFT: MsgSendFTEncodeObject = {
+          typeUrl: "/lbm.collection.v1.MsgSendFT",
           value: {
             contractId: contractId,
             from: owner,
@@ -122,7 +122,7 @@ describe("CollectionExtension (fungible token)", () => {
             amount: ftCoins(sentAmount, tokenId),
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgTransferFT], defaultFee);
+        const result = await client.signAndBroadcast(owner, [msgSendFT], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -140,10 +140,10 @@ describe("CollectionExtension (fungible token)", () => {
 
       const contract = await client.collection.contract(contractId);
       expect(contract).toBeDefined();
-      expect(contract.contractId).toEqual(contractId);
+      expect(contract.id).toEqual(contractId);
       expect(contract.name).toEqual(contractName);
       expect(contract.meta).toEqual("test");
-      expect(contract.baseImgUri).toEqual(baseImgUrl);
+      expect(contract.uri).toEqual(baseImgUrl);
 
       tmClient.disconnect();
     });
@@ -167,24 +167,6 @@ describe("CollectionExtension (fungible token)", () => {
       const token = await client.collection.token(contractId, tokenId);
       expect(token.typeUrl).toEqual("/lbm.collection.v1.FT");
       const ft = FT.decode(token.value);
-      expect(ft.contractId).toEqual(contractId);
-      expect(ft.tokenId).toEqual(tokenId);
-      expect(ft.name).toEqual(tokenName);
-      expect(ft.meta).toEqual(tokenMeta);
-      expect(ft.decimals).toEqual(decimals);
-      expect(ft.mintable).toBeTrue();
-
-      tmClient.disconnect();
-    });
-    it("tokens", async () => {
-      pendingWithoutSimapp();
-      assert(contractId, "Missing contract ID");
-      assert(tokenId, "Missing token ID");
-      const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-
-      const tokens = await client.collection.tokens(contractId);
-      expect(tokens.length).toEqual(1);
-      const ft = FT.decode(tokens[0].value);
       expect(ft.contractId).toEqual(contractId);
       expect(ft.tokenId).toEqual(tokenId);
       expect(ft.name).toEqual(tokenName);
@@ -286,7 +268,7 @@ describe("CollectionExtension (non-fungible token)", () => {
           value: {
             owner: owner,
             name: contractName,
-            baseImgUri: contractBaseImgUrl,
+            uri: contractBaseImgUrl,
             meta: "Test NFT Contract",
           },
         };
@@ -392,8 +374,8 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // TransferNFT
       {
-        const msgTransferNFT: MsgTransferNFTEncodeObject = {
-          typeUrl: "/lbm.collection.v1.MsgTransferNFT",
+        const MsgSendNFT: MsgSendNFTEncodeObject = {
+          typeUrl: "/lbm.collection.v1.MsgSendNFT",
           value: {
             contractId: contractId,
             from: owner,
@@ -401,7 +383,7 @@ describe("CollectionExtension (non-fungible token)", () => {
             tokenIds: [tokenId2],
           },
         };
-        const result = await client.signAndBroadcast(owner, [msgTransferNFT], defaultFee);
+        const result = await client.signAndBroadcast(owner, [MsgSendNFT], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -422,15 +404,15 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       // Approve
       {
-        const msgApprove: MsgApproveEncodeObject = {
-          typeUrl: "/lbm.collection.v1.MsgApprove",
+        const MsgAuthorizeOperator: MsgAuthorizeOperatorEncodeObject = {
+          typeUrl: "/lbm.collection.v1.MsgAuthorizeOperator",
           value: {
             contractId: contractId,
-            approver: toAddr,
-            proxy: owner,
+            holder: toAddr,
+            operator: owner,
           },
         };
-        const result = await client.signAndBroadcast(toAddr, [msgApprove], defaultFee);
+        const result = await client.signAndBroadcast(toAddr, [MsgAuthorizeOperator], defaultFee);
         assertIsDeliverTxSuccess(result);
       }
 
@@ -448,10 +430,10 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       const contract = await client.collection.contract(contractId);
       expect(contract).toBeDefined();
-      expect(contract.contractId).toEqual(contractId);
+      expect(contract.id).toEqual(contractId);
       expect(contract.name).toEqual(contractName);
       expect(contract.meta).toEqual("Test NFT Contract");
-      expect(contract.baseImgUri).toEqual(contractBaseImgUrl);
+      expect(contract.uri).toEqual(contractBaseImgUrl);
 
       tmClient.disconnect();
     });
@@ -463,56 +445,6 @@ describe("CollectionExtension (non-fungible token)", () => {
       const classId = tokenId1.substr(0, 8);
       const name = await client.collection.tokenClassTypeName(contractId, classId);
       expect(name).toEqual("lbm.collection.v1.NFTClass");
-
-      tmClient.disconnect();
-    });
-    it("tokenTypes", async () => {
-      pendingWithoutSimapp();
-      assert(contractId, "Missing contract ID");
-      assert(tokenType, "Mission token type");
-      const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-
-      const types = await client.collection.tokenTypes(contractId);
-      expect(types.length).toEqual(1);
-      expect(types[0].contractId).toEqual(contractId);
-      expect(types[0].tokenType).toEqual(tokenType);
-      expect(types[0].name).toEqual(tokenName);
-      expect(types[0].meta).toEqual("Test Meta data");
-
-      tmClient.disconnect();
-    });
-    it("tokesWithTokenType", async () => {
-      pendingWithoutSimapp();
-      assert(contractId, "Missing contract ID");
-      assert(tokenType, "Mission token type");
-      assert(tokenId1, "Mission token Id1");
-      assert(tokenId2, "Mission token Id1");
-      assert(tokenId3, "Mission token Id3");
-      const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-
-      const tokens = await client.collection.tokensWithTokenType(contractId, tokenType);
-      expect(tokens.length).toEqual(3);
-      expect(tokens[0].typeUrl).toEqual("/lbm.collection.v1.OwnerNFT");
-      expect(tokens[1].typeUrl).toEqual("/lbm.collection.v1.OwnerNFT");
-      expect(tokens[2].typeUrl).toEqual("/lbm.collection.v1.OwnerNFT");
-      let nft = OwnerNFT.decode(tokens[0].value);
-      expect(nft.contractId).toEqual(contractId);
-      expect(nft.tokenId).toEqual(tokenId1);
-      expect(nft.name).toEqual("Minted TestToken 1");
-      expect(nft.meta).toEqual("Test NFT 1");
-      expect(nft.owner).toEqual(owner);
-      nft = OwnerNFT.decode(tokens[1].value);
-      expect(nft.contractId).toEqual(contractId);
-      expect(nft.tokenId).toEqual(tokenId2);
-      expect(nft.name).toEqual("Minted TestToken 2");
-      expect(nft.meta).toEqual("Test NFT 2");
-      expect(nft.owner).toEqual(toAddr);
-      nft = OwnerNFT.decode(tokens[2].value);
-      expect(nft.contractId).toEqual(contractId);
-      expect(nft.tokenId).toEqual(tokenId3);
-      expect(nft.name).toEqual("Minted TestToken 3");
-      expect(nft.meta).toEqual("Test NFT 3");
-      expect(nft.owner).toEqual(owner);
 
       tmClient.disconnect();
     });
@@ -560,10 +492,10 @@ describe("CollectionExtension (non-fungible token)", () => {
       const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
 
       let nft = await client.collection.root(contractId, tokenId1);
-      expect(nft.id).toEqual(tokenId1);
+      expect(nft.tokenId).toEqual(tokenId1);
 
       nft = await client.collection.root(contractId, tokenId3);
-      expect(nft.id).toEqual(tokenId1);
+      expect(nft.tokenId).toEqual(tokenId1);
 
       tmClient.disconnect();
     });
@@ -577,10 +509,11 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       try {
         await client.collection.parent(contractId, tokenId1);
+        // eslint-disable-next-line no-empty
       } catch (err) {}
 
       const nft = await client.collection.parent(contractId, tokenId3);
-      expect(nft.id).toEqual(tokenId1);
+      expect(nft.tokenId).toEqual(tokenId1);
 
       tmClient.disconnect();
     });
@@ -594,10 +527,11 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       const nfts = await client.collection.children(contractId, tokenId1);
       expect(nfts.length).toEqual(1);
-      expect(nfts[0].id).toEqual(tokenId3);
+      expect(nfts[0].tokenId).toEqual(tokenId3);
 
       try {
         await client.collection.children(contractId, tokenId3);
+        // eslint-disable-next-line no-empty
       } catch (err) {}
 
       tmClient.disconnect();
@@ -622,10 +556,10 @@ describe("CollectionExtension (non-fungible token)", () => {
       assert(tokenType, "Mission token type");
       const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
 
-      let approved = await client.collection.approved(contractId, owner, toAddr);
+      let approved = await client.collection.isOperatorFor(contractId, owner, toAddr);
       expect(approved).toBeTrue();
 
-      approved = await client.collection.approved(contractId, toAddr, owner);
+      approved = await client.collection.isOperatorFor(contractId, toAddr, owner);
       expect(approved).toBeFalse();
 
       tmClient.disconnect();
@@ -636,7 +570,7 @@ describe("CollectionExtension (non-fungible token)", () => {
       assert(tokenType, "Mission token type");
       const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
 
-      const approvers = await client.collection.approvers(contractId, owner);
+      const approvers = await client.collection.holdersByOperator(contractId, owner);
       expect(approvers.length).toEqual(1);
       expect(approvers[0]).toEqual(toAddr);
 

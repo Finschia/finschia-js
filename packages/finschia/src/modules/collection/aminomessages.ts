@@ -1,34 +1,34 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
-import { Change, Coin } from "lbmjs-types/lbm/collection/v1/collection";
+import { Attribute, Coin } from "lbmjs-types/lbm/collection/v1/collection";
 import {
   MintNFTParam,
-  MsgApprove,
   MsgAttach,
-  MsgAttachFrom,
+  MsgAuthorizeOperator,
   MsgBurnFT,
-  MsgBurnFTFrom,
   MsgBurnNFT,
-  MsgBurnNFTFrom,
   MsgCreateContract,
   MsgDetach,
-  MsgDetachFrom,
-  MsgDisapprove,
   MsgGrantPermission,
   MsgIssueFT,
   MsgIssueNFT,
   MsgMintFT,
   MsgMintNFT,
   MsgModify,
+  MsgOperatorAttach,
+  MsgOperatorBurnFT,
+  MsgOperatorBurnNFT,
+  MsgOperatorDetach,
+  MsgOperatorSendFT,
+  MsgOperatorSendNFT,
+  MsgRevokeOperator,
   MsgRevokePermission,
-  MsgTransferFT,
-  MsgTransferFTFrom,
-  MsgTransferNFT,
-  MsgTransferNFTFrom,
+  MsgSendFT,
+  MsgSendNFT,
 } from "lbmjs-types/lbm/collection/v1/tx";
 
-export interface AminoMsgTransferFT extends AminoMsg {
-  readonly type: "lbm-sdk/MsgTransferFT";
+export interface AminoMsgSendFT extends AminoMsg {
+  readonly type: "lbm-sdk/MsgSendFT";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
@@ -44,17 +44,17 @@ export interface AminoMsgTransferFT extends AminoMsg {
   };
 }
 
-export function isAminoMsgTransferFT(msg: AminoMsg): msg is AminoMsgTransferFT {
-  return msg.type === "lbm-sdk/MsgTransferFT";
+export function isAminoMsgSendFT(msg: AminoMsg): msg is AminoMsgSendFT {
+  return msg.type === "lbm-sdk/MsgSendFT";
 }
 
-export interface AminoMsgTransferFTFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgTransferFTFrom";
+export interface AminoMsgOperatorSendFT extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorSendFT";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
-    /** the address of the proxy. */
-    readonly proxy: string;
+    /** the address of the operator. */
+    readonly operator: string;
     /** the address which the transfer is from. */
     readonly from: string;
     /** the address which the transfer is to. */
@@ -67,12 +67,12 @@ export interface AminoMsgTransferFTFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgTransferFTFrom(msg: AminoMsg): msg is AminoMsgTransferFTFrom {
-  return msg.type === "lbm-sdk/MsgTransferFTFrom";
+export function isAminoMsgOperatorSendFT(msg: AminoMsg): msg is AminoMsgOperatorSendFT {
+  return msg.type === "lbm-sdk/MsgOperatorSendFT";
 }
 
-export interface AminoMsgTransferNFT extends AminoMsg {
-  readonly type: "lbm-sdk/MsgTransferNFT";
+export interface AminoMsgSendNFT extends AminoMsg {
+  readonly type: "lbm-sdk/MsgSendNFT";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
@@ -85,17 +85,17 @@ export interface AminoMsgTransferNFT extends AminoMsg {
   };
 }
 
-export function isAminoMsgTransferNFT(msg: AminoMsg): msg is AminoMsgTransferNFT {
-  return msg.type === "lbm-sdk/MsgTransferNFT";
+export function isAminoMsgSendNFT(msg: AminoMsg): msg is AminoMsgSendNFT {
+  return msg.type === "lbm-sdk/MsgSendNFT";
 }
 
-export interface AminoMsgTransferNFTFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgTransferNFTFrom";
+export interface AminoMsgOperatorSendNFT extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorSendNFT";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
-    /** the address of the proxy. */
-    readonly proxy: string;
+    /** the address of the operator. */
+    readonly operator: string;
     /** the address which the transfer is from. */
     readonly from: string;
     /** the address which the transfer is to. */
@@ -105,40 +105,40 @@ export interface AminoMsgTransferNFTFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgTransferNFTFrom(msg: AminoMsg): msg is AminoMsgTransferNFTFrom {
-  return msg.type === "lbm-sdk/MsgTransferNFTFrom";
+export function isAminoMsgOperatorSendNFT(msg: AminoMsg): msg is AminoMsgOperatorSendNFT {
+  return msg.type === "lbm-sdk/MsgOperatorSendNFT";
 }
 
-export interface AminoMsgApprove extends AminoMsg {
-  readonly type: "lbm-sdk/collection/MsgApprove";
+export interface AminoMsgAuthorizeOperator extends AminoMsg {
+  readonly type: "lbm-sdk/collection/MsgAuthorizeOperator";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
-    /** address of the approver who allows the manipulation of its token. */
-    readonly approver: string;
+    /** address of the holder who allows the manipulation of its token. */
+    readonly holder: string;
     /** address which the manipulation is allowed to. */
-    readonly proxy: string;
+    readonly operator: string;
   };
 }
 
-export function isAminoMsgApprove(msg: AminoMsg): msg is AminoMsgApprove {
-  return msg.type === "lbm-sdk/collection/MsgApprove";
+export function isAminoMsgAuthorizeOperator(msg: AminoMsg): msg is AminoMsgAuthorizeOperator {
+  return msg.type === "lbm-sdk/collection/MsgAuthorizeOperator";
 }
 
-export interface AminoMsgDisapprove extends AminoMsg {
-  readonly type: "lbm-sdk/MsgDisapprove";
+export interface AminoMsgRevokeOperator extends AminoMsg {
+  readonly type: "lbm-sdk/MsgRevokeOperator";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
-    /** address of the approver who allows the manipulation of its token. */
-    readonly approver: string;
+    /** address of the holder who allows the manipulation of its token. */
+    readonly holder: string;
     /** address which the manipulation is allowed to. */
-    readonly proxy: string;
+    readonly operator: string;
   };
 }
 
-export function isAminoMsgDisapprove(msg: AminoMsg): msg is AminoMsgDisapprove {
-  return msg.type === "lbm-sdk/MsgDisapprove";
+export function isAminoMsgRevokeOperator(msg: AminoMsg): msg is AminoMsgRevokeOperator {
+  return msg.type === "lbm-sdk/MsgRevokeOperator";
 }
 
 export interface AminoMsgCreateContract extends AminoMsg {
@@ -148,8 +148,8 @@ export interface AminoMsgCreateContract extends AminoMsg {
     readonly owner: string;
     /** name defines the human-readable name of the contract. */
     readonly name: string;
-    /** base img uri is an uri for the contract image stored off chain. */
-    readonly baseImgUri: string;
+    /** uri for the contract image stored off chain. */
+    readonly uri: string;
     /** meta is a brief description of the contract. */
     readonly meta: string;
   };
@@ -268,8 +268,8 @@ export function isAminoMsgBurnFT(msg: AminoMsg): msg is AminoMsgBurnFT {
   return msg.type === "lbm-sdk/MsgBurnFT";
 }
 
-export interface AminoMsgBurnFTFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgBurnFTFrom";
+export interface AminoMsgOperatorBurnFT extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorBurnFT";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
@@ -278,7 +278,7 @@ export interface AminoMsgBurnFTFrom extends AminoMsg {
      * Note: it must have the permission for the burn.
      * Note: it must have been authorized by from.
      */
-    readonly proxy: string;
+    readonly operator: string;
     /** address which the tokens will be burnt from. */
     readonly from: string;
     /**
@@ -289,8 +289,8 @@ export interface AminoMsgBurnFTFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgBurnFTFrom(msg: AminoMsg): msg is AminoMsgBurnFTFrom {
-  return msg.type === "lbm-sdk/MsgBurnFTFrom";
+export function isAminoMsgOperatorBurnFT(msg: AminoMsg): msg is AminoMsgOperatorBurnFT {
+  return msg.type === "lbm-sdk/MsgOperatorBurnFT";
 }
 
 export interface AminoMsgBurnNFT extends AminoMsg {
@@ -315,8 +315,8 @@ export function isAminoMsgBurnNFT(msg: AminoMsg): msg is AminoMsgBurnNFT {
   return msg.type === "lbm-sdk/MsgBurnNFT";
 }
 
-export interface AminoMsgBurnNFTFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgBurnNFTFrom";
+export interface AminoMsgOperatorBurnNFT extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorBurnNFT";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
@@ -325,7 +325,7 @@ export interface AminoMsgBurnNFTFrom extends AminoMsg {
      * Note: it must have the permission for the burn.
      * Note: it must have been authorized by from.
      */
-    readonly proxy: string;
+    readonly operator: string;
     /** address which the tokens will be burnt from. */
     readonly from: string;
     /**
@@ -336,8 +336,8 @@ export interface AminoMsgBurnNFTFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgBurnNFTFrom(msg: AminoMsg): msg is AminoMsgBurnNFTFrom {
-  return msg.type === "lbm-sdk/MsgBurnNFTFrom";
+export function isAminoMsgOperatorBurnNFT(msg: AminoMsg): msg is AminoMsgOperatorBurnNFT {
+  return msg.type === "lbm-sdk/MsgOperatorBurnNFT";
 }
 
 export interface AminoMsgModify extends AminoMsg {
@@ -361,7 +361,7 @@ export interface AminoMsgModify extends AminoMsg {
      * on modifying collection: name, base_img_uri, meta.
      * on modifying token type and token: name, meta.
      */
-    readonly changes: Change[];
+    readonly changes: Attribute[];
   };
 }
 
@@ -437,13 +437,13 @@ export function isAminoMsgDetach(msg: AminoMsg): msg is AminoMsgDetach {
   return msg.type === "lbm-sdk/MsgDetach";
 }
 
-export interface AminoMsgAttachFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgAttachFrom";
+export interface AminoMsgOperatorAttach extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorAttach";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
-    /** address of the proxy. */
-    readonly proxy: string;
+    /** address of the operator. */
+    readonly operator: string;
     /** address of the owner of the token. */
     readonly from: string;
     /** token id of the token to attach. */
@@ -453,17 +453,17 @@ export interface AminoMsgAttachFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgAttachFrom(msg: AminoMsg): msg is AminoMsgAttachFrom {
-  return msg.type === "lbm-sdk/MsgAttachFrom";
+export function isAminoMsgOperatorAttach(msg: AminoMsg): msg is AminoMsgOperatorAttach {
+  return msg.type === "lbm-sdk/MsgOperatorAttach";
 }
 
-export interface AminoMsgDetachFrom extends AminoMsg {
-  readonly type: "lbm-sdk/MsgDetachFrom";
+export interface AminoMsgOperatorDetach extends AminoMsg {
+  readonly type: "lbm-sdk/MsgOperatorDetach";
   readonly value: {
     /** contract id associated with the contract. */
     readonly contractId: string;
-    /** address of the proxy. */
-    readonly proxy: string;
+    /** address of the operator. */
+    readonly operator: string;
     /** address of the owner of the token. */
     readonly from: string;
     /** token id of the token to detach. */
@@ -471,15 +471,15 @@ export interface AminoMsgDetachFrom extends AminoMsg {
   };
 }
 
-export function isAminoMsgDetachFrom(msg: AminoMsg): msg is AminoMsgDetachFrom {
-  return msg.type === "lbm-sdk/MsgDetachFrom";
+export function isAminoMsgOperatorDetach(msg: AminoMsg): msg is AminoMsgOperatorDetach {
+  return msg.type === "lbm-sdk/MsgOperatorDetach";
 }
 
 export function createCollectionAminoConverters(): AminoConverters {
   return {
-    "/lbm.collection.v1.MsgTransferFT": {
-      aminoType: "lbm-sdk/MsgTransferFT",
-      toAmino: ({ contractId, from, to, amount }: MsgTransferFT): AminoMsgTransferFT["value"] => {
+    "/lbm.collection.v1.MsgSendFT": {
+      aminoType: "lbm-sdk/MsgSendFT",
+      toAmino: ({ contractId, from, to, amount }: MsgSendFT): AminoMsgSendFT["value"] => {
         return {
           contractId: contractId,
           from: from,
@@ -487,7 +487,7 @@ export function createCollectionAminoConverters(): AminoConverters {
           amount: amount,
         };
       },
-      fromAmino: ({ contractId, from, to, amount }: AminoMsgTransferFT["value"]): MsgTransferFT => {
+      fromAmino: ({ contractId, from, to, amount }: AminoMsgSendFT["value"]): MsgSendFT => {
         return {
           contractId: contractId,
           from: from,
@@ -496,18 +496,18 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.collection.v1.MsgTransferFTFrom": {
-      aminoType: "lbm-sdk/MsgTransferFTFrom",
+    "/lbm.collection.v1.MsgOperatorSendFT": {
+      aminoType: "lbm-sdk/MsgOperatorSendFT",
       toAmino: ({
         contractId,
-        proxy,
+        operator,
         from,
         to,
         amount,
-      }: MsgTransferFTFrom): AminoMsgTransferFTFrom["value"] => {
+      }: MsgOperatorSendFT): AminoMsgOperatorSendFT["value"] => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           to: to,
           amount: amount,
@@ -515,23 +515,23 @@ export function createCollectionAminoConverters(): AminoConverters {
       },
       fromAmino: ({
         contractId,
-        proxy,
+        operator,
         from,
         to,
         amount,
-      }: AminoMsgTransferFTFrom["value"]): MsgTransferFTFrom => {
+      }: AminoMsgOperatorSendFT["value"]): MsgOperatorSendFT => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           to: to,
           amount: amount,
         };
       },
     },
-    "/lbm.collection.v1.MsgTransferNFT": {
-      aminoType: "lbm-sdk/MsgTransferNFT",
-      toAmino: ({ contractId, from, to, tokenIds }: MsgTransferNFT): AminoMsgTransferNFT["value"] => {
+    "/lbm.collection.v1.MsgSendNFT": {
+      aminoType: "lbm-sdk/MsgSendNFT",
+      toAmino: ({ contractId, from, to, tokenIds }: MsgSendNFT): AminoMsgSendNFT["value"] => {
         return {
           contractId: contractId,
           from: from,
@@ -539,7 +539,7 @@ export function createCollectionAminoConverters(): AminoConverters {
           tokenIds: tokenIds,
         };
       },
-      fromAmino: ({ contractId, from, to, tokenIds }: AminoMsgTransferNFT["value"]): MsgTransferNFT => {
+      fromAmino: ({ contractId, from, to, tokenIds }: AminoMsgSendNFT["value"]): MsgSendNFT => {
         return {
           contractId: contractId,
           from: from,
@@ -548,18 +548,18 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.collection.v1.MsgTransferNFTFrom": {
-      aminoType: "lbm-sdk/MsgTransferNFTFrom",
+    "/lbm.collection.v1.MsgOperatorSendNFT": {
+      aminoType: "lbm-sdk/MsgOperatorSendNFT",
       toAmino: ({
         contractId,
-        proxy,
+        operator,
         from,
         to,
         tokenIds,
-      }: MsgTransferNFTFrom): AminoMsgTransferNFTFrom["value"] => {
+      }: MsgOperatorSendNFT): AminoMsgOperatorSendNFT["value"] => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           to: to,
           tokenIds: tokenIds,
@@ -567,69 +567,77 @@ export function createCollectionAminoConverters(): AminoConverters {
       },
       fromAmino: ({
         contractId,
-        proxy,
+        operator,
         from,
         to,
         tokenIds,
-      }: AminoMsgTransferNFTFrom["value"]): MsgTransferNFTFrom => {
+      }: AminoMsgOperatorSendNFT["value"]): MsgOperatorSendNFT => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           to: to,
           tokenIds: tokenIds,
         };
       },
     },
-    "/lbm.collection.v1.MsgApprove": {
-      aminoType: "lbm-sdk/collection/MsgApprove",
-      toAmino: ({ contractId, approver, proxy }: MsgApprove): AminoMsgApprove["value"] => {
+    "/lbm.collection.v1.MsgAuthorizeOperator": {
+      aminoType: "lbm-sdk/collection/MsgAuthorizeOperator",
+      toAmino: ({
+        contractId,
+        holder,
+        operator,
+      }: MsgAuthorizeOperator): AminoMsgAuthorizeOperator["value"] => {
         return {
           contractId: contractId,
-          approver: approver,
-          proxy: proxy,
+          holder: holder,
+          operator: operator,
         };
       },
-      fromAmino: ({ contractId, approver, proxy }: AminoMsgApprove["value"]): MsgApprove => {
+      fromAmino: ({
+        contractId,
+        holder,
+        operator,
+      }: AminoMsgAuthorizeOperator["value"]): MsgAuthorizeOperator => {
         return {
           contractId: contractId,
-          approver: approver,
-          proxy: proxy,
+          holder: holder,
+          operator: operator,
         };
       },
     },
-    "/lbm.collection.v1.MsgDisapprove": {
-      aminoType: "lbm-sdk/MsgDisapprove",
-      toAmino: ({ contractId, approver, proxy }: MsgDisapprove): AminoMsgDisapprove["value"] => {
+    "/lbm.collection.v1.MsgRevokeOperator": {
+      aminoType: "lbm-sdk/MsgRevokeOperator",
+      toAmino: ({ contractId, holder, operator }: MsgRevokeOperator): AminoMsgRevokeOperator["value"] => {
         return {
           contractId: contractId,
-          approver: approver,
-          proxy: proxy,
+          holder: holder,
+          operator: operator,
         };
       },
-      fromAmino: ({ contractId, approver, proxy }: AminoMsgDisapprove["value"]): MsgDisapprove => {
+      fromAmino: ({ contractId, holder, operator }: AminoMsgRevokeOperator["value"]): MsgRevokeOperator => {
         return {
           contractId: contractId,
-          approver: approver,
-          proxy: proxy,
+          holder: holder,
+          operator: operator,
         };
       },
     },
     "/lbm.collection.v1.MsgCreateContract": {
       aminoType: "lbm-sdk/MsgCreateContract",
-      toAmino: ({ owner, name, baseImgUri, meta }: MsgCreateContract): AminoMsgCreateContract["value"] => {
+      toAmino: ({ owner, name, uri, meta }: MsgCreateContract): AminoMsgCreateContract["value"] => {
         return {
           owner: owner,
           name: name,
-          baseImgUri: baseImgUri,
+          uri: uri,
           meta: meta,
         };
       },
-      fromAmino: ({ owner, name, baseImgUri, meta }: AminoMsgCreateContract["value"]): MsgCreateContract => {
+      fromAmino: ({ owner, name, uri, meta }: AminoMsgCreateContract["value"]): MsgCreateContract => {
         return {
           owner: owner,
           name: name,
-          baseImgUri: baseImgUri,
+          uri: uri,
           meta: meta,
         };
       },
@@ -753,20 +761,30 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.collection.v1.MsgBurnFTFrom": {
-      aminoType: "lbm-sdk/MsgBurnFTFrom",
-      toAmino: ({ contractId, proxy, from, amount }: MsgBurnFTFrom): AminoMsgBurnFTFrom["value"] => {
+    "/lbm.collection.v1.MsgOperatorBurnFT": {
+      aminoType: "lbm-sdk/MsgOperatorBurnFT",
+      toAmino: ({
+        contractId,
+        operator,
+        from,
+        amount,
+      }: MsgOperatorBurnFT): AminoMsgOperatorBurnFT["value"] => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           amount: amount,
         };
       },
-      fromAmino: ({ contractId, proxy, from, amount }: AminoMsgBurnFTFrom["value"]): MsgBurnFTFrom => {
+      fromAmino: ({
+        contractId,
+        operator,
+        from,
+        amount,
+      }: AminoMsgOperatorBurnFT["value"]): MsgOperatorBurnFT => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           amount: amount,
         };
@@ -789,20 +807,30 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.collection.v1.MsgBurnNFTFrom": {
-      aminoType: "lbm-sdk/MsgBurnNFTFrom",
-      toAmino: ({ contractId, proxy, from, tokenIds }: MsgBurnNFTFrom): AminoMsgBurnNFTFrom["value"] => {
+    "/lbm.collection.v1.MsgOperatorBurnNFT": {
+      aminoType: "lbm-sdk/MsgOperatorBurnNFT",
+      toAmino: ({
+        contractId,
+        operator,
+        from,
+        tokenIds,
+      }: MsgOperatorBurnNFT): AminoMsgOperatorBurnNFT["value"] => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           tokenIds: tokenIds,
         };
       },
-      fromAmino: ({ contractId, proxy, from, tokenIds }: AminoMsgBurnNFTFrom["value"]): MsgBurnNFTFrom => {
+      fromAmino: ({
+        contractId,
+        operator,
+        from,
+        tokenIds,
+      }: AminoMsgOperatorBurnNFT["value"]): MsgOperatorBurnNFT => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           tokenIds: tokenIds,
         };
@@ -927,18 +955,18 @@ export function createCollectionAminoConverters(): AminoConverters {
         };
       },
     },
-    "/lbm.collection.v1.MsgAttachFrom": {
-      aminoType: "lbm-sdk/MsgAttachFrom",
+    "/lbm.collection.v1.MsgOperatorAttach": {
+      aminoType: "lbm-sdk/MsgOperatorAttach",
       toAmino: ({
         contractId,
-        proxy,
+        operator,
         from,
         tokenId,
         toTokenId,
-      }: MsgAttachFrom): AminoMsgAttachFrom["value"] => {
+      }: MsgOperatorAttach): AminoMsgOperatorAttach["value"] => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           tokenId: tokenId,
           toTokenId: toTokenId,
@@ -946,34 +974,44 @@ export function createCollectionAminoConverters(): AminoConverters {
       },
       fromAmino: ({
         contractId,
-        proxy,
+        operator,
         from,
         tokenId,
         toTokenId,
-      }: AminoMsgAttachFrom["value"]): MsgAttachFrom => {
+      }: AminoMsgOperatorAttach["value"]): MsgOperatorAttach => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           tokenId: tokenId,
           toTokenId: toTokenId,
         };
       },
     },
-    "/lbm.collection.v1.MsgDetachFrom": {
-      aminoType: "lbm-sdk/MsgDetachFrom",
-      toAmino: ({ contractId, proxy, from, tokenId }: MsgDetachFrom): AminoMsgDetachFrom["value"] => {
+    "/lbm.collection.v1.MsgOperatorDetach": {
+      aminoType: "lbm-sdk/MsgOperatorDetach",
+      toAmino: ({
+        contractId,
+        operator,
+        from,
+        tokenId,
+      }: MsgOperatorDetach): AminoMsgOperatorDetach["value"] => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           tokenId: tokenId,
         };
       },
-      fromAmino: ({ contractId, proxy, from, tokenId }: AminoMsgDetachFrom["value"]): MsgDetachFrom => {
+      fromAmino: ({
+        contractId,
+        operator,
+        from,
+        tokenId,
+      }: AminoMsgOperatorDetach["value"]): MsgOperatorDetach => {
         return {
           contractId: contractId,
-          proxy: proxy,
+          operator: operator,
           from: from,
           tokenId: tokenId,
         };
