@@ -17,7 +17,7 @@ jobs:
 
       - name: download contracts
         run: |
-          cd scripts/simapp/contracts
+          cd scripts/lbm/contracts
           bash download.sh
 
       - name: Set up Node.js
@@ -38,10 +38,10 @@ jobs:
         run: yarn build
 
       - name: start simd
-        run: CI= scripts/simapp/start.sh
+        run: CI= scripts/lbm/start.sh
 
       - name: init contract on simd
-        run: scripts/simapp/init.sh
+        run: scripts/lbm/init.sh
 
       - name: Unit Test
         run: |
