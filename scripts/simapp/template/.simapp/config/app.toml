@@ -61,7 +61,7 @@ inter-block-cache-size = 104857600
 # So be careful that all iavl cache size are difference from this iavl cache size value.
 iavl-cache-size = 524288
 
-# IAVLDisableFastNode enables or disables the fast node feature of IAVL. 
+# IAVLDisableFastNode enables or disables the fast node feature of IAVL.
 # Default is false.
 iavl-disable-fastnode = false
 
@@ -75,6 +75,10 @@ index-events = []
 # When true, Prometheus metrics are served under /metrics on prometheus_listen_addr in config.toml.
 # It works when tendermint's prometheus option (config.toml) is set to true.
 prometheus = false
+
+# ChanCheckTxSize is the size of RequestCheckTxAsync of BaseApp.
+# ChanCheckTxSize should be equals to or greater than the mempool size set in config.toml of Ostracon.
+chan-check-tx-size = 10000
 
 ###############################################################################
 ###                         Telemetry Configuration                         ###

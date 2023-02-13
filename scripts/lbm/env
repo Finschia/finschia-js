@@ -1,4 +1,5 @@
 # Choose from https://hub.docker.com/r/line/lbm-simapp/tags
 REPOSITORY="zemyblue/lbm"
-VERSION="be5785bf86aef9045dcd5b890be5ef882d6077eb"
+# VERSION="be5785bf86aef9045dcd5b890be5ef882d6077eb"
+VERSION="v1.0.0-alpha1_local2"
 CONTAINER_NAME="lbm-app"
