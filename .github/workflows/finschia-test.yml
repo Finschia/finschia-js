@@ -37,10 +37,10 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: start simd
+      - name: start lbm
         run: CI= scripts/lbm/start.sh
 
-      - name: init contract on simd
+      - name: init contract on lbm
         run: scripts/lbm/init.sh
 
       - name: Unit Test
