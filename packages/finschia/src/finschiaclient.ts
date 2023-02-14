@@ -37,11 +37,9 @@ import {
   setupMintExtension,
   setupSlashingExtension,
   setupStakingExtension,
-  setupTxExtension,
   StakingExtension,
   StargateClientOptions,
   TimeoutError,
-  TxExtension,
 } from "@cosmjs/stargate";
 import { SlashingExtension } from "@cosmjs/stargate/build/modules";
 import { AuthzExtension } from "@cosmjs/stargate/build/modules/authz/queries";
@@ -72,8 +70,10 @@ import {
   setupNodeExtension,
   setupTokenExtension,
   setupWasmplusExtension,
+  setupTx2Extension,
   TokenExtension,
   WasmplusExtension,
+  Tx2Extension,
 } from "./modules";
 
 export type QueryClientWithExtensions = QueryClient &
@@ -91,7 +91,7 @@ export type QueryClientWithExtensions = QueryClient &
   MintExtension &
   StakingExtension &
   TokenExtension &
-  TxExtension &
+  Tx2Extension &
   WasmExtension &
   WasmplusExtension &
   NodeExtension;
@@ -113,7 +113,7 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
     setupMintExtension,
     setupStakingExtension,
     setupTokenExtension,
-    setupTxExtension,
+    setupTx2Extension,
     setupWasmExtension,
     setupWasmplusExtension,
     setupNodeExtension,
