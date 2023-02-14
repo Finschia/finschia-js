@@ -7,6 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
+- [\#71](https://github.com/line/lbmjs/pull/71) @lbmjs/finschia: Add custom GetBlockWithTxs for lbm
 
 ### Changed
 
