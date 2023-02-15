@@ -19,7 +19,7 @@ async function sendDummyTx() {
     prefix: simapp.prefix,
   });
   const defaultFee = {
-    amount: coins(250000, "cony"),
+    amount: coins(250000, simapp.denomFee),
     gas: "1500000", // 1.5 million
   };
   const client = await SigningFinschiaClient.connectWithSigner(
