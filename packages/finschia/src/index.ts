@@ -130,6 +130,7 @@ export {
   WasmplusExtension,
   wasmTypes,
 } from "./modules";
+export { setupTx2Extension, Tx2Extension } from "./modules";
 export { makeLinkPath } from "./paths";
 export { SigningFinschiaClient, UploadAndInstantiateResult } from "./signingfinschiaclient";
 export { finschiaRegistryTypes } from "./types";
