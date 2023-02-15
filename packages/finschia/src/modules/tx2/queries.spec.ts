@@ -48,7 +48,6 @@ describe("Tx2Extension", () => {
     tmClient.disconnect();
   });
 
-  // Currently ignored test, because current lbm-app doesn't expose 'lbm.tx.v1beta1.Service' endpoint
   it("getBlockWithTxs", async () => {
     pendingWithoutSimapp();
 
