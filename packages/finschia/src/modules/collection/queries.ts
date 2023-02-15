@@ -17,16 +17,13 @@ export interface CollectionExtension {
     readonly contract: (contractId: string) => Promise<Contract>;
     readonly tokenClassTypeName: (contractId: string, classId: string) => Promise<string>;
     readonly tokenType: (contractId: string, tokenType: string) => Promise<TokenType>;
-    readonly tokenTypes: (contractId: string) => Promise<TokenType[]>;
     readonly token: (contractId: string, tokenId: string) => Promise<Any>;
-    readonly tokensWithTokenType: (contractId: string, tokenType: string) => Promise<Any[]>;
-    readonly tokens: (contractId: string) => Promise<Any[]>;
     readonly root: (contractId: string, tokenId: string) => Promise<NFT>;
     readonly parent: (contractId: string, tokenId: string) => Promise<NFT>;
     readonly children: (contractId: string, tokenId: string) => Promise<NFT[]>;
     readonly granteeGrants: (contractId: string, grantee: string) => Promise<Grant[]>; // Since 0.46.0
-    readonly approved: (contractId: string, address: string, approver: string) => Promise<boolean>;
-    readonly approvers: (contractId: string, address: string) => Promise<string[]>;
+    readonly isOperatorFor: (contractId: string, operator: string, holder: string) => Promise<boolean>;
+    readonly holdersByOperator: (contractId: string, operator: string) => Promise<string[]>;
   };
 }
 
@@ -97,10 +94,6 @@ export function setupCollectionExtension(base: QueryClient): CollectionExtension
         assert(tokenType);
         return tokenType;
       },
-      tokenTypes: async (contractId: string) => {
-        const { tokenTypes } = await queryService.TokenTypes({ contractId: contractId });
-        return tokenTypes;
-      },
       token: async (contractId: string, tokenId: string) => {
         const { token } = await queryService.Token({ contractId: contractId, tokenId: tokenId });
         assert(token);
@@ -111,17 +104,6 @@ export function setupCollectionExtension(base: QueryClient): CollectionExtension
         //   ret = NFT.decode(token.value);
         // }
         return token;
-      },
-      tokensWithTokenType: async (contractId: string, tokenType: string) => {
-        const { tokens } = await queryService.TokensWithTokenType({
-          contractId: contractId,
-          tokenType: tokenType,
-        });
-        return tokens;
-      },
-      tokens: async (contractId: string) => {
-        const { tokens } = await queryService.Tokens({ contractId: contractId });
-        return tokens;
       },
       root: async (contractId: string, tokenId: string) => {
         const { root } = await queryService.Root({ contractId: contractId, tokenId: tokenId });
@@ -141,17 +123,20 @@ export function setupCollectionExtension(base: QueryClient): CollectionExtension
         const { grants } = await queryService.GranteeGrants({ contractId: contractId, grantee: grantee });
         return grants;
       },
-      approved: async (contractId: string, address: string, approver: string) => {
-        const { approved } = await queryService.Approved({
+      isOperatorFor: async (contractId: string, operator: string, holder: string) => {
+        const { authorized } = await queryService.IsOperatorFor({
           contractId: contractId,
-          address: address,
-          approver: approver,
+          operator: operator,
+          holder: holder,
         });
-        return approved;
+        return authorized;
       },
-      approvers: async (contractId: string, address: string) => {
-        const { approvers } = await queryService.Approvers({ contractId: contractId, address: address });
-        return approvers;
+      holdersByOperator: async (contractId: string, operator: string) => {
+        const { holders } = await queryService.HoldersByOperator({
+          contractId: contractId,
+          operator: operator,
+        });
+        return holders;
       },
     },
   };

@@ -1,29 +1,29 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
 import {
-  MsgApprove,
+  MsgAuthorizeOperator,
   MsgBurn,
-  MsgBurnFrom,
   MsgGrantPermission,
   MsgIssue,
   MsgMint,
   MsgModify,
+  MsgOperatorBurn,
+  MsgOperatorSend,
   MsgRevokeOperator,
   MsgRevokePermission,
   MsgSend,
-  MsgTransferFrom,
 } from "lbmjs-types/lbm/token/v1/tx";
 
 export const tokenTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.token.v1.MsgSend", MsgSend],
-  ["/lbm.token.v1.MsgTransferFrom", MsgTransferFrom],
+  ["/lbm.token.v1.MsgOperatorSend", MsgOperatorSend],
   ["/lbm.token.v1.MsgRevokeOperator", MsgRevokeOperator],
-  ["/lbm.token.v1.MsgApprove", MsgApprove],
+  ["/lbm.token.v1.MsgAuthorizeOperator", MsgAuthorizeOperator],
   ["/lbm.token.v1.MsgIssue", MsgIssue],
   ["/lbm.token.v1.MsgGrantPermission", MsgGrantPermission],
   ["/lbm.token.v1.MsgRevokePermission", MsgRevokePermission],
   ["/lbm.token.v1.MsgMint", MsgMint],
   ["/lbm.token.v1.MsgBurn", MsgBurn],
-  ["/lbm.token.v1.MsgBurnFrom", MsgBurnFrom],
+  ["/lbm.token.v1.MsgOperatorBurn", MsgOperatorBurn],
   ["/lbm.token.v1.MsgModify", MsgModify],
 ];
 
@@ -36,13 +36,13 @@ export function isMsgSendEncodeObject(object: EncodeObject): object is MsgSendEn
   return (object as MsgSendEncodeObject).typeUrl === "/lbm.token.v1.MsgSend";
 }
 
-export interface MsgTransferFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.token.v1.MsgTransferFrom";
-  readonly value: Partial<MsgTransferFrom>;
+export interface MsgOperatorSendEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.token.v1.MsgOperatorSend";
+  readonly value: Partial<MsgOperatorSend>;
 }
 
-export function isMsgTransferFromEncodeObject(object: EncodeObject): object is MsgTransferFromEncodeObject {
-  return (object as MsgTransferFromEncodeObject).typeUrl === "/lbm.token.v1.MsgTransferFrom";
+export function isMsgOperatorSendEncodeObject(object: EncodeObject): object is MsgOperatorSendEncodeObject {
+  return (object as MsgOperatorSendEncodeObject).typeUrl === "/lbm.token.v1.MsgOperatorSend";
 }
 
 export interface MsgRevokeOperatorEncodeObject extends EncodeObject {
@@ -56,13 +56,15 @@ export function isMsgRevokeOperatorEncodeObject(
   return (object as MsgRevokeOperatorEncodeObject).typeUrl === "/lbm.token.v1.MsgRevokeOperator";
 }
 
-export interface MsgApproveEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.token.v1.MsgApprove";
-  readonly value: Partial<MsgApprove>;
+export interface MsgAuthorizeOperatorEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.token.v1.MsgAuthorizeOperator";
+  readonly value: Partial<MsgAuthorizeOperator>;
 }
 
-export function isMsgApproveEncodeObject(object: EncodeObject): object is MsgApproveEncodeObject {
-  return (object as MsgApproveEncodeObject).typeUrl === "/lbm.token.v1.MsgApprove";
+export function isMsgAuthorizeOperatorEncodeObject(
+  object: EncodeObject,
+): object is MsgAuthorizeOperatorEncodeObject {
+  return (object as MsgAuthorizeOperatorEncodeObject).typeUrl === "/lbm.token.v1.MsgAuthorizeOperator";
 }
 
 export interface MsgIssueEncodeObject extends EncodeObject {
@@ -114,13 +116,13 @@ export function isMsgBurnEncodeObject(object: EncodeObject): object is MsgBurnEn
   return (object as MsgBurnEncodeObject).typeUrl === "/lbm.token.v1.MsgBurn";
 }
 
-export interface MsgBurnFromEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.token.v1.MsgBurnFrom";
-  readonly value: Partial<MsgBurnFrom>;
+export interface MsgOperatorBurnEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.token.v1.MsgOperatorBurn";
+  readonly value: Partial<MsgOperatorBurn>;
 }
 
-export function isMsgBurnFromEncodeObject(object: EncodeObject): object is MsgBurnFromEncodeObject {
-  return (object as MsgBurnFromEncodeObject).typeUrl === "/lbm.token.v1.MsgBurnFrom";
+export function isMsgOperatorBurnEncodeObject(object: EncodeObject): object is MsgOperatorBurnEncodeObject {
+  return (object as MsgOperatorBurnEncodeObject).typeUrl === "/lbm.token.v1.MsgOperatorBurn";
 }
 
 export interface MsgModifyEncodeObject extends EncodeObject {

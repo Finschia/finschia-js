@@ -41,7 +41,6 @@ export interface FoundationExtension {
       msgTypeUrl: string,
       paginationKey?: Uint8Array,
     ) => Promise<QueryGrantsResponse>;
-    readonly govMint: () => Promise<number>;
   };
 }
 
@@ -100,10 +99,6 @@ export function setupFoundationExtension(base: QueryClient): FoundationExtension
           msgTypeUrl: msgTypeUrl,
           pagination: createPagination(paginationKey),
         });
-      },
-      govMint: async () => {
-        const response = await queryService.GovMint({});
-        return response.leftCount;
       },
     },
   };

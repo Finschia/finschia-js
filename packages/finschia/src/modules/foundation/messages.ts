@@ -14,7 +14,6 @@ import {
   Exec,
   MsgExec,
   MsgFundTreasury,
-  MsgGovMint,
   MsgGrant,
   MsgLeaveFoundation,
   MsgRevoke,
@@ -42,7 +41,6 @@ export const foundationTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.foundation.v1.MsgLeaveFoundation", MsgLeaveFoundation],
   ["/lbm.foundation.v1.MsgGrant", MsgGrant],
   ["/lbm.foundation.v1.MsgRevoke", MsgRevoke],
-  ["/lbm.foundation.v1.MsgGovMint", MsgGovMint],
   ["/lbm.foundation.v1.ReceiveFromTreasuryAuthorization", ReceiveFromTreasuryAuthorization],
   ["/lbm.foundation.v1.DecisionPolicyWindows", DecisionPolicyWindows],
   ["/lbm.foundation.v1.ThresholdDecisionPolicy", ThresholdDecisionPolicy],
@@ -169,15 +167,6 @@ export interface MsgRevokeEncodeObject extends EncodeObject {
 
 export function isMsgRevokeEncodeObject(object: EncodeObject): object is MsgRevokeEncodeObject {
   return (object as MsgRevokeEncodeObject).typeUrl === "/lbm.foundation.v1.MsgRevoke";
-}
-
-export interface MsgGovMintEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.foundation.v1.MsgGovMint";
-  readonly value: Partial<MsgGovMint>;
-}
-
-export function isMsgGovMintEncodeObject(object: EncodeObject): object is MsgGovMintEncodeObject {
-  return (object as MsgGovMintEncodeObject).typeUrl === "/lbm.foundation.v1.MsgGovMint";
 }
 
 export interface ThresholdDecisionPolicyEncodeObject extends EncodeObject {
