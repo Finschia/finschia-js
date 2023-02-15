@@ -120,6 +120,7 @@ export {
   tokenTypes,
 } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
+export { setupTx2Extension, Tx2Extension } from "./tx2/queries";
 export { wasmTypes } from "./wasm/messages";
 export { createWasmplusAminoConverters } from "./wasmplus/aminomessages";
 export {
@@ -128,4 +129,3 @@ export {
   wasmplusTypes,
 } from "./wasmplus/messages";
 export { setupWasmplusExtension, WasmplusExtension } from "./wasmplus/queries";
-export { setupTx2Extension, Tx2Extension } from "./tx2/queries";

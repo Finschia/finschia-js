@@ -69,11 +69,11 @@ import {
   setupIbcExtension,
   setupNodeExtension,
   setupTokenExtension,
-  setupWasmplusExtension,
   setupTx2Extension,
+  setupWasmplusExtension,
   TokenExtension,
-  WasmplusExtension,
   Tx2Extension,
+  WasmplusExtension,
 } from "./modules";
 
 export type QueryClientWithExtensions = QueryClient &
