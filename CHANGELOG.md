@@ -17,6 +17,7 @@ and this project adheres to
 ### Removed
 
 ### Fixed
+- [\#73](https://github.com/line/lbmjs/pull/73) fix the local unit test error
 
 ### Security
 
