@@ -7,6 +7,7 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
+- [\#69](https://github.com/line/lbmjs/pull/69) apply the changes of `x/token` and `x/collection` protos
 - [\#71](https://github.com/line/lbmjs/pull/71) @lbmjs/finschia: Add custom GetBlockWithTxs for lbm
 
 ### Changed
@@ -16,6 +17,7 @@ and this project adheres to
 ### Removed
 
 ### Fixed
+- [\#73](https://github.com/line/lbmjs/pull/73) fix the local unit test error
 
 ### Security
 
