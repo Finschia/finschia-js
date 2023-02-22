@@ -330,9 +330,9 @@ describe("SigningFinschiaClient", () => {
       const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
       const wasm = getHackatom().data;
       const accessConfig: AccessConfig = {
-        permission: AccessType.ACCESS_TYPE_EVERYBODY,
+        permission: AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES,
         address: "",
-        addresses: [],
+        addresses: [faucet.address0],
       };
       const { codeId, originalChecksum, originalSize, compressedChecksum, compressedSize } =
         await client.upload(faucet.address0, wasm, defaultUploadFee, "test memo", accessConfig);

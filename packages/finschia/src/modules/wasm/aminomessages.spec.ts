@@ -51,7 +51,7 @@ describe("AminoTypes", () => {
           instantiate_permission: {
             permission: "OnlyAddress",
             address: "link1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
-            addresses: [],
+            addresses: undefined,
           },
         },
       };
@@ -89,7 +89,7 @@ describe("AminoTypes", () => {
           instantiate_permission: {
             permission: "OnlyAddress",
             address: "link1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
-            addresses: [],
+            addresses: undefined,
           },
         },
       };

@@ -54,7 +54,7 @@ export interface AccessConfig {
    * Deprecated: replaced by addresses
    */
   readonly address?: string;
-  readonly addresses: string[];
+  readonly addresses?: string[];
 }
 
 /**
@@ -89,7 +89,8 @@ export function createWasmAminoConverters(): AminoConverters {
           ? {
               permission: accessTypeToString(instantiatePermission.permission),
               address: instantiatePermission.address || undefined,
-              addresses: instantiatePermission.addresses,
+              addresses:
+                instantiatePermission.addresses.length !== 0 ? instantiatePermission.addresses : undefined,
             }
           : undefined,
       }),
@@ -104,7 +105,7 @@ export function createWasmAminoConverters(): AminoConverters {
           ? {
               permission: accessTypeFromString(instantiate_permission.permission),
               address: instantiate_permission.address ?? "",
-              addresses: instantiate_permission.addresses,
+              addresses: instantiate_permission.addresses ?? [],
             }
           : undefined,
       }),
