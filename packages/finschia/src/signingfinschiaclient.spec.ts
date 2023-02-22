@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { addCoins, Secp256k1HdWallet } from "@cosmjs/amino";
-import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "@cosmjs/cosmwasm-stargate";
+import { MsgExecuteContractEncodeObject } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { toHex, toUtf8 } from "@cosmjs/encoding";
 import { decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
@@ -21,11 +21,13 @@ import { DeepPartial, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { MsgExecuteContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessConfig, AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessConfig, AccessType } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
+import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
 
 import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
@@ -330,6 +332,7 @@ describe("SigningFinschiaClient", () => {
       const accessConfig: AccessConfig = {
         permission: AccessType.ACCESS_TYPE_EVERYBODY,
         address: "",
+        addresses: [],
       };
       const { codeId, originalChecksum, originalSize, compressedChecksum, compressedSize } =
         await client.upload(faucet.address0, wasm, defaultUploadFee, "test memo", accessConfig);
@@ -581,6 +584,7 @@ describe("SigningFinschiaClient", () => {
             instantiatePermission: {
               permission: AccessType.ACCESS_TYPE_ONLY_ADDRESS,
               address: faucet.address0,
+              addresses: [],
             },
             admin: faucet.address0,
           },

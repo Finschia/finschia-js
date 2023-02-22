@@ -2,8 +2,8 @@
 import { createWasmAminoConverters as createAminoConverters } from "@cosmjs/cosmwasm-stargate";
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
 import { AminoConverters } from "@cosmjs/stargate";
-import { MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessType } from "lbmjs-types/cosmwasm/wasm/v1/types";
 
 export function accessTypeFromString(str: string): AccessType {
   switch (str) {
@@ -15,6 +15,8 @@ export function accessTypeFromString(str: string): AccessType {
       return AccessType.ACCESS_TYPE_ONLY_ADDRESS;
     case "Everybody":
       return AccessType.ACCESS_TYPE_EVERYBODY;
+    case "AnyOfAddresses":
+      return AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES;
     default:
       return AccessType.UNRECOGNIZED;
   }
@@ -30,6 +32,8 @@ export function accessTypeToString(object: any): string {
       return "OnlyAddress";
     case AccessType.ACCESS_TYPE_EVERYBODY:
       return "Everybody";
+    case AccessType.ACCESS_TYPE_ANY_OF_ADDRESSES:
+      return "AnyOfAddresses";
     case AccessType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -45,7 +49,12 @@ export interface AccessConfig {
    * @see https://github.com/CosmWasm/wasmd/blob/v0.28.0/x/wasm/types/params.go#L54
    */
   readonly permission: string;
+  /**
+   * Address
+   * Deprecated: replaced by addresses
+   */
   readonly address?: string;
+  readonly addresses: string[];
 }
 
 /**
@@ -80,6 +89,7 @@ export function createWasmAminoConverters(): AminoConverters {
           ? {
               permission: accessTypeToString(instantiatePermission.permission),
               address: instantiatePermission.address || undefined,
+              addresses: instantiatePermission.addresses,
             }
           : undefined,
       }),
@@ -94,6 +104,7 @@ export function createWasmAminoConverters(): AminoConverters {
           ? {
               permission: accessTypeFromString(instantiate_permission.permission),
               address: instantiate_permission.address ?? "",
+              addresses: instantiate_permission.addresses,
             }
           : undefined,
       }),

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { fromBase64 } from "@cosmjs/encoding";
 import { AminoTypes } from "@cosmjs/stargate";
-import { MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessType } from "lbmjs-types/cosmwasm/wasm/v1/types";
 
 import { AminoMsgStoreCode, createWasmAminoConverters } from "./aminomessages";
 
@@ -36,6 +36,7 @@ describe("AminoTypes", () => {
         instantiatePermission: {
           permission: AccessType.ACCESS_TYPE_ONLY_ADDRESS,
           address: "link1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
+          addresses: [],
         },
       };
       const aminoMsg = new AminoTypes(createWasmAminoConverters()).toAmino({
@@ -50,6 +51,7 @@ describe("AminoTypes", () => {
           instantiate_permission: {
             permission: "OnlyAddress",
             address: "link1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
+            addresses: [],
           },
         },
       };
@@ -87,6 +89,7 @@ describe("AminoTypes", () => {
           instantiate_permission: {
             permission: "OnlyAddress",
             address: "link1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
+            addresses: [],
           },
         },
       };
@@ -97,6 +100,7 @@ describe("AminoTypes", () => {
         instantiatePermission: {
           permission: AccessType.ACCESS_TYPE_ONLY_ADDRESS,
           address: "link1pkptre7fdkl6gfrzlesjjvhxhlc3r4gmmk8rs6",
+          addresses: [],
         },
       };
       expect(msg).toEqual({

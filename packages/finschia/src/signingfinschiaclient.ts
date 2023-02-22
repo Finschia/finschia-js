@@ -13,7 +13,6 @@ import {
   MsgExecuteContractEncodeObject,
   MsgInstantiateContractEncodeObject,
   MsgMigrateContractEncodeObject,
-  MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
 } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
@@ -57,17 +56,18 @@ import {
   MsgExecuteContract,
   MsgInstantiateContract,
   MsgMigrateContract,
-  MsgStoreCode,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessConfig } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
+import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessConfig } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
+import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
 import { createDefaultRegistry, createDefaultTypes } from "./types";
 
 export interface UploadAndInstantiateOptions extends InstantiateOptions {
