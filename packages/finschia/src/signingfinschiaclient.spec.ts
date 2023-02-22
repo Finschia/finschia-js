@@ -22,6 +22,7 @@ import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { MsgExecuteContract, MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessConfig, AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
@@ -316,6 +317,29 @@ describe("SigningFinschiaClient", () => {
       expect(codeId).toBeGreaterThanOrEqual(1);
       client.disconnect();
     });
+
+    it("works with legacy Amino signer access type", async () => {
+      pendingWithoutSimapp();
+      const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: simapp.prefix,
+      });
+      const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
+      const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
+      const wasm = getHackatom().data;
+      const accessConfig: AccessConfig = {
+        permission: AccessType.ACCESS_TYPE_EVERYBODY,
+        address: "",
+      };
+      const { codeId, originalChecksum, originalSize, compressedChecksum, compressedSize } =
+        await client.upload(faucet.address0, wasm, defaultUploadFee, "test memo", accessConfig);
+      expect(originalChecksum).toEqual(toHex(sha256(wasm)));
+      expect(originalSize).toEqual(wasm.length);
+      expect(compressedChecksum).toMatch(/^[0-9a-f]{64}$/);
+      expect(compressedSize).toBeLessThan(wasm.length * 0.5);
+      expect(codeId).toBeGreaterThanOrEqual(1);
+      client.disconnect();
+    });
   });
 
   describe("instantiate", () => {
@@ -527,6 +551,50 @@ describe("SigningFinschiaClient", () => {
       const { contractInfo } = await wasmClient.wasm.getContractInfo(contractAddress);
       assert(contractInfo);
       expect(contractInfo.admin).toEqual(unused.address);
+      client.disconnect();
+    });
+
+    it("works with legacy amino signer", async () => {
+      pendingWithoutSimapp();
+      const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: simapp.prefix,
+      });
+      const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
+      const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
+      const wasm = getHackatom().data;
+      const funds = [coin(1234, "cony"), coin(321, "stake")];
+      const beneficiaryAddress = makeRandomAddress();
+      const { originalSize, originalChecksum, compressedSize, compressedChecksum, codeId, contractAddress } =
+        await client.uploadAndInstantiate(
+          faucet.address0,
+          wasm,
+          {
+            verifier: faucet.address0,
+            beneficiary: beneficiaryAddress,
+          },
+          "My",
+          defaultUploadAndInstantiateFee,
+          {
+            memo: "Let's see if the memo is used",
+            funds: funds,
+            instantiatePermission: {
+              permission: AccessType.ACCESS_TYPE_ONLY_ADDRESS,
+              address: faucet.address0,
+            },
+            admin: faucet.address0,
+          },
+        );
+      expect(originalChecksum).toEqual(toHex(sha256(wasm)));
+      expect(originalSize).toEqual(wasm.length);
+      expect(compressedChecksum).toMatch(/^[0-9a-f]{64}$/);
+      expect(compressedSize).toBeLessThan(wasm.length * 0.5);
+      expect(codeId).toBeGreaterThanOrEqual(1);
+      const wasmClient = await makeWasmClient(simapp.tendermintUrl);
+      const conyBalance = await wasmClient.bank.balance(contractAddress, "cony");
+      expect(conyBalance).toEqual(funds[0]);
+      const stakeBalance = await wasmClient.bank.balance(contractAddress, "stake");
+      expect(stakeBalance).toEqual(funds[1]);
       client.disconnect();
     });
   });

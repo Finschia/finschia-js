@@ -1,8 +1,10 @@
 import { AminoMsg } from "@cosmjs/amino";
+import { fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
 import { AminoConverters } from "@cosmjs/stargate";
 import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { AccessConfig } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
+
+import { AccessConfig, accessTypeFromString, accessTypeToString } from "../wasm/aminomessages";
 
 export interface AminoMsgStoreCodeAndInstantiateContract extends AminoMsg {
   readonly type: "wasm/MsgStoreCodeAndInstantiateContract";
@@ -10,14 +12,14 @@ export interface AminoMsgStoreCodeAndInstantiateContract extends AminoMsg {
     /** Sender is the that actor that signed the messages */
     readonly sender: string;
     /** WASMByteCode can be raw or gzip compressed */
-    readonly wasmByteCode: Uint8Array;
-    readonly instantiatePermission?: AccessConfig;
+    readonly wasm_byte_code: string;
+    readonly instantiate_permission?: AccessConfig;
     /** Admin is an optional address that can execute migrations */
-    readonly admin: string;
+    readonly admin?: string;
     /** Label is optional metadata to be stored with a contract instance. */
     readonly label: string;
     /** Msg json encoded message to be passed to the contract on instantiation */
-    readonly msg: Uint8Array;
+    readonly msg: any;
     /** Funds coins that are transferred to the contract on instantiation */
     readonly funds: Coin[];
   };
@@ -37,29 +39,39 @@ export function createWasmplusAminoConverters(): AminoConverters {
         funds,
       }: MsgStoreCodeAndInstantiateContract): AminoMsgStoreCodeAndInstantiateContract["value"] => ({
         sender: sender,
-        wasmByteCode: wasmByteCode,
-        instantiatePermission: instantiatePermission,
-        admin: admin,
+        wasm_byte_code: toBase64(wasmByteCode),
+        instantiate_permission: instantiatePermission
+          ? {
+              permission: accessTypeToString(instantiatePermission.permission),
+              address: instantiatePermission.address || undefined,
+            }
+          : undefined,
+        admin: admin || undefined,
         label: label,
-        msg: msg,
+        msg: JSON.parse(fromUtf8(msg)),
         funds: funds,
       }),
       fromAmino: ({
         sender,
-        wasmByteCode,
-        instantiatePermission,
+        wasm_byte_code,
+        instantiate_permission,
         admin,
         label,
         msg,
         funds,
       }: AminoMsgStoreCodeAndInstantiateContract["value"]): MsgStoreCodeAndInstantiateContract => ({
         sender: sender,
-        wasmByteCode: wasmByteCode,
-        instantiatePermission: instantiatePermission,
-        admin: admin,
+        wasmByteCode: fromBase64(wasm_byte_code),
+        instantiatePermission: instantiate_permission
+          ? {
+              permission: accessTypeFromString(instantiate_permission.permission),
+              address: instantiate_permission.address ?? "",
+            }
+          : undefined,
+        admin: admin ?? "",
         label: label,
-        msg: msg,
-        funds: funds,
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: [...funds],
       }),
     },
   };
