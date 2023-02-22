@@ -44,7 +44,7 @@ export interface ContractUploadInstructions {
 }
 
 export const simapp = {
-  tendermintUrl: "localhost:26657",
+  tendermintUrl: "localhost:26658",
   tendermintUrlWs: "ws://localhost:26658",
   tendermintUrlHttp: "http://localhost:26658",
   chainId: "simd-testing",
