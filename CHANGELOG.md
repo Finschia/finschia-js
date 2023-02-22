@@ -9,6 +9,7 @@ and this project adheres to
 ### Added
 - [\#69](https://github.com/line/lbmjs/pull/69) apply the changes of `x/token` and `x/collection` protos
 - [\#71](https://github.com/line/lbmjs/pull/71) @lbmjs/finschia: Add custom GetBlockWithTxs for lbm
+- [\#77](https://github.com/line/lbmjs/pull/77) @lbmjs/finschia: Enable amino sign store msgs in `wasm` and `wasmplus`
 
 ### Changed
 
