@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino, serializeSignDoc } from "@cosmjs/amino";
+import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import {
   ChangeAdminResult,
   ExecuteResult,
@@ -16,8 +16,8 @@ import {
   MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
 } from "@cosmjs/cosmwasm-stargate";
-import { Sha256, sha256 } from "@cosmjs/crypto";
-import { fromBase64, fromUtf8, toBase64, toHex, toUtf8 } from "@cosmjs/encoding";
+import { sha256 } from "@cosmjs/crypto";
+import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
 import {
   EncodeObject,
@@ -563,7 +563,6 @@ export class SigningFinschiaClient extends FinschiaClient {
     const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
     const msgs = messages.map((msg) => this.aminoTypes.toAmino(msg));
     const signDoc = makeSignDocAmino(msgs, fee, chainId, memo, accountNumber, sequence);
-    const message = toHex(new Sha256(serializeSignDoc(signDoc)).digest());
     const { signature, signed } = await this.signer.signAmino(signerAddress, signDoc);
     const signedTxBody: TxBodyEncodeObject = {
       typeUrl: "/cosmos.tx.v1beta1.TxBody",
