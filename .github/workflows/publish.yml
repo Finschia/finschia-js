@@ -27,14 +27,14 @@ jobs:
       - name: Build
         run: yarn run build
 
-            - name: Check if tag and version match
-      run: |
-        if [ "$(git tag --points-at ${{ github.sha }})" == "v$(jq -r .version package.json)" ]; then
-          echo "Tag and version match. Proceeding with publish."
-        else
-          echo "Tag and version do not match. Skipping publish."
-          exit 1
-        fi
+      - name: Check if tag and version match
+        run: |
+          if [ "$(git tag --points-at ${{ github.sha }})" == "v$(jq -r .version packages/finschia/package.json)" ]; then
+            echo "Tag and version match. Proceeding with publish."
+          else
+            echo "Tag and version do not match. Skipping publish."
+            exit 1
+          fi
 
       - name: Publish to NPM
         run: |
