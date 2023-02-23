@@ -1,0 +1,35 @@
+name: Publish to NPM
+on:
+  push:
+    tags:
+      - "*"
+  release:
+    types: [released]
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+      - run: if [ ! -x "$(command -v yarn)" ]; then npm install -g yarn; fi
+
+      - name: Install dependencies
+        run: |
+          yarn cache clean --all
+          yarn install
+
+      - name: Build
+        run: yarn run build
+
+      - name: Publish to NPM
+        run: |
+          cd packages/finschia
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
