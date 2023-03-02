@@ -9,6 +9,7 @@ and this project adheres to
 ### Added
 - [\#69](https://github.com/line/lbmjs/pull/69) apply the changes of `x/token` and `x/collection` protos
 - [\#71](https://github.com/line/lbmjs/pull/71) @lbmjs/finschia: Add custom GetBlockWithTxs for lbm
+- [\#80](https://github.com/line/lbmjs/pull/80) add MsgInstantiateContract2
 - [\#81](https://github.com/line/lbmjs/pull/81) add git PR template
 
 ### Changed
