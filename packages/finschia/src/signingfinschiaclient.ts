@@ -16,6 +16,7 @@ import {
   MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
 } from "@cosmjs/cosmwasm-stargate";
+import { Instantiate2Options, MsgInstantiateContract2EncodeObject } from "./modules/wasm/messages";
 import { sha256 } from "@cosmjs/crypto";
 import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
@@ -60,6 +61,7 @@ import {
   MsgStoreCode,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgInstantiateContract2 } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
@@ -310,6 +312,43 @@ export class SigningFinschiaClient extends FinschiaClient {
       }),
     };
     const result = await this.signAndBroadcast(senderAddress, [instantiateContractMsg], fee, options.memo);
+    if (isDeliverTxFailure(result)) {
+      throw new Error(createDeliverTxResponseErrorMessage(result));
+    }
+    const parsedLogs = logs.parseRawLog(result.rawLog);
+    const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
+    return {
+      contractAddress: contractAddressAttr.value,
+      logs: parsedLogs,
+      height: result.height,
+      transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
+    };
+  }
+
+  public async instantiate2(
+    senderAddress: string,
+    codeId: number,
+    msg: Record<string, unknown>,
+    label: string,
+    fee: StdFee | "auto" | number,
+    options: Instantiate2Options = {},
+  ): Promise<InstantiateResult> {
+    const instantiateContract2Msg: MsgInstantiateContract2EncodeObject = {
+      typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract2",
+      value: MsgInstantiateContract2.fromPartial({
+        sender: senderAddress,
+        codeId: Long.fromString(new Uint53(codeId).toString()),
+        label: label,
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: [...(options.funds || [])],
+        admin: options.admin,
+        salt: options.salt,
+        fixMsg: options.fixMsg,
+      }),
+    };
+    const result = await this.signAndBroadcast(senderAddress, [instantiateContract2Msg], fee, options.memo);
     if (isDeliverTxFailure(result)) {
       throw new Error(createDeliverTxResponseErrorMessage(result));
     }
