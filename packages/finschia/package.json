@@ -1,7 +1,7 @@
 {
   "name": "@finschia/finschia",
-  "version": "0.8.0-rc1",
-  "description": "Utilities for LBM SDK 0.47.0-rc2",
+  "version": "1.0.0",
+  "description": "Utilities for FINSCHIA v1.0.0-rc0",
   "contributors": [
     "zemyblue <zemyblue@users.noreply.github.com>",
     "loin3 <55660267+loin3@users.noreply.github.com>",
