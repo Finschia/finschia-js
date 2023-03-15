@@ -19,7 +19,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     ],
     "dependencyTreeRoots": [
       {
-        "name": "lbmjs-monorepo-root",
+        "name": "finschia-js-monorepo-root",
         "reference": "workspace:."
       },
       {
@@ -31,7 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.{1,2}(?:\\/|$))(?:(?:(?!(?:^|\\/)\\.{1,2}(?:\\/|$)).)*?)|$))$)",
     "fallbackExclusionList": [
       ["@lbmjs/finschia", ["workspace:packages/finschia"]],
-      ["lbmjs-monorepo-root", ["workspace:."]]
+      ["finschia-js-monorepo-root", ["workspace:."]]
     ],
     "fallbackPool": [
       [
@@ -2571,9 +2571,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@lbmjs/finschia", "workspace:packages/finschia"],
             ["eslint", "npm:7.32.0"],
             ["karma-chrome-launcher", "npm:3.1.0"],
-            ["karma-jasmine", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:4.0.1"],
-            ["karma-spec-reporter", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:0.0.33"],
-            ["karma-typescript", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:5.5.3"],
+            ["karma-jasmine", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:4.0.1"],
+            ["karma-spec-reporter", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:0.0.33"],
+            ["karma-typescript", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:5.5.3"],
             ["prettier", "npm:2.5.1"],
             ["ts-node", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:8.10.2"],
             ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"]
@@ -6226,6 +6226,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["finschia-js-monorepo-root", [
+        ["workspace:.", {
+          "packageLocation": "./",
+          "packageDependencies": [
+            ["finschia-js-monorepo-root", "workspace:."],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/stargate", "npm:0.30.1"],
+            ["@lbmjs/finschia", "workspace:packages/finschia"],
+            ["eslint", "npm:7.32.0"],
+            ["karma-chrome-launcher", "npm:3.1.0"],
+            ["karma-jasmine", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:4.0.1"],
+            ["karma-spec-reporter", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:0.0.33"],
+            ["karma-typescript", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:5.5.3"],
+            ["prettier", "npm:2.5.1"],
+            ["ts-node", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:8.10.2"],
+            ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["flat-cache", [
         ["npm:3.0.4", {
           "packageLocation": "./.yarn/cache/flat-cache-npm-3.0.4-ee77e5911e-4fdd10ecbc.zip/node_modules/flat-cache/",
@@ -7511,10 +7533,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:4.0.1", {
-          "packageLocation": "./.yarn/__virtual__/karma-jasmine-virtual-8cdf4f53da/0/cache/karma-jasmine-npm-4.0.1-47b681c3e0-28337c8294.zip/node_modules/karma-jasmine/",
+        ["virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:4.0.1", {
+          "packageLocation": "./.yarn/__virtual__/karma-jasmine-virtual-acc49a953b/0/cache/karma-jasmine-npm-4.0.1-47b681c3e0-28337c8294.zip/node_modules/karma-jasmine/",
           "packageDependencies": [
-            ["karma-jasmine", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:4.0.1"],
+            ["karma-jasmine", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:4.0.1"],
             ["@types/karma", null],
             ["jasmine-core", "npm:3.99.0"],
             ["karma", null]
@@ -7578,10 +7600,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:0.0.33", {
-          "packageLocation": "./.yarn/__virtual__/karma-spec-reporter-virtual-ebb7b6019f/0/cache/karma-spec-reporter-npm-0.0.33-5154ef57e1-6218d49ca4.zip/node_modules/karma-spec-reporter/",
+        ["virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:0.0.33", {
+          "packageLocation": "./.yarn/__virtual__/karma-spec-reporter-virtual-5c9f93149d/0/cache/karma-spec-reporter-npm-0.0.33-5154ef57e1-6218d49ca4.zip/node_modules/karma-spec-reporter/",
           "packageDependencies": [
-            ["karma-spec-reporter", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:0.0.33"],
+            ["karma-spec-reporter", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:0.0.33"],
             ["@types/karma", null],
             ["colors", "npm:1.4.0"],
             ["karma", null]
@@ -7661,10 +7683,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:5.5.3", {
-          "packageLocation": "./.yarn/__virtual__/karma-typescript-virtual-a82855ec24/0/cache/karma-typescript-npm-5.5.3-0c7472805b-0474336d20.zip/node_modules/karma-typescript/",
+        ["virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:5.5.3", {
+          "packageLocation": "./.yarn/__virtual__/karma-typescript-virtual-5769796a5f/0/cache/karma-typescript-npm-5.5.3-0c7472805b-0474336d20.zip/node_modules/karma-typescript/",
           "packageDependencies": [
-            ["karma-typescript", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:5.5.3"],
+            ["karma-typescript", "virtual:9a842b4a7a5fe4769a842c3ebbc18cbcd9f506570e36ba1f80ab66228de0e7586728fd2deea163cd319ef38230dc6abdadaa32d0de113707b52a27c7a29fc3a0#npm:5.5.3"],
             ["@types/karma", null],
             ["@types/typescript", null],
             ["acorn", "npm:8.7.0"],
@@ -7729,28 +7751,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["kind-of", "npm:6.0.3"]
           ],
           "linkType": "HARD",
-        }]
-      ]],
-      ["lbmjs-monorepo-root", [
-        ["workspace:.", {
-          "packageLocation": "./",
-          "packageDependencies": [
-            ["lbmjs-monorepo-root", "workspace:."],
-            ["@cosmjs/crypto", "npm:0.30.1"],
-            ["@cosmjs/encoding", "npm:0.30.1"],
-            ["@cosmjs/proto-signing", "npm:0.30.1"],
-            ["@cosmjs/stargate", "npm:0.30.1"],
-            ["@lbmjs/finschia", "workspace:packages/finschia"],
-            ["eslint", "npm:7.32.0"],
-            ["karma-chrome-launcher", "npm:3.1.0"],
-            ["karma-jasmine", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:4.0.1"],
-            ["karma-spec-reporter", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:0.0.33"],
-            ["karma-typescript", "virtual:cd80f3fb0437801a99fef2ee022afb4ec84335515f39b9a71f5be11b41a1c8a81a2c10026f25c3f34e54cfd8c4a5902b4ddbca269433d0c19e81608f6cbd2aa6#npm:5.5.3"],
-            ["prettier", "npm:2.5.1"],
-            ["ts-node", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:8.10.2"],
-            ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=ddd1e8"]
-          ],
-          "linkType": "SOFT",
         }]
       ]],
       ["lbmjs-types", [

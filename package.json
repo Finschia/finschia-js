@@ -1,6 +1,6 @@
 {
-  "name": "lbmjs-monorepo-root",
-  "description": "Transaction codec and client to communicate with any wasmd blockchain",
+  "name": "finschia-js-monorepo-root",
+  "description": "Transaction codec and client to communicate with any finschia blockchain",
   "private": true,
   "author": "Ethan Frey <ethanfrey@users.noreply.github.com>",
   "license": "Apache-2.0",

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S yarn node
 
 /* eslint-disable @typescript-eslint/naming-convention */
-const { SigningFinschiaClient, makeLinkPath } = require("@lbmjs/finschia");
+const { SigningFinschiaClient, makeLinkPath } = require("@finschia/finschia");
 const { DirectSecp256k1HdWallet } = require("@cosmjs/proto-signing");
 const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 const fs = require("fs");
