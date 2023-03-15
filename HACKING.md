@@ -48,12 +48,12 @@ yarn test
 
 To run the entire test suite, you need to run some local blockchain to test
 against. We use [finschia](https://github.com/line/finschia) for both CosmWasm
-tests and as a generic lbm SDK 0.47 blockchain.
+tests and as a generic finschia v1.0.0-rc0 blockchain.
 
 ```sh
 # Start finschia
-./scripts/lbm/start.sh
-./scripts/lbm/init.sh
+./scripts/finschia/start.sh
+./scripts/finschia/init.sh
 export SIMAPP_ENABLED=1
 
 # now more tests are running that were marked as "pending" before
@@ -61,7 +61,7 @@ yarn test
 
 # And at the end of the day
 unset SIMAPP_ENABLED
-./scripts/lbm/stop.sh
+./scripts/finschia/stop.sh
 ```
 
 ## Sanity

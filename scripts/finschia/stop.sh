@@ -8,6 +8,6 @@ SCRIPT_DIR="$(realpath "$(dirname "$0")")"
 source "$SCRIPT_DIR"/env
 
 if [ "$( docker container inspect -f '{{.State.Running}}' $CONTAINER_NAME )" == "true" ]; then
-  echo "Killing lbm container..."
+  echo "Killing finschia container..."
   docker container kill "$CONTAINER_NAME"
 fi

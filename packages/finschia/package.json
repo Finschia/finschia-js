@@ -1,5 +1,5 @@
 {
-  "name": "@lbmjs/finschia",
+  "name": "@finschia/finschia",
   "version": "0.8.0-rc1",
   "description": "Utilities for LBM SDK 0.47.0-rc2",
   "contributors": [

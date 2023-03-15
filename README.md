@@ -7,9 +7,8 @@
   </a>
 </div>
 
-finschia-js is the Swiss Army knife to power JavaScript based client solutions
-ranging from Web apps/explorers over browser extensions to server-side clients
-like faucets/scrapers in the Cosmos ecosystem.
+finschia-js is useful tool to power JavaScript based client solutions ranging
+from Web apps/explorers over browser extensions to server-side clients.
 
 ## Packages
 
@@ -17,9 +16,9 @@ finschia-js is a library that consists of many smaller npm packages within the
 [@finschia namespace](https://www.npmjs.com/org/finschia), a so called monorepo.
 Here are some of them to get an idea:
 
-| Package                                 | Description                                 | Latest                                                                                                                  |
-| --------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [@finschia/finschia](packages/finschia) | A client library for the Finschia SDK 0.43+ | [![npm version](https://img.shields.io/npm/v/@finschia/finschia.svg)](https://www.npmjs.com/package/@finschia/finschia) |
+| Package                                 | Description                                   | Latest                                                                                                                  |
+| --------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| [@finschia/finschia](packages/finschia) | A client library for the Finschia v1.0.0-rc0+ | [![npm version](https://img.shields.io/npm/v/@finschia/finschia.svg)](https://www.npmjs.com/package/@finschia/finschia) |
 
 ## Supported JS environments
 
@@ -43,7 +42,7 @@ With WebPack 5, you have to be explicit about the usage of Node.js types and
 modules that were simply replaced with re-implementations for browsers in
 Webpack 4.
 
-Configs for v0.4.0-rc0 and later:
+Configs for v1.0.0 and later:
 
 ```js
 module.exports = [
@@ -69,38 +68,6 @@ module.exports = [
   },
 ];
 ```
-
-Configs for finschia-js < v0.4.0-rc0
-
-```js
-module.exports = [
-  {
-    // ...
-    plugins: [
-      ...,
-      new webpack.ProvidePlugin({
-        Buffer: ["buffer", "Buffer"],
-      }),
-    ],
-    // ...
-    resolve: {
-      fallback: {
-        buffer: false,
-        crypto: false,
-        events: false,
-        path: false,
-        stream: require.resolve("stream-browserify"),
-        string_decoder: false,
-      },
-    },
-  },
-];
-```
-
-## Roadmap
-
-We use [release milestones](https://github.com/cosmos/cosmjs/milestones). For
-higher level roadmap discussion please reach out to the team.
 
 ## Get in touch
 

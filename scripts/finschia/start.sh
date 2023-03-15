@@ -31,7 +31,7 @@ docker run --rm \
   --mount type=bind,source="$SCRIPT_DIR/template",target=/template \
   --mount type=volume,source=lbmapp_data,target=/root \
   "$REPOSITORY:$VERSION" \
-  /template/run_lbm.sh \
+  /template/run_finschia.sh \
   >"$LBM_LOGFILE" 2>&1 &
 
 echo "lbm running on http://localhost:$TENDERMINT_PORT_HOST and logging into $LBM_LOGFILE"
