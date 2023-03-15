@@ -1,1 +1,1 @@
-# @lbmjs/finschia
+# @finschia/finschia
