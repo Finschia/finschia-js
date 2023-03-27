@@ -38,6 +38,7 @@
   "dependencies": {
     "@cosmjs/amino": "^0.30.1",
     "@cosmjs/cosmwasm-stargate": "^0.30.1",
+    "@cosmjs/crypto": "^0.30.1",
     "@cosmjs/encoding": "^0.30.1",
     "@cosmjs/math": "^0.30.1",
     "@cosmjs/proto-signing": "^0.30.1",
@@ -52,7 +53,6 @@
     "xstream": "^11.14.0"
   },
   "devDependencies": {
-    "@cosmjs/crypto": "^0.30.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/eslint-plugin-prettier": "^3",
     "@types/jasmine": "^3.8",
