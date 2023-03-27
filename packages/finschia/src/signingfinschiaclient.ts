@@ -2,9 +2,11 @@
 import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import {
   ChangeAdminResult,
+  ExecuteInstruction,
   ExecuteResult,
   InstantiateOptions,
   InstantiateResult,
+  JsonObject,
   MigrateResult,
   UploadResult,
 } from "@cosmjs/cosmwasm-stargate";
@@ -135,11 +137,8 @@ export class SigningFinschiaClient extends FinschiaClient {
     options: SigningStargateClientOptions,
   ) {
     super(tmClient, options);
-    const prefix = options.prefix ?? "link";
-    const {
-      registry = createDefaultRegistry(),
-      aminoTypes = new AminoTypes({ ...createDefaultTypes(prefix) }),
-    } = options;
+    const { registry = createDefaultRegistry(), aminoTypes = new AminoTypes({ ...createDefaultTypes() }) } =
+      options;
     this.registry = registry;
     this.aminoTypes = aminoTypes;
     this.signer = signer;
@@ -287,6 +286,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: parsedLogs,
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -322,6 +322,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: parsedLogs,
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -359,6 +360,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: parsedLogs,
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -436,6 +438,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -462,6 +465,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -492,6 +496,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -500,21 +505,38 @@ export class SigningFinschiaClient extends FinschiaClient {
   public async execute(
     senderAddress: string,
     contractAddress: string,
-    msg: Record<string, unknown>,
+    msg: JsonObject,
     fee: StdFee | "auto" | number,
     memo = "",
     funds?: readonly Coin[],
   ): Promise<ExecuteResult> {
-    const executeContractMsg: MsgExecuteContractEncodeObject = {
+    const instruction: ExecuteInstruction = {
+      contractAddress: contractAddress,
+      msg: msg,
+      funds: funds,
+    };
+    return this.executeMultiple(senderAddress, [instruction], fee, memo);
+  }
+
+  /**
+   * Like `execute` but allows executing multiple messages in one transaction.
+   */
+  public async executeMultiple(
+    senderAddress: string,
+    instructions: readonly ExecuteInstruction[],
+    fee: StdFee | "auto" | number,
+    memo = "",
+  ): Promise<ExecuteResult> {
+    const msgs: MsgExecuteContractEncodeObject[] = instructions.map((i) => ({
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: senderAddress,
-        contract: contractAddress,
-        msg: toUtf8(JSON.stringify(msg)),
-        funds: [...(funds || [])],
+        contract: i.contractAddress,
+        msg: toUtf8(JSON.stringify(i.msg)),
+        funds: [...(i.funds || [])],
       }),
-    };
-    const result = await this.signAndBroadcast(senderAddress, [executeContractMsg], fee, memo);
+    }));
+    const result = await this.signAndBroadcast(senderAddress, msgs, fee, memo);
     if (isDeliverTxFailure(result)) {
       throw new Error(createDeliverTxResponseErrorMessage(result));
     }
@@ -522,6 +544,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };

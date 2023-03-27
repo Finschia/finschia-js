@@ -1,3 +1,4 @@
+import { _instantiate2AddressIntermediate } from "@cosmjs/cosmwasm-stargate";
 import { Decimal, Uint64 } from "@cosmjs/math";
 import { Duration } from "cosmjs-types/google/protobuf/duration";
 import Long from "long";
@@ -33,4 +34,14 @@ export function jsonDurationToProto(duration: string): Duration {
     seconds: Long.fromString(secondStr, true),
     nanos: parseInt(nanoStr, 10),
   };
+}
+
+export function instantiate2Address(
+  checksum: Uint8Array,
+  creator: string,
+  salt: Uint8Array,
+  msg: string | null,
+  prefix: string,
+): string {
+  return _instantiate2AddressIntermediate(checksum, creator, salt, msg, prefix).address;
 }

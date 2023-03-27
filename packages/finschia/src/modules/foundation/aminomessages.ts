@@ -28,7 +28,7 @@ import {
 import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
 import Long from "long";
 
-import { createDefaultRegistry, createDefaultTypes, createDefaultTypesWithoutFoundation } from "../../types";
+import { createDefaultRegistry, createDefaultTypesWithoutFoundation } from "../../types";
 import {
   jsonDecimalToProto,
   jsonDurationToProto,
@@ -702,7 +702,7 @@ function createMsgSubmitProposalAminoConverter(): AminoConverters {
   const aminoConvertersWithoutSubmitProposal = createFoundationAminoConvertersWithoutSubmitProposal();
   const registry = createDefaultRegistry();
   const aminoTypes = new AminoTypes({
-    ...createDefaultTypesWithoutFoundation("link"),
+    ...createDefaultTypesWithoutFoundation(),
     ...aminoConvertersWithoutSubmitProposal,
   });
   return {

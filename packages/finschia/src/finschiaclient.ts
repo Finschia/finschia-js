@@ -17,8 +17,10 @@ import {
   AuthExtension,
   BankExtension,
   Block,
+  BroadcastTxError,
   DeliverTxResponse,
   DistributionExtension,
+  fromTendermintEvent,
   GovExtension,
   IndexedTx,
   isSearchByHeightQuery,
@@ -43,7 +45,12 @@ import {
 } from "@cosmjs/stargate";
 import { SlashingExtension } from "@cosmjs/stargate/build/modules";
 import { AuthzExtension } from "@cosmjs/stargate/build/modules/authz/queries";
-import { HttpEndpoint, Tendermint34Client, toRfc3339WithNanoseconds } from "@cosmjs/tendermint-rpc";
+import {
+  HttpEndpoint,
+  Tendermint34Client,
+  TendermintClient,
+  toRfc3339WithNanoseconds,
+} from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { QueryDelegatorDelegationsResponse } from "cosmjs-types/cosmos/staking/v1beta1/query";
@@ -96,7 +103,7 @@ export type QueryClientWithExtensions = QueryClient &
   WasmplusExtension &
   NodeExtension;
 
-function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryClientWithExtensions {
+function createQueryClientWithExtensions(tmClient: TendermintClient): QueryClientWithExtensions {
   return QueryClient.withExtensions(
     tmClient,
     setupAuthExtension,
@@ -122,12 +129,12 @@ function createQueryClientWithExtensions(tmClient: Tendermint34Client): QueryCli
 
 /** Use for testing only */
 export interface PrivateFinschiaClient {
-  readonly tmClient: Tendermint34Client | undefined;
+  readonly tmClient: TendermintClient | undefined;
   readonly queryClient: QueryClientWithExtensions | undefined;
 }
 
 export class FinschiaClient {
-  private readonly tmClient: Tendermint34Client | undefined;
+  private readonly tmClient: TendermintClient | undefined;
   private readonly queryClient: QueryClientWithExtensions | undefined;
   private readonly codesCache = new Map<number, CodeDetails>();
   private chainId: string | undefined;
@@ -141,7 +148,7 @@ export class FinschiaClient {
     return new FinschiaClient(tmClient, options);
   }
 
-  protected constructor(tmClient: Tendermint34Client | undefined, options: StargateClientOptions) {
+  protected constructor(tmClient: TendermintClient | undefined, options: StargateClientOptions) {
     if (tmClient) {
       this.tmClient = tmClient;
       this.queryClient = createQueryClientWithExtensions(tmClient);
@@ -150,11 +157,11 @@ export class FinschiaClient {
     this.accountParser = accountParser;
   }
 
-  protected getTmClient(): Tendermint34Client | undefined {
+  protected getTmClient(): TendermintClient | undefined {
     return this.tmClient;
   }
 
-  protected forceGetTmClient(): Tendermint34Client {
+  protected forceGetTmClient(): TendermintClient {
     if (!this.tmClient) {
       throw new Error(
         "Tendermint client not available. You cannot use online functionality in offline mode.",
@@ -369,8 +376,10 @@ export class FinschiaClient {
         ? {
             code: result.code,
             height: result.height,
+            txIndex: result.txIndex,
             rawLog: result.rawLog,
             transactionHash: txId,
+            events: result.events,
             gasUsed: result.gasUsed,
             gasWanted: result.gasWanted,
           }
@@ -380,9 +389,7 @@ export class FinschiaClient {
     const broadcasted = await this.forceGetTmClient().broadcastTxSync({ tx });
     if (broadcasted.code) {
       return Promise.reject(
-        new Error(
-          `Broadcasting transaction failed with code ${broadcasted.code} (codespace: ${broadcasted.codespace}). Log: ${broadcasted.log}`,
-        ),
+        new BroadcastTxError(broadcasted.code, broadcasted.codespace ?? "", broadcasted.log),
       );
     }
     const transactionId = toHex(broadcasted.hash).toUpperCase();
@@ -554,8 +561,10 @@ export class FinschiaClient {
     return results.txs.map((tx) => {
       return {
         height: tx.height,
+        txIndex: tx.index,
         hash: toHex(tx.hash).toUpperCase(),
         code: tx.result.code,
+        events: tx.result.events.map(fromTendermintEvent),
         rawLog: tx.result.log || "",
         tx: tx.tx,
         gasUsed: tx.result.gasUsed,

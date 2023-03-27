@@ -17,7 +17,8 @@ import {
   MsgSendEncodeObject,
 } from "@cosmjs/stargate";
 import { assert, sleep } from "@cosmjs/utils";
-import { DeepPartial, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { DeepPartial } from "cosmjs-types";
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { AuthInfo, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
@@ -51,7 +52,7 @@ import {
   unused,
   validator,
 } from "./testutils.spec";
-import { instantiate2Address } from "./modules/wasm/util";
+import { instantiate2Address } from "./utils";
 
 describe("SigningFinschiaClient", () => {
   describe("connectWithSigner", () => {
@@ -63,7 +64,6 @@ describe("SigningFinschiaClient", () => {
       });
       const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
         ...defaultSigningClientOptions,
-        prefix: simapp.prefix,
       });
       expect(client).toBeTruthy();
       client.disconnect();
@@ -480,7 +480,7 @@ describe("SigningFinschiaClient", () => {
       const { codeId } = await client.upload(faucet.address0, getHackatom().data, defaultUploadFee);
       const funds = [coin(1234, "cony"), coin(321, "stake")];
       const beneficiaryAddress = makeRandomAddress();
-      let salt = Uint8Array.from([0x01]);
+      const salt = Uint8Array.from([0x01]);
       const wasm = getHackatom().data;
       const msg = {
         verifier: faucet.address0,
@@ -947,7 +947,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
         const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
 
@@ -1013,7 +1012,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
           gasPrice: defaultGasPrice,
         });
         const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
@@ -1042,7 +1040,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
         const msgDelegateTypeUrl = "/cosmos.staking.v1beta1.MsgDelegate";
 
@@ -1086,7 +1083,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
 
         const msgSend: MsgSend = {
@@ -1117,8 +1113,7 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          aminoTypes: new AminoTypes(createStakingAminoConverters(simapp.prefix)),
-          prefix: simapp.prefix,
+          aminoTypes: new AminoTypes(createStakingAminoConverters()),
         });
 
         const msgDelegate: MsgDelegate = {
@@ -1149,7 +1144,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
         const { data } = getHackatom();
 
@@ -1307,8 +1301,7 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          aminoTypes: new AminoTypes(createStakingAminoConverters(simapp.prefix)),
-          prefix: simapp.prefix,
+          aminoTypes: new AminoTypes(createStakingAminoConverters()),
         });
 
         const msg = {
@@ -1353,7 +1346,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
 
         const msg = MsgDelegate.fromPartial({
@@ -1387,7 +1379,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
 
         const msg = MsgDelegate.fromPartial({
@@ -1430,7 +1421,6 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          prefix: simapp.prefix,
         });
 
         const msgSend: MsgSend = {
@@ -1464,8 +1454,7 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          aminoTypes: new AminoTypes(createStakingAminoConverters(simapp.prefix)),
-          prefix: simapp.prefix,
+          aminoTypes: new AminoTypes(createStakingAminoConverters()),
         });
 
         const msgDelegate: MsgDelegate = {
@@ -1625,8 +1614,7 @@ describe("SigningFinschiaClient", () => {
         });
         const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
           ...defaultSigningClientOptions,
-          aminoTypes: new AminoTypes(createStakingAminoConverters(simapp.prefix)),
-          prefix: simapp.prefix,
+          aminoTypes: new AminoTypes(createStakingAminoConverters()),
         });
 
         const msg: MsgDelegate = {
