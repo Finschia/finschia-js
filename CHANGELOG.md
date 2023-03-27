@@ -13,6 +13,7 @@ and this project adheres to
 - [\#81](https://github.com/line/lbmjs/pull/81) add git PR template
 
 ### Changed
+- [\#84](https://github.com/line/finschia-js/pull/84) Bumpup cosmjs to 0.30.1
 
 ### Deprecated
 
