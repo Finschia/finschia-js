@@ -1077,7 +1077,10 @@ describe("SigningFinschiaClient", () => {
     describe("legacy Amino mode", () => {
       it("works with special characters in memo", async () => {
         pendingWithoutSimapp();
-        const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+        const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+          hdPaths: [makeLinkPath(0)],
+          prefix: simapp.prefix,
+        });
         const client = await SigningFinschiaClient.connectWithSigner(
           simapp.tendermintUrl,
           wallet,
