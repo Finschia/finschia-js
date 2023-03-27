@@ -150,7 +150,7 @@ describe("FinschiaClient", () => {
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const missing = makeRandomAddress();
       await expectAsync(client.getSequence(missing)).toBeRejectedWithError(
-        /account does not exist on chain/i,
+        /account '([a-z0-9]{10,90})' does not exist on chain/i,
       );
     });
   });
@@ -622,6 +622,14 @@ describe("FinschiaClient", () => {
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const result = await client.queryContractSmart(contract.address, { verifier: {} });
       expect(result).toEqual({ verifier: contract.instantiateMsg.verifier });
+
+      // Typed request (https://github.com/cosmos/cosmjs/pull/1281)
+      interface VerifierQuery {
+        verifier: Record<string, never>;
+      }
+      const request: VerifierQuery = { verifier: {} };
+      const result2 = await client.queryContractSmart(contract.address, request);
+      expect(result2).toEqual({ verifier: contract.instantiateMsg.verifier });
     });
 
     it("errors for malformed query message", async () => {

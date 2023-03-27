@@ -8,7 +8,7 @@ import {
   setupWasmExtension,
   WasmExtension,
 } from "@cosmjs/cosmwasm-stargate";
-import { fromAscii, toHex } from "@cosmjs/encoding";
+import { fromUtf8, toHex } from "@cosmjs/encoding";
 import { Uint53 } from "@cosmjs/math";
 import {
   Account,
@@ -213,7 +213,7 @@ export class FinschiaClient {
     const account = await this.getAccount(address);
     if (!account) {
       throw new Error(
-        "Account does not exist on chain. Send some tokens there before trying to query sequence.",
+        `Account '${address}' does not exist on chain. Send some tokens there before trying to query sequence.`,
       );
     }
     return {
@@ -510,7 +510,7 @@ export class FinschiaClient {
       return {
         operation: operations[entry.operation],
         codeId: entry.codeId.toNumber(),
-        msg: JSON.parse(fromAscii(entry.msg)),
+        msg: JSON.parse(fromUtf8(entry.msg)),
       };
     });
   }
@@ -536,7 +536,7 @@ export class FinschiaClient {
    * Promise is rejected for invalid query format.
    * Promise is rejected for invalid response format.
    */
-  public async queryContractSmart(address: string, queryMsg: Record<string, unknown>): Promise<JsonObject> {
+  public async queryContractSmart(address: string, queryMsg: JsonObject): Promise<JsonObject> {
     try {
       return await this.forceGetQueryClient().wasm.queryContractSmart(address, queryMsg);
     } catch (error) {

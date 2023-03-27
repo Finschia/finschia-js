@@ -1075,6 +1075,33 @@ describe("SigningFinschiaClient", () => {
     });
 
     describe("legacy Amino mode", () => {
+      it("works with special characters in memo", async () => {
+        pendingWithoutSimapp();
+        const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic);
+        const client = await SigningFinschiaClient.connectWithSigner(
+          simapp.tendermintUrl,
+          wallet,
+          defaultSigningClientOptions,
+        );
+
+        const msgSend: MsgSend = {
+          fromAddress: faucet.address0,
+          toAddress: makeRandomAddress(),
+          amount: coins(1234, "cony"),
+        };
+        const msgAny: MsgSendEncodeObject = {
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+          value: msgSend,
+        };
+        const fee = {
+          amount: coins(2000, "cony"),
+          gas: "200000",
+        };
+        const memo = "ampersand:&,lt:<,gt:>";
+        const result = await client.signAndBroadcast(faucet.address0, [msgAny], fee, memo);
+        assertIsDeliverTxSuccess(result);
+      });
+
       it("works with bank MsgSend", async () => {
         pendingWithoutSimapp();
         const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
@@ -1203,10 +1230,6 @@ describe("SigningFinschiaClient", () => {
             throw new Error("decode method should not be required");
           },
 
-          fromJSON(): CustomMsgDelegate {
-            throw new Error("fromJSON method should not be required");
-          },
-
           fromPartial(object: DeepPartial<CustomMsgDelegate>): CustomMsgDelegate {
             const message = { ...baseCustomMsgDelegate } as CustomMsgDelegate;
             if (object.customDelegatorAddress !== undefined && object.customDelegatorAddress !== null) {
@@ -1225,10 +1248,6 @@ describe("SigningFinschiaClient", () => {
               message.customAmount = undefined;
             }
             return message;
-          },
-
-          toJSON(): unknown {
-            throw new Error("toJSON method should not be required");
           },
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
@@ -1516,10 +1535,6 @@ describe("SigningFinschiaClient", () => {
             throw new Error("decode method should not be required");
           },
 
-          fromJSON(): CustomMsgDelegate {
-            throw new Error("fromJSON method should not be required");
-          },
-
           fromPartial(object: DeepPartial<CustomMsgDelegate>): CustomMsgDelegate {
             const message = { ...baseCustomMsgDelegate } as CustomMsgDelegate;
             if (object.customDelegatorAddress !== undefined && object.customDelegatorAddress !== null) {
@@ -1538,10 +1553,6 @@ describe("SigningFinschiaClient", () => {
               message.customAmount = undefined;
             }
             return message;
-          },
-
-          toJSON(): unknown {
-            throw new Error("toJSON method should not be required");
           },
         };
         customRegistry.register(msgDelegateTypeUrl, CustomMsgDelegate);
