@@ -584,7 +584,6 @@ describe("FinschiaClient", () => {
       pendingWithoutSimapp();
       assert(contract);
 
-      const nonExistentAddress = makeRandomAddress();
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       await expectAsync(client.queryContractRaw(nonExistentAddress, configKey)).toBeRejectedWithError(
         /not found/i,
@@ -638,7 +637,6 @@ describe("FinschiaClient", () => {
     it("errors for non-existent contract", async () => {
       pendingWithoutSimapp();
 
-      const nonExistentAddress = makeRandomAddress();
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       await expectAsync(
         client.queryContractSmart(nonExistentAddress, { verifier: {} }),

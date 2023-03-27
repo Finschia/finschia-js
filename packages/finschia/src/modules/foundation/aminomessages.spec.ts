@@ -264,6 +264,8 @@ describe("Amino sign", () => {
     expect(coin(Decimal.fromAtomics(afterAmount[0].amount, 18).toString(), "cony")).toEqual(
       addCoins(coin(Decimal.fromAtomics(beforeAmount.amount, 18).toString(), "cony"), sendAmount),
     );
+
+    tmClient.disconnect();
   });
 
   it("MsgWithdrawFromTreasury", async () => {

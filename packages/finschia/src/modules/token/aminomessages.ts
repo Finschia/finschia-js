@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
 import { Attribute } from "lbmjs-types/lbm/token/v1/token";

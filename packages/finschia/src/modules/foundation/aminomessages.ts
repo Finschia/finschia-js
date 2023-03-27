@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg, Coin } from "@cosmjs/amino";
 import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
