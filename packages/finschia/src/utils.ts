@@ -35,13 +35,3 @@ export function jsonDurationToProto(duration: string): Duration {
     nanos: parseInt(nanoStr, 10),
   };
 }
-
-export function instantiate2Address(
-  checksum: Uint8Array,
-  creator: string,
-  salt: Uint8Array,
-  msg: string | null,
-  prefix: string,
-): string {
-  return _instantiate2AddressIntermediate(checksum, creator, salt, msg, prefix).address;
-}

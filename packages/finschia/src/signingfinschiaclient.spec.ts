@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { addCoins, Secp256k1HdWallet } from "@cosmjs/amino";
-import { MsgExecuteContractEncodeObject, MsgStoreCodeEncodeObject } from "@cosmjs/cosmwasm-stargate";
+import {
+  instantiate2Address,
+  MsgExecuteContractEncodeObject,
+  MsgStoreCodeEncodeObject,
+} from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { toHex, toUtf8 } from "@cosmjs/encoding";
 import { decodeTxRaw, DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
@@ -52,7 +56,6 @@ import {
   unused,
   validator,
 } from "./testutils.spec";
-import { instantiate2Address } from "./utils";
 
 describe("SigningFinschiaClient", () => {
   describe("connectWithSigner", () => {
@@ -486,13 +489,7 @@ describe("SigningFinschiaClient", () => {
         verifier: faucet.address0,
         beneficiary: beneficiaryAddress,
       };
-      const expectedAddress = instantiate2Address(
-        sha256(wasm),
-        faucet.address0,
-        salt,
-        JSON.stringify(msg),
-        simapp.prefix,
-      );
+      const expectedAddress = instantiate2Address(sha256(wasm), faucet.address0, salt, simapp.prefix);
 
       // Act
       const { contractAddress } = await client.instantiate2(
@@ -505,7 +502,6 @@ describe("SigningFinschiaClient", () => {
           memo: "Let's see if the memo is used",
           funds: funds,
           salt: salt,
-          fixMsg: true,
         },
       );
 
