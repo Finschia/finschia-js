@@ -19,14 +19,14 @@ then
     then
         mode="testnet"
     fi
-    LBM="docker run -i --rm -p 26656:26656 -p 26657:26657 -v $CONFIG_DIR:/root/.lbm --platform=linux/amd64 $REPOSITORY:$VERSION lbm"
+    LBM="docker run -i --rm -p 26656:26656 -p 26657:26657 -v $CONFIG_DIR:/root/.lbm --platform=linux/amd64 $REPOSITORY:$VERSION fnsad"
     CHAIN_DIR="/root/.lbm"
 elif [[ $1 == "testnet" ]]
 then
     mode="testnet"
 fi
 
-LBM=${LBM:-lbm}
+LBM=${LBM:-fnsad}
 
 # initialize
 rm -rf $CONFIG_DIR

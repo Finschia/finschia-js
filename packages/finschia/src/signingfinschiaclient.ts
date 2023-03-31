@@ -13,10 +13,8 @@ import {
   MsgExecuteContractEncodeObject,
   MsgInstantiateContractEncodeObject,
   MsgMigrateContractEncodeObject,
-  MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
 } from "@cosmjs/cosmwasm-stargate";
-import { Instantiate2Options, MsgInstantiateContract2EncodeObject } from "./modules/wasm/messages";
 import { sha256 } from "@cosmjs/crypto";
 import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
 import { Int53, Uint53 } from "@cosmjs/math";
@@ -58,19 +56,26 @@ import {
   MsgExecuteContract,
   MsgInstantiateContract,
   MsgMigrateContract,
-  MsgStoreCode,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { MsgInstantiateContract2 } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
+import { MsgInstantiateContract2 } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessConfig } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
+import { Instantiate2Options, MsgInstantiateContract2EncodeObject } from "./modules/wasm/messages";
+import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
 import { createDefaultRegistry, createDefaultTypes } from "./types";
+
+export interface UploadAndInstantiateOptions extends InstantiateOptions {
+  readonly instantiatePermission?: AccessConfig;
+}
 
 export interface UploadAndInstantiateResult {
   /** Size of the original wasm code in bytes */
@@ -262,6 +267,7 @@ export class SigningFinschiaClient extends FinschiaClient {
     wasmCode: Uint8Array,
     fee: StdFee | "auto" | number,
     memo = "",
+    instantiatePermission?: AccessConfig,
   ): Promise<UploadResult> {
     const compressed = pako.gzip(wasmCode, { level: 9 });
     const storeCodeMsg: MsgStoreCodeEncodeObject = {
@@ -269,6 +275,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       value: MsgStoreCode.fromPartial({
         sender: senderAddress,
         wasmByteCode: compressed,
+        instantiatePermission,
       }),
     };
 
@@ -368,9 +375,9 @@ export class SigningFinschiaClient extends FinschiaClient {
     signerAddress: string,
     wasmCode: Uint8Array,
     msg: Record<string, unknown>,
-    labal: string,
+    label: string,
     fee: StdFee | "auto" | number,
-    options: InstantiateOptions = {},
+    options: UploadAndInstantiateOptions = {},
   ): Promise<UploadAndInstantiateResult> {
     const compressed = pako.gzip(wasmCode, { level: 9 });
     const storeCodeAndInstantiateMsg: EncodeObject = {
@@ -378,11 +385,9 @@ export class SigningFinschiaClient extends FinschiaClient {
       value: MsgStoreCodeAndInstantiateContract.fromPartial({
         sender: signerAddress,
         wasmByteCode: compressed,
-        instantiatePermission: {
-          permission: AccessType.ACCESS_TYPE_EVERYBODY,
-        },
+        instantiatePermission: options.instantiatePermission,
         admin: options.admin,
-        label: labal,
+        label: label,
         msg: toUtf8(JSON.stringify(msg)),
         funds: [...(options.funds || [])],
       }),

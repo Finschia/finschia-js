@@ -38,7 +38,6 @@ import {
 
 interface Params {
   foundation_tax: string;
-  censored_msg_type_urls: string[];
 }
 
 interface DecisionPolicyWindows {
@@ -292,7 +291,6 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
           authority: authority,
           params: {
             foundation_tax: protoDecimalToJson(params.foundationTax),
-            censored_msg_type_urls: params.censoredMsgTypeUrls,
           },
         };
       },
@@ -302,7 +300,6 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
           authority: authority,
           params: {
             foundationTax: jsonDecimalToProto(params.foundation_tax),
-            censoredMsgTypeUrls: params.censored_msg_type_urls,
           },
         };
       },
