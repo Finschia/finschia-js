@@ -1,7 +1,7 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
-import { AccessConfig } from "lbmjs-types/cosmwasm/wasm/v1/types";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { AccessConfig } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 
 export interface AminoMsgStoreCodeAndInstantiateContract extends AminoMsg {

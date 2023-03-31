@@ -62,10 +62,10 @@ import {
   MsgStoreCode,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgInstantiateContract2 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
-import { MsgInstantiateContract2 } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";

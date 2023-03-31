@@ -4,7 +4,7 @@ import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
 import { AminoTypes, assertIsDeliverTxSuccess, coins, logs } from "@cosmjs/stargate";
 import { sleep } from "@cosmjs/utils";
 import { Any } from "cosmjs-types/google/protobuf/any";
-import { Duration } from "lbmjs-types/google/protobuf/duration";
+import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,

@@ -1,5 +1,5 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import {
   MsgClearAdmin,
   MsgExecuteContract,
@@ -8,7 +8,7 @@ import {
   MsgMigrateContract,
   MsgStoreCode,
   MsgUpdateAdmin,
-} from "lbmjs-types/cosmwasm/wasm/v1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
 
 export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgClearAdmin", MsgClearAdmin],

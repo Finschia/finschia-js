@@ -3,7 +3,7 @@ import { AminoMsg, Coin } from "@cosmjs/amino";
 import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
