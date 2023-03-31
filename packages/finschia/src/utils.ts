@@ -1,3 +1,4 @@
+import { _instantiate2AddressIntermediate } from "@cosmjs/cosmwasm-stargate";
 import { Decimal, Uint64 } from "@cosmjs/math";
 import { Duration } from "cosmjs-types/google/protobuf/duration";
 import Long from "long";

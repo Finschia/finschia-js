@@ -2,10 +2,13 @@
 import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import {
   ChangeAdminResult,
+  ExecuteInstruction,
   ExecuteResult,
   InstantiateOptions,
   InstantiateResult,
+  JsonObject,
   MigrateResult,
+  MsgStoreCodeEncodeObject,
   UploadResult,
 } from "@cosmjs/cosmwasm-stargate";
 import {
@@ -38,14 +41,14 @@ import {
   logs,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
+  MsgTransferEncodeObject,
   MsgUndelegateEncodeObject,
   MsgWithdrawDelegatorRewardEncodeObject,
   SignerData,
   SigningStargateClientOptions,
   StdFee,
 } from "@cosmjs/stargate";
-import { MsgTransferEncodeObject } from "@cosmjs/stargate";
-import { HttpEndpoint, Tendermint34Client } from "@cosmjs/tendermint-rpc";
+import { HttpEndpoint, Tendermint34Client, TendermintClient } from "@cosmjs/tendermint-rpc";
 import { assert, assertDefined } from "@cosmjs/utils";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
@@ -58,19 +61,17 @@ import {
   MsgMigrateContract,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { MsgInstantiateContract2 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessConfig } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
-import { MsgInstantiateContract2 } from "lbmjs-types/cosmwasm/wasm/v1/tx";
-import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessConfig } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
 import { Instantiate2Options, MsgInstantiateContract2EncodeObject } from "./modules/wasm/messages";
-import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
 import { createDefaultRegistry, createDefaultTypes } from "./types";
 
 export interface UploadAndInstantiateOptions extends InstantiateOptions {
@@ -135,16 +136,13 @@ export class SigningFinschiaClient extends FinschiaClient {
   }
 
   protected constructor(
-    tmClient: Tendermint34Client | undefined,
+    tmClient: TendermintClient | undefined,
     signer: OfflineSigner,
     options: SigningStargateClientOptions,
   ) {
     super(tmClient, options);
-    const prefix = options.prefix ?? "link";
-    const {
-      registry = createDefaultRegistry(),
-      aminoTypes = new AminoTypes({ ...createDefaultTypes(prefix) }),
-    } = options;
+    const { registry = createDefaultRegistry(), aminoTypes = new AminoTypes({ ...createDefaultTypes() }) } =
+      options;
     this.registry = registry;
     this.aminoTypes = aminoTypes;
     this.signer = signer;
@@ -294,6 +292,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: parsedLogs,
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -302,7 +301,7 @@ export class SigningFinschiaClient extends FinschiaClient {
   public async instantiate(
     senderAddress: string,
     codeId: number,
-    msg: Record<string, unknown>,
+    msg: JsonObject,
     label: string,
     fee: StdFee | "auto" | number,
     options: InstantiateOptions = {},
@@ -329,6 +328,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: parsedLogs,
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -366,6 +366,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: parsedLogs,
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -441,6 +442,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -467,6 +469,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -476,7 +479,7 @@ export class SigningFinschiaClient extends FinschiaClient {
     senderAddress: string,
     contractAddress: string,
     codeId: number,
-    migrateMsg: Record<string, unknown>,
+    migrateMsg: JsonObject,
     fee: StdFee | "auto" | number,
     memo = "",
   ): Promise<MigrateResult> {
@@ -497,6 +500,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
@@ -505,21 +509,38 @@ export class SigningFinschiaClient extends FinschiaClient {
   public async execute(
     senderAddress: string,
     contractAddress: string,
-    msg: Record<string, unknown>,
+    msg: JsonObject,
     fee: StdFee | "auto" | number,
     memo = "",
     funds?: readonly Coin[],
   ): Promise<ExecuteResult> {
-    const executeContractMsg: MsgExecuteContractEncodeObject = {
+    const instruction: ExecuteInstruction = {
+      contractAddress: contractAddress,
+      msg: msg,
+      funds: funds,
+    };
+    return this.executeMultiple(senderAddress, [instruction], fee, memo);
+  }
+
+  /**
+   * Like `execute` but allows executing multiple messages in one transaction.
+   */
+  public async executeMultiple(
+    senderAddress: string,
+    instructions: readonly ExecuteInstruction[],
+    fee: StdFee | "auto" | number,
+    memo = "",
+  ): Promise<ExecuteResult> {
+    const msgs: MsgExecuteContractEncodeObject[] = instructions.map((i) => ({
       typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract",
       value: MsgExecuteContract.fromPartial({
         sender: senderAddress,
-        contract: contractAddress,
-        msg: toUtf8(JSON.stringify(msg)),
-        funds: [...(funds || [])],
+        contract: i.contractAddress,
+        msg: toUtf8(JSON.stringify(i.msg)),
+        funds: [...(i.funds || [])],
       }),
-    };
-    const result = await this.signAndBroadcast(senderAddress, [executeContractMsg], fee, memo);
+    }));
+    const result = await this.signAndBroadcast(senderAddress, msgs, fee, memo);
     if (isDeliverTxFailure(result)) {
       throw new Error(createDeliverTxResponseErrorMessage(result));
     }
@@ -527,6 +548,7 @@ export class SigningFinschiaClient extends FinschiaClient {
       logs: logs.parseRawLog(result.rawLog),
       height: result.height,
       transactionHash: result.transactionHash,
+      events: result.events,
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };

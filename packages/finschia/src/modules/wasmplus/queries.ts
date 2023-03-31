@@ -5,14 +5,6 @@ import {
   QueryInactiveContractsResponse,
 } from "lbmjs-types/lbm/wasm/v1/query";
 
-/**
- * An object containing a parsed JSON document. The result of JSON.parse().
- * This doesn't provide any type safety over `any` but expresses intent in the code.
- *
- * This type is returned by `queryContractSmart`.
- */
-export type JsonObject = any;
-
 export interface WasmplusExtension {
   readonly wasmplus: {
     readonly getInactiveContract: (address: string) => Promise<QueryInactiveContractResponse>;

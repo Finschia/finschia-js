@@ -1,5 +1,5 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
-import { Coin } from "lbmjs-types/cosmos/base/v1beta1/coin";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import {
   MsgClearAdmin,
   MsgExecuteContract,
@@ -8,7 +8,7 @@ import {
   MsgMigrateContract,
   MsgStoreCode,
   MsgUpdateAdmin,
-} from "lbmjs-types/cosmwasm/wasm/v1/tx";
+} from "cosmjs-types/cosmwasm/wasm/v1/tx";
 
 export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgClearAdmin", MsgClearAdmin],
@@ -20,14 +20,6 @@ export const wasmTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin],
 ];
 
-export interface MsgStoreCodeEncodeObject extends EncodeObject {
-  readonly typeUrl: "/cosmwasm.wasm.v1.MsgStoreCode";
-  readonly value: Partial<MsgStoreCode>;
-}
-
-export function isMsgStoreCodeEncodeObject(object: EncodeObject): object is MsgStoreCodeEncodeObject {
-  return (object as MsgStoreCodeEncodeObject).typeUrl === "/cosmwasm.wasm.v1.MsgStoreCode";
-}
 export interface MsgInstantiateContract2EncodeObject extends EncodeObject {
   readonly typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract2";
   readonly value: Partial<MsgInstantiateContract2>;

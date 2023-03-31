@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg, Coin } from "@cosmjs/amino";
 import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
@@ -28,7 +29,7 @@ import {
 import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
 import Long from "long";
 
-import { createDefaultRegistry, createDefaultTypes, createDefaultTypesWithoutFoundation } from "../../types";
+import { createDefaultRegistry, createDefaultTypesWithoutFoundation } from "../../types";
 import {
   jsonDecimalToProto,
   jsonDurationToProto,
@@ -699,7 +700,7 @@ function createMsgSubmitProposalAminoConverter(): AminoConverters {
   const aminoConvertersWithoutSubmitProposal = createFoundationAminoConvertersWithoutSubmitProposal();
   const registry = createDefaultRegistry();
   const aminoTypes = new AminoTypes({
-    ...createDefaultTypesWithoutFoundation("link"),
+    ...createDefaultTypesWithoutFoundation(),
     ...aminoConvertersWithoutSubmitProposal,
   });
   return {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
 import {
   MsgAttach,

@@ -144,51 +144,51 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@cosmjs/amino",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/cosmwasm-stargate",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/crypto",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/encoding",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/json-rpc",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/math",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/proto-signing",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/socket",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/stargate",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/stream",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/tendermint-rpc",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@cosmjs/utils",
-        "npm:0.29.0"
+        "npm:0.30.1"
       ],
       [
         "@discoveryjs/json-ext",
@@ -832,7 +832,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "cosmjs-types",
-        "npm:0.5.1"
+        "npm:0.7.1"
       ],
       [
         "create-ecdh",
@@ -1512,7 +1512,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "isomorphic-ws",
-        "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:4.0.1"
+        "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:4.0.1"
       ],
       [
         "istanbul-lib-coverage",
@@ -2528,7 +2528,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "ws",
-        "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:7.5.7"
+        "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:7.5.7"
       ],
       [
         "xstream",
@@ -2564,10 +2564,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/proto-signing", "npm:0.29.0"],
-            ["@cosmjs/stargate", "npm:0.29.0"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/stargate", "npm:0.30.1"],
             ["@lbmjs/finschia", "workspace:packages/finschia"],
             ["eslint", "npm:7.32.0"],
             ["karma-chrome-launcher", "npm:3.1.0"],
@@ -2911,32 +2911,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cosmjs/amino", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-amino-npm-0.29.0-6844ffbe00-372e3ef9a5.zip/node_modules/@cosmjs/amino/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-amino-npm-0.30.1-fa65a9d84a-aa254f936f.zip/node_modules/@cosmjs/amino/",
           "packageDependencies": [
-            ["@cosmjs/amino", "npm:0.29.0"],
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"]
+            ["@cosmjs/amino", "npm:0.30.1"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@cosmjs/cosmwasm-stargate", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-cosmwasm-stargate-npm-0.29.0-2dc0d73164-8a2be801a1.zip/node_modules/@cosmjs/cosmwasm-stargate/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-cosmwasm-stargate-npm-0.30.1-a370ccd6ea-1fca3cb1fb.zip/node_modules/@cosmjs/cosmwasm-stargate/",
           "packageDependencies": [
-            ["@cosmjs/cosmwasm-stargate", "npm:0.29.0"],
-            ["@cosmjs/amino", "npm:0.29.0"],
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/proto-signing", "npm:0.29.0"],
-            ["@cosmjs/stargate", "npm:0.29.0"],
-            ["@cosmjs/tendermint-rpc", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"],
-            ["cosmjs-types", "npm:0.5.1"],
+            ["@cosmjs/cosmwasm-stargate", "npm:0.30.1"],
+            ["@cosmjs/amino", "npm:0.30.1"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/stargate", "npm:0.30.1"],
+            ["@cosmjs/tendermint-rpc", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"],
+            ["cosmjs-types", "npm:0.7.1"],
             ["long", "npm:4.0.0"],
             ["pako", "npm:2.0.4"]
           ],
@@ -2944,13 +2944,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cosmjs/crypto", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-crypto-npm-0.29.0-aa375b78ca-d6f32d3e91.zip/node_modules/@cosmjs/crypto/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-crypto-npm-0.30.1-00df919891-f1989a5cab.zip/node_modules/@cosmjs/crypto/",
           "packageDependencies": [
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"],
             ["@noble/hashes", "npm:1.0.0"],
             ["bn.js", "npm:5.2.0"],
             ["elliptic", "npm:6.5.4"],
@@ -2960,10 +2960,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cosmjs/encoding", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-encoding-npm-0.29.0-75026f1167-70e9458eda.zip/node_modules/@cosmjs/encoding/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-encoding-npm-0.30.1-f979f5afa7-bd1932fafe.zip/node_modules/@cosmjs/encoding/",
           "packageDependencies": [
-            ["@cosmjs/encoding", "npm:0.29.0"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
             ["base64-js", "npm:1.5.1"],
             ["bech32", "npm:1.1.4"],
             ["readonly-date", "npm:1.0.0"]
@@ -2972,69 +2972,69 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cosmjs/json-rpc", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-json-rpc-npm-0.29.0-7a30852b1a-1197a71d63.zip/node_modules/@cosmjs/json-rpc/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-json-rpc-npm-0.30.1-c7bc2c9af1-750686d53c.zip/node_modules/@cosmjs/json-rpc/",
           "packageDependencies": [
-            ["@cosmjs/json-rpc", "npm:0.29.0"],
-            ["@cosmjs/stream", "npm:0.29.0"],
+            ["@cosmjs/json-rpc", "npm:0.30.1"],
+            ["@cosmjs/stream", "npm:0.30.1"],
             ["xstream", "npm:11.14.0"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@cosmjs/math", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-math-npm-0.29.0-536187b13e-b420a5f4e0.zip/node_modules/@cosmjs/math/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-math-npm-0.30.1-bfef2aeb61-c13d2a8934.zip/node_modules/@cosmjs/math/",
           "packageDependencies": [
-            ["@cosmjs/math", "npm:0.29.0"],
+            ["@cosmjs/math", "npm:0.30.1"],
             ["bn.js", "npm:5.2.0"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@cosmjs/proto-signing", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-proto-signing-npm-0.29.0-3425536e03-71c00cb526.zip/node_modules/@cosmjs/proto-signing/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-proto-signing-npm-0.30.1-b42598b7f0-15e13e3397.zip/node_modules/@cosmjs/proto-signing/",
           "packageDependencies": [
-            ["@cosmjs/proto-signing", "npm:0.29.0"],
-            ["@cosmjs/amino", "npm:0.29.0"],
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"],
-            ["cosmjs-types", "npm:0.5.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/amino", "npm:0.30.1"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"],
+            ["cosmjs-types", "npm:0.7.1"],
             ["long", "npm:4.0.0"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@cosmjs/socket", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-socket-npm-0.29.0-3b08073185-b401227457.zip/node_modules/@cosmjs/socket/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-socket-npm-0.30.1-b6625f9d69-ef5e5d7bbc.zip/node_modules/@cosmjs/socket/",
           "packageDependencies": [
-            ["@cosmjs/socket", "npm:0.29.0"],
-            ["@cosmjs/stream", "npm:0.29.0"],
-            ["isomorphic-ws", "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:4.0.1"],
-            ["ws", "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:7.5.7"],
+            ["@cosmjs/socket", "npm:0.30.1"],
+            ["@cosmjs/stream", "npm:0.30.1"],
+            ["isomorphic-ws", "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:4.0.1"],
+            ["ws", "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:7.5.7"],
             ["xstream", "npm:11.14.0"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@cosmjs/stargate", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-stargate-npm-0.29.0-837cdf976c-fe814d740a.zip/node_modules/@cosmjs/stargate/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-stargate-npm-0.30.1-6465bcf0ec-2eb089c4a7.zip/node_modules/@cosmjs/stargate/",
           "packageDependencies": [
-            ["@cosmjs/stargate", "npm:0.29.0"],
+            ["@cosmjs/stargate", "npm:0.30.1"],
             ["@confio/ics23", "npm:0.6.8"],
-            ["@cosmjs/amino", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/proto-signing", "npm:0.29.0"],
-            ["@cosmjs/stream", "npm:0.29.0"],
-            ["@cosmjs/tendermint-rpc", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"],
-            ["cosmjs-types", "npm:0.5.1"],
+            ["@cosmjs/amino", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/stream", "npm:0.30.1"],
+            ["@cosmjs/tendermint-rpc", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"],
+            ["cosmjs-types", "npm:0.7.1"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.3"],
             ["xstream", "npm:11.14.0"]
@@ -3043,27 +3043,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cosmjs/stream", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-stream-npm-0.29.0-e90ea4c25a-b56ac5929d.zip/node_modules/@cosmjs/stream/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-stream-npm-0.30.1-dc2511b696-f9e48a8377.zip/node_modules/@cosmjs/stream/",
           "packageDependencies": [
-            ["@cosmjs/stream", "npm:0.29.0"],
+            ["@cosmjs/stream", "npm:0.30.1"],
             ["xstream", "npm:11.14.0"]
           ],
           "linkType": "HARD",
         }]
       ]],
       ["@cosmjs/tendermint-rpc", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-tendermint-rpc-npm-0.29.0-d813e93f0d-c538ac7e8f.zip/node_modules/@cosmjs/tendermint-rpc/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-tendermint-rpc-npm-0.30.1-84cd69c8f1-6900711886.zip/node_modules/@cosmjs/tendermint-rpc/",
           "packageDependencies": [
-            ["@cosmjs/tendermint-rpc", "npm:0.29.0"],
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/json-rpc", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/socket", "npm:0.29.0"],
-            ["@cosmjs/stream", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"],
+            ["@cosmjs/tendermint-rpc", "npm:0.30.1"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/json-rpc", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/socket", "npm:0.30.1"],
+            ["@cosmjs/stream", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"],
             ["axios", "npm:0.21.4"],
             ["readonly-date", "npm:1.0.0"],
             ["xstream", "npm:11.14.0"]
@@ -3072,10 +3072,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@cosmjs/utils", [
-        ["npm:0.29.0", {
-          "packageLocation": "./.yarn/cache/@cosmjs-utils-npm-0.29.0-44f2a2db59-580cc28c9c.zip/node_modules/@cosmjs/utils/",
+        ["npm:0.30.1", {
+          "packageLocation": "./.yarn/cache/@cosmjs-utils-npm-0.30.1-c5856c2196-64ea16cdeb.zip/node_modules/@cosmjs/utils/",
           "packageDependencies": [
-            ["@cosmjs/utils", "npm:0.29.0"]
+            ["@cosmjs/utils", "npm:0.30.1"]
           ],
           "linkType": "HARD",
         }]
@@ -3217,15 +3217,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/finschia/",
           "packageDependencies": [
             ["@lbmjs/finschia", "workspace:packages/finschia"],
-            ["@cosmjs/amino", "npm:0.29.0"],
-            ["@cosmjs/cosmwasm-stargate", "npm:0.29.0"],
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/math", "npm:0.29.0"],
-            ["@cosmjs/proto-signing", "npm:0.29.0"],
-            ["@cosmjs/stargate", "npm:0.29.0"],
-            ["@cosmjs/tendermint-rpc", "npm:0.29.0"],
-            ["@cosmjs/utils", "npm:0.29.0"],
+            ["@cosmjs/amino", "npm:0.30.1"],
+            ["@cosmjs/cosmwasm-stargate", "npm:0.30.1"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/math", "npm:0.30.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/stargate", "npm:0.30.1"],
+            ["@cosmjs/tendermint-rpc", "npm:0.30.1"],
+            ["@cosmjs/utils", "npm:0.30.1"],
             ["@istanbuljs/nyc-config-typescript", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:1.0.2"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jasmine", "npm:3.10.3"],
@@ -3237,7 +3237,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/pako", "npm:1.0.3"],
             ["@typescript-eslint/eslint-plugin", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:5.17.0"],
             ["@typescript-eslint/parser", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:5.17.0"],
-            ["cosmjs-types", "npm:0.5.1"],
+            ["cosmjs-types", "npm:0.7.1"],
             ["eslint", "npm:7.32.0"],
             ["eslint-config-prettier", "virtual:7b7a30ab09c232808f75d8deefc2be1f787c4d994bf0447ebbc0120f713df9b186b49db25d8d4a325f09a8c21d3026240b3241d151187e257eff7792b66c65e7#npm:8.3.0"],
             ["eslint-import-resolver-node", "npm:0.3.6"],
@@ -5140,10 +5140,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["cosmjs-types", [
-        ["npm:0.5.1", {
-          "packageLocation": "./.yarn/cache/cosmjs-types-npm-0.5.1-52380d33c4-418622ea55.zip/node_modules/cosmjs-types/",
+        ["npm:0.7.1", {
+          "packageLocation": "./.yarn/cache/cosmjs-types-npm-0.7.1-d44ec482fd-533d56d076.zip/node_modules/cosmjs-types/",
           "packageDependencies": [
-            ["cosmjs-types", "npm:0.5.1"],
+            ["cosmjs-types", "npm:0.7.1"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],
@@ -7186,12 +7186,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:4.0.1", {
-          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-7b6197fec9/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",
+        ["virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:4.0.1", {
+          "packageLocation": "./.yarn/__virtual__/isomorphic-ws-virtual-7d87ea0ab5/0/cache/isomorphic-ws-npm-4.0.1-aa39192848-d7190eadef.zip/node_modules/isomorphic-ws/",
           "packageDependencies": [
-            ["isomorphic-ws", "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:4.0.1"],
+            ["isomorphic-ws", "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:4.0.1"],
             ["@types/ws", null],
-            ["ws", "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:7.5.7"]
+            ["ws", "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:7.5.7"]
           ],
           "packagePeers": [
             "@types/ws",
@@ -7736,10 +7736,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["lbmjs-monorepo-root", "workspace:."],
-            ["@cosmjs/crypto", "npm:0.29.0"],
-            ["@cosmjs/encoding", "npm:0.29.0"],
-            ["@cosmjs/proto-signing", "npm:0.29.0"],
-            ["@cosmjs/stargate", "npm:0.29.0"],
+            ["@cosmjs/crypto", "npm:0.30.1"],
+            ["@cosmjs/encoding", "npm:0.30.1"],
+            ["@cosmjs/proto-signing", "npm:0.30.1"],
+            ["@cosmjs/stargate", "npm:0.30.1"],
             ["@lbmjs/finschia", "workspace:packages/finschia"],
             ["eslint", "npm:7.32.0"],
             ["karma-chrome-launcher", "npm:3.1.0"],
@@ -10494,10 +10494,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:7.5.7", {
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-e8abd3805b/0/cache/ws-npm-7.5.7-6cc440864a-5c1f669a16.zip/node_modules/ws/",
+        ["virtual:733cb6899318fc97abde396915533fc4f9852a2d62abe85daf265f0103211854a5c657d9a2fa18cdee56e1c047ccecb37162ba0f185d142200181f148b16695f#npm:8.2.3", {
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-4b865e96d3/0/cache/ws-npm-8.2.3-03a35b8ad7-c869296ccb.zip/node_modules/ws/",
           "packageDependencies": [
-            ["ws", "virtual:3b080731855640b90909ae2404110b0f9d916eee02b5af00f402937a4371f960fd543e6949e1cebc7eac12eb9e8c17acf6ce2c5b27fd58baa48cd0839a1cc13b#npm:7.5.7"],
+            ["ws", "virtual:733cb6899318fc97abde396915533fc4f9852a2d62abe85daf265f0103211854a5c657d9a2fa18cdee56e1c047ccecb37162ba0f185d142200181f148b16695f#npm:8.2.3"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],
@@ -10511,10 +10511,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:733cb6899318fc97abde396915533fc4f9852a2d62abe85daf265f0103211854a5c657d9a2fa18cdee56e1c047ccecb37162ba0f185d142200181f148b16695f#npm:8.2.3", {
-          "packageLocation": "./.yarn/__virtual__/ws-virtual-4b865e96d3/0/cache/ws-npm-8.2.3-03a35b8ad7-c869296ccb.zip/node_modules/ws/",
+        ["virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:7.5.7", {
+          "packageLocation": "./.yarn/__virtual__/ws-virtual-42f648b143/0/cache/ws-npm-7.5.7-6cc440864a-5c1f669a16.zip/node_modules/ws/",
           "packageDependencies": [
-            ["ws", "virtual:733cb6899318fc97abde396915533fc4f9852a2d62abe85daf265f0103211854a5c657d9a2fa18cdee56e1c047ccecb37162ba0f185d142200181f148b16695f#npm:8.2.3"],
+            ["ws", "virtual:b6625f9d6968fb31d7a3f12f2dd87f1f42a2c0811e2ecd8e2dd265d7550fa450701a0e497a82d17d31ff6cd943f2201daef44b78f660c832b251509dc80b1c83#npm:7.5.7"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],

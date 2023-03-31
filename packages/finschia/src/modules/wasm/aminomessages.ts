@@ -2,8 +2,8 @@
 import { createWasmAminoConverters as createAminoConverters } from "@cosmjs/cosmwasm-stargate";
 import { fromBase64, toBase64 } from "@cosmjs/encoding";
 import { AminoConverters } from "@cosmjs/stargate";
-import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
-import { AccessType } from "lbmjs-types/cosmwasm/wasm/v1/types";
+import { MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 
 export function accessTypeFromString(str: string): AccessType {
   switch (str) {

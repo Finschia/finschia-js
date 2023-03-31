@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { coins } from "@cosmjs/amino";
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, logs, QueryClient } from "@cosmjs/stargate";
@@ -195,10 +196,10 @@ describe("CollectionExtension (fungible token)", () => {
       assert(tokenId, "Missing token ID");
       const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
 
-      const coins = await client.collection.allBalances(contractId, toAddr);
-      expect(coins.length).toEqual(1);
-      expect(coins[0].tokenId).toEqual(tokenId);
-      expect(coins[0].amount).toEqual(sentAmount);
+      const balances = await client.collection.allBalances(contractId, toAddr);
+      expect(balances.length).toEqual(1);
+      expect(balances[0].tokenId).toEqual(tokenId);
+      expect(balances[0].amount).toEqual(sentAmount);
 
       tmClient.disconnect();
     });
