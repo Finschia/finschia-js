@@ -104,7 +104,6 @@ describe("Amino sign", () => {
           authority: authorityAddress,
           params: {
             foundationTax: Decimal.fromUserInput("0.1", 18).atomics,
-            censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
           },
         },
       };
@@ -226,7 +225,6 @@ describe("Amino sign", () => {
         authority: authorityAddress,
         params: {
           foundationTax: Decimal.fromUserInput("0.1", 18).atomics,
-          censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
         },
       },
     };
@@ -477,7 +475,6 @@ describe("AminoTypes", () => {
         authority: faucet.address0,
         params: {
           foundationTax: "0",
-          censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
         },
       };
       const aminoTypes = new AminoTypes(createFoundationAminoConverters());
@@ -491,7 +488,6 @@ describe("AminoTypes", () => {
           authority: faucet.address0,
           params: {
             foundation_tax: "0.000000000000000000",
-            censored_msg_type_urls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
           },
         },
       };
@@ -835,7 +831,6 @@ describe("AminoTypes", () => {
           authority: faucet.address0,
           params: {
             foundation_tax: "0",
-            censored_msg_type_urls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
           },
         },
       };
@@ -845,7 +840,6 @@ describe("AminoTypes", () => {
         authority: faucet.address0,
         params: {
           foundationTax: "0",
-          censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
         },
       };
       expect(msg).toEqual({
