@@ -27,8 +27,9 @@ import { AccessConfig, AccessType } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
-import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
 
+import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
+import { instantiate2Address } from "./modules/wasm/util";
 import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
 import {
@@ -488,6 +489,55 @@ describe("SigningFinschiaClient", () => {
         defaultInstantiateFee,
       );
 
+      client.disconnect();
+    });
+  });
+
+  describe("instantiate2", () => {
+    it("can instantiate with predictable address", async () => {
+      // Arrange
+      pendingWithoutSimapp();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: simapp.prefix,
+      });
+      const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
+
+      const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
+      const { codeId } = await client.upload(faucet.address0, getHackatom().data, defaultUploadFee);
+      const funds = [coin(1234, "cony"), coin(321, "stake")];
+      const beneficiaryAddress = makeRandomAddress();
+      let salt = Uint8Array.from([0x01]);
+      const wasm = getHackatom().data;
+      const msg = {
+        verifier: faucet.address0,
+        beneficiary: beneficiaryAddress,
+      };
+      const expectedAddress = instantiate2Address(
+        sha256(wasm),
+        faucet.address0,
+        salt,
+        JSON.stringify(msg),
+        simapp.prefix,
+      );
+
+      // Act
+      const { contractAddress } = await client.instantiate2(
+        faucet.address0,
+        codeId,
+        msg,
+        "My cool label--",
+        defaultInstantiateFee,
+        {
+          memo: "Let's see if the memo is used",
+          funds: funds,
+          salt: salt,
+          fixMsg: true,
+        },
+      );
+
+      // Assert
+      expect(contractAddress).toEqual(expectedAddress);
       client.disconnect();
     });
   });

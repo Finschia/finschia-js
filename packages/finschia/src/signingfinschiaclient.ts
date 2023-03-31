@@ -58,8 +58,10 @@ import {
   MsgMigrateContract,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { AccessType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
+import { MsgInstantiateContract2 } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import { MsgStoreCode } from "lbmjs-types/cosmwasm/wasm/v1/tx";
 import { AccessConfig } from "lbmjs-types/cosmwasm/wasm/v1/types";
 import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
@@ -67,6 +69,7 @@ import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
+import { Instantiate2Options, MsgInstantiateContract2EncodeObject } from "./modules/wasm/messages";
 import { MsgStoreCodeEncodeObject } from "./modules/wasm/messages";
 import { createDefaultRegistry, createDefaultTypes } from "./types";
 
@@ -316,6 +319,43 @@ export class SigningFinschiaClient extends FinschiaClient {
       }),
     };
     const result = await this.signAndBroadcast(senderAddress, [instantiateContractMsg], fee, options.memo);
+    if (isDeliverTxFailure(result)) {
+      throw new Error(createDeliverTxResponseErrorMessage(result));
+    }
+    const parsedLogs = logs.parseRawLog(result.rawLog);
+    const contractAddressAttr = logs.findAttribute(parsedLogs, "instantiate", "_contract_address");
+    return {
+      contractAddress: contractAddressAttr.value,
+      logs: parsedLogs,
+      height: result.height,
+      transactionHash: result.transactionHash,
+      gasWanted: result.gasWanted,
+      gasUsed: result.gasUsed,
+    };
+  }
+
+  public async instantiate2(
+    senderAddress: string,
+    codeId: number,
+    msg: Record<string, unknown>,
+    label: string,
+    fee: StdFee | "auto" | number,
+    options: Instantiate2Options = {},
+  ): Promise<InstantiateResult> {
+    const instantiateContract2Msg: MsgInstantiateContract2EncodeObject = {
+      typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract2",
+      value: MsgInstantiateContract2.fromPartial({
+        sender: senderAddress,
+        codeId: Long.fromString(new Uint53(codeId).toString()),
+        label: label,
+        msg: toUtf8(JSON.stringify(msg)),
+        funds: [...(options.funds || [])],
+        admin: options.admin,
+        salt: options.salt,
+        fixMsg: options.fixMsg,
+      }),
+    };
+    const result = await this.signAndBroadcast(senderAddress, [instantiateContract2Msg], fee, options.memo);
     if (isDeliverTxFailure(result)) {
       throw new Error(createDeliverTxResponseErrorMessage(result));
     }
