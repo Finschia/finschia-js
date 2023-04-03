@@ -34,7 +34,7 @@ docker run --rm \
   /template/run_finschia.sh \
   >"$LBM_LOGFILE" 2>&1 &
 
-echo "lbm running on http://localhost:$TENDERMINT_PORT_HOST and logging into $LBM_LOGFILE"
+echo "fnsad running on http://localhost:$TENDERMINT_PORT_HOST and logging into $LBM_LOGFILE"
 
 if [ -n "${CI:-}" ]; then
   # Give process some time to come alive. No idea why this helps. Needed for CI.
