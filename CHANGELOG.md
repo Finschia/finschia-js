@@ -12,6 +12,7 @@ and this project adheres to
 - [\#77](https://github.com/line/lbmjs/pull/77) @lbmjs/finschia: Enable amino sign store msgs in `wasm` and `wasmplus`
 - [\#80](https://github.com/line/lbmjs/pull/80) add MsgInstantiateContract2
 - [\#81](https://github.com/line/lbmjs/pull/81) add git PR template
+- [\#87](https://github.com/line/finschia-js/pull/87) @lbmjs/finschia: add tests for grpc errors in collection, token
 
 ### Changed
 - [\#84](https://github.com/line/finschia-js/pull/84) Bumpup cosmjs to 0.30.1
