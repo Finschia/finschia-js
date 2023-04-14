@@ -500,6 +500,24 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       tmClient.disconnect();
     });
+    it("hasParent", async () => {
+      pendingWithoutSimapp();
+      assert(contractId, "Missing contract ID");
+      assert(tokenType, "Mission token type");
+      assert(tokenId1, "Mission token Id");
+      assert(tokenId3, "Mission token Id3");
+      const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
+
+      try {
+        await client.collection.hasParent(contractId, tokenId1);
+        // eslint-disable-next-line no-empty
+      } catch (err) {}
+
+      const hasParent = await client.collection.hasParent(contractId, tokenId3);
+      expect(hasParent).toBeTrue();
+
+      tmClient.disconnect();
+    });
     it("parent", async () => {
       pendingWithoutSimapp();
       assert(contractId, "Missing contract ID");

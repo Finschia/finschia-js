@@ -255,10 +255,12 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         assert(tokenId, "Missing token ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
+        const classId = tokenId.substr(0, 8);
 
         await expectAsync(client.collection.token(nonExistContract, tokenId)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
+            // `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${nonExistContract}: ${classId}: not found: key not found`,
           ),
         );
 
@@ -625,7 +627,8 @@ describe("CollectionExtension (non-fungible token)", () => {
 
         await expectAsync(client.collection.tokenType(nonExistContract, tokenType2)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
+            // `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${nonExistContract}: ${tokenType2}: not found: key not found`,
           ),
         );
 
@@ -803,6 +806,38 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistTokenId = "ffffffffffffffff";
 
         await expectAsync(client.collection.root(contractId, nonExistTokenId)).toBeRejectedWith(
+          new Error(
+            `Query failed with (22): rpc error: code = NotFound desc = ${nonExistTokenId}: token symbol, token-id does not exist: key not found`,
+          ),
+        );
+
+        tmClient.disconnect();
+      });
+    });
+
+    describe("hasParent", () => {
+      it("contract does not exist", async () => {
+        pendingWithoutSimapp();
+        assert(tokenId2, "Missing token id");
+        const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
+        const nonExistContract = "ffffffff";
+
+        await expectAsync(client.collection.hasParent(nonExistContract, tokenId2)).toBeRejectedWith(
+          new Error(
+            `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
+          ),
+        );
+
+        tmClient.disconnect();
+      });
+
+      it("token does not exist", async () => {
+        pendingWithoutSimapp();
+        assert(contractId, "Missing contract ID");
+        const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
+        const nonExistTokenId = "ffffffffffffffff";
+
+        await expectAsync(client.collection.hasParent(contractId, nonExistTokenId)).toBeRejectedWith(
           new Error(
             `Query failed with (22): rpc error: code = NotFound desc = ${nonExistTokenId}: token symbol, token-id does not exist: key not found`,
           ),

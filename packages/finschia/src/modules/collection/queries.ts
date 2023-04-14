@@ -19,6 +19,7 @@ export interface CollectionExtension {
     readonly tokenType: (contractId: string, tokenType: string) => Promise<TokenType>;
     readonly token: (contractId: string, tokenId: string) => Promise<Any>;
     readonly root: (contractId: string, tokenId: string) => Promise<NFT>;
+    readonly hasParent: (contractId: string, tokenId: string) => Promise<boolean>;
     readonly parent: (contractId: string, tokenId: string) => Promise<NFT>;
     readonly children: (contractId: string, tokenId: string) => Promise<NFT[]>;
     readonly granteeGrants: (contractId: string, grantee: string) => Promise<Grant[]>; // Since 0.46.0
@@ -109,6 +110,11 @@ export function setupCollectionExtension(base: QueryClient): CollectionExtension
         const { root } = await queryService.Root({ contractId: contractId, tokenId: tokenId });
         assert(root);
         return root;
+      },
+      hasParent: async (contractId: string, tokenId: string) => {
+        const { hasParent } = await queryService.HasParent({ contractId: contractId, tokenId: tokenId });
+        assert(hasParent);
+        return hasParent;
       },
       parent: async (contractId: string, tokenId: string) => {
         const { parent } = await queryService.Parent({ contractId: contractId, tokenId: tokenId });
