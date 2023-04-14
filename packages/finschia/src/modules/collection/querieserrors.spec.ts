@@ -34,6 +34,8 @@ async function makeClientWithCollection(
 }
 
 describe("CollectionExtension (fungible token) grpc error", () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
+
   const defaultFee = {
     amount: coins(250000, "cony"),
     gas: "1500000", // 1.5 million
@@ -124,8 +126,8 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistAddress = makeRandomAddress();
 
-        const coins = await client.collection.allBalances(contractId, nonExistAddress);
-        expect(coins.length).toEqual(0);
+        const balances = await client.collection.allBalances(contractId, nonExistAddress);
+        expect(balances.length).toEqual(0);
 
         tmClient.disconnect();
       });
@@ -136,8 +138,8 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        const coins = await client.collection.allBalances(nonExistContract, owner);
-        expect(coins.length).toEqual(0);
+        const balances = await client.collection.allBalances(nonExistContract, owner);
+        expect(balances.length).toEqual(0);
 
         tmClient.disconnect();
       });
@@ -151,8 +153,8 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonHolderAddress = otherAddr;
 
-        const coin = await client.collection.balance(contractId, nonHolderAddress, tokenId);
-        expect(coin.amount).toEqual("0");
+        const balance = await client.collection.balance(contractId, nonHolderAddress, tokenId);
+        expect(balance.amount).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -164,8 +166,8 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistAddress = makeRandomAddress();
 
-        const coin = await client.collection.balance(contractId, nonExistAddress, tokenId);
-        expect(coin.amount).toEqual("0");
+        const balance = await client.collection.balance(contractId, nonExistAddress, tokenId);
+        expect(balance.amount).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -176,8 +178,8 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        const coin = await client.collection.balance(nonExistContract, owner, tokenId);
-        expect(coin.amount).toEqual("0");
+        const balance = await client.collection.balance(nonExistContract, owner, tokenId);
+        expect(balance.amount).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -253,13 +255,10 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         assert(tokenId, "Missing token ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
-        const classId = tokenId.substr(0, 8);
 
-        // this seems better
-        // Query failed with (22): rpc error: code = NotFound desc = no such a contract: ffffffff: collection does not exists: key not found
         await expectAsync(client.collection.token(nonExistContract, tokenId)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${nonExistContract}: ${classId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
           ),
         );
 
@@ -442,6 +441,8 @@ describe("CollectionExtension (fungible token) grpc error", () => {
 });
 
 describe("CollectionExtension (non-fungible token)", () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 60 * 1000;
+
   const defaultFee = {
     amount: coins(250000, "cony"),
     gas: "1500000", // 1.5 million
@@ -622,7 +623,7 @@ describe("CollectionExtension (non-fungible token)", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.collection.nftMinted(nonExistContract, tokenType2)).toBeRejectedWith(
+        await expectAsync(client.collection.tokenType(nonExistContract, tokenType2)).toBeRejectedWith(
           new Error(
             `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
           ),
@@ -635,11 +636,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistTokenId = "ffffffff";
+        const nonExistTokenType = "ffffffff";
 
-        await expectAsync(client.collection.nftMinted(contractId, nonExistTokenId)).toBeRejectedWith(
+        await expectAsync(client.collection.tokenType(contractId, nonExistTokenType)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenType}: not found: key not found`,
           ),
         );
 
@@ -679,11 +680,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistTokenId = "ffffffff";
+        const nonExistTokenType = "ffffffff";
 
-        await expectAsync(client.collection.nftMinted(contractId, nonExistTokenId)).toBeRejectedWith(
+        await expectAsync(client.collection.nftMinted(contractId, nonExistTokenType)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenType}: not found: key not found`,
           ),
         );
 
@@ -723,11 +724,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistTokenId = "ffffffff";
+        const nonExistTokenType = "ffffffff";
 
-        await expectAsync(client.collection.nftSupply(contractId, nonExistTokenId)).toBeRejectedWith(
+        await expectAsync(client.collection.nftSupply(contractId, nonExistTokenType)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenType}: not found: key not found`,
           ),
         );
 
@@ -767,11 +768,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistTokenId = "ffffffff";
+        const nonExistTokenType = "ffffffff";
 
-        await expectAsync(client.collection.nftBurnt(contractId, nonExistTokenId)).toBeRejectedWith(
+        await expectAsync(client.collection.nftBurnt(contractId, nonExistTokenType)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenType}: not found: key not found`,
           ),
         );
 
@@ -782,11 +783,11 @@ describe("CollectionExtension (non-fungible token)", () => {
     describe("root", () => {
       it("contract does not exist", async () => {
         pendingWithoutSimapp();
-        assert(tokenType2, "Missing token type");
+        assert(tokenId2, "Missing token id");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.collection.nftBurnt(nonExistContract, tokenType2)).toBeRejectedWith(
+        await expectAsync(client.collection.root(nonExistContract, tokenId2)).toBeRejectedWith(
           new Error(
             `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
           ),
@@ -799,11 +800,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistTokenId = "ffffffff";
+        const nonExistTokenId = "ffffffffffffffff";
 
-        await expectAsync(client.collection.nftBurnt(contractId, nonExistTokenId)).toBeRejectedWith(
+        await expectAsync(client.collection.root(contractId, nonExistTokenId)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = ${nonExistTokenId}: token symbol, token-id does not exist: key not found`,
           ),
         );
 
@@ -828,11 +829,11 @@ describe("CollectionExtension (non-fungible token)", () => {
 
       it("contract does not exist", async () => {
         pendingWithoutSimapp();
-        assert(tokenType2, "Missing token type");
+        assert(tokenId2, "Missing token id");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.collection.nftBurnt(nonExistContract, tokenType2)).toBeRejectedWith(
+        await expectAsync(client.collection.parent(nonExistContract, tokenId2)).toBeRejectedWith(
           new Error(
             `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
           ),
@@ -845,11 +846,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistTokenId = "ffffffff";
+        const nonExistTokenId = "ffffffffffffffff";
 
-        await expectAsync(client.collection.nftBurnt(contractId, nonExistTokenId)).toBeRejectedWith(
+        await expectAsync(client.collection.parent(contractId, nonExistTokenId)).toBeRejectedWith(
           new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenId}: not found: key not found`,
+            `Query failed with (22): rpc error: code = NotFound desc = ${nonExistTokenId}: token symbol, token-id does not exist: key not found`,
           ),
         );
 
@@ -920,7 +921,7 @@ describe("CollectionExtension (non-fungible token)", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.collection.granteeGrants(nonExistContract, owner)).toBeRejectedWith(
+        await expectAsync(client.collection.isOperatorFor(nonExistContract, owner, toAddr)).toBeRejectedWith(
           new Error(
             `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
           ),
@@ -948,7 +949,7 @@ describe("CollectionExtension (non-fungible token)", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.collection.granteeGrants(nonExistContract, owner)).toBeRejectedWith(
+        await expectAsync(client.collection.holdersByOperator(nonExistContract, owner)).toBeRejectedWith(
           new Error(
             `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
           ),
