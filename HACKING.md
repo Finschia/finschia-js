@@ -47,8 +47,8 @@ yarn test
 ```
 
 To run the entire test suite, you need to run some local blockchain to test
-against. We use [finschia](https://github.com/line/finschia) for both CosmWasm
-tests and as a generic finschia v1.0.0-rc0 blockchain.
+against. We use [finschia](https://github.com/Finschia/finschia) for both
+CosmWasm tests and as a generic finschia v1.0.0-rc0 blockchain.
 
 ```sh
 # Start finschia

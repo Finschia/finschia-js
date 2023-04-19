@@ -67,7 +67,7 @@ module.exports = [
 The finschia-js development team is happy to get in touch with you for all
 questions and suggestions.
 
-- [GitHub issues](https://github.com/line/finschia-js/issues) for bugs and
+- [GitHub issues](https://github.com/Finschia/finschia-js/issues) for bugs and
   feature requests
 
 ## Development

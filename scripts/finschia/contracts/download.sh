@@ -4,7 +4,7 @@
 
 COSMWASM_VERSION="v1.0.0-0.6.0"
 
-curl -sS -L -O "https://github.com/line/cosmwasm/releases/download/${COSMWASM_VERSION}/hackatom.wasm"
-curl -sS -L -O "https://github.com/line/cosmwasm/releases/download/${COSMWASM_VERSION}/ibc_reflect.wasm"
+curl -sS -L -O "https://github.com/Finschia/cosmwasm/releases/download/${COSMWASM_VERSION}/hackatom.wasm"
+curl -sS -L -O "https://github.com/Finschia/cosmwasm/releases/download/${COSMWASM_VERSION}/ibc_reflect.wasm"
 
 sha256sum *.wasm > checksums.sha256
