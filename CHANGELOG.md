@@ -22,6 +22,8 @@ and this project adheres to
 
 - [\#84](https://github.com/Finschia/finschia-js/pull/84) Bumpup cosmjs to
   0.30.1
+- [\#82](https://github.com/line/finschia-js/pull/82) prepare open (change lbm
+  to finschia)
 
 ### Deprecated
 
