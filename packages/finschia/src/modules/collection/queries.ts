@@ -113,7 +113,6 @@ export function setupCollectionExtension(base: QueryClient): CollectionExtension
       },
       hasParent: async (contractId: string, tokenId: string) => {
         const { hasParent } = await queryService.HasParent({ contractId: contractId, tokenId: tokenId });
-        assert(hasParent);
         return hasParent;
       },
       parent: async (contractId: string, tokenId: string) => {
