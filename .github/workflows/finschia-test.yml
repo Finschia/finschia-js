@@ -9,7 +9,7 @@ on:
 jobs:
   tests:
     name: Run tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out Git repository
