@@ -30,8 +30,8 @@ describe("TokenExtension grpc errors", () => {
   };
 
   const owner = faucet.address0;
-  const toAddress = "link1twsfmuj28ndph54k4nw8crwu8h9c8mh3rtx705";
-  const otherAddress = "link1008wengr28z5quat2dzrprt9h8euav4herfyum";
+  const toAddress = "link1m3h30wlvsf8llruxtpukdvsy0km2kum8al86ug";
+  const otherAddress = "link17xpfvakm2amg962yls6f84z3kell8c5l9hrzs4";
   const tokenName = "TestToken";
   const symbol = "ZERO2";
   const amount = "1000";
