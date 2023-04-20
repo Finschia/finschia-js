@@ -106,7 +106,7 @@ describe("CollectionExtension (fungible token)", () => {
         };
         const result = await client.signAndBroadcast(owner, [msgIssueFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
-        tokenId = logs.findAttribute(parsedLogs, "issue_ft", "token_id").value;
+        tokenId = logs.findAttribute(parsedLogs, "lbm.collection.v1.EventCreatedFTClass", "token_id").value;
         assert(tokenId, "Missing token ID");
         tokenId = tokenId.replace(/^"(.*)"$/, "$1");
         assertIsDeliverTxSuccess(result);
@@ -298,7 +298,11 @@ describe("CollectionExtension (non-fungible token)", () => {
         };
         const result = await client.signAndBroadcast(owner, [msgIssueNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
-        tokenType = logs.findAttribute(parsedLogs, "issue_nft", "token_type").value;
+        tokenType = logs.findAttribute(
+          parsedLogs,
+          "lbm.collection.v1.EventCreatedNFTClass",
+          "token_type",
+        ).value;
         assert(tokenType, "Missing contract ID");
         tokenType = tokenType.replace(/^"(.*)"$/, "$1");
         assertIsDeliverTxSuccess(result);
@@ -323,7 +327,8 @@ describe("CollectionExtension (non-fungible token)", () => {
         };
         const result = await client.signAndBroadcast(owner, [msgMintNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
-        tokenId1 = logs.findAttribute(parsedLogs, "mint_nft", "token_id").value;
+        const tokens = logs.findAttribute(parsedLogs, "lbm.collection.v1.EventMintedNFT", "tokens").value;
+        tokenId1 = JSON.parse(tokens)[0].token_id;
         assertIsDeliverTxSuccess(result);
       }
 
@@ -346,7 +351,8 @@ describe("CollectionExtension (non-fungible token)", () => {
         };
         const result = await client.signAndBroadcast(owner, [msgMintNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
-        tokenId2 = logs.findAttribute(parsedLogs, "mint_nft", "token_id").value;
+        const tokens = logs.findAttribute(parsedLogs, "lbm.collection.v1.EventMintedNFT", "tokens").value;
+        tokenId2 = JSON.parse(tokens)[0].token_id;
         assertIsDeliverTxSuccess(result);
       }
 
@@ -369,7 +375,8 @@ describe("CollectionExtension (non-fungible token)", () => {
         };
         const result = await client.signAndBroadcast(owner, [msgMintNFT], defaultFee);
         const parsedLogs = logs.parseRawLog(result.rawLog);
-        tokenId3 = logs.findAttribute(parsedLogs, "mint_nft", "token_id").value;
+        const tokens = logs.findAttribute(parsedLogs, "lbm.collection.v1.EventMintedNFT", "tokens").value;
+        tokenId3 = JSON.parse(tokens)[0].token_id;
         assertIsDeliverTxSuccess(result);
       }
 
@@ -381,7 +388,7 @@ describe("CollectionExtension (non-fungible token)", () => {
             contractId: contractId,
             from: owner,
             to: toAddr,
-            tokenIds: [tokenId2],
+            tokenIds: [tokenId2!],
           },
         };
         const result = await client.signAndBroadcast(owner, [MsgSendNFT], defaultFee);

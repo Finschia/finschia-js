@@ -154,11 +154,8 @@ describe("TokenExtension grpc errors", () => {
         const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.token.granteeGrants(nonExistContract, otherAddress)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
-          ),
-        );
+        const granteeGrants = await client.token.granteeGrants(nonExistContract, otherAddress);
+        expect(granteeGrants.length).toEqual(0);
 
         tmClient.disconnect();
       });
@@ -182,11 +179,8 @@ describe("TokenExtension grpc errors", () => {
         const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.token.isOperatorFor(nonExistContract, toAddress, owner)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
-          ),
-        );
+        const isOperator = await client.token.isOperatorFor(nonExistContract, toAddress, owner);
+        expect(isOperator).toEqual(false);
 
         tmClient.disconnect();
       });
@@ -238,11 +232,8 @@ describe("TokenExtension grpc errors", () => {
         const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.token.minted(nonExistContract)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
-          ),
-        );
+        const minted = await client.token.minted(nonExistContract);
+        expect(minted).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -265,11 +256,8 @@ describe("TokenExtension grpc errors", () => {
         const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.token.burnt(nonExistContract)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
-          ),
-        );
+        const burnt = await client.token.burnt(nonExistContract);
+        expect(burnt).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -317,11 +305,8 @@ describe("TokenExtension grpc errors", () => {
         const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.token.supply(nonExistContract)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
-          ),
-        );
+        const supply = await client.token.supply(nonExistContract);
+        expect(supply).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -345,11 +330,8 @@ describe("TokenExtension grpc errors", () => {
         const [client, tmClient] = await makeClientWithToken(simapp.tendermintUrl);
         const nonExistContract = "ffffffff";
 
-        await expectAsync(client.token.holdersByOperator(nonExistContract, toAddress)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
-          ),
-        );
+        const holders = await client.token.holdersByOperator(nonExistContract, toAddress);
+        expect(holders.length).toEqual(0);
 
         tmClient.disconnect();
       });
