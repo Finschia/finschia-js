@@ -471,6 +471,66 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@finschia/finschia@workspace:packages/finschia":
+  version: 0.0.0-use.local
+  resolution: "@finschia/finschia@workspace:packages/finschia"
+  dependencies:
+    "@cosmjs/amino": ^0.30.1
+    "@cosmjs/cosmwasm-stargate": ^0.30.1
+    "@cosmjs/crypto": ^0.30.1
+    "@cosmjs/encoding": ^0.30.1
+    "@cosmjs/math": ^0.30.1
+    "@cosmjs/proto-signing": ^0.30.1
+    "@cosmjs/stargate": ^0.30.1
+    "@cosmjs/tendermint-rpc": ^0.30.1
+    "@cosmjs/utils": ^0.30.1
+    "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@types/eslint-plugin-prettier": ^3
+    "@types/jasmine": ^3.8
+    "@types/karma-firefox-launcher": ^2
+    "@types/karma-jasmine": ^4
+    "@types/karma-jasmine-html-reporter": ^1
+    "@types/long": ^4.0.1
+    "@types/node": ^15.0.1
+    "@types/pako": ^1.0.1
+    "@typescript-eslint/eslint-plugin": ^5.13.0
+    "@typescript-eslint/parser": ^5.13.0
+    cosmjs-types: ^0.7.1
+    eslint: ^7.5
+    eslint-config-prettier: ^8.3.0
+    eslint-import-resolver-node: ^0.3.4
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-prettier: ^3.4.0
+    eslint-plugin-simple-import-sort: ^7.0.0
+    esm: ^3.2.25
+    glob: ^7.1.6
+    jasmine: ^3.99
+    jasmine-spec-reporter: ^6
+    karma: ^6.3.17
+    karma-chrome-launcher: ^3.1.0
+    karma-firefox-launcher: ^2.1.0
+    karma-jasmine: ^4.0.1
+    karma-jasmine-html-reporter: ^1.5.4
+    karma-spec-reporter: ^0.0.33
+    karma-typescript: ^5.5.3
+    lbmjs-types: ^1.0.0-rc5
+    long: ^4.0.0
+    nyc: ^15.1.0
+    pako: ^2.0.2
+    prettier: ^2.4.1
+    protobufjs: ~6.10.2
+    readonly-date: ^1.0.0
+    ses: ^0.11.0
+    source-map-support: ^0.5.19
+    ts-node: ^8
+    typedoc: ^0.22
+    typescript: ~4.4
+    webpack: ^5.32.0
+    webpack-cli: ^4.6.0
+    xstream: ^11.14.0
+  languageName: unknown
+  linkType: soft
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.2
   resolution: "@gar/promisify@npm:1.1.2"
@@ -550,66 +610,6 @@ __metadata:
   checksum: b58be6b4133cbcb20bfd28c9ca843b8db9efa0bf1d7e0e9e26b2228dace94ad53161c996ab1d762d7c3955dfc398a7734e7b84a2493ae36b451f232234fbb257
   languageName: node
   linkType: hard
-
-"@lbmjs/finschia@workspace:packages/finschia":
-  version: 0.0.0-use.local
-  resolution: "@lbmjs/finschia@workspace:packages/finschia"
-  dependencies:
-    "@cosmjs/amino": ^0.30.1
-    "@cosmjs/cosmwasm-stargate": ^0.30.1
-    "@cosmjs/crypto": ^0.30.1
-    "@cosmjs/encoding": ^0.30.1
-    "@cosmjs/math": ^0.30.1
-    "@cosmjs/proto-signing": ^0.30.1
-    "@cosmjs/stargate": ^0.30.1
-    "@cosmjs/tendermint-rpc": ^0.30.1
-    "@cosmjs/utils": ^0.30.1
-    "@istanbuljs/nyc-config-typescript": ^1.0.1
-    "@types/eslint-plugin-prettier": ^3
-    "@types/jasmine": ^3.8
-    "@types/karma-firefox-launcher": ^2
-    "@types/karma-jasmine": ^4
-    "@types/karma-jasmine-html-reporter": ^1
-    "@types/long": ^4.0.1
-    "@types/node": ^15.0.1
-    "@types/pako": ^1.0.1
-    "@typescript-eslint/eslint-plugin": ^5.13.0
-    "@typescript-eslint/parser": ^5.13.0
-    cosmjs-types: ^0.7.1
-    eslint: ^7.5
-    eslint-config-prettier: ^8.3.0
-    eslint-import-resolver-node: ^0.3.4
-    eslint-plugin-import: ^2.22.1
-    eslint-plugin-prettier: ^3.4.0
-    eslint-plugin-simple-import-sort: ^7.0.0
-    esm: ^3.2.25
-    glob: ^7.1.6
-    jasmine: ^3.99
-    jasmine-spec-reporter: ^6
-    karma: ^6.3.17
-    karma-chrome-launcher: ^3.1.0
-    karma-firefox-launcher: ^2.1.0
-    karma-jasmine: ^4.0.1
-    karma-jasmine-html-reporter: ^1.5.4
-    karma-spec-reporter: ^0.0.33
-    karma-typescript: ^5.5.3
-    lbmjs-types: ^1.0.0-rc5
-    long: ^4.0.0
-    nyc: ^15.1.0
-    pako: ^2.0.2
-    prettier: ^2.4.1
-    protobufjs: ~6.10.2
-    readonly-date: ^1.0.0
-    ses: ^0.11.0
-    source-map-support: ^0.5.19
-    ts-node: ^8
-    typedoc: ^0.22
-    typescript: ~4.4
-    webpack: ^5.32.0
-    webpack-cli: ^4.6.0
-    xstream: ^11.14.0
-  languageName: unknown
-  linkType: soft
 
 "@noble/hashes@npm:^1, @noble/hashes@npm:^1.0.0":
   version: 1.0.0
@@ -3002,6 +3002,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"finschia-js-monorepo-root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "finschia-js-monorepo-root@workspace:."
+  dependencies:
+    "@cosmjs/crypto": ^0.30.1
+    "@cosmjs/encoding": ^0.30.1
+    "@cosmjs/proto-signing": ^0.30.1
+    "@cosmjs/stargate": ^0.30.1
+    "@finschia/finschia": "workspace:packages/finschia"
+    eslint: ^7.5
+    karma-chrome-launcher: ^3.1.0
+    karma-jasmine: ^4.0.1
+    karma-spec-reporter: ^0.0.33
+    karma-typescript: ^5.5.3
+    prettier: ^2.4.1
+    ts-node: ^8
+    typescript: ~4.4
+  languageName: unknown
+  linkType: soft
+
 "flat-cache@npm:^3.0.4":
   version: 3.0.4
   resolution: "flat-cache@npm:3.0.4"
@@ -4200,26 +4220,6 @@ __metadata:
   checksum: 3ab01e7b1d440b22fe4c31f23d8d38b4d9b91d9f291df683476576493d5dfd2e03848a8b05813dd0c3f0e835bc63f433007ddeceb71f05cb25c45ae1b19c6d3b
   languageName: node
   linkType: hard
-
-"lbmjs-monorepo-root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "lbmjs-monorepo-root@workspace:."
-  dependencies:
-    "@cosmjs/crypto": ^0.30.1
-    "@cosmjs/encoding": ^0.30.1
-    "@cosmjs/proto-signing": ^0.30.1
-    "@cosmjs/stargate": ^0.30.1
-    "@lbmjs/finschia": "workspace:packages/finschia"
-    eslint: ^7.5
-    karma-chrome-launcher: ^3.1.0
-    karma-jasmine: ^4.0.1
-    karma-spec-reporter: ^0.0.33
-    karma-typescript: ^5.5.3
-    prettier: ^2.4.1
-    ts-node: ^8
-    typescript: ~4.4
-  languageName: unknown
-  linkType: soft
 
 "lbmjs-types@npm:^1.0.0-rc5":
   version: 1.0.0-rc5

@@ -17,7 +17,7 @@ jobs:
 
       - name: download contracts
         run: |
-          cd scripts/lbm/contracts
+          cd scripts/finschia/contracts
           bash download.sh
 
       - name: Set up Node.js
@@ -37,11 +37,11 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: start lbm
-        run: CI= scripts/lbm/start.sh
+      - name: start finschia
+        run: CI= scripts/finschia/start.sh
 
-      - name: init contract on lbm
-        run: scripts/lbm/init.sh
+      - name: init contract on finschia
+        run: scripts/finschia/init.sh
 
       - name: Unit Test
         run: |
