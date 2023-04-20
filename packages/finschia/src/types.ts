@@ -1,4 +1,3 @@
-import { createWasmAminoConverters } from "@cosmjs/cosmwasm-stargate";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import {
   AminoConverters,
@@ -9,6 +8,7 @@ import {
   createGovAminoConverters,
   createIbcAminoConverters,
   createStakingAminoConverters,
+  createVestingAminoConverters,
   defaultRegistryTypes,
 } from "@cosmjs/stargate";
 
@@ -22,6 +22,7 @@ import { collectionTypes } from "./modules/collection/messages";
 import { foundationTypes } from "./modules/foundation/messages";
 import { stakingplusTypes } from "./modules/stakingplus/messages";
 import { tokenTypes } from "./modules/token/messages";
+import { createWasmAminoConverters } from "./modules/wasm/aminomessages";
 import { wasmTypes } from "./modules/wasm/messages";
 import { wasmplusTypes } from "./modules/wasmplus/messages";
 
@@ -39,7 +40,7 @@ export function createDefaultRegistry(): Registry {
   return new Registry(finschiaRegistryTypes);
 }
 
-export function createDefaultTypesWithoutFoundation(prefix: string): AminoConverters {
+export function createDefaultTypesWithoutFoundation(): AminoConverters {
   return {
     ...createAuthzAminoConverters(),
     ...createBankAminoConverters(),
@@ -47,8 +48,8 @@ export function createDefaultTypesWithoutFoundation(prefix: string): AminoConver
     ...createFeegrantAminoConverters(),
     ...createGovAminoConverters(),
     ...createIbcAminoConverters(),
-    ...createStakingAminoConverters(prefix),
-    // ...createVestingAminoConverters(), this is omitted in cosmjs export
+    ...createStakingAminoConverters(),
+    ...createVestingAminoConverters(),
     ...createWasmAminoConverters(),
     ...createCollectionAminoConverters(),
     ...createTokenAminoConverters(),
@@ -56,9 +57,9 @@ export function createDefaultTypesWithoutFoundation(prefix: string): AminoConver
   };
 }
 
-export function createDefaultTypes(prefix: string): AminoConverters {
+export function createDefaultTypes(): AminoConverters {
   return {
-    ...createDefaultTypesWithoutFoundation(prefix),
+    ...createDefaultTypesWithoutFoundation(),
     ...createFoundationAminoConverters(),
   };
 }

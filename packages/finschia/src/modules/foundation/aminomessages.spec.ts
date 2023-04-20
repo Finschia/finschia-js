@@ -4,7 +4,7 @@ import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
 import { AminoTypes, assertIsDeliverTxSuccess, coins, logs } from "@cosmjs/stargate";
 import { sleep } from "@cosmjs/utils";
 import { Any } from "cosmjs-types/google/protobuf/any";
-import { Duration } from "lbmjs-types/google/protobuf/duration";
+import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
@@ -104,7 +104,6 @@ describe("Amino sign", () => {
           authority: authorityAddress,
           params: {
             foundationTax: Decimal.fromUserInput("0.1", 18).atomics,
-            censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
           },
         },
       };
@@ -226,7 +225,6 @@ describe("Amino sign", () => {
         authority: authorityAddress,
         params: {
           foundationTax: Decimal.fromUserInput("0.1", 18).atomics,
-          censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
         },
       },
     };
@@ -264,6 +262,8 @@ describe("Amino sign", () => {
     expect(coin(Decimal.fromAtomics(afterAmount[0].amount, 18).toString(), "cony")).toEqual(
       addCoins(coin(Decimal.fromAtomics(beforeAmount.amount, 18).toString(), "cony"), sendAmount),
     );
+
+    tmClient.disconnect();
   });
 
   it("MsgWithdrawFromTreasury", async () => {
@@ -475,7 +475,6 @@ describe("AminoTypes", () => {
         authority: faucet.address0,
         params: {
           foundationTax: "0",
-          censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
         },
       };
       const aminoTypes = new AminoTypes(createFoundationAminoConverters());
@@ -489,7 +488,6 @@ describe("AminoTypes", () => {
           authority: faucet.address0,
           params: {
             foundation_tax: "0.000000000000000000",
-            censored_msg_type_urls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
           },
         },
       };
@@ -833,7 +831,6 @@ describe("AminoTypes", () => {
           authority: faucet.address0,
           params: {
             foundation_tax: "0",
-            censored_msg_type_urls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
           },
         },
       };
@@ -843,7 +840,6 @@ describe("AminoTypes", () => {
         authority: faucet.address0,
         params: {
           foundationTax: "0",
-          censoredMsgTypeUrls: ["/lbm.foundation.v1.MsgWithdrawFromTreasury"],
         },
       };
       expect(msg).toEqual({

@@ -36,4 +36,4 @@ coverage/
 # We are not using yarn's deferred versioning for now (see https://yarnpkg.com/features/release-workflow)
 # !.yarn/versions
 scripts/simapp/test_chain_data
-scripts/lbm/test_chain_data
+scripts/finschia/test_chain_data

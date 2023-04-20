@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg, Coin } from "@cosmjs/amino";
 import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
-import { Any } from "lbmjs-types/google/protobuf/any";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
@@ -28,7 +29,7 @@ import {
 import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
 import Long from "long";
 
-import { createDefaultRegistry, createDefaultTypes, createDefaultTypesWithoutFoundation } from "../../types";
+import { createDefaultRegistry, createDefaultTypesWithoutFoundation } from "../../types";
 import {
   jsonDecimalToProto,
   jsonDurationToProto,
@@ -38,7 +39,6 @@ import {
 
 interface Params {
   foundation_tax: string;
-  censored_msg_type_urls: string[];
 }
 
 interface DecisionPolicyWindows {
@@ -292,7 +292,6 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
           authority: authority,
           params: {
             foundation_tax: protoDecimalToJson(params.foundationTax),
-            censored_msg_type_urls: params.censoredMsgTypeUrls,
           },
         };
       },
@@ -302,7 +301,6 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
           authority: authority,
           params: {
             foundationTax: jsonDecimalToProto(params.foundation_tax),
-            censoredMsgTypeUrls: params.censored_msg_type_urls,
           },
         };
       },
@@ -702,7 +700,7 @@ function createMsgSubmitProposalAminoConverter(): AminoConverters {
   const aminoConvertersWithoutSubmitProposal = createFoundationAminoConvertersWithoutSubmitProposal();
   const registry = createDefaultRegistry();
   const aminoTypes = new AminoTypes({
-    ...createDefaultTypesWithoutFoundation("link"),
+    ...createDefaultTypesWithoutFoundation(),
     ...aminoConvertersWithoutSubmitProposal,
   });
   return {

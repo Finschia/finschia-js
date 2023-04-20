@@ -1,7 +1,8 @@
-# Hacking CosmJS
+# Hacking finschia-js
 
-Welcome to CosmJS, glad to see you here. This document explains all you need to
-work on CosmJS, i.e. modify it. It is not intended for users of CosmJS.
+Welcome to finschia-js, glad to see you here. This document explains all you
+need to work on finschia-js, i.e. modify it. It is not intended for users of
+finschia-js.
 
 ## Prerequisite
 
@@ -28,7 +29,7 @@ To verify everything worked as expected, check if the testing contracts are
 correctly checked out:
 
 ```sh
-cd scripts/wasmd/contracts
+cd scripts/simapp/contracts
 sha256sum -c checksums.sha256
 ```
 
@@ -46,40 +47,21 @@ yarn test
 ```
 
 To run the entire test suite, you need to run some local blockchain to test
-against. We use [wasmd](https://github.com/CosmWasm/wasmd) for both CosmWasm
-tests and as a generic Cosmos SDK 0.39 (Launchpad) blockchain. We also spawn
-multiple versions of raw Tendermint and a basic WebSocket server.
+against. We use [finschia](https://github.com/Finschia/finschia) for both
+CosmWasm tests and as a generic finschia v1.0.0-rc0 blockchain.
 
 ```sh
-# Start wasmd
-./scripts/launchpad/start.sh
-./scripts/launchpad/init.sh
-export LAUNCHPAD_ENABLED=1
-
-# Start Tendermint
-./scripts/tendermint/all_start.sh
-export TENDERMINT_ENABLED=1
-
-# Start WebSocket server
-./scripts/socketserver/start.sh
-export SOCKETSERVER_ENABLED=1
-
-# Start Http server
-./scripts/httpserver/start.sh
-export HTTPSERVER_ENABLED=1
+# Start finschia
+./scripts/finschia/start.sh
+./scripts/finschia/init.sh
+export SIMAPP_ENABLED=1
 
 # now more tests are running that were marked as "pending" before
 yarn test
 
 # And at the end of the day
-unset HTTPSERVER_ENABLED
-unset SOCKETSERVER_ENABLED
-unset TENDERMINT_ENABLED
-unset LAUNCHPAD_ENABLED
-./scripts/httpserver/stop.sh
-./scripts/socketserver/stop.sh
-./scripts/tendermint/all_stop.sh
-./scripts/launchpad/stop.sh
+unset SIMAPP_ENABLED
+./scripts/finschia/stop.sh
 ```
 
 ## Sanity
@@ -99,14 +81,8 @@ In the `scripts/` folder, a bunch of blockchains and other backend systems are
 started for testing purposes. Some ports need to be changed from the default in
 order to avoid conflicts. Here is an overview of the ports used:
 
-| Port  | Application           | Usage                           |
-| ----- | --------------------- | ------------------------------- |
-| 1317  | simapp LCD API        | Manual Stargate debugging       |
-| 1318  | lbm LCD API           | Manual Stargate debugging       |
-| 4444  | socketserver          | @cosmjs/sockets tests           |
-| 4445  | socketserver slow     | @cosmjs/sockets tests           |
-| 5555  | httpserver            | @cosmjs/tendermint-rpc tests    |
-| 9090  | simapp gRPC           | Manual Stargate debugging       |
-| 11134 | Ostracon 0.34 RPC     | @lbmjs/ostracon-rpc tests       |
-| 26658 | simapp Ostracon RPC   | Stargate client tests           |
-| 26659 | lbm Ostracon RPC      | @lbmjs/cosmwasm-stargate tests  |
+| Port  | Application         | Usage                     |
+| ----- | ------------------- | ------------------------- |
+| 1317  | simapp LCD API      | Manual finschia debugging |
+| 9090  | simapp gRPC         | Manual finschia debugging |
+| 26658 | simapp Ostracon RPC | finschia client tests     |

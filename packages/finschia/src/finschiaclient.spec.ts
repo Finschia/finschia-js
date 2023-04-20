@@ -12,15 +12,7 @@ import {
   Registry,
   TxBodyEncodeObject,
 } from "@cosmjs/proto-signing";
-import {
-  assertIsDeliverTxSuccess,
-  coins,
-  isDeliverTxFailure,
-  isDeliverTxSuccess,
-  logs,
-  MsgSendEncodeObject,
-  StdFee,
-} from "@cosmjs/stargate";
+import { assertIsDeliverTxSuccess, coins, logs, MsgSendEncodeObject, StdFee } from "@cosmjs/stargate";
 import { assert, sleep } from "@cosmjs/utils";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { ReadonlyDate } from "readonly-date";
@@ -45,39 +37,6 @@ import {
   unused,
   validator,
 } from "./testutils.spec";
-
-const resultFailure = {
-  code: 5,
-  height: 219901,
-  rawLog:
-    "failed to execute message; message index: 0: 1855527000ufct is smaller than 20000000000000000000000ufct: insufficient funds",
-  transactionHash: "FDC4FB701AABD465935F7D04AE490D1EF5F2BD4B227601C4E98B57EB077D9B7D",
-  gasUsed: 54396,
-  gasWanted: 200000,
-};
-const resultSuccess = {
-  code: 0,
-  height: 219894,
-  rawLog:
-    '[{"events":[{"type":"message","attributes":[{"key":"action","value":"send"},{"key":"sender","value":"firma1trqyle9m2nvyafc2n25frkpwed2504y6avgfzr"},{"key":"module","value":"bank"}]},{"type":"transfer","attributes":[{"key":"recipient","value":"firma12er8ls2sf5zess3jgjxz59xat9xtf8hz0hk6n4"},{"key":"sender","value":"firma1trqyle9m2nvyafc2n25frkpwed2504y6avgfzr"},{"key":"amount","value":"2000000ufct"}]}]}]',
-  transactionHash: "C0B416CA868C55C2B8C1BBB8F3CFA233854F13A5CB15D3E9599F50CAF7B3D161",
-  gasUsed: 61556,
-  gasWanted: 200000,
-};
-
-describe("isDeliverTxFailure", () => {
-  it("works", () => {
-    expect(isDeliverTxFailure(resultFailure)).toEqual(true);
-    expect(isDeliverTxFailure(resultSuccess)).toEqual(false);
-  });
-});
-
-describe("isDeliverTxSuccess", () => {
-  it("works", () => {
-    expect(isDeliverTxSuccess(resultFailure)).toEqual(false);
-    expect(isDeliverTxSuccess(resultSuccess)).toEqual(true);
-  });
-});
 
 interface HackatomInstance {
   readonly instantiateMsg: {
@@ -191,7 +150,7 @@ describe("FinschiaClient", () => {
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const missing = makeRandomAddress();
       await expectAsync(client.getSequence(missing)).toBeRejectedWithError(
-        /account does not exist on chain/i,
+        /account '([a-z0-9]{10,90})' does not exist on chain/i,
       );
     });
   });
@@ -394,7 +353,6 @@ describe("FinschiaClient", () => {
           });
           const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, {
             ...defaultSigningClientOptions,
-            prefix: simapp.prefix,
           });
           await client.delegateTokens(faucet.address4, validator.validatorAddress, coin(1234, "stake"), {
             amount: coins(2000, "cony"),
@@ -626,7 +584,6 @@ describe("FinschiaClient", () => {
       pendingWithoutSimapp();
       assert(contract);
 
-      const nonExistentAddress = makeRandomAddress();
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       await expectAsync(client.queryContractRaw(nonExistentAddress, configKey)).toBeRejectedWithError(
         /not found/i,
@@ -665,6 +622,14 @@ describe("FinschiaClient", () => {
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const result = await client.queryContractSmart(contract.address, { verifier: {} });
       expect(result).toEqual({ verifier: contract.instantiateMsg.verifier });
+
+      // Typed request (https://github.com/cosmos/cosmjs/pull/1281)
+      interface VerifierQuery {
+        verifier: Record<string, never>;
+      }
+      const request: VerifierQuery = { verifier: {} };
+      const result2 = await client.queryContractSmart(contract.address, request);
+      expect(result2).toEqual({ verifier: contract.instantiateMsg.verifier });
     });
 
     it("errors for malformed query message", async () => {
@@ -680,7 +645,6 @@ describe("FinschiaClient", () => {
     it("errors for non-existent contract", async () => {
       pendingWithoutSimapp();
 
-      const nonExistentAddress = makeRandomAddress();
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       await expectAsync(
         client.queryContractSmart(nonExistentAddress, { verifier: {} }),
