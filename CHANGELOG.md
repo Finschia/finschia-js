@@ -7,16 +7,12 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
-
-- [\#69](https://github.com/Finschia/finschia-js/pull/69) apply the changes of
-  `x/token` and `x/collection` protos
-- [\#71](https://github.com/Finschia/finschia-js/pull/71) @lbmjs/finschia: Add
-  custom GetBlockWithTxs for lbm
-- [\#77](https://github.com/Finschia/finschia-js/pull/77) @lbmjs/finschia:
-  Enable amino sign store msgs in `wasm` and `wasmplus`
-- [\#80](https://github.com/Finschia/finschia-js/pull/80) add
-  MsgInstantiateContract2
+- [\#69](https://github.com/Finschia/finschia-js/pull/69) apply the changes of `x/token` and `x/collection` protos
+- [\#71](https://github.com/Finschia/finschia-js/pull/71) @lbmjs/finschia: Add custom GetBlockWithTxs for lbm
+- [\#77](https://github.com/Finschia/finschia-js/pull/77) @lbmjs/finschia: Enable amino sign store msgs in `wasm` and `wasmplus`
+- [\#80](https://github.com/Finschia/finschia-js/pull/80) add MsgInstantiateContract2
 - [\#81](https://github.com/Finschia/finschia-js/pull/81) add git PR template
+- [\#87](https://github.com/Finschia/finschia-js/pull/87) @lbmjs/finschia: add tests for grpc errors in collection, token
 
 ### Changed
 
