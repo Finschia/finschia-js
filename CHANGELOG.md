@@ -19,6 +19,8 @@ and this project adheres to
 - [\#81](https://github.com/Finschia/finschia-js/pull/81) add git PR template
 - [\#78](https://github.com/Finschia/finschia-js/pull/78) add auth publish ci on
   new tag, release
+- [\#87](https://github.com/Finschia/finschia-js/pull/87) @lbmjs/finschia: add
+  tests for grpc errors in collection, token
 
 ### Changed
 

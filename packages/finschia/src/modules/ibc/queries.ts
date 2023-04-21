@@ -49,18 +49,18 @@ import {
 import {
   ClientState as TendermintClientState,
   ConsensusState as TendermintConsensusState,
-} from "lbmjs-types/ibc/lightclients/ostracon/v1/ostracon";
+} from "cosmjs-types/ibc/lightclients/tendermint/v1/tendermint";
 import Long from "long";
 
 function decodeTendermintClientStateAny(clientState: Any | undefined): TendermintClientState {
-  if (clientState?.typeUrl !== "/ibc.lightclients.ostracon.v1.ClientState") {
+  if (clientState?.typeUrl !== "/ibc.lightclients.tendermint.v1.ClientState") {
     throw new Error(`Unexpected client state type: ${clientState?.typeUrl}`);
   }
   return TendermintClientState.decode(clientState.value);
 }
 
 function decodeTendermintConsensusStateAny(clientState: Any | undefined): TendermintConsensusState {
-  if (clientState?.typeUrl !== "/ibc.lightclients.ostracon.v1.ConsensusState") {
+  if (clientState?.typeUrl !== "/ibc.lightclients.tendermint.v1.ConsensusState") {
     throw new Error(`Unexpected client state type: ${clientState?.typeUrl}`);
   }
   return TendermintConsensusState.decode(clientState.value);

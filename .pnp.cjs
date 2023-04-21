@@ -1632,7 +1632,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "lbmjs-types",
-        "npm:1.0.0-rc2"
+        "npm:1.0.0-rc5"
       ],
       [
         "levn",
@@ -3150,7 +3150,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:0.0.33"],
             ["karma-typescript", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:5.5.3"],
-            ["lbmjs-types", "npm:1.0.0-rc2"],
+            ["lbmjs-types", "npm:1.0.0-rc5"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -7754,10 +7754,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["lbmjs-types", [
-        ["npm:1.0.0-rc2", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-1.0.0-rc2-e80fe73a1e-3ac7d105e9.zip/node_modules/lbmjs-types/",
+        ["npm:1.0.0-rc5", {
+          "packageLocation": "./.yarn/cache/lbmjs-types-npm-1.0.0-rc5-64e7143d62-0c24bc4c77.zip/node_modules/lbmjs-types/",
           "packageDependencies": [
-            ["lbmjs-types", "npm:1.0.0-rc2"],
+            ["lbmjs-types", "npm:1.0.0-rc5"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],
