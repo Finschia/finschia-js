@@ -2,12 +2,14 @@ import { coins, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
+import { QueryRpcFailError } from "src/errors";
 
 import { makeLinkPath } from "../../paths";
 import { SigningFinschiaClient } from "../../signingfinschiaclient";
 import {
   defaultSigningClientOptions,
   faucet,
+  makeNotFoundMessage,
   makeRandomAddress,
   pendingWithoutSimapp,
   simapp,
@@ -217,8 +219,9 @@ describe("TokenExtension grpc errors", () => {
         const nonExistContract = "ffffffff";
 
         await expectAsync(client.token.contract(nonExistContract)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no class for ${nonExistContract}: token does not exist: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no class for ${nonExistContract}: token does not exist`),
           ),
         );
 

@@ -5,11 +5,13 @@ import { assertIsDeliverTxSuccess, logs, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
 
+import { QueryRpcFailError } from "../../errors";
 import { makeLinkPath } from "../../paths";
 import { SigningFinschiaClient } from "../../signingfinschiaclient";
 import {
   defaultSigningClientOptions,
   faucet,
+  makeNotFoundMessage,
   makeRandomAddress,
   pendingWithoutSimapp,
   simapp,
@@ -188,13 +190,10 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
-        const nonExistToken = "ffffffff";
+        const nonExistToken = "00000001ffffffff";
 
-        await expectAsync(client.collection.balance(contractId, owner, nonExistToken)).toBeRejectedWith(
-          new Error(
-            `Query failed with (18): rpc error: code = InvalidArgument desc = invalid id: ${nonExistToken}: invalid request: invalid token id: invalid request`,
-          ),
-        );
+        const balance = await client.collection.balance(contractId, owner, nonExistToken);
+        expect(balance.amount).toEqual("0");
 
         tmClient.disconnect();
       });
@@ -209,8 +208,9 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const classId = tokenId.substr(0, 8);
 
         await expectAsync(client.collection.tokenClassTypeName(nonExistContract, classId)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${nonExistContract}: ${classId}: not found: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a class in contract ${nonExistContract}: ${classId}: not found`),
           ),
         );
 
@@ -224,8 +224,9 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const nonExistClass = "ffffffff";
 
         await expectAsync(client.collection.tokenClassTypeName(contractId, nonExistClass)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistClass}: not found: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a class in contract ${contractId}: ${nonExistClass}: not found`),
           ),
         );
 
@@ -240,8 +241,9 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const nonExistContract = "ffffffff";
 
         await expectAsync(client.collection.contract(nonExistContract)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a contract: ${nonExistContract}: collection does not exists`),
           ),
         );
 
@@ -258,9 +260,9 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const classId = tokenId.substr(0, 8);
 
         await expectAsync(client.collection.token(nonExistContract, tokenId)).toBeRejectedWith(
-          new Error(
-            // `Query failed with (22): rpc error: code = NotFound desc = no such a contract: ${nonExistContract}: collection does not exists: key not found`,
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${nonExistContract}: ${classId}: not found: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a class in contract ${nonExistContract}: ${classId}: not found`),
           ),
         );
 
@@ -275,8 +277,9 @@ describe("CollectionExtension (fungible token) grpc error", () => {
         const nonExistClass = nonExistToken.substr(0, 8);
 
         await expectAsync(client.collection.token(contractId, nonExistToken)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistClass}: not found: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a class in contract ${contractId}: ${nonExistClass}: not found`),
           ),
         );
 
@@ -615,8 +618,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistContract = "ffffffff";
 
         await expectAsync(client.collection.tokenType(nonExistContract, tokenType2)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${nonExistContract}: ${tokenType2}: not found: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a class in contract ${nonExistContract}: ${tokenType2}: not found`),
           ),
         );
 
@@ -630,8 +634,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistTokenType = "ffffffff";
 
         await expectAsync(client.collection.tokenType(contractId, nonExistTokenType)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = no such a class in contract ${contractId}: ${nonExistTokenType}: not found: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`no such a class in contract ${contractId}: ${nonExistTokenType}: not found`),
           ),
         );
 
@@ -761,8 +766,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistContract = "ffffffff";
 
         await expectAsync(client.collection.root(nonExistContract, tokenId2)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = ${tokenId2}: token symbol, token-id does not exist: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`${tokenId2}: token symbol, token-id does not exist`),
           ),
         );
 
@@ -776,8 +782,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistTokenId = "ffffffffffffffff";
 
         await expectAsync(client.collection.root(contractId, nonExistTokenId)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = ${nonExistTokenId}: token symbol, token-id does not exist: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`${nonExistTokenId}: token symbol, token-id does not exist`),
           ),
         );
 
@@ -818,8 +825,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
 
         await expectAsync(client.collection.parent(contractId, tokenId1)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = ${tokenId1} has no parent: token is not a child of some other: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`${tokenId1} has no parent: token is not a child of some other`),
           ),
         );
 
@@ -833,8 +841,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistContract = "ffffffff";
 
         await expectAsync(client.collection.parent(nonExistContract, tokenId2)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = ${tokenId2} has no parent: token is not a child of some other: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`${tokenId2} has no parent: token is not a child of some other`),
           ),
         );
 
@@ -848,8 +857,9 @@ describe("CollectionExtension (non-fungible token)", () => {
         const nonExistTokenId = "ffffffffffffffff";
 
         await expectAsync(client.collection.parent(contractId, nonExistTokenId)).toBeRejectedWith(
-          new Error(
-            `Query failed with (22): rpc error: code = NotFound desc = ${nonExistTokenId} has no parent: token is not a child of some other: key not found`,
+          new QueryRpcFailError(
+            22,
+            makeNotFoundMessage(`${nonExistTokenId} has no parent: token is not a child of some other`),
           ),
         );
 
