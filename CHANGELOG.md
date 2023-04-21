@@ -17,6 +17,8 @@ and this project adheres to
 - [\#80](https://github.com/Finschia/finschia-js/pull/80) add
   MsgInstantiateContract2
 - [\#81](https://github.com/Finschia/finschia-js/pull/81) add git PR template
+- [\#78](https://github.com/Finschia/finschia-js/pull/78) add auth publish ci on
+  new tag, release
 
 ### Changed
 
