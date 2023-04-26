@@ -226,6 +226,10 @@ export async function makeWasmClient(
   );
 }
 
+export function makeNotFoundMessage(log: string): string {
+  return `rpc error: code = NotFound desc = ${log}: key not found`;
+}
+
 /**
  * A class for testing clients using an Amino signer which modifies the transaction it receives before signing
  */
