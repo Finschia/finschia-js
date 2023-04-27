@@ -1,9 +1,24 @@
 # CHANGELOG
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+## [v0.8.0]
 
 ### Added
 
@@ -20,16 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [\#84](https://github.com/Finschia/finschia-js/pull/84) Bumpup cosmjs to 0.30.1
 - [\#82](https://github.com/Finschia/finschia-js/pull/82) prepare open (change lbm to finschia)
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - [\#73](https://github.com/Finschia/finschia-js/pull/73) fix the local unit test error
 - [\#88](https://github.com/Finschia/finschia-js/pull/88) apply changed event in finschia v1.0.0-rc6 to pass tests
 
-### Security
 
 ## [v0.7.2]
 
@@ -106,7 +116,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [#7]: https://github.com/Finschia/finschia-js/pull/7
 [#14]: https://github.com/Finschia/finschia-js/pull/14
-[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.7.2...HEAD
+[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.8.0...HEAD
+[v0.8.0]: https://github.com/Finschia/finschia-js/compare/v0.7.2...v0.8.0
 [v0.7.2]: https://github.com/Finschia/finschia-js/compare/v0.7.1...v0.7.2
 [v0.7.1]: https://github.com/Finschia/finschia-js/compare/v0.7.0...v0.7.1
 [v0.7.0]: https://github.com/Finschia/finschia-js/compare/v0.4.0...v0.7.0
