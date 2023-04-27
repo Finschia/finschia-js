@@ -37,6 +37,8 @@ and this project adheres to
 
 - [\#73](https://github.com/Finschia/finschia-js/pull/73) fix the local unit
   test error
+- [\#88](https://github.com/Finschia/finschia-js/pull/88) apply changed event in
+  finschia v1.0.0-rc6 to pass tests
 
 ### Security
 
