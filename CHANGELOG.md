@@ -1,33 +1,24 @@
 # CHANGELOG
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to
-[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), 
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Added
 
-- [\#69](https://github.com/Finschia/finschia-js/pull/69) apply the changes of
-  `x/token` and `x/collection` protos
-- [\#71](https://github.com/Finschia/finschia-js/pull/71) @lbmjs/finschia: Add
-  custom GetBlockWithTxs for lbm
-- [\#77](https://github.com/Finschia/finschia-js/pull/77) @lbmjs/finschia:
-  Enable amino sign store msgs in `wasm` and `wasmplus`
-- [\#80](https://github.com/Finschia/finschia-js/pull/80) add
-  MsgInstantiateContract2
+- [\#69](https://github.com/Finschia/finschia-js/pull/69) apply the changes of `x/token` and `x/collection` protos
+- [\#71](https://github.com/Finschia/finschia-js/pull/71) @lbmjs/finschia: Add custom GetBlockWithTxs for lbm
+- [\#77](https://github.com/Finschia/finschia-js/pull/77) @lbmjs/finschia: Enable amino sign store msgs in `wasm` and `wasmplus`
+- [\#80](https://github.com/Finschia/finschia-js/pull/80) add MsgInstantiateContract2
 - [\#81](https://github.com/Finschia/finschia-js/pull/81) add git PR template
-- [\#78](https://github.com/Finschia/finschia-js/pull/78) add auth publish ci on
-  new tag, release
-- [\#87](https://github.com/Finschia/finschia-js/pull/87) @lbmjs/finschia: add
-  tests for grpc errors in collection, token
+- [\#78](https://github.com/Finschia/finschia-js/pull/78) add auth publish ci on new tag, release
+- [\#87](https://github.com/Finschia/finschia-js/pull/87) @lbmjs/finschia: add tests for grpc errors in collection, token
 
 ### Changed
 
-- [\#84](https://github.com/Finschia/finschia-js/pull/84) Bumpup cosmjs to
-  0.30.1
-- [\#82](https://github.com/Finschia/finschia-js/pull/82) prepare open (change
-  lbm to finschia)
+- [\#84](https://github.com/Finschia/finschia-js/pull/84) Bumpup cosmjs to 0.30.1
+- [\#82](https://github.com/Finschia/finschia-js/pull/82) prepare open (change lbm to finschia)
 
 ### Deprecated
 
@@ -35,10 +26,8 @@ and this project adheres to
 
 ### Fixed
 
-- [\#73](https://github.com/Finschia/finschia-js/pull/73) fix the local unit
-  test error
-- [\#88](https://github.com/Finschia/finschia-js/pull/88) apply changed event in
-  finschia v1.0.0-rc6 to pass tests
+- [\#73](https://github.com/Finschia/finschia-js/pull/73) fix the local unit test error
+- [\#88](https://github.com/Finschia/finschia-js/pull/88) apply changed event in finschia v1.0.0-rc6 to pass tests
 
 ### Security
 
@@ -46,36 +35,29 @@ and this project adheres to
 
 ### Added
 
-- [\#61](https://github.com/Finschia/finschia-js/pull/61) @lbmjs/finschia: Add
-  query minimum gas price
-- [\#58](https://github.com/Finschia/finschia-js/pull/58) @lbmjs/finschia: Add
-  test foundation amino
+- [\#61](https://github.com/Finschia/finschia-js/pull/61) @lbmjs/finschia: Add query minimum gas price
+- [\#58](https://github.com/Finschia/finschia-js/pull/58) @lbmjs/finschia: Add test foundation amino
 
 ## [v0.7.1] - 2023-01-10
 
 ### Fixed
 
-- [\#54](https://github.com/Finschia/finschia-js/pull/54) @lbmjs/finschia: Fix
-  not to import wrong execute msg
+- [\#54](https://github.com/Finschia/finschia-js/pull/54) @lbmjs/finschia: Fix not to import wrong execute msg
 
 ## [v0.7.0] - 2022-12-08
 
 ### Added
 
-- [\#44](https://github.com/Finschia/finschia-js/pull/44) @lbmjs/finshia: Add
-  amino messages to lbm specific modules, support changed foundation module
-- [\#47](https://github.com/Finschia/finschia-js/pull/47) @lbmjs/finshia: Add
-  message encode object interface to token, collection, foundation module
+- [\#44](https://github.com/Finschia/finschia-js/pull/44) @lbmjs/finshia: Add amino messages to lbm specific modules, support changed foundation module
+- [\#47](https://github.com/Finschia/finschia-js/pull/47) @lbmjs/finshia: Add message encode object interface to token, collection, foundation module
 
 ### Removed
 
-- [\#43](https://github.com/Finschia/finschia-js/pull/43) chore: remove unused
-  scripts and ci files
+- [\#43](https://github.com/Finschia/finschia-js/pull/43) chore: remove unused scripts and ci files
 
 ### Fixed
 
-- [\#49](https://github.com/Finschia/finschia-js/pull/49) fix: change not to
-  override rpc server address as 26657
+- [\#49](https://github.com/Finschia/finschia-js/pull/49) fix: change not to override rpc server address as 26657
 
 ## [v0.4.0] - 2022-10-07
 
@@ -86,27 +68,20 @@ and this project adheres to
 ### Added
 
 - [\#18](https://github.com/Finschia/finschia-js/pull/18) ci: add unittest CI
-- [\#35](https://github.com/Finschia/finschia-js/pull/35) ci: run simapp and
-  enable simapp test in GitHub action
+- [\#35](https://github.com/Finschia/finschia-js/pull/35) ci: run simapp and enable simapp test in GitHub action
 
 ### Changed
 
-- [\#20](https://github.com/Finschia/finschia-js/pull/20) cosmjs: bump up
-  v0.28.1
-- [\#22](https://github.com/Finschia/finschia-js/pull/22) cosmjs: bump up
-  v0.28.4
-- [\#37](https://github.com/Finschia/finschia-js/pull/37) merge stargate and
-  cosmwasm-stargate into finschia
-- [\#39](https://github.com/Finschia/finschia-js/pull/39) delete stargate,
-  cosmwasm-stargate
-- [\#38](https://github.com/Finschia/finschia-js/pull/38) support lbm-sdk-rc8
-  and bump up cosmjs 0.29
-  - add token/collection/foundation module APIs
+- [\#20](https://github.com/Finschia/finschia-js/pull/20) cosmjs: bump up v0.28.1
+- [\#22](https://github.com/Finschia/finschia-js/pull/22) cosmjs: bump up v0.28.4
+- [\#37](https://github.com/Finschia/finschia-js/pull/37) merge stargate and cosmwasm-stargate into finschia
+- [\#39](https://github.com/Finschia/finschia-js/pull/39) delete stargate, cosmwasm-stargate
+- [\#38](https://github.com/Finschia/finschia-js/pull/38) support lbm-sdk-rc8 and bump up cosmjs 0.29
+- add token/collection/foundation module APIs
 
 ### Fixed
 
-- [\#19](https://github.com/Finschia/finschia-js/pull/19) @lbmjs/stargate: fix
-  multisignature spec file error
+- [\#19](https://github.com/Finschia/finschia-js/pull/19) @lbmjs/stargate: fix multisignature spec file error
 
 ## 0.1.0 - 2022-03-29
 
@@ -116,8 +91,7 @@ and this project adheres to
 ### Added
 
 - @lbmjs/stargate: Add `x/token` module apis ([#7])
-- @lbmjs/cosmwasm-stargate: Add `MsgStoreCodeAndInstantiateContract` function
-  and `MsgUpdateContractStatus` tx encoding ([#7])
+- @lbmjs/cosmwasm-stargate: Add `MsgStoreCodeAndInstantiateContract` function and `MsgUpdateContractStatus` tx encoding ([#7])
 
 ### Changed
 
