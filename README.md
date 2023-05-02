@@ -9,9 +9,9 @@ finschia-js is a library that consists of many smaller npm packages within the
 [@finschia namespace](https://www.npmjs.com/org/finschia), a so called monorepo.
 Here are some of them to get an idea:
 
-| Package                                 | Description                                   | Latest                                                                                                                  |
-| --------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [@finschia/finschia](packages/finschia) | A client library for the Finschia v1.0.0-rc0+ | [![npm version](https://img.shields.io/npm/v/@finschia/finschia.svg)](https://www.npmjs.com/package/@finschia/finschia) |
+| Package                                 | Description                               | Latest                                                                                                                  |
+| --------------------------------------- |-------------------------------------------| ----------------------------------------------------------------------------------------------------------------------- |
+| [@finschia/finschia](packages/finschia) | A client library for the Finschia v1.0.0+ | [![npm version](https://img.shields.io/npm/v/@finschia/finschia.svg)](https://www.npmjs.com/package/@finschia/finschia) |
 
 ## Supported JS environments
 
