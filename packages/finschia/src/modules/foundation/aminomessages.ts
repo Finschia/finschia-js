@@ -4,12 +4,12 @@ import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
 import { Any } from "cosmjs-types/google/protobuf/any";
-import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
+import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
   voteOptionFromJSON,
-} from "lbmjs-types/lbm/foundation/v1/foundation";
+} from "@finschia/finschia-proto/lbm/foundation/v1/foundation";
 import {
   Exec,
   execFromJSON,
@@ -25,8 +25,8 @@ import {
   MsgVote,
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
-} from "lbmjs-types/lbm/foundation/v1/tx";
-import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
+} from "@finschia/finschia-proto/lbm/foundation/v1/tx";
+import { CreateValidatorAuthorization } from "@finschia/finschia-proto/lbm/stakingplus/v1/authz";
 import Long from "long";
 
 import { createDefaultRegistry, createDefaultTypesWithoutFoundation } from "../../types";

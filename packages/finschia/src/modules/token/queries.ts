@@ -1,7 +1,7 @@
 import { createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
-import { QueryClientImpl } from "lbmjs-types/lbm/token/v1/query";
-import { Contract, Grant } from "lbmjs-types/lbm/token/v1/token";
+import { QueryClientImpl } from "@finschia/finschia-proto/lbm/token/v1/query";
+import { Contract, Grant } from "@finschia/finschia-proto/lbm/token/v1/token";
 
 export interface TokenExtension {
   readonly token: {

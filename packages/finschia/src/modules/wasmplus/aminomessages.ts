@@ -3,7 +3,7 @@ import { AminoMsg } from "@cosmjs/amino";
 import { fromBase64, fromUtf8, toBase64, toUtf8 } from "@cosmjs/encoding";
 import { AminoConverters } from "@cosmjs/stargate";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
+import { MsgStoreCodeAndInstantiateContract } from "@finschia/finschia-proto/lbm/wasm/v1/tx";
 
 import { AccessConfig, accessTypeFromString, accessTypeToString } from "../wasm/aminomessages";
 

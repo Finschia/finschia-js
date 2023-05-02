@@ -11,7 +11,7 @@ import {
   MsgRevokeOperator,
   MsgRevokePermission,
   MsgSend,
-} from "lbmjs-types/lbm/token/v1/tx";
+} from "@finschia/finschia-proto/lbm/token/v1/tx";
 
 export const tokenTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.token.v1.MsgSend", MsgSend],

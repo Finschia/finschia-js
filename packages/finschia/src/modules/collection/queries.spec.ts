@@ -4,7 +4,7 @@ import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, logs, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { assert, sleep } from "@cosmjs/utils";
-import { FT, OwnerNFT } from "lbmjs-types/lbm/collection/v1/collection";
+import { FT, OwnerNFT } from "@finschia/finschia-proto/lbm/collection/v1/collection";
 
 import { makeLinkPath } from "../../paths";
 import { SigningFinschiaClient } from "../../signingfinschiaclient";

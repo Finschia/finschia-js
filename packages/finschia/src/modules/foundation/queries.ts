@@ -8,14 +8,14 @@ import {
   Proposal,
   TallyResult,
   Vote,
-} from "lbmjs-types/lbm/foundation/v1/foundation";
+} from "@finschia/finschia-proto/lbm/foundation/v1/foundation";
 import {
   QueryClientImpl,
   QueryGrantsResponse,
   QueryMembersResponse,
   QueryProposalsResponse,
   QueryVotesResponse,
-} from "lbmjs-types/lbm/foundation/v1/query";
+} from "@finschia/finschia-proto/lbm/foundation/v1/query";
 
 import { longify } from "../../utils";
 

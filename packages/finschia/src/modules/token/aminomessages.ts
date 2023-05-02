@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
-import { Attribute } from "lbmjs-types/lbm/token/v1/token";
+import { Attribute } from "@finschia/finschia-proto/lbm/token/v1/token";
 import {
   MsgAuthorizeOperator,
   MsgBurn,
@@ -14,7 +14,7 @@ import {
   MsgRevokeOperator,
   MsgRevokePermission,
   MsgSend,
-} from "lbmjs-types/lbm/token/v1/tx";
+} from "@finschia/finschia-proto/lbm/token/v1/tx";
 
 export interface AminoMsgSend extends AminoMsg {
   readonly type: "lbm-sdk/MsgSend";

@@ -3,7 +3,7 @@ import {
   QueryClientImpl,
   QueryInactiveContractResponse,
   QueryInactiveContractsResponse,
-} from "lbmjs-types/lbm/wasm/v1/query";
+} from "@finschia/finschia-proto/lbm/wasm/v1/query";
 
 export interface WasmplusExtension {
   readonly wasmplus: {
