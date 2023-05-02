@@ -50,6 +50,7 @@ import {
 } from "@cosmjs/stargate";
 import { HttpEndpoint, Tendermint34Client, TendermintClient } from "@cosmjs/tendermint-rpc";
 import { assert, assertDefined } from "@cosmjs/utils";
+import { MsgStoreCodeAndInstantiateContract } from "@finschia/finschia-proto/lbm/wasm/v1/tx";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
@@ -66,7 +67,6 @@ import { MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { AccessConfig } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
-import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
 import Long from "long";
 import pako from "pako";
 

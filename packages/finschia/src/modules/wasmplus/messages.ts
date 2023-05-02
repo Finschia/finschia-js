@@ -1,5 +1,5 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
-import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
+import { MsgStoreCodeAndInstantiateContract } from "@finschia/finschia-proto/lbm/wasm/v1/tx";
 
 export const wasmplusTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.wasm.v1.MsgStoreCodeAndInstantiateContract", MsgStoreCodeAndInstantiateContract],

@@ -2,14 +2,14 @@ import { Decimal } from "@cosmjs/math";
 import { EncodeObject, GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { Duration } from "cosmjs-types/google/protobuf/duration";
-import { ReceiveFromTreasuryAuthorization } from "lbmjs-types/lbm/foundation/v1/authz";
+import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
   DecisionPolicyWindows,
   MemberRequest,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
   VoteOption,
-} from "lbmjs-types/lbm/foundation/v1/foundation";
+} from "@finschia/finschia-proto/lbm/foundation/v1/foundation";
 import {
   Exec,
   MsgExec,
@@ -24,7 +24,7 @@ import {
   MsgVote,
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
-} from "lbmjs-types/lbm/foundation/v1/tx";
+} from "@finschia/finschia-proto/lbm/foundation/v1/tx";
 
 import { longify } from "../../utils";
 

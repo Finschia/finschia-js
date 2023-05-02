@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoConverters } from "@cosmjs/stargate";
-import { Attribute, Coin } from "lbmjs-types/lbm/collection/v1/collection";
+import { Attribute, Coin } from "@finschia/finschia-proto/lbm/collection/v1/collection";
 import {
   MintNFTParam,
   MsgAttach,
@@ -26,7 +26,7 @@ import {
   MsgRevokePermission,
   MsgSendFT,
   MsgSendNFT,
-} from "lbmjs-types/lbm/collection/v1/tx";
+} from "@finschia/finschia-proto/lbm/collection/v1/tx";
 
 export interface AminoMsgSendFT extends AminoMsg {
   readonly type: "lbm-sdk/MsgSendFT";

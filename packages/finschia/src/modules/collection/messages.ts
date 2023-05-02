@@ -23,7 +23,7 @@ import {
   MsgRevokePermission,
   MsgSendFT,
   MsgSendNFT,
-} from "lbmjs-types/lbm/collection/v1/tx";
+} from "@finschia/finschia-proto/lbm/collection/v1/tx";
 
 export const collectionTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.collection.v1.MsgSendFT", MsgSendFT],
