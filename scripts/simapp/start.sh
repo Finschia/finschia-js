@@ -23,7 +23,7 @@ SIMD_LOGFILE="$TMP_DIR/simd.log"
 # Use a fresh volume for every start
 docker volume rm -f simapp_data
 
-docker run --rm \
+docker run \
   --name "$CONTAINER_NAME" \
   -p "$TENDERMINT_PORT_HOST":"$TENDERMINT_PORT_GUEST" \
   -p "$API_PORT_HOST":"$API_PORT_GUEST" \
