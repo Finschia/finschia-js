@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [\#73](https://github.com/Finschia/finschia-js/pull/73) fix the local unit test error
 - [\#88](https://github.com/Finschia/finschia-js/pull/88) apply changed event in finschia v1.0.0-rc6 to pass tests
+- [\#91](https://github.com/Finschia/finschia-js/pull/91) ci fix not to pusblish on release
 
 ### Security
 
