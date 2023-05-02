@@ -1,5 +1,5 @@
 import { Uint53 } from "@cosmjs/math";
-import { Coin } from "lbmjs-types/lbm/collection/v1/collection";
+import { Coin } from "@finschia/finschia-proto/lbm/collection/v1/collection";
 
 export function ftCoin(amount: number | string, tokenId: string): Coin {
   let outAmount: string;

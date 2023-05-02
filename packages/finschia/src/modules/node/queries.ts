@@ -1,5 +1,5 @@
 import { createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
-import { ServiceClientImpl } from "lbmjs-types/cosmos/base/node/v1beta1/query";
+import { ServiceClientImpl } from "@finschia/finschia-proto/cosmos/base/node/v1beta1/query";
 
 export interface NodeExtension {
   readonly node: {

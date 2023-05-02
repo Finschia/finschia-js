@@ -471,6 +471,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@finschia/finschia-proto@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@finschia/finschia-proto@npm:1.0.0"
+  dependencies:
+    long: ^4.0.0
+    protobufjs: ~6.11.2
+  checksum: 083337901879072005ed6611dfaa8d737033506d71c3d7adb97f73c8620fbcb19e73de722837e37cddc65b88f0d864d2ec627017cc2481127c36b5276e39f442
+  languageName: node
+  linkType: hard
+
 "@finschia/finschia@workspace:packages/finschia":
   version: 0.0.0-use.local
   resolution: "@finschia/finschia@workspace:packages/finschia"
@@ -484,6 +494,7 @@ __metadata:
     "@cosmjs/stargate": ^0.30.1
     "@cosmjs/tendermint-rpc": ^0.30.1
     "@cosmjs/utils": ^0.30.1
+    "@finschia/finschia-proto": ^1.0.0
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8
@@ -513,7 +524,6 @@ __metadata:
     karma-jasmine-html-reporter: ^1.5.4
     karma-spec-reporter: ^0.0.33
     karma-typescript: ^5.5.3
-    lbmjs-types: ^1.0.0-rc5
     long: ^4.0.0
     nyc: ^15.1.0
     pako: ^2.0.2
@@ -4218,16 +4228,6 @@ __metadata:
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
   checksum: 3ab01e7b1d440b22fe4c31f23d8d38b4d9b91d9f291df683476576493d5dfd2e03848a8b05813dd0c3f0e835bc63f433007ddeceb71f05cb25c45ae1b19c6d3b
-  languageName: node
-  linkType: hard
-
-"lbmjs-types@npm:^1.0.0-rc5":
-  version: 1.0.0-rc5
-  resolution: "lbmjs-types@npm:1.0.0-rc5"
-  dependencies:
-    long: ^4.0.0
-    protobufjs: ~6.11.2
-  checksum: 0c24bc4c77fef43098be856997c2c5c2f0c5b69e1c70ca1ce1675e907420fe60ab9d3620c9c0c5000340182a49dd12dc09a4a49543761a74f46ff7d057094ec6
   languageName: node
   linkType: hard
 

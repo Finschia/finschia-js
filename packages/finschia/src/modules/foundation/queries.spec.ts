@@ -4,7 +4,10 @@ import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, logs, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
-import { MemberRequest, ThresholdDecisionPolicy } from "lbmjs-types/lbm/foundation/v1/foundation";
+import {
+  MemberRequest,
+  ThresholdDecisionPolicy,
+} from "@finschia/finschia-proto/lbm/foundation/v1/foundation";
 import Long from "long";
 
 import { makeLinkPath } from "../../paths";

@@ -203,6 +203,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "workspace:packages/finschia"
       ],
       [
+        "@finschia/finschia-proto",
+        "npm:1.0.0"
+      ],
+      [
         "@gar/promisify",
         "npm:1.1.2"
       ],
@@ -1629,10 +1633,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       [
         "kind-of",
         "npm:6.0.3"
-      ],
-      [
-        "lbmjs-types",
-        "npm:1.0.0-rc5"
       ],
       [
         "levn",
@@ -3121,6 +3121,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/stargate", "npm:0.30.1"],
             ["@cosmjs/tendermint-rpc", "npm:0.30.1"],
             ["@cosmjs/utils", "npm:0.30.1"],
+            ["@finschia/finschia-proto", "npm:1.0.0"],
             ["@istanbuljs/nyc-config-typescript", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:1.0.2"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jasmine", "npm:3.10.3"],
@@ -3150,7 +3151,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["karma-jasmine-html-reporter", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:1.7.0"],
             ["karma-spec-reporter", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:0.0.33"],
             ["karma-typescript", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:5.5.3"],
-            ["lbmjs-types", "npm:1.0.0-rc5"],
             ["long", "npm:4.0.0"],
             ["nyc", "npm:15.1.0"],
             ["pako", "npm:2.0.4"],
@@ -3167,6 +3167,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["xstream", "npm:11.14.0"]
           ],
           "linkType": "SOFT",
+        }]
+      ]],
+      ["@finschia/finschia-proto", [
+        ["npm:1.0.0", {
+          "packageLocation": "./.yarn/cache/@finschia-finschia-proto-npm-1.0.0-86ffb39646-0833379018.zip/node_modules/@finschia/finschia-proto/",
+          "packageDependencies": [
+            ["@finschia/finschia-proto", "npm:1.0.0"],
+            ["long", "npm:4.0.0"],
+            ["protobufjs", "npm:6.11.2"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@gar/promisify", [
@@ -7749,17 +7760,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/kind-of-npm-6.0.3-ab15f36220-3ab01e7b1d.zip/node_modules/kind-of/",
           "packageDependencies": [
             ["kind-of", "npm:6.0.3"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["lbmjs-types", [
-        ["npm:1.0.0-rc5", {
-          "packageLocation": "./.yarn/cache/lbmjs-types-npm-1.0.0-rc5-64e7143d62-0c24bc4c77.zip/node_modules/lbmjs-types/",
-          "packageDependencies": [
-            ["lbmjs-types", "npm:1.0.0-rc5"],
-            ["long", "npm:4.0.0"],
-            ["protobufjs", "npm:6.11.2"]
           ],
           "linkType": "HARD",
         }]

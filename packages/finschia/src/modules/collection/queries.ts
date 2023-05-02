@@ -1,8 +1,8 @@
 import { createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
 import { Any } from "cosmjs-types/google/protobuf/any";
-import { Coin, Contract, Grant, NFT, TokenType } from "lbmjs-types/lbm/collection/v1/collection";
-import { QueryClientImpl } from "lbmjs-types/lbm/collection/v1/query";
+import { Coin, Contract, Grant, NFT, TokenType } from "@finschia/finschia-proto/lbm/collection/v1/collection";
+import { QueryClientImpl } from "@finschia/finschia-proto/lbm/collection/v1/query";
 
 export interface CollectionExtension {
   readonly collection: {

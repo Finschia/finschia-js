@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [\#84](https://github.com/Finschia/finschia-js/pull/84) Bumpup cosmjs to 0.30.1
 - [\#82](https://github.com/Finschia/finschia-js/pull/82) prepare open (change lbm to finschia)
+- [\#90](https://github.com/Finschia/finschia-js/pull/90) change lbmjs-types to finschia-proto
 
 ### Deprecated
 

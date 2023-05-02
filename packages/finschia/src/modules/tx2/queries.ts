@@ -5,7 +5,7 @@ import {
   setupTxExtension,
   TxExtension,
 } from "@cosmjs/stargate";
-import { GetBlockWithTxsResponse, ServiceClientImpl } from "lbmjs-types/lbm/tx/v1beta1/service";
+import { GetBlockWithTxsResponse, ServiceClientImpl } from "@finschia/finschia-proto/lbm/tx/v1beta1/service";
 import Long from "long";
 
 export interface Tx2Extension extends TxExtension {

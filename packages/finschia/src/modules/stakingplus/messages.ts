@@ -1,5 +1,5 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
-import { CreateValidatorAuthorization } from "lbmjs-types/lbm/stakingplus/v1/authz";
+import { CreateValidatorAuthorization } from "@finschia/finschia-proto/lbm/stakingplus/v1/authz";
 
 export const stakingplusTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.stakingplus.v1.CreateValidatorAuthorization", CreateValidatorAuthorization],

@@ -9,7 +9,7 @@ import {
   SigningStargateClient,
 } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
-import { MsgStoreCodeAndInstantiateContract } from "lbmjs-types/lbm/wasm/v1/tx";
+import { MsgStoreCodeAndInstantiateContract } from "@finschia/finschia-proto/lbm/wasm/v1/tx";
 
 import { makeLinkPath } from "../../paths";
 import {
