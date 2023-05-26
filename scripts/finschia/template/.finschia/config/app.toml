@@ -61,7 +61,7 @@ inter-block-cache-size = 104857600
 # So be careful that all iavl cache size are difference from this iavl cache size value.
 iavl-cache-size = 524288
 
-# IAVLDisableFastNode enables or disables the fast node feature of IAVL. 
+# IAVLDisableFastNode enables or disables the fast node feature of IAVL.
 # Default is true.
 iavl-disable-fastnode = true
 

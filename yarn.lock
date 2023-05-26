@@ -471,13 +471,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@finschia/finschia-proto@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@finschia/finschia-proto@npm:1.0.0"
+"@finschia/finschia-proto@npm:^2.0.0-rc1":
+  version: 2.0.0-rc1
+  resolution: "@finschia/finschia-proto@npm:2.0.0-rc1"
   dependencies:
     long: ^4.0.0
     protobufjs: ~6.11.2
-  checksum: 083337901879072005ed6611dfaa8d737033506d71c3d7adb97f73c8620fbcb19e73de722837e37cddc65b88f0d864d2ec627017cc2481127c36b5276e39f442
+  checksum: 69669eaa517a88b499e7f7696e44aec26e67cde5e0f0eb8dd02ebcb10f39551339bf9c2fa4c2c71915e60848545a7d73c4b3395aeccd184bd95599c8ec422ffc
   languageName: node
   linkType: hard
 
@@ -494,7 +494,7 @@ __metadata:
     "@cosmjs/stargate": ^0.30.1
     "@cosmjs/tendermint-rpc": ^0.30.1
     "@cosmjs/utils": ^0.30.1
-    "@finschia/finschia-proto": ^1.0.0
+    "@finschia/finschia-proto": ^2.0.0-rc1
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@types/eslint-plugin-prettier": ^3
     "@types/jasmine": ^3.8

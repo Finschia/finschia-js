@@ -3,8 +3,6 @@ import { Decimal } from "@cosmjs/math";
 import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
 import { AminoTypes, assertIsDeliverTxSuccess, coins, logs } from "@cosmjs/stargate";
 import { sleep } from "@cosmjs/utils";
-import { Any } from "cosmjs-types/google/protobuf/any";
-import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
@@ -20,14 +18,14 @@ import {
   MsgRevoke,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
-  MsgUpdateParams,
   MsgVote,
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
 } from "@finschia/finschia-proto/lbm/foundation/v1/tx";
 import { CreateValidatorAuthorization } from "@finschia/finschia-proto/lbm/stakingplus/v1/authz";
+import { Any } from "cosmjs-types/google/protobuf/any";
+import { Duration } from "cosmjs-types/google/protobuf/duration";
 import Long from "long";
-import { MsgUpdateParamsEncodeObject } from "src";
 
 import { makeLinkPath } from "../../paths";
 import { SigningFinschiaClient } from "../../signingfinschiaclient";
@@ -49,7 +47,6 @@ import {
   AminoMsgSubmitProposal,
   AminoMsgUpdateDecisionPolicy,
   AminoMsgUpdateMembers,
-  AminoMsgUpdateParams,
   AminoMsgVote,
   AminoMsgWithdrawFromTreasury,
   AminoMsgWithdrawProposal,
@@ -66,6 +63,7 @@ import {
   MsgLeaveFoundationEncodeObject,
   MsgUpdateMembersEncodeObject,
   MsgVoteEncodeObject,
+  MsgWithdrawFromTreasuryEncodeObject,
   MsgWithdrawProposalEncodeObject,
 } from "./messages";
 import {
@@ -98,18 +96,22 @@ describe("Amino sign", () => {
         defaultSigningClientOptions,
       );
 
-      const msgUpdateParams: MsgUpdateParamsEncodeObject = {
-        typeUrl: "/lbm.foundation.v1.MsgUpdateParams",
+      const msgWithdrawFromTreasury: MsgWithdrawFromTreasuryEncodeObject = {
+        typeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
         value: {
           authority: authorityAddress,
-          params: {
-            foundationTax: Decimal.fromUserInput("0.1", 18).atomics,
-          },
+          to: authorityAddress,
+          amount: [
+            {
+              denom: "cony",
+              amount: "100000000000000",
+            },
+          ],
         },
       };
       const msg = createMsgSubmitProposal(
         [faucet.address0],
-        [msgUpdateParams],
+        [msgWithdrawFromTreasury],
         "test",
         Exec.EXEC_UNSPECIFIED,
       );
@@ -204,33 +206,6 @@ describe("Amino sign", () => {
       },
     };
     const result = await signingFinschiaClient.signAndBroadcast(faucet.address0, [msgExec], defaultFee);
-    assertIsDeliverTxSuccess(result);
-  });
-
-  it("MsgUpdateParams", async () => {
-    pendingWithoutSimapp();
-    const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-      hdPaths: [makeLinkPath(0)],
-      prefix: simapp.prefix,
-    });
-    const signingFinschiaClient = await SigningFinschiaClient.connectWithSigner(
-      simapp.tendermintUrl,
-      wallet,
-      defaultSigningClientOptions,
-    );
-
-    const msgUpdateParams: MsgUpdateParamsEncodeObject = {
-      typeUrl: "/lbm.foundation.v1.MsgUpdateParams",
-      value: {
-        authority: authorityAddress,
-        params: {
-          foundationTax: Decimal.fromUserInput("0.1", 18).atomics,
-        },
-      },
-    };
-
-    const msg = createMsgSubmitProposal([faucet.address0], [msgUpdateParams], "test", Exec.EXEC_UNSPECIFIED);
-    const result = await signingFinschiaClient.signAndBroadcast(faucet.address0, [msg], defaultFee);
     assertIsDeliverTxSuccess(result);
   });
 
@@ -465,30 +440,6 @@ describe("AminoTypes", () => {
             },
           ],
           exec: 1,
-        },
-      };
-      expect(aminoMsg).toEqual(expected);
-    });
-
-    it("MsgUpdateParams", () => {
-      const msg: MsgUpdateParams = {
-        authority: faucet.address0,
-        params: {
-          foundationTax: "0",
-        },
-      };
-      const aminoTypes = new AminoTypes(createFoundationAminoConverters());
-      const aminoMsg = aminoTypes.toAmino({
-        typeUrl: "/lbm.foundation.v1.MsgUpdateParams",
-        value: msg,
-      });
-      const expected: AminoMsgUpdateParams = {
-        type: "lbm-sdk/MsgUpdateParams",
-        value: {
-          authority: faucet.address0,
-          params: {
-            foundation_tax: "0.000000000000000000",
-          },
         },
       };
       expect(aminoMsg).toEqual(expected);
@@ -822,30 +773,6 @@ describe("AminoTypes", () => {
       const expected = createMsgSubmitProposal([faucet.address0], [msgGrant]);
 
       expect(msg).toEqual(expected);
-    });
-
-    it("MsgUpdateParams", () => {
-      const aminoMsg: AminoMsgUpdateParams = {
-        type: "lbm-sdk/MsgUpdateParams",
-        value: {
-          authority: faucet.address0,
-          params: {
-            foundation_tax: "0",
-          },
-        },
-      };
-      const aminoTypes = new AminoTypes(createFoundationAminoConverters());
-      const msg = aminoTypes.fromAmino(aminoMsg);
-      const expectedValue: MsgUpdateParams = {
-        authority: faucet.address0,
-        params: {
-          foundationTax: "0",
-        },
-      };
-      expect(msg).toEqual({
-        typeUrl: "/lbm.foundation.v1.MsgUpdateParams",
-        value: expectedValue,
-      });
     });
 
     it("MsgFundTreasury", () => {

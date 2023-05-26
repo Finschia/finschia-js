@@ -1,7 +1,5 @@
 import { Decimal } from "@cosmjs/math";
 import { EncodeObject, GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { Duration } from "cosmjs-types/google/protobuf/duration";
 import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
   DecisionPolicyWindows,
@@ -20,16 +18,16 @@ import {
   MsgSubmitProposal,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
-  MsgUpdateParams,
   MsgVote,
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
 } from "@finschia/finschia-proto/lbm/foundation/v1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { Duration } from "cosmjs-types/google/protobuf/duration";
 
 import { longify } from "../../utils";
 
 export const foundationTypes: ReadonlyArray<[string, GeneratedType]> = [
-  ["/lbm.foundation.v1.MsgUpdateParams", MsgUpdateParams],
   ["/lbm.foundation.v1.MsgFundTreasury", MsgFundTreasury],
   ["/lbm.foundation.v1.MsgWithdrawFromTreasury", MsgWithdrawFromTreasury],
   ["/lbm.foundation.v1.MsgUpdateMembers", MsgUpdateMembers],
@@ -46,15 +44,6 @@ export const foundationTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.foundation.v1.ThresholdDecisionPolicy", ThresholdDecisionPolicy],
   ["/lbm.foundation.v1.PercentageDecisionPolicy", PercentageDecisionPolicy],
 ];
-
-export interface MsgUpdateParamsEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.foundation.v1.MsgUpdateParams";
-  readonly value: Partial<MsgUpdateParams>;
-}
-
-export function isMsgUpdateParamsEncodeObject(object: EncodeObject): object is MsgUpdateParamsEncodeObject {
-  return (object as MsgUpdateParamsEncodeObject).typeUrl === "/lbm.foundation.v1.MsgUpdateParams";
-}
 
 export interface MsgFundTreasuryEncodeObject extends EncodeObject {
   readonly typeUrl: "/lbm.foundation.v1.MsgFundTreasury";
