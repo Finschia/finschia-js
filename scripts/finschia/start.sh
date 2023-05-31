@@ -15,13 +15,13 @@ SCRIPT_DIR="$(realpath "$(dirname "$0")")"
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR"/env
 
-TMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/lbmapp.XXXXXXXXX")
+TMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/fnsa.XXXXXXXXX")
 chmod 777 "$TMP_DIR"
 echo "Using temporary dir $TMP_DIR"
-LBM_LOGFILE="$TMP_DIR/lbm.log"
+FINSCHIA_LOGFILE="$TMP_DIR/finschia.log"
 
 # Use a fresh volume for every start
-docker volume rm -f lbmapp_data
+docker volume rm -f fnsad_data
 
 docker run --rm \
   --name "$CONTAINER_NAME" \
@@ -29,17 +29,17 @@ docker run --rm \
   -p "$API_PORT_HOST":"$API_PORT_GUEST" \
   -p "$GRPC_PORT_HOST":"$GRPC_PORT_GUEST" \
   --mount type=bind,source="$SCRIPT_DIR/template",target=/template \
-  --mount type=volume,source=lbmapp_data,target=/root \
+  --mount type=volume,source=fnsad_data,target=/root \
   "$REPOSITORY:$VERSION" \
   /template/run_finschia.sh \
-  >"$LBM_LOGFILE" 2>&1 &
+  >"$FINSCHIA_LOGFILE" 2>&1 &
 
-echo "fnsad running on http://localhost:$TENDERMINT_PORT_HOST and logging into $LBM_LOGFILE"
+echo "fnsad running on http://localhost:$TENDERMINT_PORT_HOST and logging into $FINSCHIA_LOGFILE"
 
 if [ -n "${CI:-}" ]; then
   # Give process some time to come alive. No idea why this helps. Needed for CI.
   sleep 0.5
 
   # Follow the logs in CI's background job
-  tail -f "$LBM_LOGFILE"
+  tail -f "$FINSCHIA_LOGFILE"
 fi

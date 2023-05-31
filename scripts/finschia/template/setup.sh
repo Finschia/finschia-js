@@ -40,7 +40,7 @@ if [[ ${mode} == "testnet" ]]
 then
     if [[ $1 == "docker" ]]
     then
-        docker run -i -p 26656:26656 -p 26657:26657 -v ${HOME}/.finschia:/root/.finschia $REPOSITORY:$VERSION sh -c "export SIMD_TESTNET=true"
+        docker run -i -p 26656:26656 -p 26657:26657 -v ${HOME}/.finschia:/root/.finschia $REPOSITORY:$VERSION sh -c "export FNSAD_TESTNET=true"
     else
        export FNSAD_TESTNET=true
     fi
