@@ -3,7 +3,6 @@ import { AminoMsg, Coin } from "@cosmjs/amino";
 import { EncodeObject } from "@cosmjs/proto-signing";
 import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
-import { Any } from "cosmjs-types/google/protobuf/any";
 import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
   PercentageDecisionPolicy,
@@ -21,12 +20,12 @@ import {
   MsgSubmitProposal,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
-  MsgUpdateParams,
   MsgVote,
   MsgWithdrawFromTreasury,
   MsgWithdrawProposal,
 } from "@finschia/finschia-proto/lbm/foundation/v1/tx";
 import { CreateValidatorAuthorization } from "@finschia/finschia-proto/lbm/stakingplus/v1/authz";
+import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
 import { createDefaultRegistry, createDefaultTypesWithoutFoundation } from "../../types";
@@ -37,10 +36,6 @@ import {
   protoDurationToJson,
 } from "../../utils";
 
-interface Params {
-  foundation_tax: string;
-}
-
 interface DecisionPolicyWindows {
   voting_period: string;
   min_execution_period: string;
@@ -49,24 +44,6 @@ interface MemberRequest {
   address: string;
   remove?: boolean;
   metadata?: string;
-}
-
-export interface AminoMsgUpdateParams extends AminoMsg {
-  readonly type: "lbm-sdk/MsgUpdateParams";
-  readonly value: {
-    /** authority is the address of the privileged account. */
-    readonly authority: string;
-    /**
-     * params defines the x/foundation parameters to update.
-     *
-     * NOTE: All parameters must be supplied.
-     */
-    readonly params?: Params;
-  };
-}
-
-export function isAminoMsgUpdateParams(msg: AminoMsg): msg is AminoMsgUpdateParams {
-  return msg.type === "lbm-sdk/MsgUpdateParams";
 }
 
 export interface AminoMsgFundTreasury extends AminoMsg {
@@ -284,27 +261,6 @@ export function isAminoReceiveFromTreasuryAuthorization(
 
 export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoConverters {
   return {
-    "/lbm.foundation.v1.MsgUpdateParams": {
-      aminoType: "lbm-sdk/MsgUpdateParams",
-      toAmino: ({ authority, params }: MsgUpdateParams): AminoMsgUpdateParams["value"] => {
-        assertDefinedAndNotNull(params);
-        return {
-          authority: authority,
-          params: {
-            foundation_tax: protoDecimalToJson(params.foundationTax),
-          },
-        };
-      },
-      fromAmino: ({ authority, params }: AminoMsgUpdateParams["value"]): MsgUpdateParams => {
-        assertDefinedAndNotNull(params);
-        return {
-          authority: authority,
-          params: {
-            foundationTax: jsonDecimalToProto(params.foundation_tax),
-          },
-        };
-      },
-    },
     "/lbm.foundation.v1.MsgFundTreasury": {
       aminoType: "lbm-sdk/MsgFundTreasury",
       toAmino: ({ from, amount }: MsgFundTreasury): AminoMsgFundTreasury["value"] => {

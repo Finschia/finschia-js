@@ -42,7 +42,7 @@ then
     then
         docker run -i -p 26656:26656 -p 26657:26657 -v ${HOME}/.simapp:/root/.simapp $REPOSITORY:$VERSION sh -c "export SIMD_TESTNET=true"
     else
-       export LBM_TESTNET=true
+       export SIMD_TESTNET=true
     fi
 fi
 

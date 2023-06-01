@@ -204,7 +204,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ],
       [
         "@finschia/finschia-proto",
-        "npm:1.0.0"
+        "npm:2.0.0-rc1"
       ],
       [
         "@gar/promisify",
@@ -3121,7 +3121,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@cosmjs/stargate", "npm:0.30.1"],
             ["@cosmjs/tendermint-rpc", "npm:0.30.1"],
             ["@cosmjs/utils", "npm:0.30.1"],
-            ["@finschia/finschia-proto", "npm:1.0.0"],
+            ["@finschia/finschia-proto", "npm:2.0.0-rc1"],
             ["@istanbuljs/nyc-config-typescript", "virtual:3f938e8b6d008ac7c4f429c55612c9826a29a057123d1f7e033c115c7e4faef2fa6717142b4eb614c9c2ce68e622b8f21afa701c01f12808c4bc214016991f99#npm:1.0.2"],
             ["@types/eslint-plugin-prettier", "npm:3.1.0"],
             ["@types/jasmine", "npm:3.10.3"],
@@ -3170,10 +3170,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@finschia/finschia-proto", [
-        ["npm:1.0.0", {
-          "packageLocation": "./.yarn/cache/@finschia-finschia-proto-npm-1.0.0-86ffb39646-0833379018.zip/node_modules/@finschia/finschia-proto/",
+        ["npm:2.0.0-rc1", {
+          "packageLocation": "./.yarn/cache/@finschia-finschia-proto-npm-2.0.0-rc1-9eb645ec7e-69669eaa51.zip/node_modules/@finschia/finschia-proto/",
           "packageDependencies": [
-            ["@finschia/finschia-proto", "npm:1.0.0"],
+            ["@finschia/finschia-proto", "npm:2.0.0-rc1"],
             ["long", "npm:4.0.0"],
             ["protobufjs", "npm:6.11.2"]
           ],

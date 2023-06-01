@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- [\#93](https://github.com/Finschia/finschia-js/pull/93) remove UpdateParams in x/foundation
+
 ### Deprecated
 
 ### Removed

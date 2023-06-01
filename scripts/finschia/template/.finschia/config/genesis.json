@@ -462,7 +462,7 @@
         "params": {
           "allowed_clients": [
             "06-solomachine",
-            "99-ostracon"
+            "07-tendermint"
           ]
         },
         "create_localhost": false,
