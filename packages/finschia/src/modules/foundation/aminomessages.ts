@@ -36,10 +36,6 @@ import {
   protoDurationToJson,
 } from "../../utils";
 
-interface Params {
-  foundation_tax: string;
-}
-
 interface DecisionPolicyWindows {
   voting_period: string;
   min_execution_period: string;
