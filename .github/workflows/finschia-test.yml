@@ -14,11 +14,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
-
-      - name: download contracts
-        run: |
-          cd scripts/finschia/contracts
-          bash download.sh
+        with:
+          lfs: true
 
       - name: Set up Node.js
         uses: actions/setup-node@v3

@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- [\#95](https://github.com/Finschia/finschia-js/pull/95) delete redundant download in workflow
+
 ### Fixed
 
 ### Security
