@@ -92,7 +92,6 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./modules";
 export { NodeExtension, setupNodeExtension } from "./modules";
-export { IbcExtension, setupIbcExtension } from "./modules";
 export { stakingplusTypes } from "./modules";
 export {
   isMsgBurnEncodeObject,

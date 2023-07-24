@@ -88,7 +88,6 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
-export { IbcExtension, setupIbcExtension } from "./ibc/queries";
 export { NodeExtension, setupNodeExtension } from "./node/queries";
 export { stakingplusTypes } from "./stakingplus/messages";
 export { createTokenAminoConverters } from "./token/aminomessages";

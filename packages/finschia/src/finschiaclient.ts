@@ -39,7 +39,7 @@ import {
   StargateClientOptions,
   TimeoutError,
 } from "@cosmjs/stargate";
-import { SlashingExtension } from "@cosmjs/stargate/build/modules";
+import { IbcExtension, setupIbcExtension, SlashingExtension } from "@cosmjs/stargate/build/modules";
 import { AuthzExtension } from "@cosmjs/stargate/build/modules/authz/queries";
 import {
   HttpEndpoint,
@@ -64,13 +64,11 @@ import {
   EvidenceExtension,
   FeeGrantExtension,
   FoundationExtension,
-  IbcExtension,
   NodeExtension,
   setupCollectionExtension,
   setupEvidenceExtension,
   setupFeeGrantExtension,
   setupFoundationExtension,
-  setupIbcExtension,
   setupNodeExtension,
   setupTokenExtension,
   setupTx2Extension,
