@@ -284,10 +284,9 @@ export class SigningFinschiaClient extends FinschiaClient {
     const parsedLogs = logs.parseRawLog(result.rawLog);
     const codeIdAttr = logs.findAttribute(parsedLogs, "store_code", "code_id");
     return {
+      checksum: toHex(sha256(wasmCode)),
       originalSize: wasmCode.length,
-      originalChecksum: toHex(sha256(wasmCode)),
       compressedSize: compressed.length,
-      compressedChecksum: toHex(sha256(compressed)),
       codeId: Number.parseInt(codeIdAttr.value, 10),
       logs: parsedLogs,
       height: result.height,
