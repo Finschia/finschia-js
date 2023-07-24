@@ -125,7 +125,6 @@ export {
   MsgStoreCodeAndInstantiateContractEncodeObject,
   setupWasmplusExtension,
   WasmplusExtension,
-  wasmTypes,
 } from "./modules";
 export { setupTx2Extension, Tx2Extension } from "./modules";
 export { makeLinkPath } from "./paths";

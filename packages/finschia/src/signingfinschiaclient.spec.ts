@@ -526,13 +526,13 @@ describe("SigningFinschiaClient", () => {
       const { contractAddress } = await client.instantiate2(
         faucet.address0,
         codeId,
+        salt,
         msg,
         "My cool label--",
         defaultInstantiateFee,
         {
           memo: "Let's see if the memo is used",
           funds: funds,
-          salt: salt,
         },
       );
 
