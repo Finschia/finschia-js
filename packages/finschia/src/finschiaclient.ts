@@ -22,6 +22,7 @@ import {
   DistributionExtension,
   fromTendermintEvent,
   GovExtension,
+  IbcExtension,
   IndexedTx,
   MintExtension,
   QueryClient,
@@ -32,6 +33,7 @@ import {
   setupBankExtension,
   setupDistributionExtension,
   setupGovExtension,
+  setupIbcExtension,
   setupMintExtension,
   setupSlashingExtension,
   setupStakingExtension,
@@ -39,7 +41,7 @@ import {
   StargateClientOptions,
   TimeoutError,
 } from "@cosmjs/stargate";
-import { IbcExtension, setupIbcExtension, SlashingExtension } from "@cosmjs/stargate/build/modules";
+import { SlashingExtension } from "@cosmjs/stargate/build/modules";
 import { AuthzExtension } from "@cosmjs/stargate/build/modules/authz/queries";
 import {
   HttpEndpoint,
@@ -58,6 +60,7 @@ import {
   QueryContractsByCodeResponse,
 } from "cosmjs-types/cosmwasm/wasm/v1/query";
 import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
+import { DenomTrace } from "cosmjs-types/ibc/applications/transfer/v1/transfer";
 
 import {
   CollectionExtension,
@@ -524,6 +527,11 @@ export class FinschiaClient {
 
   public async queryMinimumGasPrice(): Promise<string | null> {
     return await this.forceGetQueryClient().node.config();
+  }
+
+  public async getDenomTrace(hash: string): Promise<DenomTrace | null> {
+    const { denomTrace } = await this.forceGetQueryClient().ibc.transfer.denomTrace(hash);
+    return denomTrace ?? null;
   }
 
   private async txsQuery(query: string): Promise<IndexedTx[]> {

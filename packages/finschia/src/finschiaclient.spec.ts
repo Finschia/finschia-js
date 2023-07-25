@@ -21,6 +21,7 @@ import { FinschiaClient, PrivateFinschiaClient } from "./finschiaclient";
 import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
 import {
+  counterpartSimapp,
   defaultInstantiateFee,
   defaultSigningClientOptions,
   defaultUploadFee,
@@ -30,6 +31,7 @@ import {
   getHackatom,
   makeRandomAddress,
   nonExistentAddress,
+  pendingWithoutIbc,
   pendingWithoutSimapp,
   simapp,
   simappEnabled,
@@ -660,6 +662,56 @@ describe("FinschiaClient", () => {
       const minimumGasPrice = await client.queryMinimumGasPrice();
       expect(minimumGasPrice).not.toBeNull();
       expect(minimumGasPrice).toBe("0.000100000000000000cony");
+    });
+  });
+
+  describe("get denom trace", () => {
+    const sendAmount = coin(1234, "cony");
+    const randomAddress = makeRandomAddress();
+
+    beforeAll(async () => {
+      pendingWithoutSimapp();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: simapp.prefix,
+      });
+      const client = await SigningFinschiaClient.connectWithSigner(
+        simapp.tendermintUrl,
+        wallet,
+        defaultSigningClientOptions,
+      );
+      const memo = "Cross-chain fun";
+      const fee = {
+        amount: coins(2000, "cony"),
+        gas: "180000", // 180k
+      };
+
+      await client.sendIbcTokens(
+        faucet.address0,
+        randomAddress,
+        sendAmount,
+        "transfer",
+        "channel-0",
+        undefined,
+        Math.floor(Date.now() / 1000) + 60,
+        fee,
+        memo,
+      );
+
+      // sleep until counterpart chain get ibc tx from relayer
+      await sleep(3000);
+    });
+    it("works", async () => {
+      pendingWithoutIbc();
+
+      const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+      const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+      const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+      assert(ibcBalance, "ibc token should be exist");
+
+      const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+      assert(ibcDenom);
+      expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
     });
   });
 });
