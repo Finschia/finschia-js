@@ -16,7 +16,7 @@ import {
   coin,
   coins,
   createStakingAminoConverters,
-  isDeliverTxFailure,
+  isDeliverTxSuccess,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
 } from "@cosmjs/stargate";
@@ -32,9 +32,11 @@ import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
 
+import { FinschiaClient } from "./finschiaclient";
 import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
 import {
+  counterpartSimapp,
   defaultClearAdminFee,
   defaultExecuteFee,
   defaultGasPrice,
@@ -52,6 +54,7 @@ import {
   makeWasmClient,
   ModifyingDirectSecp256k1HdWallet,
   ModifyingSecp256k1HdWallet,
+  pendingWithoutIbc,
   pendingWithoutSimapp,
   simapp,
   unused,
@@ -197,6 +200,53 @@ describe("SigningFinschiaClient", () => {
   });
 
   describe("sendIbcTokens", () => {
+    it("Tt", async () => {
+      pendingWithoutIbc();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0)],
+        prefix: simapp.prefix,
+      });
+      const client = await SigningFinschiaClient.connectWithSigner(
+        simapp.tendermintUrl,
+        wallet,
+        defaultSigningClientOptions,
+      );
+      const memo = "Cross-chain fun";
+      const fee = {
+        amount: coins(2000, "cony"),
+        gas: "180000", // 180k
+      };
+
+      const sendAmount = coin(1234, "cony");
+
+      const result = await client.sendIbcTokens(
+        faucet.address0,
+        faucet.address1,
+        sendAmount,
+        "transfer",
+        "channel-0",
+        undefined,
+        Math.floor(Date.now() / 1000) + 60,
+        fee,
+        memo,
+      );
+
+      expect(isDeliverTxSuccess(result)).toEqual(true);
+
+      // sleep until counterpart chain get ibc tx from relayer
+      await sleep(1000);
+
+      const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+      const recipientBalances = await counterpartClient.getAllBalances(faucet.address1);
+      const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+      assert(ibcBalance, "ibc token should be exist");
+
+      const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+      assert(ibcDenom);
+      expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+      expect(ibcBalance.amount).toEqual(sendAmount.amount);
+    });
+
     it("works with direct signing", async () => {
       pendingWithoutSimapp();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
@@ -213,39 +263,68 @@ describe("SigningFinschiaClient", () => {
         amount: coins(2000, "cony"),
         gas: "180000", // 180k
       };
+      const sendAmount = coin(1234, "cony");
 
       // both timeouts set
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           { revisionHeight: Long.fromNumber(123), revisionNumber: Long.fromNumber(456) },
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(3000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
 
       // no height timeout
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           undefined,
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(3000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
     });
 
@@ -265,39 +344,68 @@ describe("SigningFinschiaClient", () => {
         amount: coins(2000, "cony"),
         gas: "180000", // 180k
       };
+      const sendAmount = coin(1234, "cony");
 
       // both timeouts set
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           { revisionHeight: Long.fromNumber(123), revisionNumber: Long.fromNumber(456) },
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(3000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
 
       // no height timeout
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           undefined,
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(3000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
     });
   });

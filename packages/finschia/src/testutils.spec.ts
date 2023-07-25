@@ -15,9 +15,11 @@ import {
   calculateFee,
   coins,
   GasPrice,
+  IbcExtension,
   QueryClient,
   setupAuthExtension,
   setupBankExtension,
+  setupIbcExtension,
 } from "@cosmjs/stargate";
 import { SigningStargateClientOptions } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
@@ -57,6 +59,16 @@ export const simapp = {
   validator: {
     address: "linkvaloper146asaycmtydq45kxc8evntqfgepagygeddajpy",
   },
+};
+
+export const counterpartSimapp = {
+  tendermintUrl: "localhost:26558",
+  tendermintUrlWs: "ws://localhost:26558",
+  tendermintUrlHttp: "http://localhost:26558",
+  chainId: "simd-testing",
+  prefix: "link",
+  denomStaking: "stake",
+  denomFee: "brown",
 };
 
 /** Setting to speed up testing */
@@ -201,9 +213,19 @@ export function simappEnabled(): boolean {
   return !!process.env.SIMAPP_ENABLED;
 }
 
+export function ibcEnabled(): boolean {
+  return !!process.env.IBC_ENABLED;
+}
+
 export function pendingWithoutSimapp(): void {
-  if (!simappEnabled()) {
+  if (!(simappEnabled() || ibcEnabled())) {
     return pending("Set SIMAPP_ENABLED to enable simapp-based tests");
+  }
+}
+
+export function pendingWithoutIbc(): void {
+  if (!ibcEnabled()) {
+    return pending("Set IBC_ENABLED to enable ibc-based tests");
   }
 }
 
