@@ -1,0 +1,17 @@
+{
+  "type": "cosmos",
+  "value": {
+    "key": "testkey2",
+    "chain-id": "finschia2-0",
+    "rpc-addr": "http://host.docker.internal:26558",
+    "grpc-addr": "http://host.docker.internal:9091",
+    "account-prefix": "link",
+    "keyring-backend": "test",
+    "gas-adjustment": 1.5,
+    "gas-prices": "0.001brown",
+    "debug": true,
+    "timeout": "10s",
+    "output-format": "json",
+    "sign-mode": "direct"
+  }
+}
