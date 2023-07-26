@@ -29,6 +29,7 @@ import {
   deployedIbcReflect,
   faucet,
   getHackatom,
+  ibcEnabled,
   makeRandomAddress,
   nonExistentAddress,
   pendingWithoutIbc,
@@ -689,36 +690,37 @@ describe("FinschiaClient", () => {
     const randomAddress = makeRandomAddress();
 
     beforeAll(async () => {
-      pendingWithoutIbc();
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeLinkPath(0)],
-        prefix: simapp.prefix,
-      });
-      const client = await SigningFinschiaClient.connectWithSigner(
-        simapp.tendermintUrl,
-        wallet,
-        defaultSigningClientOptions,
-      );
-      const memo = "Cross-chain fun";
-      const fee = {
-        amount: coins(2000, "cony"),
-        gas: "180000", // 180k
-      };
+      if (ibcEnabled()) {
+        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+          hdPaths: [makeLinkPath(0)],
+          prefix: simapp.prefix,
+        });
+        const client = await SigningFinschiaClient.connectWithSigner(
+          simapp.tendermintUrl,
+          wallet,
+          defaultSigningClientOptions,
+        );
+        const memo = "Cross-chain fun";
+        const fee = {
+          amount: coins(2000, "cony"),
+          gas: "180000", // 180k
+        };
 
-      await client.sendIbcTokens(
-        faucet.address0,
-        randomAddress,
-        sendAmount,
-        "transfer",
-        "channel-0",
-        undefined,
-        Math.floor(Date.now() / 1000) + 60,
-        fee,
-        memo,
-      );
+        await client.sendIbcTokens(
+          faucet.address0,
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
+          undefined,
+          Math.floor(Date.now() / 1000) + 60,
+          fee,
+          memo,
+        );
 
-      // sleep until counterpart chain get ibc tx from relayer
-      await sleep(3000);
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(5000);
+      }
     });
     it("works", async () => {
       pendingWithoutIbc();

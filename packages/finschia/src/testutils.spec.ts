@@ -218,7 +218,7 @@ export function ibcEnabled(): boolean {
 }
 
 export function pendingWithoutSimapp(): void {
-  if (!(simappEnabled() || ibcEnabled())) {
+  if (!simappEnabled()) {
     return pending("Set SIMAPP_ENABLED to enable simapp-based tests");
   }
 }

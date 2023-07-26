@@ -268,27 +268,29 @@ describe("TokenExtension grpc errors", () => {
 
     describe("supply", () => {
       beforeAll(async () => {
-        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-          hdPaths: [makeLinkPath(0)],
-          prefix: simapp.prefix,
-        });
-        const client = await SigningFinschiaClient.connectWithSigner(
-          simapp.tendermintUrl,
-          wallet,
-          defaultSigningClientOptions,
-        );
-        // Burn all supply
-        {
-          const msgBurn: MsgBurnEncodeObject = {
-            typeUrl: "/lbm.token.v1.MsgBurn",
-            value: {
-              contractId: contractId,
-              from: owner,
-              amount: "1000",
-            },
-          };
-          const result = await client.signAndBroadcast(owner, [msgBurn], defaultFee);
-          assertIsDeliverTxSuccess(result);
+        if (simappEnabled()) {
+          const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+            hdPaths: [makeLinkPath(0)],
+            prefix: simapp.prefix,
+          });
+          const client = await SigningFinschiaClient.connectWithSigner(
+            simapp.tendermintUrl,
+            wallet,
+            defaultSigningClientOptions,
+          );
+          // Burn all supply
+          {
+            const msgBurn: MsgBurnEncodeObject = {
+              typeUrl: "/lbm.token.v1.MsgBurn",
+              value: {
+                contractId: contractId,
+                from: owner,
+                amount: "1000",
+              },
+            };
+            const result = await client.signAndBroadcast(owner, [msgBurn], defaultFee);
+            assertIsDeliverTxSuccess(result);
+          }
         }
       });
 
