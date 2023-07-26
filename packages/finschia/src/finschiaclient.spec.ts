@@ -665,12 +665,31 @@ describe("FinschiaClient", () => {
     });
   });
 
+  describe("get channel info", () => {
+    it("works", async () => {
+      pendingWithoutIbc();
+      const channelId = "channel-0";
+
+      const client = await FinschiaClient.connect(simapp.tendermintUrl);
+      const channel = await client.getChannelInfo("transfer", "channel-0");
+      assert(channel);
+
+      const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+      const counterpartChannel = await counterpartClient.getChannelInfo("transfer", "channel-0");
+      assert(counterpartChannel);
+
+      expect(channel.state).toEqual(counterpartChannel.state);
+      expect(channel.counterparty?.channelId).toEqual(channelId);
+      expect(counterpartChannel.counterparty?.channelId).toEqual(channelId);
+    });
+  });
+
   describe("get denom trace", () => {
     const sendAmount = coin(1234, "cony");
     const randomAddress = makeRandomAddress();
 
     beforeAll(async () => {
-      pendingWithoutSimapp();
+      pendingWithoutIbc();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,

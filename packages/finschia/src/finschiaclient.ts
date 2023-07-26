@@ -61,6 +61,7 @@ import {
 } from "cosmjs-types/cosmwasm/wasm/v1/query";
 import { ContractCodeHistoryOperationType } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { DenomTrace } from "cosmjs-types/ibc/applications/transfer/v1/transfer";
+import { Channel } from "cosmjs-types/ibc/core/channel/v1/channel";
 
 import {
   CollectionExtension,
@@ -527,6 +528,11 @@ export class FinschiaClient {
 
   public async queryMinimumGasPrice(): Promise<string | null> {
     return await this.forceGetQueryClient().node.config();
+  }
+
+  public async getChannelInfo(portId: string, channelId: string): Promise<Channel | null> {
+    const { channel } = await this.forceGetQueryClient().ibc.channel.channel(portId, channelId);
+    return channel ?? null;
   }
 
   public async getDenomTrace(hash: string): Promise<DenomTrace | null> {

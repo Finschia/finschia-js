@@ -200,55 +200,8 @@ describe("SigningFinschiaClient", () => {
   });
 
   describe("sendIbcTokens", () => {
-    it("Tt", async () => {
-      pendingWithoutIbc();
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeLinkPath(0)],
-        prefix: simapp.prefix,
-      });
-      const client = await SigningFinschiaClient.connectWithSigner(
-        simapp.tendermintUrl,
-        wallet,
-        defaultSigningClientOptions,
-      );
-      const memo = "Cross-chain fun";
-      const fee = {
-        amount: coins(2000, "cony"),
-        gas: "180000", // 180k
-      };
-
-      const sendAmount = coin(1234, "cony");
-
-      const result = await client.sendIbcTokens(
-        faucet.address0,
-        faucet.address1,
-        sendAmount,
-        "transfer",
-        "channel-0",
-        undefined,
-        Math.floor(Date.now() / 1000) + 60,
-        fee,
-        memo,
-      );
-
-      expect(isDeliverTxSuccess(result)).toEqual(true);
-
-      // sleep until counterpart chain get ibc tx from relayer
-      await sleep(1000);
-
-      const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
-      const recipientBalances = await counterpartClient.getAllBalances(faucet.address1);
-      const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
-      assert(ibcBalance, "ibc token should be exist");
-
-      const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
-      assert(ibcDenom);
-      expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
-      expect(ibcBalance.amount).toEqual(sendAmount.amount);
-    });
-
     it("works with direct signing", async () => {
-      pendingWithoutSimapp();
+      pendingWithoutIbc();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
@@ -283,7 +236,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(3000);
+        await sleep(5000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
@@ -314,7 +267,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(3000);
+        await sleep(5000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
@@ -329,7 +282,7 @@ describe("SigningFinschiaClient", () => {
     });
 
     it("works with Amino signing", async () => {
-      pendingWithoutSimapp();
+      pendingWithoutIbc();
       const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
@@ -364,7 +317,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(3000);
+        await sleep(5000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
@@ -395,7 +348,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(3000);
+        await sleep(5000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
