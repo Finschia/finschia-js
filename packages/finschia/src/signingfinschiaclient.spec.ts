@@ -236,7 +236,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(5000);
+        await sleep(6000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
@@ -267,7 +267,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(5000);
+        await sleep(6000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
@@ -317,7 +317,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(5000);
+        await sleep(6000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
@@ -348,7 +348,7 @@ describe("SigningFinschiaClient", () => {
         expect(isDeliverTxSuccess(result)).toEqual(true);
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(5000);
+        await sleep(6000);
 
         const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
         const recipientBalances = await counterpartClient.getAllBalances(randomAddress);

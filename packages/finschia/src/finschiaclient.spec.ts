@@ -719,7 +719,7 @@ describe("FinschiaClient", () => {
         );
 
         // sleep until counterpart chain get ibc tx from relayer
-        await sleep(5000);
+        await sleep(6000);
       }
     });
     it("works", async () => {
