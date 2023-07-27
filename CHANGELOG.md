@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [\#98](https://github.com/Finschia/finschia-js/pull/98) bumpup cosmjs to 0.31.0
+
 ### Changed
 
 - [\#93](https://github.com/Finschia/finschia-js/pull/93) remove UpdateParams in x/foundation
