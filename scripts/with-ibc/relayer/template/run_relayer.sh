@@ -17,7 +17,7 @@ else
   rly config init
   rly chains add-dir /template/configs/chains
 
-  echo "Key $(rly keys restore finschia-0 testkey2 "$TEST_MNEMONIC" --coin-type $COINID) imported from finschia-0 to relayer..."
+  echo "Key $(rly keys restore finschia-0 testkey2 "$TEST_MNEMONIC" --coin-type $COINID) imported from simd-testing to relayer..."
   echo "Key $(rly keys restore finschia2-0 testkey2 "$TEST_MNEMONIC" --coin-type $COINID) imported from finschia2-0 to relayer..."
 
   rly paths add-dir /template/configs/paths

@@ -1,6 +1,6 @@
 {
   "src": {
-    "chain-id": "finschia-0"
+    "chain-id": "simd-testing"
   },
   "dst": {
     "chain-id": "finschia2-0"
