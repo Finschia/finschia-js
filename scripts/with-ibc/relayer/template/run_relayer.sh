@@ -5,6 +5,9 @@ command -v shellcheck >/dev/null && shellcheck "$0"
 
 file_path=".relayer/config/config.yaml"
 
+echo "wait until chains up"
+sleep 10
+
 if [ -f "$file_path" ]; then
   echo "The file $file_path exists."
 else
