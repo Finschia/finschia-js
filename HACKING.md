@@ -50,6 +50,8 @@ To run the entire test suite, you need to run some local blockchain to test
 against. We use [finschia](https://github.com/Finschia/finschia) for both
 CosmWasm tests and as a generic finschia v1.0.0-rc0 blockchain.
 
+### Run tests with single chain
+
 ```sh
 # Start finschia
 ./scripts/finschia/start.sh
@@ -62,6 +64,27 @@ yarn test
 # And at the end of the day
 unset SIMAPP_ENABLED
 ./scripts/finschia/stop.sh
+```
+
+### Run tests with IBC chains
+
+```sh
+# Start IBC relayer and chains
+cd ./scripts/with-ibc
+docker compose up -d
+./finschia/init.sh
+export SIMAPP_ENABLED=1
+export IBC_ENABLED=1
+
+# now more tests are running that were marked as "pending" before
+cd ../..
+yarn test
+
+# And at the end of the day
+cd ./scripts/with-ibc
+unset SIMAPP_ENABLED
+unset IBC_ENABLED
+docker compose down --volumes
 ```
 
 ## Sanity
