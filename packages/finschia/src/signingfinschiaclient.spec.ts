@@ -16,7 +16,7 @@ import {
   coin,
   coins,
   createStakingAminoConverters,
-  isDeliverTxFailure,
+  isDeliverTxSuccess,
   MsgDelegateEncodeObject,
   MsgSendEncodeObject,
 } from "@cosmjs/stargate";
@@ -32,9 +32,11 @@ import Long from "long";
 import pako from "pako";
 import protobuf from "protobufjs/minimal";
 
+import { FinschiaClient } from "./finschiaclient";
 import { makeLinkPath } from "./paths";
 import { SigningFinschiaClient } from "./signingfinschiaclient";
 import {
+  counterpartSimapp,
   defaultClearAdminFee,
   defaultExecuteFee,
   defaultGasPrice,
@@ -52,6 +54,7 @@ import {
   makeWasmClient,
   ModifyingDirectSecp256k1HdWallet,
   ModifyingSecp256k1HdWallet,
+  pendingWithoutIbc,
   pendingWithoutSimapp,
   simapp,
   unused,
@@ -198,7 +201,7 @@ describe("SigningFinschiaClient", () => {
 
   describe("sendIbcTokens", () => {
     it("works with direct signing", async () => {
-      pendingWithoutSimapp();
+      pendingWithoutIbc();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
@@ -213,44 +216,73 @@ describe("SigningFinschiaClient", () => {
         amount: coins(2000, "cony"),
         gas: "180000", // 180k
       };
+      const sendAmount = coin(1234, "cony");
 
       // both timeouts set
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           { revisionHeight: Long.fromNumber(123), revisionNumber: Long.fromNumber(456) },
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(6000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
 
       // no height timeout
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           undefined,
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(6000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
     });
 
     it("works with Amino signing", async () => {
-      pendingWithoutSimapp();
+      pendingWithoutIbc();
       const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
         hdPaths: [makeLinkPath(0)],
         prefix: simapp.prefix,
@@ -265,39 +297,68 @@ describe("SigningFinschiaClient", () => {
         amount: coins(2000, "cony"),
         gas: "180000", // 180k
       };
+      const sendAmount = coin(1234, "cony");
 
       // both timeouts set
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           { revisionHeight: Long.fromNumber(123), revisionNumber: Long.fromNumber(456) },
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(6000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
 
       // no height timeout
       {
+        const randomAddress = makeRandomAddress();
         const result = await client.sendIbcTokens(
           faucet.address0,
-          faucet.address1,
-          coin(1234, "cony"),
-          "fooPort",
-          "fooChannel",
+          randomAddress,
+          sendAmount,
+          "transfer",
+          "channel-0",
           undefined,
           Math.floor(Date.now() / 1000) + 60,
           fee,
           memo,
         );
-        // CheckTx must pass but the execution must fail in DeliverTx due to invalid channel/port
-        expect(isDeliverTxFailure(result)).toEqual(true);
+
+        expect(isDeliverTxSuccess(result)).toEqual(true);
+
+        // sleep until counterpart chain get ibc tx from relayer
+        await sleep(6000);
+
+        const counterpartClient = await FinschiaClient.connect(counterpartSimapp.tendermintUrl);
+        const recipientBalances = await counterpartClient.getAllBalances(randomAddress);
+        const ibcBalance = recipientBalances.find((balance) => balance.denom.startsWith("ibc/"));
+        assert(ibcBalance, "ibc token should be exist");
+
+        const ibcDenom = await counterpartClient.getDenomTrace(ibcBalance.denom);
+        assert(ibcDenom);
+        expect(ibcDenom.baseDenom).toEqual(sendAmount.denom);
+        expect(ibcBalance.amount).toEqual(sendAmount.amount);
       }
     });
   });
@@ -312,11 +373,13 @@ describe("SigningFinschiaClient", () => {
       const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
       const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
       const wasm = getHackatom().data;
-      const { codeId, originalChecksum, originalSize, compressedChecksum, compressedSize } =
-        await client.upload(faucet.address0, wasm, defaultUploadFee);
-      expect(originalChecksum).toEqual(toHex(sha256(wasm)));
+      const { codeId, checksum, originalSize, compressedSize } = await client.upload(
+        faucet.address0,
+        wasm,
+        defaultUploadFee,
+      );
+      expect(checksum).toEqual(toHex(sha256(wasm)));
       expect(originalSize).toEqual(wasm.length);
-      expect(compressedChecksum).toMatch(/^[0-9a-f]{64}$/);
       expect(compressedSize).toBeLessThan(wasm.length * 0.5);
       expect(codeId).toBeGreaterThanOrEqual(1);
       client.disconnect();
@@ -336,11 +399,15 @@ describe("SigningFinschiaClient", () => {
         address: "",
         addresses: [faucet.address0],
       };
-      const { codeId, originalChecksum, originalSize, compressedChecksum, compressedSize } =
-        await client.upload(faucet.address0, wasm, defaultUploadFee, "test memo", accessConfig);
-      expect(originalChecksum).toEqual(toHex(sha256(wasm)));
+      const { codeId, checksum, originalSize, compressedSize } = await client.upload(
+        faucet.address0,
+        wasm,
+        defaultUploadFee,
+        "test memo",
+        accessConfig,
+      );
+      expect(checksum).toEqual(toHex(sha256(wasm)));
       expect(originalSize).toEqual(wasm.length);
-      expect(compressedChecksum).toMatch(/^[0-9a-f]{64}$/);
       expect(compressedSize).toBeLessThan(wasm.length * 0.5);
       expect(codeId).toBeGreaterThanOrEqual(1);
       client.disconnect();
@@ -520,13 +587,13 @@ describe("SigningFinschiaClient", () => {
       const { contractAddress } = await client.instantiate2(
         faucet.address0,
         codeId,
+        salt,
         msg,
         "My cool label--",
         defaultInstantiateFee,
         {
           memo: "Let's see if the memo is used",
           funds: funds,
-          salt: salt,
         },
       );
 

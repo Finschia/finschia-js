@@ -88,7 +88,6 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
-export { IbcExtension, setupIbcExtension } from "./ibc/queries";
 export { NodeExtension, setupNodeExtension } from "./node/queries";
 export { stakingplusTypes } from "./stakingplus/messages";
 export { createTokenAminoConverters } from "./token/aminomessages";
@@ -119,7 +118,6 @@ export {
 } from "./token/messages";
 export { setupTokenExtension, TokenExtension } from "./token/queries";
 export { setupTx2Extension, Tx2Extension } from "./tx2/queries";
-export { wasmTypes } from "./wasm/messages";
 export { createWasmplusAminoConverters } from "./wasmplus/aminomessages";
 export {
   isMsgStoreCodeAndInstantiateContract,

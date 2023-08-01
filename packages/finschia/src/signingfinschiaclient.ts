@@ -8,6 +8,7 @@ import {
   InstantiateResult,
   JsonObject,
   MigrateResult,
+  MsgInstantiateContract2EncodeObject,
   MsgStoreCodeEncodeObject,
   UploadResult,
 } from "@cosmjs/cosmwasm-stargate";
@@ -71,7 +72,6 @@ import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
-import { Instantiate2Options, MsgInstantiateContract2EncodeObject } from "./modules/wasm/messages";
 import { createDefaultRegistry, createDefaultTypes } from "./types";
 
 export interface UploadAndInstantiateOptions extends InstantiateOptions {
@@ -284,10 +284,9 @@ export class SigningFinschiaClient extends FinschiaClient {
     const parsedLogs = logs.parseRawLog(result.rawLog);
     const codeIdAttr = logs.findAttribute(parsedLogs, "store_code", "code_id");
     return {
+      checksum: toHex(sha256(wasmCode)),
       originalSize: wasmCode.length,
-      originalChecksum: toHex(sha256(wasmCode)),
       compressedSize: compressed.length,
-      compressedChecksum: toHex(sha256(compressed)),
       codeId: Number.parseInt(codeIdAttr.value, 10),
       logs: parsedLogs,
       height: result.height,
@@ -337,10 +336,11 @@ export class SigningFinschiaClient extends FinschiaClient {
   public async instantiate2(
     senderAddress: string,
     codeId: number,
+    salt: Uint8Array,
     msg: Record<string, unknown>,
     label: string,
     fee: StdFee | "auto" | number,
-    options: Instantiate2Options = {},
+    options: InstantiateOptions = {},
   ): Promise<InstantiateResult> {
     const instantiateContract2Msg: MsgInstantiateContract2EncodeObject = {
       typeUrl: "/cosmwasm.wasm.v1.MsgInstantiateContract2",
@@ -351,8 +351,8 @@ export class SigningFinschiaClient extends FinschiaClient {
         msg: toUtf8(JSON.stringify(msg)),
         funds: [...(options.funds || [])],
         admin: options.admin,
-        salt: options.salt,
-        fixMsg: options.fixMsg,
+        salt: salt,
+        fixMsg: false,
       }),
     };
     const result = await this.signAndBroadcast(senderAddress, [instantiateContract2Msg], fee, options.memo);

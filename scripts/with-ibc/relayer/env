@@ -1,0 +1,4 @@
+# Choose from https://github.com/cosmos/relayer/pkgs/container/relayer
+REPOSITORY="ghcr.io/cosmos/relayer"
+VERSION="v2.3.1"
+CONTAINER_NAME="relayer"

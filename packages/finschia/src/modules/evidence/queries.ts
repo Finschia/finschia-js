@@ -4,7 +4,7 @@ import {
   QueryAllEvidenceResponse,
   QueryClientImpl,
   QueryEvidenceResponse,
-} from "cosmjs-types/cosmos/evidence/v1beta1/query";
+} from "@finschia/finschia-proto/cosmos/evidence/v1beta1/query";
 
 export interface EvidenceExtension {
   readonly evidence: {

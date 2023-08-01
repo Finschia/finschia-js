@@ -34,13 +34,13 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: start finschia
-        run: CI= scripts/finschia/start.sh
+      - name: start finschia with relayer
+        run: |
+          cd scripts/with-ibc
+          docker-compose up -d
 
       - name: init contract on finschia
-        run: scripts/finschia/init.sh
+        run: scripts/with-ibc/finschia/init.sh
 
       - name: Unit Test
-        run: |
-          cd packages/finschia
-          SIMAPP_ENABLED=true yarn run test
+        run: SIMAPP_ENABLED=true IBC_ENABLED=true yarn run test

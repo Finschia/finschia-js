@@ -1,3 +1,4 @@
+import { createWasmAminoConverters, wasmTypes } from "@cosmjs/cosmwasm-stargate";
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import {
   AminoConverters,
@@ -22,8 +23,6 @@ import { collectionTypes } from "./modules/collection/messages";
 import { foundationTypes } from "./modules/foundation/messages";
 import { stakingplusTypes } from "./modules/stakingplus/messages";
 import { tokenTypes } from "./modules/token/messages";
-import { createWasmAminoConverters } from "./modules/wasm/aminomessages";
-import { wasmTypes } from "./modules/wasm/messages";
 import { wasmplusTypes } from "./modules/wasmplus/messages";
 
 export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
