@@ -353,35 +353,37 @@ describe("CollectionExtension (fungible token) grpc error", () => {
 
     describe("ft supply", () => {
       beforeAll(async () => {
-        assert(contractId, "Missing contract ID");
-        assert(tokenId, "Missing token ID");
-        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-          hdPaths: [makeLinkPath(0)],
-          prefix: simapp.prefix,
-        });
-        const client = await SigningFinschiaClient.connectWithSigner(
-          simapp.tendermintUrl,
-          wallet,
-          defaultSigningClientOptions,
-        );
+        if (simappEnabled()) {
+          assert(contractId, "Missing contract ID");
+          assert(tokenId, "Missing token ID");
+          const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+            hdPaths: [makeLinkPath(0)],
+            prefix: simapp.prefix,
+          });
+          const client = await SigningFinschiaClient.connectWithSigner(
+            simapp.tendermintUrl,
+            wallet,
+            defaultSigningClientOptions,
+          );
 
-        // Burn all supply
-        {
-          const msgBurn: MsgBurnFTEncodeObject = {
-            typeUrl: "/lbm.collection.v1.MsgBurnFT",
-            value: {
-              contractId: contractId,
-              from: owner,
-              amount: [
-                {
-                  amount,
-                  tokenId,
-                },
-              ],
-            },
-          };
-          const result = await client.signAndBroadcast(owner, [msgBurn], defaultFee);
-          assertIsDeliverTxSuccess(result);
+          // Burn all supply
+          {
+            const msgBurn: MsgBurnFTEncodeObject = {
+              typeUrl: "/lbm.collection.v1.MsgBurnFT",
+              value: {
+                contractId: contractId,
+                from: owner,
+                amount: [
+                  {
+                    amount,
+                    tokenId,
+                  },
+                ],
+              },
+            };
+            const result = await client.signAndBroadcast(owner, [msgBurn], defaultFee);
+            assertIsDeliverTxSuccess(result);
+          }
         }
       });
 
@@ -820,6 +822,7 @@ describe("CollectionExtension (non-fungible token)", () => {
 
     describe("parent", () => {
       it("parent does not exist", async () => {
+        pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         assert(tokenId1, "Missing token Id");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);
@@ -869,6 +872,7 @@ describe("CollectionExtension (non-fungible token)", () => {
 
     describe("children", () => {
       it("does not have children", async () => {
+        pendingWithoutSimapp();
         assert(contractId, "Missing contract ID");
         assert(tokenId2, "Missing token Id");
         const [client, tmClient] = await makeClientWithCollection(simapp.tendermintUrl);

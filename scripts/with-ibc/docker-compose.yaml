@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  finschia-app:
+    image: "finschia/finschianode:1.1.0"
+    ports:
+      - "26658:26657"
+      - "1317:1317"
+      - "9090:9090"
+    volumes:
+      - "./finschia/template:/template"
+      - "fnsad_data:/root"
+    entrypoint: /template/run_finschia.sh
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  finschia2-app:
+    image: "finschia/finschianode:1.1.0"
+    ports:
+      - "26558:26657"
+      - "1318:1317"
+      - "9091:9090"
+    volumes:
+      - "./finschia2/template:/template"
+      - "fnsad2_data:/root"
+    entrypoint: /template/run_finschia.sh
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  relayer:
+    image: "ghcr.io/cosmos/relayer:v2.2.0"
+    depends_on:
+      - finschia2-app
+      - finschia-app
+    volumes:
+      - "./relayer/template:/template"
+      - "relayer_data:/home/relayer"
+    entrypoint: /template/run_relayer.sh
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+volumes:
+  fnsad_data:
+  fnsad2_data:
+  relayer_data:

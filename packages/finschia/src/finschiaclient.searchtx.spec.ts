@@ -168,6 +168,7 @@ describe("FinschiaClient.getTx and .searchTx", () => {
       assert(sendSuccessful, "value must be set in beforeAll()");
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const result = await client.getTx(sendSuccessful.hash);
+      assert(result);
       expect(result).toEqual(
         jasmine.objectContaining({
           height: sendSuccessful.height,
@@ -183,6 +184,7 @@ describe("FinschiaClient.getTx and .searchTx", () => {
       assert(sendUnsuccessful, "value must be set in beforeAll()");
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const result = await client.getTx(sendUnsuccessful.hash);
+      assert(result);
       expect(result).toEqual(
         jasmine.objectContaining({
           height: sendUnsuccessful.height,
@@ -207,7 +209,7 @@ describe("FinschiaClient.getTx and .searchTx", () => {
       pendingWithoutSimapp();
       assert(sendSuccessful, "value must be set in beforeAll()");
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const result = await client.searchTx({ height: sendSuccessful.height });
+      const result = await client.searchTx(`tx.height=${sendSuccessful.height}`);
       expect(result.length).toBeGreaterThanOrEqual(1);
       expect(result).toContain(
         jasmine.objectContaining({
@@ -223,7 +225,7 @@ describe("FinschiaClient.getTx and .searchTx", () => {
       pendingWithoutSimapp();
       assert(sendUnsuccessful, "value must be set in beforeAll()");
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const result = await client.searchTx({ height: sendUnsuccessful.height });
+      const result = await client.searchTx(`tx.height=${sendUnsuccessful.height}`);
       expect(result.length).toBeGreaterThanOrEqual(1);
       expect(result).toContain(
         jasmine.objectContaining({
@@ -241,7 +243,8 @@ describe("FinschiaClient.getTx and .searchTx", () => {
       pendingWithoutSimapp();
       assert(sendSuccessful, "value must be set in beforeAll()");
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const results = await client.searchTx({ sentFromOrTo: sendSuccessful.sender });
+      const query = `message.action = '/cosmos.bank.v1beta1.MsgSend' AND message.sender = '${sendSuccessful.sender}'`;
+      const results = await client.searchTx(query);
       expect(results.length).toBeGreaterThanOrEqual(1);
 
       // Check basic structure of all results
@@ -269,7 +272,7 @@ describe("FinschiaClient.getTx and .searchTx", () => {
       pendingWithoutSimapp();
       assert(sendSuccessful, "value must be set in beforeAll()");
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const results = await client.searchTx({ sentFromOrTo: sendSuccessful.recipient });
+      const results = await client.searchTx(`transfer.recipient='${sendSuccessful.recipient}'`);
       expect(results.length).toBeGreaterThanOrEqual(1);
 
       // Check basic structure of all results
@@ -292,89 +295,31 @@ describe("FinschiaClient.getTx and .searchTx", () => {
         }),
       );
     });
-
-    it("can search by recipient and filter by minHeight", async () => {
-      pendingWithoutSimapp();
-      assert(sendSuccessful);
-      const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const query = { sentFromOrTo: sendSuccessful.recipient };
-
-      {
-        const result = await client.searchTx(query, { minHeight: 0 });
-        expect(result.length).toEqual(1);
-      }
-
-      {
-        const result = await client.searchTx(query, { minHeight: sendSuccessful.height - 1 });
-        expect(result.length).toEqual(1);
-      }
-
-      {
-        const result = await client.searchTx(query, { minHeight: sendSuccessful.height });
-        expect(result.length).toEqual(1);
-      }
-
-      {
-        const result = await client.searchTx(query, { minHeight: sendSuccessful.height + 1 });
-        expect(result.length).toEqual(0);
-      }
-    });
-
-    it("can search by recipient and filter by maxHeight", async () => {
-      pendingWithoutSimapp();
-      assert(sendSuccessful);
-      const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const query = { sentFromOrTo: sendSuccessful.recipient };
-
-      {
-        const result = await client.searchTx(query, { maxHeight: 9999999999999 });
-        expect(result.length).toEqual(1);
-      }
-
-      {
-        const result = await client.searchTx(query, { maxHeight: sendSuccessful.height + 1 });
-        expect(result.length).toEqual(1);
-      }
-
-      {
-        const result = await client.searchTx(query, { maxHeight: sendSuccessful.height });
-        expect(result.length).toEqual(1);
-      }
-
-      {
-        const result = await client.searchTx(query, { maxHeight: sendSuccessful.height - 1 });
-        expect(result.length).toEqual(0);
-      }
-    });
   });
 
-  describe("with SearchByTagsQuery", () => {
-    it("can search by transfer.recipient", async () => {
-      pendingWithoutSimapp();
-      assert(sendSuccessful, "value must be set in beforeAll()");
-      const client = await FinschiaClient.connect(simapp.tendermintUrl);
-      const results = await client.searchTx({
-        tags: [{ key: "transfer.recipient", value: sendSuccessful.recipient }],
-      });
-      expect(results.length).toBeGreaterThanOrEqual(1);
+  it("works with tags", async () => {
+    pendingWithoutSimapp();
+    assert(sendSuccessful, "value must be set in beforeAll()");
+    const client = await FinschiaClient.connect(simapp.tendermintUrl);
+    const results = await client.searchTx([{ key: "transfer.recipient", value: sendSuccessful.recipient }]);
+    expect(results.length).toBeGreaterThanOrEqual(1);
 
-      // Check basic structure of all results
-      for (const result of results) {
-        const tx = decodeTxRaw(result.tx);
-        const msg = fromOneElementArray(tx.body.messages);
-        expect(msg.typeUrl).toEqual("/cosmos.bank.v1beta1.MsgSend");
-        const decoded = registry.decode(msg);
-        expect(decoded.toAddress).toEqual(sendSuccessful.recipient);
-      }
+    // Check basic structure of all results
+    for (const result of results) {
+      const tx = decodeTxRaw(result.tx);
+      const msg = fromOneElementArray(tx.body.messages);
+      expect(msg.typeUrl).toEqual("/cosmos.bank.v1beta1.MsgSend");
+      const decoded = registry.decode(msg);
+      expect(decoded.toAddress).toEqual(sendSuccessful.recipient);
+    }
 
-      // Check details of most recent result
-      expect(results[results.length - 1]).toEqual(
-        jasmine.objectContaining({
-          height: sendSuccessful.height,
-          hash: sendSuccessful.hash,
-          tx: sendSuccessful.tx,
-        }),
-      );
-    });
+    // Check details of most recent result
+    expect(results[results.length - 1]).toEqual(
+      jasmine.objectContaining({
+        height: sendSuccessful.height,
+        hash: sendSuccessful.hash,
+        tx: sendSuccessful.tx,
+      }),
+    );
   });
 });

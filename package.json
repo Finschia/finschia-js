@@ -36,10 +36,10 @@
     "publish-latest": "yarn workspaces run publish-latest"
   },
   "devDependencies": {
-    "@cosmjs/crypto": "^0.30.1",
-    "@cosmjs/encoding": "^0.30.1",
-    "@cosmjs/proto-signing": "^0.30.1",
-    "@cosmjs/stargate": "^0.30.1",
+    "@cosmjs/crypto": "^0.31.0",
+    "@cosmjs/encoding": "^0.31.0",
+    "@cosmjs/proto-signing": "^0.31.0",
+    "@cosmjs/stargate": "^0.31.0",
     "@finschia/finschia": "0.9.0-rc1",
     "eslint": "^7.5",
     "karma-chrome-launcher": "^3.1.0",
@@ -49,5 +49,8 @@
     "prettier": "^2.4.1",
     "ts-node": "^8",
     "typescript": "~4.4"
+  },
+  "dependencies": {
+    "cosmjs-types": "^0.8.0"
   }
 }

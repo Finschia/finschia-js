@@ -92,7 +92,6 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./modules";
 export { NodeExtension, setupNodeExtension } from "./modules";
-export { IbcExtension, setupIbcExtension } from "./modules";
 export { stakingplusTypes } from "./modules";
 export {
   isMsgBurnEncodeObject,
@@ -126,7 +125,6 @@ export {
   MsgStoreCodeAndInstantiateContractEncodeObject,
   setupWasmplusExtension,
   WasmplusExtension,
-  wasmTypes,
 } from "./modules";
 export { setupTx2Extension, Tx2Extension } from "./modules";
 export { makeLinkPath } from "./paths";

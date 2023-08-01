@@ -1,0 +1,12 @@
+{
+  "src": {
+    "chain-id": "simd-testing"
+  },
+  "dst": {
+    "chain-id": "finschia2-0"
+  },
+  "src-channel-filter": {
+    "rule": null,
+    "channel-list": []
+  }
+}
