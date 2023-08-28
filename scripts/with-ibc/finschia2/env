@@ -1,4 +1,4 @@
 # Choose from https://hub.docker.com/r/finschia/finschianode/tags
 REPOSITORY="finschia/finschianode"
-VERSION="1.0.0-dynamiclink2"
+VERSION="2.0.0-rc5"
 CONTAINER_NAME="finschia2-app"

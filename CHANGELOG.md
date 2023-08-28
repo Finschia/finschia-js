@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [\#93](https://github.com/Finschia/finschia-js/pull/93) remove UpdateParams in x/foundation
 - [\#99](https://github.com/Finschia/finschia-js/pull/99) downgrade yarn3 to yarn1
+- [\#102](https://github.com/Finschia/finschia-js/pull/102) bump up finschia-proto to v2.0.0-rc5 (apply the changes of finschia v2.0.0)
 
 ### Deprecated
 
