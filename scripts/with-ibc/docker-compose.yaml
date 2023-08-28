@@ -28,7 +28,7 @@ services:
       - host.docker.internal:host-gateway
 
   relayer:
-    image: "ghcr.io/cosmos/relayer:v2.2.0"
+    image: "ghcr.io/cosmos/relayer:v2.4.1"
     depends_on:
       - finschia2-app
       - finschia-app
