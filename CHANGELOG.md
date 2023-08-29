@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [\#95](https://github.com/Finschia/finschia-js/pull/95) delete redundant download in workflow
 
 ### Fixed
+- [\#103](https://github.com/Finschia/finschia-js/pull/103) fix publish ci error, bump up node version
 
 ### Security
 
