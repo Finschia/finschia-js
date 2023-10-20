@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2023-04-03T08:52:38.610633Z",
+  "genesis_time": "2023-10-20T09:05:44.853293671Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -359,10 +359,6 @@
         {
           "authority": 2,
           "msg_type_url": "/lbm.foundation.v1.MsgWithdrawFromTreasury"
-        },
-        {
-          "authority": 2,
-          "msg_type_url": "/lbm.foundation.v1.MsgUpdateParams"
         }
       ]
     },
