@@ -9,6 +9,7 @@ import {
   Vote,
 } from "@finschia/finschia-proto/lbm/foundation/v1/foundation";
 import {
+  QueryCensorshipsResponse,
   QueryClientImpl,
   QueryGrantsResponse,
   QueryMembersResponse,
@@ -36,6 +37,7 @@ export interface FoundationExtension {
       paginationKey?: Uint8Array,
     ) => Promise<QueryVotesResponse>;
     readonly tallyResult: (proposalId: FoundationProposalId) => Promise<TallyResult | undefined>;
+    readonly censorship: (paginationKey?: Uint8Array) => Promise<QueryCensorshipsResponse>;
     readonly grants: (
       grantee: string,
       msgTypeUrl: string,
@@ -92,6 +94,9 @@ export function setupFoundationExtension(base: QueryClient): FoundationExtension
       tallyResult: async (proposalId: FoundationProposalId) => {
         const response = await queryService.TallyResult({ proposalId: longify(proposalId) });
         return response.tally;
+      },
+      censorship: async (paginationKey?: Uint8Array) => {
+        return await queryService.Censorships({ pagination: createPagination(paginationKey) });
       },
       grants: async (grantee: string, msgTypeUrl: string, paginationKey?: Uint8Array) => {
         return await queryService.Grants({
