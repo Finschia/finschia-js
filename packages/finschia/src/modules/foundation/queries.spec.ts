@@ -400,7 +400,7 @@ describe("FoundationExtension", () => {
       expect(result.censorships.length).toEqual(1);
       const expected: Censorship = {
         msgTypeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
-        authority: CensorshipAuthority.CENSORSHIP_AUTHORITY_GOVERNANCE,
+        authority: CensorshipAuthority.CENSORSHIP_AUTHORITY_FOUNDATION,
       };
       expect(result.censorships[0]).toEqual(expected);
 
