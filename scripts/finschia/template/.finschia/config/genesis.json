@@ -273,7 +273,25 @@
           "amount": "220000000000"
         }
       ],
-      "denom_metadata": []
+      "denom_metadata": [
+        {
+          "description": "The fee token of this test chain",
+          "denom_units": [
+            {
+              "denom": "cony",
+              "exponent": 0,
+              "aliases": []
+            },
+            {
+              "denom": "FNSA",
+              "exponent": 6,
+              "aliases": []
+            }
+          ],
+          "base": "FINSCHIA",
+          "display": "FNSA"
+        }
+      ]
     },
     "capability": {
       "index": "1",
