@@ -2,6 +2,7 @@ import { Decimal } from "@cosmjs/math";
 import { EncodeObject, GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
+  Censorship,
   DecisionPolicyWindows,
   MemberRequest,
   PercentageDecisionPolicy,
@@ -16,6 +17,7 @@ import {
   MsgLeaveFoundation,
   MsgRevoke,
   MsgSubmitProposal,
+  MsgUpdateCensorship,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
   MsgVote,
@@ -37,6 +39,7 @@ export const foundationTypes: ReadonlyArray<[string, GeneratedType]> = [
   ["/lbm.foundation.v1.MsgVote", MsgVote],
   ["/lbm.foundation.v1.MsgExec", MsgExec],
   ["/lbm.foundation.v1.MsgLeaveFoundation", MsgLeaveFoundation],
+  ["/lbm.foundation.v1.MsgUpdateCensorship", MsgUpdateCensorship],
   ["/lbm.foundation.v1.MsgGrant", MsgGrant],
   ["/lbm.foundation.v1.MsgRevoke", MsgRevoke],
   ["/lbm.foundation.v1.ReceiveFromTreasuryAuthorization", ReceiveFromTreasuryAuthorization],
@@ -140,6 +143,17 @@ export function isMsgLeaveFoundationEncodeObject(
   return (object as MsgLeaveFoundationEncodeObject).typeUrl === "/lbm.foundation.v1.MsgLeaveFoundation";
 }
 
+export interface MsgUpdateCensorshipEncodeObject extends EncodeObject {
+  readonly typeUrl: "/lbm.foundation.v1.MsgUpdateCensorship";
+  readonly value: Partial<MsgUpdateCensorship>;
+}
+
+export function isMsgUpdateCensorshipEncodeObject(
+  object: EncodeObject,
+): object is MsgUpdateCensorshipEncodeObject {
+  return (object as MsgUpdateCensorshipEncodeObject).typeUrl === "/lbm.foundation.v1.MsgUpdateCensorship";
+}
+
 export interface MsgGrantEncodeObject extends EncodeObject {
   readonly typeUrl: "/lbm.foundation.v1.MsgGrant";
   readonly value: Partial<MsgGrant>;
@@ -199,6 +213,19 @@ export function createMsgSubmitProposal(
       metadata: metadata,
       messages: anyMessages,
       exec: exec,
+    },
+  };
+}
+
+export function createMsgUpdateCensorship(
+  authority: string,
+  censorship: Censorship,
+): MsgUpdateCensorshipEncodeObject {
+  return {
+    typeUrl: "/lbm.foundation.v1.MsgUpdateCensorship",
+    value: {
+      authority: authority,
+      censorship: censorship,
     },
   };
 }

@@ -49,11 +49,13 @@ export {
 export { CollectionExtension, setupCollectionExtension } from "./collection/queries";
 export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
+// eslint-disable-next-line import/no-cycle
 export { createFoundationAminoConverters } from "./foundation/aminomessages";
 export {
   createMsgGrant,
   createMsgRevoke,
   createMsgSubmitProposal,
+  createMsgUpdateCensorship,
   createMsgUpdateDecisionPolicy,
   createMsgUpdateMembers,
   createMsgWithdrawFromTreasury,
@@ -66,6 +68,7 @@ export {
   isMsgLeaveFoundationEncodeObject,
   isMsgRevokeEncodeObject,
   isMsgSubmitProposalEncodeObject,
+  isMsgUpdateCensorshipEncodeObject,
   isMsgUpdateDecisionPolicyEncodeObject,
   isMsgUpdateMembersEncodeObject,
   isMsgVoteEncodeObject,
@@ -79,6 +82,7 @@ export {
   MsgLeaveFoundationEncodeObject,
   MsgRevokeEncodeObject,
   MsgSubmitProposalEncodeObject,
+  MsgUpdateCensorshipEncodeObject,
   MsgUpdateDecisionPolicyEncodeObject,
   MsgUpdateMembersEncodeObject,
   MsgVoteEncodeObject,

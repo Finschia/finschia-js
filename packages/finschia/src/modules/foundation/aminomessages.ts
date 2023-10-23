@@ -5,6 +5,7 @@ import { AminoConverter, AminoConverters, AminoTypes } from "@cosmjs/stargate";
 import { assertDefinedAndNotNull } from "@cosmjs/utils";
 import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
+  censorshipAuthorityFromJSON,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
   voteOptionFromJSON,
@@ -18,6 +19,7 @@ import {
   MsgLeaveFoundation,
   MsgRevoke,
   MsgSubmitProposal,
+  MsgUpdateCensorship,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
   MsgVote,
@@ -28,6 +30,7 @@ import { CreateValidatorAuthorization } from "@finschia/finschia-proto/lbm/staki
 import { Any } from "cosmjs-types/google/protobuf/any";
 import Long from "long";
 
+// eslint-disable-next-line import/no-cycle
 import { createDefaultRegistry, createDefaultTypesWithoutFoundation } from "../../types";
 import {
   jsonDecimalToProto,
@@ -46,6 +49,11 @@ interface MemberRequest {
   metadata?: string;
 }
 
+interface Censorship {
+  msg_type_url: string;
+  authority: number;
+}
+
 export interface AminoMsgFundTreasury extends AminoMsg {
   readonly type: "lbm-sdk/MsgFundTreasury";
   readonly value: {
@@ -54,7 +62,7 @@ export interface AminoMsgFundTreasury extends AminoMsg {
   };
 }
 
-export function isAminoMsgFundTreasurys(msg: AminoMsg): msg is AminoMsgFundTreasury {
+export function isAminoMsgFundTreasury(msg: AminoMsg): msg is AminoMsgFundTreasury {
   return msg.type === "lbm-sdk/MsgFundTreasury";
 }
 
@@ -189,6 +197,18 @@ export interface AminoMsgLeaveFoundation extends AminoMsg {
 
 export function isAminoMsgLeaveFoundation(msg: AminoMsg): msg is AminoMsgLeaveFoundation {
   return msg.type === "lbm-sdk/MsgLeaveFoundation";
+}
+
+export interface AminoMsgUpdateCensorship extends AminoMsg {
+  readonly type: "lbm-sdk/MsgUpdateCensorship";
+  readonly value: {
+    readonly authority: string;
+    readonly censorship: Censorship;
+  };
+}
+
+export function isAminoMsgUpdateCensorship(msg: AminoMsg): msg is AminoMsgUpdateCensorship {
+  return msg.type === "lbm-sdk/MsgUpdateCensorship";
 }
 
 export interface AminoMsgGrant extends AminoMsg {
@@ -490,6 +510,28 @@ export function createFoundationAminoConvertersWithoutSubmitProposal(): AminoCon
       fromAmino: ({ address }: AminoMsgLeaveFoundation["value"]): MsgLeaveFoundation => {
         return {
           address: address,
+        };
+      },
+    },
+    "/lbm.foundation.v1.MsgUpdateCensorship": {
+      aminoType: "lbm-sdk/MsgUpdateCensorship",
+      toAmino: ({ authority, censorship }: MsgUpdateCensorship): AminoMsgUpdateCensorship["value"] => {
+        assertDefinedAndNotNull(censorship);
+        return {
+          authority: authority,
+          censorship: {
+            msg_type_url: censorship.msgTypeUrl,
+            authority: censorship.authority,
+          },
+        };
+      },
+      fromAmino: ({ authority, censorship }: AminoMsgUpdateCensorship["value"]): MsgUpdateCensorship => {
+        return {
+          authority: authority,
+          censorship: {
+            msgTypeUrl: censorship.msg_type_url,
+            authority: censorshipAuthorityFromJSON(censorship.authority),
+          },
         };
       },
     },

@@ -5,6 +5,7 @@ import { AminoTypes, assertIsDeliverTxSuccess, coins, logs } from "@cosmjs/starg
 import { sleep } from "@cosmjs/utils";
 import { ReceiveFromTreasuryAuthorization } from "@finschia/finschia-proto/lbm/foundation/v1/authz";
 import {
+  CensorshipAuthority,
   PercentageDecisionPolicy,
   ThresholdDecisionPolicy,
   VoteOption,
@@ -16,6 +17,7 @@ import {
   MsgGrant,
   MsgLeaveFoundation,
   MsgRevoke,
+  MsgUpdateCensorship,
   MsgUpdateDecisionPolicy,
   MsgUpdateMembers,
   MsgVote,
@@ -45,6 +47,7 @@ import {
   AminoMsgLeaveFoundation,
   AminoMsgRevoke,
   AminoMsgSubmitProposal,
+  AminoMsgUpdateCensorship,
   AminoMsgUpdateDecisionPolicy,
   AminoMsgUpdateMembers,
   AminoMsgVote,
@@ -56,8 +59,13 @@ import {
 } from "./aminomessages";
 import {
   createMsgGrant,
+  createMsgSubmitProposal,
+  createMsgUpdateCensorship,
   createMsgUpdateDecisionPolicy,
+  createMsgWithdrawFromTreasury,
   createPercentageDecisionPolicy,
+  createThresholdDecisionPolicy,
+  foundationTypes,
   MsgExecEncodeObject,
   MsgGrantEncodeObject,
   MsgLeaveFoundationEncodeObject,
@@ -65,12 +73,6 @@ import {
   MsgVoteEncodeObject,
   MsgWithdrawFromTreasuryEncodeObject,
   MsgWithdrawProposalEncodeObject,
-} from "./messages";
-import {
-  createMsgSubmitProposal,
-  createMsgWithdrawFromTreasury,
-  createThresholdDecisionPolicy,
-  foundationTypes,
 } from "./messages";
 import { makeClientWithFoundation } from "./queries.spec";
 
@@ -313,6 +315,28 @@ describe("Amino sign", () => {
       defaultFee,
     );
     assertIsDeliverTxSuccess(result);
+  });
+
+  it("MsgUpdateCensorship", async () => {
+    pendingWithoutSimapp();
+    const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+      hdPaths: [makeLinkPath(0)],
+      prefix: simapp.prefix,
+    });
+    const signingFinschiaClient2 = await SigningFinschiaClient.connectWithSigner(
+      simapp.tendermintUrl,
+      wallet,
+      defaultSigningClientOptions,
+    );
+
+    const foundationModuleAddr = "link190vt0vxc8c8vj24a7mm3fjsenfu8f5yxxj76cp";
+    const msgUpdateCensorship = createMsgUpdateCensorship(foundationModuleAddr, {
+      msgTypeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+      authority: CensorshipAuthority.CENSORSHIP_AUTHORITY_GOVERNANCE,
+    });
+    const msg1 = createMsgSubmitProposal([faucet.address0], [msgUpdateCensorship]);
+    const result1 = await signingFinschiaClient2.signAndBroadcast(faucet.address0, [msg1], defaultFee);
+    assertIsDeliverTxSuccess(result1);
   });
 
   it("MsgUpdateDecisionPolicy ThresholdDecisionPolicy", async () => {
@@ -643,6 +667,32 @@ describe("AminoTypes", () => {
       expect(aminoMsg).toEqual(expected);
     });
 
+    it("MsgUpdateCensorship", () => {
+      const msg: MsgUpdateCensorship = {
+        authority: faucet.address0,
+        censorship: {
+          msgTypeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+          authority: CensorshipAuthority.CENSORSHIP_AUTHORITY_GOVERNANCE,
+        },
+      };
+      const aminoTypes = new AminoTypes(createFoundationAminoConverters());
+      const aminoMsg = aminoTypes.toAmino({
+        typeUrl: "/lbm.foundation.v1.MsgUpdateCensorship",
+        value: msg,
+      });
+      const expected: AminoMsgUpdateCensorship = {
+        type: "lbm-sdk/MsgUpdateCensorship",
+        value: {
+          authority: faucet.address0,
+          censorship: {
+            msg_type_url: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+            authority: 1,
+          },
+        },
+      };
+      expect(aminoMsg).toEqual(expected);
+    });
+
     it("MsgGrant", () => {
       const msg: MsgGrant = {
         authority: faucet.address0,
@@ -940,6 +990,32 @@ describe("AminoTypes", () => {
       };
       expect(msg).toEqual({
         typeUrl: "/lbm.foundation.v1.MsgLeaveFoundation",
+        value: expectedValue,
+      });
+    });
+
+    it("MsgUpdateCensorship", () => {
+      const aminoMsg: AminoMsgUpdateCensorship = {
+        type: "lbm-sdk/MsgUpdateCensorship",
+        value: {
+          authority: faucet.address0,
+          censorship: {
+            msg_type_url: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+            authority: 1,
+          },
+        },
+      };
+      const aminoTypes = new AminoTypes(createFoundationAminoConverters());
+      const msg = aminoTypes.fromAmino(aminoMsg);
+      const expectedValue: MsgUpdateCensorship = {
+        authority: faucet.address0,
+        censorship: {
+          msgTypeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+          authority: CensorshipAuthority.CENSORSHIP_AUTHORITY_GOVERNANCE,
+        },
+      };
+      expect(msg).toEqual({
+        typeUrl: "/lbm.foundation.v1.MsgUpdateCensorship",
         value: expectedValue,
       });
     });

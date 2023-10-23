@@ -1,6 +1,5 @@
 import { Uint64 } from "@cosmjs/math";
 import { createPagination, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import {
   FoundationInfo,
   Member,
@@ -16,6 +15,7 @@ import {
   QueryProposalsResponse,
   QueryVotesResponse,
 } from "@finschia/finschia-proto/lbm/foundation/v1/query";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 
 import { longify } from "../../utils";
 
