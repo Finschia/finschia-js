@@ -280,16 +280,18 @@
             {
               "denom": "cony",
               "exponent": 0,
-              "aliases": []
+              "aliases": ["microfinschia"]
             },
             {
-              "denom": "FNSA",
+              "denom": "finschia",
               "exponent": 6,
               "aliases": []
             }
           ],
-          "base": "FINSCHIA",
-          "display": "FNSA"
+          "base": "cony",
+          "display": "finschia",
+          "name": "FINSCHIA",
+          "symbol": "FNSA"
         }
       ]
     },
