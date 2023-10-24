@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { createPagination, createProtobufRpcClient, QueryClient } from "@cosmjs/stargate";
+import { QueryAllowanceResponse, QueryAllowancesResponse } from "cosmjs-types/cosmos/feegrant/v1beta1/query";
 import {
   QueryAllowancesByGranterResponse,
   QueryClientImpl,
 } from "@finschia/finschia-proto/cosmos/feegrant/v1beta1/query";
-import { QueryAllowanceResponse, QueryAllowancesResponse } from "cosmjs-types/cosmos/feegrant/v1beta1/query";
 
 export interface FeeGrantExtension {
   readonly feegrant: {
