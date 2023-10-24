@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+## [v0.9.0] - 2023-10-24
+
+### Added
+
 - [\#98](https://github.com/Finschia/finschia-js/pull/98) bumpup cosmjs to 0.31.0
 - [\#105](https://github.com/Finschia/finschia-js/pull/105) add `MsgUpdateCensorship` msg and `Censorship` query apis of x/foundation
 
@@ -16,16 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [\#99](https://github.com/Finschia/finschia-js/pull/99) downgrade yarn3 to yarn1
 - [\#102](https://github.com/Finschia/finschia-js/pull/102) bump up finschia-proto to v2.0.0-rc5 (apply the changes of finschia v2.0.0)
 
-### Deprecated
-
 ### Removed
 
 - [\#95](https://github.com/Finschia/finschia-js/pull/95) delete redundant download in workflow
 
 ### Fixed
 - [\#103](https://github.com/Finschia/finschia-js/pull/103) fix publish ci error, bump up node version
-
-### Security
 
 
 ## [v0.8.0]
@@ -128,7 +139,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [#7]: https://github.com/Finschia/finschia-js/pull/7
 [#14]: https://github.com/Finschia/finschia-js/pull/14
-[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.8.0...HEAD
+
+
+
+[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.9.0...HEAD
+[v0.9.0]: https://github.com/Finschia/finschia-js/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/Finschia/finschia-js/compare/v0.7.2...v0.8.0
 [v0.7.2]: https://github.com/Finschia/finschia-js/compare/v0.7.1...v0.7.2
 [v0.7.1]: https://github.com/Finschia/finschia-js/compare/v0.7.0...v0.7.1
