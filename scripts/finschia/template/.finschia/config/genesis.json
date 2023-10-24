@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2023-04-03T08:52:38.610633Z",
+  "genesis_time": "2023-10-20T09:05:44.853293671Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -273,7 +273,27 @@
           "amount": "220000000000"
         }
       ],
-      "denom_metadata": []
+      "denom_metadata": [
+        {
+          "description": "The fee token of this test chain",
+          "denom_units": [
+            {
+              "denom": "cony",
+              "exponent": 0,
+              "aliases": ["microfinschia"]
+            },
+            {
+              "denom": "finschia",
+              "exponent": 6,
+              "aliases": []
+            }
+          ],
+          "base": "cony",
+          "display": "finschia",
+          "name": "FINSCHIA",
+          "symbol": "FNSA"
+        }
+      ]
     },
     "capability": {
       "index": "1",
@@ -359,10 +379,6 @@
         {
           "authority": 2,
           "msg_type_url": "/lbm.foundation.v1.MsgWithdrawFromTreasury"
-        },
-        {
-          "authority": 2,
-          "msg_type_url": "/lbm.foundation.v1.MsgUpdateParams"
         }
       ]
     },

@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2023-05-02T02:20:24.731517Z",
+  "genesis_time": "2023-10-23T08:33:31.106710587Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -14,7 +14,9 @@
       "max_bytes": "1048576"
     },
     "validator": {
-      "pub_key_types": ["ed25519"]
+      "pub_key_types": [
+        "ed25519"
+      ]
     },
     "version": {}
   },
@@ -278,16 +280,18 @@
             {
               "denom": "cony",
               "exponent": 0,
-              "aliases": []
+              "aliases": ["microfinschia"]
             },
             {
-              "denom": "LN",
+              "denom": "finschia",
               "exponent": 6,
               "aliases": []
             }
           ],
-          "base": "LINK",
-          "display": "LN"
+          "base": "cony",
+          "display": "finschia",
+          "name": "FINSCHIA",
+          "symbol": "FNSA"
         }
       ]
     },
@@ -375,10 +379,6 @@
         {
           "authority": 2,
           "msg_type_url": "/lbm.foundation.v1.MsgWithdrawFromTreasury"
-        },
-        {
-          "authority": 2,
-          "msg_type_url": "/lbm.foundation.v1.MsgUpdateParams"
         }
       ]
     },

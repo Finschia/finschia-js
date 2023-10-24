@@ -5,6 +5,8 @@ import { assertIsDeliverTxSuccess, logs, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { sleep } from "@cosmjs/utils";
 import {
+  Censorship,
+  CensorshipAuthority,
   MemberRequest,
   ThresholdDecisionPolicy,
 } from "@finschia/finschia-proto/lbm/foundation/v1/foundation";
@@ -383,6 +385,24 @@ describe("FoundationExtension", () => {
       const result = await client.foundation.vote(proposalId, faucet.address0);
       expect(result).not.toBeUndefined();
       expect(result!.proposalId).toEqual(proposalId);
+
+      tmClient.disconnect();
+    });
+  });
+
+  describe("Censorship", () => {
+    it("work", async () => {
+      pendingWithoutSimapp();
+      const [client, tmClient] = await makeClientWithFoundation(simapp.tendermintUrl);
+
+      const result = await client.foundation.censorship();
+      expect(result).not.toBeUndefined();
+      expect(result.censorships.length).toEqual(1);
+      const expected: Censorship = {
+        msgTypeUrl: "/lbm.foundation.v1.MsgWithdrawFromTreasury",
+        authority: CensorshipAuthority.CENSORSHIP_AUTHORITY_FOUNDATION,
+      };
+      expect(result.censorships[0]).toEqual(expected);
 
       tmClient.disconnect();
     });

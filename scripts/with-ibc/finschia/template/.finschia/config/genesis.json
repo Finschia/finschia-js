@@ -359,10 +359,6 @@
         {
           "authority": 2,
           "msg_type_url": "/lbm.foundation.v1.MsgWithdrawFromTreasury"
-        },
-        {
-          "authority": 2,
-          "msg_type_url": "/lbm.foundation.v1.MsgUpdateParams"
         }
       ]
     },

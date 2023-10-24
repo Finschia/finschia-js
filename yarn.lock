@@ -393,10 +393,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@finschia/finschia-proto@^2.0.0-rc5":
-  version "2.0.0-rc5"
-  resolved "https://registry.yarnpkg.com/@finschia/finschia-proto/-/finschia-proto-2.0.0-rc5.tgz#6b2b2e21598a7129c9c3ede64f31fb527f26aeda"
-  integrity sha512-UCwcmN6yCvkGdKOXwu/Dt3pGMSPOotXsHtTbmZjuJ457oijVTkAqUWnYKA9bITeRGI4FM00i4aJmGngj2hULzQ==
+"@finschia/finschia-proto@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@finschia/finschia-proto/-/finschia-proto-2.0.0.tgz#c0a00bede1a330d6ff1d5370c2620ff2542bbe6b"
+  integrity sha512-HZF/BvYaUmDGjTWRGC8dgdQ0IZEAUPJEeL7SLonAdIaGDRmrReAy9CJ19nEct5Epks+FgXCABbiXz45r+eG71w==
   dependencies:
     long "^4.0.0"
     protobufjs "~6.11.2"

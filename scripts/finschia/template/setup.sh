@@ -11,7 +11,10 @@ source "$SCRIPT_DIR"/../env
 CHAIN_ID="simd-testing"
 MONIKER="simd-testing"
 CONFIG_DIR=${SCRIPT_DIR}/.finschia
-CHAIN_DIR=${CONFIG_DIR}
+if [[ -z "${CHAIN_DIR}" ]]
+then
+  CHAIN_DIR=${CONFIG_DIR}
+fi
 
 if [[ $1 == "docker" ]]
 then

@@ -86,7 +86,16 @@ priv_validator_state_file = "data/priv_validator_state.json"
 
 # TCP or UNIX socket address for Ostracon to listen on for
 # connections from an external PrivValidator process
+# If this value is set, key file(priv_validator_key.json) will not be generated.
+# example) tcp://0.0.0.0:26659
 priv_validator_laddr = ""
+
+# Validator's remote address to allow a connection
+# Comma separated list of addresses to allow
+# ostracon only allows a connection from these addresses separated by a comma
+# example) 127.0.0.1
+# example) 127.0.0.1,192.168.1.2
+priv_validator_raddrs = "127.0.0.1"
 
 # Path to the JSON file containing the private key to use for node authentication in the p2p protocol
 node_key_file = "config/node_key.json"
@@ -210,11 +219,14 @@ experimental_close_on_slow_client = false
 # How long to wait for a tx to be committed during /broadcast_tx_commit.
 # WARNING: Using a value larger than 'WriteTimeout' will result in increasing the
 # global HTTP write timeout, which applies to all connections and endpoints.
-# See https://github.com/line/ostracon/issues/3435
+# See https://github.com/tendermint/tendermint/issues/3435
 timeout_broadcast_tx_commit = "10s"
 
 # Maximum size of request body, in bytes
 max_body_bytes = 1000000
+
+# Maximum number of requests in a request body
+max_batch_request_num = 10
 
 # Maximum size of request header, in bytes
 max_header_bytes = 1048576
@@ -327,6 +339,11 @@ statesync_recv_buf_size = 1000
 #######################################################
 [mempool]
 
+# Mempool version to use:
+#   1) "v0" - (default) FIFO mempool.
+#   2) "v1" - prioritized mempool.
+version = "v0"
+
 recheck = true
 broadcast = true
 wal_dir = ""
@@ -353,8 +370,24 @@ max_tx_bytes = 1048576
 
 # Maximum size of a batch of transactions to send to a peer
 # Including space needed by encoding (one varint per transaction).
-# XXX: Unused due to https://github.com/line/ostracon/issues/5796
+# XXX: Unused due to https://github.com/tendermint/tendermint/issues/5796
 max_batch_bytes = 0
+
+# ttl-duration, if non-zero, defines the maximum amount of time a transaction
+# can exist for in the mempool.
+#
+# Note, if ttl-num-blocks is also defined, a transaction will be removed if it
+# has existed in the mempool at least ttl-num-blocks number of blocks or if it's
+# insertion time into the mempool is beyond ttl-duration.
+ttl-duration = "0s"
+
+# ttl-num-blocks, if non-zero, defines the maximum number of blocks a transaction
+# can exist for in the mempool.
+#
+# Note, if ttl-duration is also defined, a transaction will be removed if it
+# has existed in the mempool at least ttl-num-blocks number of blocks or if
+# it's insertion time into the mempool is beyond ttl-duration.
+ttl-num-blocks = 0
 
 #######################################################
 ###         State Sync Configuration Options        ###
@@ -448,6 +481,17 @@ peer_gossip_sleep_duration = "100ms"
 peer_query_maj23_sleep_duration = "2s"
 
 #######################################################
+###         Storage Configuration Options           ###
+#######################################################
+[storage]
+
+# Set to true to discard ABCI responses from the state store, which can save a
+# considerable amount of disk space. Set to false to ensure ABCI responses are
+# persisted. ABCI responses are required for /block_results RPC queries, and to
+# reindex events in the command-line tool.
+discard_abci_responses = false
+
+#######################################################
 ###   Transaction Indexer Configuration Options     ###
 #######################################################
 [tx_index]
@@ -461,7 +505,13 @@ peer_query_maj23_sleep_duration = "2s"
 #   1) "null"
 #   2) "kv" (default) - the simplest possible indexer, backed by key-value storage (defaults to levelDB; see DBBackend).
 # 		- When "kv" is chosen "tx.height" and "tx.hash" will always be indexed.
+#   3) "psql" - the indexer services backed by PostgreSQL.
+# When "kv" or "psql" is chosen "tx.height" and "tx.hash" will always be indexed.
 indexer = "kv"
+
+# The PostgreSQL connection configuration, the connection format:
+#   postgresql://<user>:<password>@<host>:<port>/<db>?<opts>
+psql-conn = ""
 
 #######################################################
 ###       Instrumentation Configuration Options     ###

@@ -62,8 +62,8 @@ inter-block-cache-size = 104857600
 iavl-cache-size = 524288
 
 # IAVLDisableFastNode enables or disables the fast node feature of IAVL.
-# Default is false.
-iavl-disable-fastnode = false
+# Default is true.
+iavl-disable-fastnode = true
 
 # IndexEvents defines the set of events in the form {eventType}.{attributeKey},
 # which informs Tendermint what to index. If empty, all events will be indexed.
@@ -182,6 +182,14 @@ enable = true
 
 # Address defines the gRPC server address to bind to.
 address = "0.0.0.0:9090"
+
+# MaxRecvMsgSize defines the max message size in bytes the server can receive.
+# The default value is 10MB.
+max-recv-msg-size = "10485760"
+
+# MaxSendMsgSize defines the max message size in bytes the server can send.
+# The default value is math.MaxInt32.
+max-send-msg-size = "2147483647"
 
 ###############################################################################
 ###                        gRPC Web Configuration                           ###
