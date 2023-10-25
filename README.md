@@ -10,12 +10,12 @@ finschia-js is a library that consists of many smaller npm packages within the
 Here are some of them to get an idea:
 
 | Package                                 | Description                               | Latest                                                                                                                  |
-| --------------------------------------- |-------------------------------------------| ----------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | [@finschia/finschia](packages/finschia) | A client library for the Finschia v1.0.0+ | [![npm version](https://img.shields.io/npm/v/@finschia/finschia.svg)](https://www.npmjs.com/package/@finschia/finschia) |
 
 ## Supported JS environments
 
-Currently the codebase supports the following runtime environments:
+Currently, the codebase supports the following runtime environments:
 
 1. Node.js 12+
 2. Modern browsers (Chromium/Firefox/Safari, no Internet Explorer or
