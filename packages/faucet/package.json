@@ -1,0 +1,81 @@
+{
+  "name": "@cosmjs/faucet",
+  "version": "0.32.2",
+  "description": "The faucet",
+  "contributors": [
+    "Ethan Frey <ethanfrey@users.noreply.github.com>",
+    "Simon Warta <webmaster128@users.noreply.github.com>"
+  ],
+  "license": "Apache-2.0",
+  "bin": {
+    "cosmos-faucet": "bin/cosmos-faucet"
+  },
+  "files": [
+    "bin/",
+    "build/",
+    "*.md",
+    "!*.spec.*",
+    "!**/testdata/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmos/cosmjs/tree/main/packages/faucet"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "dev-start": "yarn start-dev",
+    "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
+    "format-text": "prettier --write \"./*.md\"",
+    "lint": "eslint --max-warnings 0 \"./**/*.ts\" \"./*.js\"",
+    "lint-fix": "eslint --fix --max-warnings 0 \"./**/*.ts\" \"./*.js\"",
+    "build": "rm -rf ./build && tsc",
+    "build-or-skip": "[ -n \"$SKIP_BUILD\" ] || yarn build",
+    "test-node": "yarn node jasmine-testrunner.js",
+    "test": "yarn build-or-skip && yarn test-node",
+    "coverage": "nyc --reporter=text --reporter=lcov yarn test --quiet",
+    "start-dev": "FAUCET_ADDRESS_PREFIX=wasm FAUCET_CREDIT_AMOUNT_UCOSM=10000000 FAUCET_CREDIT_AMOUNT_USTAKE=100000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone\" ./bin/cosmos-faucet start \"http://localhost:26659\"",
+    "start-coralnet": "FAUCET_ADDRESS_PREFIX=coral FAUCET_TOKENS=\"ushell,ureef\" FAUCET_CREDIT_AMOUNT_USHELL=10000000 FAUCET_CREDIT_AMOUNT_UREEF=2000000 FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC=\"economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone\" ./bin/cosmos-faucet start \"https://lcd.coralnet.cosmwasm.com\"",
+    "pack-node": "yarn build-or-skip && webpack --mode production --config webpack.node.config.js"
+  },
+  "dependencies": {
+    "@cosmjs/crypto": "workspace:^",
+    "@cosmjs/encoding": "workspace:^",
+    "@cosmjs/math": "workspace:^",
+    "@cosmjs/proto-signing": "workspace:^",
+    "@cosmjs/stargate": "workspace:^",
+    "@cosmjs/utils": "workspace:^",
+    "@koa/cors": "^3.3",
+    "koa": "^2.13",
+    "koa-bodyparser": "^4.3"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/eslint-plugin-prettier": "^3",
+    "@types/jasmine": "^4",
+    "@types/koa": "^2.13",
+    "@types/koa-bodyparser": "^4.3",
+    "@types/koa__cors": "^3.3",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "eslint": "^7.5",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-node": "^0.3.4",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "esm": "^3.2.25",
+    "jasmine": "^4",
+    "jasmine-spec-reporter": "^6",
+    "nyc": "^15.1.0",
+    "prettier": "^2.8.1",
+    "ses": "^0.11.0",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^8",
+    "typescript": "~4.9",
+    "webpack": "^5.76.0",
+    "webpack-cli": "^4.6.0"
+  }
+}
