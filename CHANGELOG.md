@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [\#98](https://github.com/Finschia/finschia-js/pull/98) bumpup cosmjs to 0.31.0
 - [\#105](https://github.com/Finschia/finschia-js/pull/105) add `MsgUpdateCensorship` msg and `Censorship` query apis of x/foundation
+- [\#109](https://github.com/Finschia/finschia-js/pull/109) import cosmjs/faucet into finschia-js
 
 ### Changed
 
