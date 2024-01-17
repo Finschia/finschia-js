@@ -22,7 +22,7 @@ Advanced users that want to provide their custom config can start as follows:
 FAUCET_CREDIT_AMOUNT_UCOSM=10000000 \
   FAUCET_CREDIT_AMOUNT_USTAKE=5000000 \
   FAUCET_CONCURRENCY=3 \
-  FAUCET_MNEMONIC="economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone" \
+  FAUCET_MNEMONIC="mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have" \
   ./bin/cosmos-faucet start "http://localhost:1317"
 ```
 
@@ -48,17 +48,17 @@ FAUCET_CONCURRENCY        Number of distributor accounts. Defaults to 5.
 FAUCET_PORT               Port of the webserver. Defaults to 8000.
 FAUCET_MEMO               Memo for send transactions. Defaults to unset.
 FAUCET_GAS_PRICE          Gas price for transactions as a comma separated list.
-                          Defaults to "0.025ucosm".
+                          Defaults to "0.01cony".
 FAUCET_GAS_LIMIT          Gas limit for send transactions. Defaults to 100000.
 FAUCET_MNEMONIC           Secret mnemonic that serves as the base secret for the
                           faucet HD accounts
 FAUCET_PATH_PATTERN       The pattern of BIP32 paths for the faucet accounts.
                           Must contain one "a" placeholder that is replaced with
                           the account index.
-                          Defaults to the Cosmos Hub path "m/44'/118'/0'/0/a".
-FAUCET_ADDRESS_PREFIX     The bech32 address prefix. Defaults to "cosmos".
+                          Defaults to the Finschia Hub path "m/44'/438'/2'/0/a".
+FAUCET_ADDRESS_PREFIX     The bech32 address prefix. Defaults to "link".
 FAUCET_TOKENS             A comma separated list of token denoms, e.g.
-                          "uatom" or "ucosm, mstake".
+                          "cony" or "cony, ustake".
 FAUCET_CREDIT_AMOUNT_TKN  Send this amount of TKN to a user requesting TKN. TKN is
                           a placeholder for the token's denom. Defaults to 10000000.
 FAUCET_REFILL_FACTOR      Send factor times credit amount on refilling. Defauls to 8.
@@ -77,6 +77,7 @@ The faucet uses standard HD paths for each blockchain, e.g.
 IOV        m/44'/234'/a'
 Lisk       m/44'/134'/a'
 Cosmos     m/44'/118'/0'/0/a
+Finschia   m/44'/438'/2'/0/a
 ```
 
 where `a` is a 0-based index of the account. Account 0 is the token holder and
@@ -111,7 +112,7 @@ docker run --read-only --rm local-cosmos-faucet:manual help
 
 ```sh
 DOCKER_HOST_IP=$(docker run --read-only --rm alpine ip route | awk 'NR==1 {print $3}'); \
-  FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC="economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone" \
+  FAUCET_CONCURRENCY=3 FAUCET_MNEMONIC="mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have" \
   docker run --read-only --rm \
   -e FAUCET_MNEMONIC \
   -e FAUCET_CONCURRENCY \

@@ -21,17 +21,17 @@ FAUCET_CONCURRENCY        Number of distributor accounts. Defaults to 5.
 FAUCET_PORT               Port of the webserver. Defaults to 8000.
 FAUCET_MEMO               Memo for send transactions. Defaults to unset.
 FAUCET_GAS_PRICE          Gas price for transactions as a comma separated list.
-                          Defaults to "0.025ucosm".
+                          Defaults to "0.01cony".
 FAUCET_GAS_LIMIT          Gas limit for send transactions. Defaults to 100000.
 FAUCET_MNEMONIC           Secret mnemonic that serves as the base secret for the
                           faucet HD accounts
 FAUCET_PATH_PATTERN       The pattern of BIP32 paths for the faucet accounts.
                           Must contain one "a" placeholder that is replaced with
                           the account index.
-                          Defaults to the Cosmos Hub path "m/44'/118'/0'/0/a".
-FAUCET_ADDRESS_PREFIX     The bech32 address prefix. Defaults to "cosmos".
+                          Defaults to the Finschia Hub path "m/44'/438'/2'/0/a".
+FAUCET_ADDRESS_PREFIX     The bech32 address prefix. Defaults to "link".
 FAUCET_TOKENS             A comma separated list of token denoms, e.g.
-                          "uatom" or "ucosm, mstake".
+                          "tcony" or "tcony, ustake".
 FAUCET_CREDIT_AMOUNT_TKN  Send this amount of TKN to a user requesting TKN. TKN is
                           a placeholder for the token's denom. Defaults to 10000000.
 FAUCET_REFILL_FACTOR      Send factor times credit amount on refilling. Defauls to 8.

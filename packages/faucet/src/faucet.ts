@@ -1,10 +1,6 @@
-import {
-  assertIsDeliverTxSuccess as assertIsDeliverTxSuccessStargate,
-  calculateFee,
-  SigningStargateClient,
-  StargateClient,
-} from "@cosmjs/stargate";
+import { assertIsDeliverTxSuccess as assertIsDeliverTxSuccessStargate, calculateFee } from "@cosmjs/stargate";
 import { isDefined, sleep } from "@cosmjs/utils";
+import { FinschiaClient, SigningFinschiaClient } from "@finschia/finschia";
 
 import * as constants from "./constants";
 import { debugAccount, logAccountsState, logSendJob } from "./debugging";
@@ -25,7 +21,7 @@ export class Faucet {
   ): Promise<Faucet> {
     const wallets = await createWallets(mnemonic, pathBuilder, addressPrefix, numberOfDistributors, logging);
     const clients = await createClients(apiUrl, wallets);
-    const readonlyClient = await StargateClient.connect(apiUrl);
+    const readonlyClient = await FinschiaClient.connect(apiUrl);
     return new Faucet(addressPrefix, config, clients, readonlyClient, logging);
   }
 
@@ -35,16 +31,16 @@ export class Faucet {
 
   private readonly tokenConfig: TokenConfiguration;
   private readonly tokenManager: TokenManager;
-  private readonly readOnlyClient: StargateClient;
-  private readonly clients: { [senderAddress: string]: SigningStargateClient };
+  private readonly readOnlyClient: FinschiaClient;
+  private readonly clients: { [senderAddress: string]: SigningFinschiaClient };
   private readonly logging: boolean;
   private creditCount = 0;
 
   private constructor(
     addressPrefix: string,
     config: TokenConfiguration,
-    clients: ReadonlyArray<readonly [string, SigningStargateClient]>,
-    readonlyClient: StargateClient,
+    clients: ReadonlyArray<readonly [string, SigningFinschiaClient]>,
+    readonlyClient: FinschiaClient,
     logging = false,
   ) {
     this.addressPrefix = addressPrefix;

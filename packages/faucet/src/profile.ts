@@ -1,6 +1,6 @@
 import { pathToString } from "@cosmjs/crypto";
 import { DirectSecp256k1HdWallet, OfflineSigner } from "@cosmjs/proto-signing";
-import { SigningStargateClient } from "@cosmjs/stargate";
+import { SigningFinschiaClient } from "@finschia/finschia";
 
 import { PathBuilder } from "./pathbuilder";
 
@@ -35,12 +35,12 @@ export async function createWallets(
 export async function createClients(
   apiUrl: string,
   wallets: ReadonlyArray<readonly [string, OfflineSigner]>,
-): Promise<ReadonlyArray<readonly [string, SigningStargateClient]>> {
+): Promise<ReadonlyArray<readonly [string, SigningFinschiaClient]>> {
   // we need one client per sender
   const pendingClients = wallets.map(
-    async ([senderAddress, wallet]): Promise<readonly [string, SigningStargateClient]> => [
+    async ([senderAddress, wallet]): Promise<readonly [string, SigningFinschiaClient]> => [
       senderAddress,
-      await SigningStargateClient.connectWithSigner(apiUrl, wallet),
+      await SigningFinschiaClient.connectWithSigner(apiUrl, wallet),
     ],
   );
   return Promise.all(pendingClients);

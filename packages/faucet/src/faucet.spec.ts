@@ -1,7 +1,7 @@
 import { Random } from "@cosmjs/crypto";
 import { toBech32 } from "@cosmjs/encoding";
-import { makeCosmoshubPath, StargateClient } from "@cosmjs/stargate";
 import { assert } from "@cosmjs/utils";
+import { FinschiaClient, makeLinkPath } from "@finschia/finschia";
 
 import { Faucet } from "./faucet";
 import { TokenConfiguration } from "./tokenmanager";
@@ -18,19 +18,19 @@ function pendingWithoutSimapp(): void {
 }
 
 const defaultTokenConfig: TokenConfiguration = {
-  bankTokens: ["ucosm", "ustake"],
+  bankTokens: ["cony", "ustake"],
 };
-const defaultAddressPrefix = "cosmos";
+const defaultAddressPrefix = "link";
 
 function makeRandomAddress(): string {
   return toBech32(defaultAddressPrefix, Random.getBytes(20));
 }
 
 const faucetMnemonic =
-  "economy stock theory fatal elder harbor betray wasp final emotion task crumble siren bottom lizard educate guess current outdoor pair theory focus wife stone";
+  "mind flame tobacco sense move hammer drift crime ring globe art gaze cinnamon helmet cruise special produce notable negative wait path scrap recall have";
 
 describe("Faucet", () => {
-  const pathBuilder = makeCosmoshubPath;
+  const pathBuilder = makeLinkPath;
 
   const apiUrl = "http://localhost:26658";
   const stargate = true;
@@ -90,7 +90,7 @@ describe("Faucet", () => {
           stargate,
         );
         const tickers = await faucet.availableTokens();
-        expect(tickers).toEqual(["ucosm", "ustake"]);
+        expect(tickers).toEqual(["cony", "ustake"]);
       });
     });
 
@@ -110,19 +110,19 @@ describe("Faucet", () => {
         await faucet.send({
           amount: {
             amount: "23456",
-            denom: "ucosm",
+            denom: "cony",
           },
           sender: faucet.holderAddress,
           recipient: recipient,
         });
 
-        const readOnlyClient = await StargateClient.connect(apiUrl);
+        const readOnlyClient = await FinschiaClient.connect(apiUrl);
         const account = await readOnlyClient.getAllBalances(recipient);
         assert(account);
         expect(account).toEqual([
           {
             amount: "23456",
-            denom: "ucosm",
+            denom: "cony",
           },
         ]);
       });
@@ -141,12 +141,12 @@ describe("Faucet", () => {
           stargate,
         );
         await faucet.refill();
-        const readOnlyClient = await StargateClient.connect(apiUrl);
+        const readOnlyClient = await FinschiaClient.connect(apiUrl);
         const distributorBalance = await readOnlyClient.getAllBalances(faucet.distributorAddresses[0]);
         assert(distributorBalance);
         expect(distributorBalance).toEqual([
           jasmine.objectContaining({
-            denom: "ucosm",
+            denom: "cony",
           }),
           jasmine.objectContaining({
             denom: "ustake",
@@ -170,15 +170,15 @@ describe("Faucet", () => {
           stargate,
         );
         const recipient = makeRandomAddress();
-        await faucet.credit(recipient, "ucosm");
+        await faucet.credit(recipient, "cony");
 
-        const readOnlyClient = await StargateClient.connect(apiUrl);
+        const readOnlyClient = await FinschiaClient.connect(apiUrl);
         const balance = await readOnlyClient.getAllBalances(recipient);
         assert(balance);
         expect(balance).toEqual([
           {
             amount: "10000000",
-            denom: "ucosm",
+            denom: "cony",
           },
         ]);
       });
@@ -197,7 +197,7 @@ describe("Faucet", () => {
         const recipient = makeRandomAddress();
         await faucet.credit(recipient, "ustake");
 
-        const readOnlyClient = await StargateClient.connect(apiUrl);
+        const readOnlyClient = await FinschiaClient.connect(apiUrl);
         const balance = await readOnlyClient.getAllBalances(recipient);
         assert(balance);
         expect(balance).toEqual([
@@ -222,7 +222,7 @@ describe("Faucet", () => {
           stargate,
         );
         const tickers = faucet.configuredTokens();
-        expect(tickers).toEqual(["ucosm", "ustake"]);
+        expect(tickers).toEqual(["cony", "ustake"]);
       });
     });
 
@@ -240,7 +240,7 @@ describe("Faucet", () => {
         );
         const accounts = await faucet.loadAccounts();
 
-        const readOnlyClient = await StargateClient.connect(apiUrl);
+        const readOnlyClient = await FinschiaClient.connect(apiUrl);
         const expectedHolderBalance = await readOnlyClient.getAllBalances(faucet.holderAddress);
         const expectedDistributorBalance = await readOnlyClient.getAllBalances(
           faucet.distributorAddresses[0],

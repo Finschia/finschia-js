@@ -29,4 +29,4 @@ COPY --from=build-env /app/packages/faucet /app/packages/faucet
 WORKDIR /app
 
 EXPOSE 8000
-ENTRYPOINT ["/app/packages/faucet/bin/cosmos-faucet-dist"]
+ENTRYPOINT ["/app/packages/faucet/bin/finschia-faucet-dist"]

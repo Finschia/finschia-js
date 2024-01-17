@@ -133,7 +133,7 @@ describe("TokenManager", () => {
 
     it("works for sufficient/insufficient balance", () => {
       const brokeAccount: MinimalAccount = {
-        address: "cosmos1rtfrpqt3yd7c8g73m9rsaen7fft0h52m3v9v5a",
+        address: "link1008wengr28z5quat2dzrprt9h8euav4herfyum",
         balance: [
           {
             denom: "utokenz",
@@ -142,7 +142,7 @@ describe("TokenManager", () => {
         ],
       };
       const richAccount: MinimalAccount = {
-        address: "cosmos1rtfrpqt3yd7c8g73m9rsaen7fft0h52m3v9v5a",
+        address: "link1008wengr28z5quat2dzrprt9h8euav4herfyum",
         balance: [
           {
             denom: "utokenz",
@@ -156,7 +156,7 @@ describe("TokenManager", () => {
 
     it("works for missing balance", () => {
       const emptyAccount: MinimalAccount = {
-        address: "cosmos1rtfrpqt3yd7c8g73m9rsaen7fft0h52m3v9v5a",
+        address: "link1008wengr28z5quat2dzrprt9h8euav4herfyum",
         balance: [],
       };
       expect(tm.needsRefill(emptyAccount, "utokenz")).toEqual(true);
