@@ -1,0 +1,42 @@
+{
+  "name": "@finschia/captcha",
+  "version": "0.9.0",
+  "description": "Utilities for FINSCHIA v2.0.0",
+  "contributors": [
+    "170210 <170210@users.noreply.github.com>"
+  ],
+  "license": "Apache-2.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build/",
+    "*.md",
+    "!*.spec.*",
+    "!**/testdata/"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "build": "rm -rf ./build && tsc"
+  },
+  "dependencies": {
+    "@cosmjs/faucet-client": "^0.32.2",
+    "@koa/cors": "^5.0.0",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.1",
+    "ejs": "^3.1.9",
+    "koa": "^2.15.0",
+    "koa-bodyparser": "^4.4.1",
+    "koa-views": "^8.1.0"
+  },
+  "devDependencies": {
+    "@cosmjs/faucet-client": "^0.32.2",
+    "@types/koa": "^2.14.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa__cors": "^5.0.0",
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finschia Faucet</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      .faucet-container {
+        text-align: center;
+      }
+      .faucet-input {
+        margin-bottom: 20px;
+        padding: 10px;
+        width: 300px;
+      }
+      .faucet-button {
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="faucet-container">
+      <input id="address" type="text" class="faucet-input" placeholder="Enter your Ebony address" />
+      <button id="submitBtn" class="faucet-button">Get coin from faucet</button>
+    </div>
+    <script
+      src="https://www.google.com/recaptcha/api.js?render=<%= recaptchaSiteKey %>"
+      async
+      defer
+    ></script>
+    <script>
+      document.getElementById("submitBtn").addEventListener("click", function () {
+        grecaptcha.ready(function () {
+          grecaptcha
+            .execute("<%= recaptchaSiteKey %>", { action: "get_faucet" })
+            .then(function (token) {
+              var address = document.getElementById("address").value;
+              fetch("./submit-captcha", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  address: address,
+                  recaptchaResponse: token,
+                }),
+              })
+                .then((response) => {
+                  if (!response.ok) {
+                    response.json().then((data) => {
+                      alert("Failed: " + data.message);
+                    });
+                  } else alert("Success!");
+                })
+                .catch((error) => {
+                  alert("Error: " + error.message);
+                });
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
