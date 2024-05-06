@@ -13,6 +13,7 @@ import {
   defaultRegistryTypes,
 } from "@cosmjs/stargate";
 
+// eslint-disable-next-line import/no-cycle
 import {
   createCollectionAminoConverters,
   createFoundationAminoConverters,
@@ -21,6 +22,7 @@ import {
 } from "./modules";
 import { collectionTypes } from "./modules/collection/messages";
 import { foundationTypes } from "./modules/foundation/messages";
+import { fswapTypes } from "./modules/fswap/messages";
 import { stakingplusTypes } from "./modules/stakingplus/messages";
 import { tokenTypes } from "./modules/token/messages";
 import { wasmplusTypes } from "./modules/wasmplus/messages";
@@ -33,6 +35,7 @@ export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...tokenTypes,
   ...wasmTypes,
   ...wasmplusTypes,
+  ...fswapTypes,
 ];
 
 export function createDefaultRegistry(): Registry {

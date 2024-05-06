@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2023-10-23T08:33:31.106710587Z",
+  "genesis_time": "2024-05-06T05:31:47.158658Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -344,6 +344,37 @@
     "evidence": {
       "evidence": []
     },
+    "fbridge": {
+      "params": {
+        "operator_trust_level": {
+          "numerator": "0",
+          "denominator": "0"
+        },
+        "guardian_trust_level": {
+          "numerator": "0",
+          "denominator": "0"
+        },
+        "judge_trust_level": {
+          "numerator": "0",
+          "denominator": "0"
+        },
+        "timelock_period": "0",
+        "proposal_period": "0"
+      },
+      "sending_state": {
+        "next_seq": "1",
+        "seq_to_blocknum": []
+      },
+      "receiving_state": {
+        "greatest_consecutive_seq_by_operator": [],
+        "greatest_seq_by_operator": [],
+        "greatest_consecutive_seq": "0",
+        "pending_claim_seqs": [],
+        "commitments": [],
+        "provisions": [],
+        "confirmed_seq_to_commitment": []
+      }
+    },
     "feegrant": {
       "allowances": []
     },
@@ -382,6 +413,27 @@
         }
       ]
     },
+    "fswap": {
+      "swaps": [{
+        "from_denom": "cony",
+        "to_denom": "pdt",
+        "amount_cap_for_to_denom": "100000000000000",
+        "swap_rate": "148.000000000000000000"
+      }],
+      "swap_stats": {
+        "swap_count": 1
+      },
+      "swappeds": [{
+        "from_coin_amount": {
+          "denom": "cony",
+          "amount": "0"
+        },
+        "to_coin_amount": {
+          "denom": "pdt",
+          "amount": "0"
+        }
+      }]
+    },
     "genutil": {
       "gen_txs": [
         {
@@ -406,7 +458,7 @@
                 "validator_address": "linkvaloper1twsfmuj28ndph54k4nw8crwu8h9c8mh33lyrp8",
                 "pubkey": {
                   "@type": "/cosmos.crypto.ed25519.PubKey",
-                  "key": "iVGwti+uog/DVBfDHtK8Va9PvTBXZwIgcyBzcOQ7m4c="
+                  "key": "F90Lsv9PiSPevPWES5X0yTViZUsFfbFMyPvDATCzjlk="
                 },
                 "value": {
                   "denom": "stake",
@@ -414,7 +466,7 @@
                 }
               }
             ],
-            "memo": "3c295a49e557880888338e58e4d62b62e1bbe68a@172.30.1.27:26656",
+            "memo": "9fa57861343f643f624d5714386efa3b08f36331@192.168.0.53:26656",
             "timeout_height": "0",
             "extension_options": [],
             "non_critical_extension_options": []
@@ -442,7 +494,7 @@
             }
           },
           "signatures": [
-            "Yyq4JTEB32ZLAhVd5SNvBjRa8npPKUeO+ns1A+9kI2Ra/jypsZJh8DqYq5xz4CzPlwFNC633hj/RzgZmPEvHNg=="
+            "pMYtmMXS+XQxmeJ0PRspGc3xlWBfLvQ49HxxrYlBYrln+Y+T/sakP2sOjTfQKHkZzsFrwuwEo9ltkOIuJ04d4w=="
           ]
         }
       ]
@@ -459,10 +511,10 @@
             "amount": "10000000"
           }
         ],
-        "max_deposit_period": "172800s"
+        "max_deposit_period": "10s"
       },
       "voting_params": {
-        "voting_period": "172800s"
+        "voting_period": "10s"
       },
       "tally_params": {
         "quorum": "0.334000000000000000",

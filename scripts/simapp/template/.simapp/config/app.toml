@@ -132,16 +132,16 @@ address = "tcp://0.0.0.0:1317"
 # MaxOpenConnections defines the number of maximum open connections.
 max-open-connections = 1000
 
-# RPCReadTimeout defines the Ostracon RPC read timeout (in seconds).
+# RPCReadTimeout defines the Tendermint RPC read timeout (in seconds).
 rpc-read-timeout = 10
 
-# RPCWriteTimeout defines the Ostracon RPC write timeout (in seconds).
+# RPCWriteTimeout defines the Tendermint RPC write timeout (in seconds).
 rpc-write-timeout = 10
 
-# RPCIdleTimeout defines the Ostracon RPC idle timeout (in seconds).
+# RPCIdleTimeout defines the Tendermint RPC idle timeout (in seconds).
 rpc-idle-timeout = 60
 
-# RPCMaxBodyBytes defines the Ostracon maximum response body (in bytes).
+# RPCMaxBodyBytes defines the Tendermint maximum response body (in bytes).
 rpc-max-body-bytes = 1000000
 
 # EnableUnsafeCORS defines if CORS should be enabled (unsafe - use it at your own risk).
