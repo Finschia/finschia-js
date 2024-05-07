@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2024-05-06T05:31:47.158658Z",
+  "genesis_time": "2024-05-07T13:01:39.950894Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -347,19 +347,19 @@
     "fbridge": {
       "params": {
         "operator_trust_level": {
-          "numerator": "0",
-          "denominator": "0"
+          "numerator": "2",
+          "denominator": "3"
         },
         "guardian_trust_level": {
-          "numerator": "0",
-          "denominator": "0"
+          "numerator": "2",
+          "denominator": "3"
         },
         "judge_trust_level": {
-          "numerator": "0",
-          "denominator": "0"
+          "numerator": "1",
+          "denominator": "1"
         },
-        "timelock_period": "0",
-        "proposal_period": "0"
+        "timelock_period": "86400000000000",
+        "proposal_period": "3600000000000"
       },
       "sending_state": {
         "next_seq": "1",
@@ -373,7 +373,12 @@
         "commitments": [],
         "provisions": [],
         "confirmed_seq_to_commitment": []
-      }
+      },
+      "next_role_proposal_id": "1",
+      "role_proposals": [],
+      "votes": [],
+      "roles": [],
+      "bridge_switches": []
     },
     "feegrant": {
       "allowances": []

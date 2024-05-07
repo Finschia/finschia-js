@@ -15,7 +15,7 @@ export interface FswapExtension {
 }
 
 export function setupFswapExtension(base: QueryClient): FswapExtension {
-  const rpc = createProtobufRpcClient((base));
+  const rpc = createProtobufRpcClient(base);
 
   // Use this service to get easy typed access to query methods
   // This cannot be used for proof verification

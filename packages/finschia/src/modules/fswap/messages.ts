@@ -1,6 +1,6 @@
 import { EncodeObject, GeneratedType } from "@cosmjs/proto-signing";
-import { MsgSwap, MsgSwapAll } from "@finschia/finschia-proto/lbm/fswap/v1/tx";
 import { MakeSwapProposal, Swap } from "@finschia/finschia-proto/lbm/fswap/v1/fswap";
+import { MsgSwap, MsgSwapAll } from "@finschia/finschia-proto/lbm/fswap/v1/tx";
 import { Metadata } from "cosmjs-types/cosmos/bank/v1beta1/bank";
 
 export const fswapTypes: ReadonlyArray<[string, GeneratedType]> = [
