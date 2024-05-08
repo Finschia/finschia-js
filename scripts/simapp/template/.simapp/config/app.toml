@@ -7,7 +7,7 @@
 
 # The minimum gas prices a validator is willing to accept for processing a
 # transaction. A transaction's fees must meet the minimum of any denomination
-# specified in this config (e.g. 0.25token1;0.0001token2).
+# specified in this config (e.g. 0.25token1,0.0001token2).
 minimum-gas-prices = "0.0001cony"
 
 # default: the last 100 states are kept in addition to every 500th state; pruning at 10 block intervals
@@ -132,16 +132,16 @@ address = "tcp://0.0.0.0:1317"
 # MaxOpenConnections defines the number of maximum open connections.
 max-open-connections = 1000
 
-# RPCReadTimeout defines the Tendermint RPC read timeout (in seconds).
+# RPCReadTimeout defines the Ostracon RPC read timeout (in seconds).
 rpc-read-timeout = 10
 
-# RPCWriteTimeout defines the Tendermint RPC write timeout (in seconds).
+# RPCWriteTimeout defines the Ostracon RPC write timeout (in seconds).
 rpc-write-timeout = 10
 
-# RPCIdleTimeout defines the Tendermint RPC idle timeout (in seconds).
+# RPCIdleTimeout defines the Ostracon RPC idle timeout (in seconds).
 rpc-idle-timeout = 60
 
-# RPCMaxBodyBytes defines the Tendermint maximum response body (in bytes).
+# RPCMaxBodyBytes defines the Ostracon maximum response body (in bytes).
 rpc-max-body-bytes = 1000000
 
 # EnableUnsafeCORS defines if CORS should be enabled (unsafe - use it at your own risk).

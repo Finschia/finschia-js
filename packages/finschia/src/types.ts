@@ -21,6 +21,7 @@ import {
   createWasmplusAminoConverters,
 } from "./modules";
 import { collectionTypes } from "./modules/collection/messages";
+import { fbridgeTypes } from "./modules/fbridge/messages";
 import { foundationTypes } from "./modules/foundation/messages";
 import { fswapTypes } from "./modules/fswap/messages";
 import { stakingplusTypes } from "./modules/stakingplus/messages";
@@ -36,6 +37,7 @@ export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...wasmTypes,
   ...wasmplusTypes,
   ...fswapTypes,
+  ...fbridgeTypes,
 ];
 
 export function createDefaultRegistry(): Registry {

@@ -8,7 +8,7 @@ import {
 } from "@finschia/finschia-proto/lbm/fbridge/v1/query";
 import Long from "long";
 
-import { longify } from "../../utils";
+import { getLastLineOfError, longify } from "../../utils";
 
 export type FbridgeProposalId = string | number | Long | Uint64;
 
@@ -16,9 +16,10 @@ export interface FbridgeExtension {
   readonly fbridge: {
     readonly params: () => Promise<Params | undefined>;
     readonly nextSeqSend: () => Promise<Long>;
-    readonly seqToBlocknums: (seqs: Array<string | number | Long | Uint64>) => Promise<Long[]>;
+    readonly seqToBlocknums: (seqs: (string | number | Long | Uint64)[]) => Promise<Long[]>;
+    /** the role name (guardian, operator, judge) */
     readonly members: (role: string) => Promise<string[]>;
-    readonly member: (address: string) => Promise<string>;
+    readonly member: (address: string) => Promise<string | undefined>;
     readonly proposals: (paginationKey?: Uint8Array) => Promise<QueryProposalsResponse>;
     readonly proposal: (proposalId: FbridgeProposalId) => Promise<RoleProposal | undefined>;
     readonly votes: (proposalId: FbridgeProposalId) => Promise<Vote[]>;
@@ -44,7 +45,7 @@ export function setupFbridgeExtension(base: QueryClient): FbridgeExtension {
         const response = await queryService.NextSeqSend({});
         return response.seq;
       },
-      seqToBlocknums: async (seqs: Array<string | number | Long | Uint64>) => {
+      seqToBlocknums: async (seqs: (string | number | Long | Uint64)[]) => {
         const response = await queryService.SeqToBlocknums({ seqs: seqs.map((item) => longify(item)) });
         return response.blocknums;
       },
@@ -53,23 +54,50 @@ export function setupFbridgeExtension(base: QueryClient): FbridgeExtension {
         return response.members;
       },
       member: async (address: string) => {
-        const response = await queryService.Member({ address: address });
-        return response.role;
+        try {
+          const response = await queryService.Member({ address: address });
+          return response.role;
+        } catch (e) {
+          if (e instanceof Error) {
+            if (getLastLineOfError(e).includes("role not found")) {
+              return undefined;
+            }
+          }
+          throw e;
+        }
       },
       proposals: async (paginationKey?: Uint8Array) => {
         return await queryService.Proposals({ pagination: createPagination(paginationKey) });
       },
       proposal: async (proposalId: FbridgeProposalId) => {
-        const response = await queryService.Proposal({ proposalId: longify(proposalId) });
-        return response.proposal;
+        try {
+          const response = await queryService.Proposal({ proposalId: longify(proposalId) });
+          return response.proposal;
+        } catch (e) {
+          if (e instanceof Error) {
+            if (getLastLineOfError(e).includes("key not found")) {
+              return undefined;
+            }
+          }
+          throw e;
+        }
       },
       votes: async (proposalId: FbridgeProposalId) => {
         const response = await queryService.Votes({ proposalId: longify(proposalId) });
         return response.votes;
       },
       vote: async (proposalId: FbridgeProposalId, voter: string) => {
-        const response = await queryService.Vote({ proposalId: longify(proposalId), voter: voter });
-        return response.vote;
+        try {
+          const response = await queryService.Vote({ proposalId: longify(proposalId), voter: voter });
+          return response.vote;
+        } catch (e) {
+          if (e instanceof Error) {
+            if (getLastLineOfError(e).includes("key not found")) {
+              return undefined;
+            }
+          }
+          throw e;
+        }
       },
       bridgeStatus: async () => {
         return await queryService.BridgeStatus({});

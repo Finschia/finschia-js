@@ -31,14 +31,14 @@ export function isMsgSuggestRoleEncodeObject(object: EncodeObject): object is Ms
 }
 
 export interface MsgAddVoteForRoleEncodeObject extends EncodeObject {
-  readonly typeUrl: "/lbm.fbirdge.v1.MsgAddVoteForRole";
+  readonly typeUrl: "/lbm.fbridge.v1.MsgAddVoteForRole";
   readonly value: Partial<MsgAddVoteForRole>;
 }
 
 export function isMsgAddVoteForRoleEncodeObject(
   object: EncodeObject,
 ): object is MsgAddVoteForRoleEncodeObject {
-  return (object as MsgAddVoteForRoleEncodeObject).typeUrl === "/lbm.fbirdge.v1.MsgAddVoteForRole";
+  return (object as MsgAddVoteForRoleEncodeObject).typeUrl === "/lbm.fbridge.v1.MsgAddVoteForRole";
 }
 
 export interface MsgSetBridgeStatusEncodeObject extends EncodeObject {

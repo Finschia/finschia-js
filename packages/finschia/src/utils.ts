@@ -35,3 +35,9 @@ export function jsonDurationToProto(duration: string): Duration {
     nanos: parseInt(nanoStr, 10),
   };
 }
+
+export function getLastLineOfError(err: Error): string {
+  const errString = err.toString();
+  const lines = errString.split("\n");
+  return lines[lines.length - 1];
+}

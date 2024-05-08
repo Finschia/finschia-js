@@ -12,7 +12,8 @@ import {
   MsgSuggestRole,
   MsgTransfer,
 } from "@finschia/finschia-proto/lbm/fbridge/v1/tx";
-import Long from "long";
+
+import { longify } from "../../utils";
 
 export interface AminoMsgTransfer extends AminoMsg {
   readonly type: "lbm-sdk/MsgTransfer";
@@ -117,7 +118,7 @@ export function createFbridgeAminoConverters(): AminoConverters {
       fromAmino: ({ from, proposal_id, option }: AminoMsgAddVoteForRole["value"]): MsgAddVoteForRole => {
         return {
           from: from,
-          proposalId: Long.fromString(proposal_id),
+          proposalId: longify(proposal_id),
           option: voteOptionFromJSON(option),
         };
       },

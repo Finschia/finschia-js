@@ -86,6 +86,8 @@ priv_validator_state_file = "data/priv_validator_state.json"
 
 # TCP or UNIX socket address for Ostracon to listen on for
 # connections from an external PrivValidator process
+# If this value is set, key file(priv_validator_key.json) will not be generated.
+# example) tcp://0.0.0.0:26659
 priv_validator_laddr = ""
 
 # Validator's remote address to allow a connection
@@ -230,17 +232,17 @@ max_batch_request_num = 10
 max_header_bytes = 1048576
 
 # The path to a file containing certificate that is used to create the HTTPS server.
-# Might be either absolute path or path related to Tendermint's config directory.
+# Might be either absolute path or path related to Ostracon's config directory.
 # If the certificate is signed by a certificate authority,
 # the certFile should be the concatenation of the server's certificate, any intermediates,
 # and the CA's certificate.
-# NOTE: both tls_cert_file and tls_key_file must be present for Tendermint to create HTTPS server.
+# NOTE: both tls_cert_file and tls_key_file must be present for Ostracon to create HTTPS server.
 # Otherwise, HTTP server is run.
 tls_cert_file = ""
 
 # The path to a file containing matching private key that is used to create the HTTPS server.
-# Might be either absolute path or path related to Tendermint's config directory.
-# NOTE: both tls-cert-file and tls-key-file must be present for Tendermint to create HTTPS server.
+# Might be either absolute path or path related to Ostracon's config directory.
+# NOTE: both tls-cert-file and tls-key-file must be present for Ostracon to create HTTPS server.
 # Otherwise, HTTP server is run.
 tls_key_file = ""
 

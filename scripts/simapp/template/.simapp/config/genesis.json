@@ -377,8 +377,13 @@
       "next_role_proposal_id": "1",
       "role_proposals": [],
       "votes": [],
-      "roles": [],
-      "bridge_switches": []
+      "roles": [
+        {"address": "link1dfyywjglcfptn72axxhsslpy8ep6wq7wujasma", "role": "GUARDIAN"},
+        {"address": "link1equ4n3uwyhapak5g3leq0avz85k0q6jcdy5w0f", "role": "OPERATOR" },
+        {"address": "link14nvvrk4dz3k695t8740vqzjnvrwszwm69hw0ls", "role": "JUDGE"}],
+      "bridge_switches": [
+        {"guardian": "link1dfyywjglcfptn72axxhsslpy8ep6wq7wujasma", "status": "BRIDGE_STATUS_ACTIVE" }
+      ]
     },
     "feegrant": {
       "allowances": []
