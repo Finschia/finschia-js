@@ -1,5 +1,5 @@
 {
-  "genesis_time": "2024-05-07T13:01:39.950894Z",
+  "genesis_time": "2024-05-09T11:45:27.276799Z",
   "chain_id": "simd-testing",
   "initial_height": "1",
   "consensus_params": {
@@ -359,7 +359,8 @@
           "denominator": "1"
         },
         "timelock_period": "86400000000000",
-        "proposal_period": "3600000000000"
+        "proposal_period": "3600000000000",
+        "target_denom": "stake"
       },
       "sending_state": {
         "next_seq": "1",
