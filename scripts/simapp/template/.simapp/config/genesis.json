@@ -292,6 +292,25 @@
           "display": "finschia",
           "name": "FINSCHIA",
           "symbol": "FNSA"
+        },
+        {
+          "description": "kaia chain token",
+          "denom_units": [
+            {
+              "denom": "pdt",
+              "exponent": 0,
+              "aliases": []
+            },
+            {
+              "denom": "PDT",
+              "exponent": 18,
+              "aliases": []
+            }
+          ],
+          "base": "pdt",
+          "display": "PDT",
+          "name": "PDT",
+          "symbol": "PDT"
         }
       ]
     },
@@ -428,8 +447,8 @@
       "swaps": [{
         "from_denom": "cony",
         "to_denom": "pdt",
-        "amount_cap_for_to_denom": "100000000000000",
-        "swap_rate": "148.000000000000000000"
+        "amount_cap_for_to_denom": "1000000000000000000000000000000000000000000000",
+        "swap_rate": "148079656000000000000"
       }],
       "swap_stats": {
         "swap_count": 1

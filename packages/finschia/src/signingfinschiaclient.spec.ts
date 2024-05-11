@@ -1070,6 +1070,24 @@ describe("SigningFinschiaClient", () => {
     });
   });
 
+  describe("swapAndBridge", () => {
+    it("works", async () => {
+      pendingWithoutSimapp();
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
+        hdPaths: [makeLinkPath(0), makeLinkPath(100)],
+        prefix: simapp.prefix,
+      });
+      const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
+      const client = await SigningFinschiaClient.connectWithSigner(simapp.tendermintUrl, wallet, options);
+
+      const sender = (await wallet.getAccounts())[2].address;
+      const toAddr = "0xf7bAc63fc7CEaCf0589F25454Ecf5C2ce904997c";
+      const result = await client.swapAndBridge(sender, toAddr);
+      console.log("result: ", result);
+      assertIsDeliverTxSuccess(result);
+    });
+  });
+
   describe("signAndBroadcast", () => {
     describe("direct mode", () => {
       it("works", async () => {

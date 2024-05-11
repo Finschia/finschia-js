@@ -1,6 +1,5 @@
 import { coin, coins, Secp256k1HdWallet } from "@cosmjs/amino";
 import { AminoTypes, assertIsDeliverTxSuccess } from "@cosmjs/stargate";
-import { longify } from "@cosmjs/stargate/build/queryclient";
 import { assertDefined } from "@cosmjs/utils";
 import { MsgSwap, MsgSwapAll } from "@finschia/finschia-proto/lbm/fswap/v1/tx";
 
@@ -143,8 +142,8 @@ describe("Amino Sign", () => {
     const afterAmount = (await client.fswap.swapped("cony", "pdt")).toCoinAmount?.amount;
     assertDefined(afterAmount);
     // beforeAmount + swapAmount(100000) * swapRate(148)
-    const expectedAmount = longify(beforeAmount).add(longify(swapAmount).mul(148));
-    expect(longify(afterAmount)).toEqual(expectedAmount);
+    const expectedAmount = BigInt(beforeAmount) + BigInt(swapAmount) * BigInt("148079656000000000000");
+    expect(afterAmount).toEqual(expectedAmount.toString());
 
     tmClient.disconnect();
   });
@@ -191,11 +190,11 @@ describe("Amino Sign", () => {
 
     const afterAmount = (await client.fswap.swapped("cony", "pdt")).toCoinAmount?.amount;
     assertDefined(afterAmount);
-    // beforeAmount + (swapAmount(100000) - defaultFee(25000)) * swapRate(148)
-    const expectedAmount = longify(beforeAmount).add(
-      longify(swapAmount).sub(defaultFee.amount[0].amount).mul(148),
-    );
-    expect(longify(afterAmount)).toEqual(expectedAmount);
+    // beforeAmount + (swapAmount(100000) - defaultFee(25000)) * swapRate(148079656000000000000)
+    const expectedAmount =
+      BigInt(beforeAmount) +
+      (BigInt(swapAmount) - BigInt(defaultFee.amount[0].amount)) * BigInt("148079656000000000000");
+    expect(afterAmount).toEqual(expectedAmount.toString());
 
     tmClient.disconnect();
   });

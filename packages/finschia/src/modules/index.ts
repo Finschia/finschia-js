@@ -50,6 +50,31 @@ export { CollectionExtension, setupCollectionExtension } from "./collection/quer
 export { EvidenceExtension, setupEvidenceExtension } from "./evidence/queries";
 export { FeeGrantExtension, setupFeeGrantExtension } from "./feegrant/queries";
 // eslint-disable-next-line import/no-cycle
+export {
+  AminoMsgAddVoteForRole,
+  AminoMsgSetBridgeStatus,
+  AminoMsgSuggestRole,
+  AminoMsgTransfer,
+  createFbridgeAminoConverters,
+  isAminoMsgAddVoteForRole,
+  isAminoMsgSetBridgeStatus,
+  isAminoMsgSuggestRole,
+  isAminoMsgTransfer,
+} from "./fbridge/aminomessages";
+export {
+  createFbridgeTransfer,
+  fbridgeTypes,
+  isMsgAddVoteForRoleEncodeObject,
+  isMsgTransferEncodeObject as isMsgFBridgeTransferEncodeObject,
+  isMsgSetBridgeStatusEncodeObject,
+  isMsgSuggestRoleEncodeObject,
+  MsgAddVoteForRoleEncodeObject,
+  MsgTransferEncodeObject as MsgFBridgeTransferEncodeObject,
+  MsgSetBridgeStatusEncodeObject,
+  MsgSuggestRoleEncodeObject,
+} from "./fbridge/messages";
+export { FbridgeExtension, FbridgeProposalId, setupFbridgeExtension } from "./fbridge/queries";
+// eslint-disable-next-line import/no-cycle
 export { createFoundationAminoConverters } from "./foundation/aminomessages";
 export {
   createMsgGrant,
@@ -92,6 +117,24 @@ export {
   ThresholdDecisionPolicyEncodeObject,
 } from "./foundation/messages";
 export { FoundationExtension, FoundationProposalId, setupFoundationExtension } from "./foundation/queries";
+export {
+  AminoMsgSwap,
+  AminoMsgSwapAll,
+  createFswapAminoConverters,
+  isAminoMsgSwap,
+  isAminoMsgSwapAll,
+} from "./fswap/aminomessages";
+export {
+  createMakeSwapProposal,
+  fswapTypes,
+  isMsgSetSwapEncodeObject,
+  isMsgSwapAllEncodeObject,
+  isMsgSwapEncodeObject,
+  MsgSetSwapEncodeObject,
+  MsgSwapAllEncodeObject,
+  MsgSwapEncodeObject,
+} from "./fswap/messages";
+export { FswapExtension, setupFswapExtension } from "./fswap/queries";
 export { NodeExtension, setupNodeExtension } from "./node/queries";
 export { stakingplusTypes } from "./stakingplus/messages";
 export { createTokenAminoConverters } from "./token/aminomessages";
@@ -129,45 +172,3 @@ export {
   wasmplusTypes,
 } from "./wasmplus/messages";
 export { setupWasmplusExtension, WasmplusExtension } from "./wasmplus/queries";
-export {
-  isAminoMsgSwap,
-  AminoMsgSwap,
-  AminoMsgSwapAll,
-  isAminoMsgSwapAll,
-  createFswapAminoConverters,
-} from "./fswap/aminomessages";
-export { setupFswapExtension, FswapExtension } from "./fswap/queries";
-export {
-  MsgSetSwapEncodeObject,
-  MsgSwapAllEncodeObject,
-  MsgSwapEncodeObject,
-  isMsgSetSwapEncodeObject,
-  fswapTypes,
-  createMakeSwapProposal,
-  isMsgSwapAllEncodeObject,
-  isMsgSwapEncodeObject,
-} from "./fswap/messages";
-export { FbridgeExtension, setupFbridgeExtension, FbridgeProposalId } from "./fbridge/queries";
-export {
-  MsgTransferEncodeObject,
-  createFbridgeTransfer,
-  fbridgeTypes,
-  isMsgSuggestRoleEncodeObject,
-  isMsgAddVoteForRoleEncodeObject,
-  MsgAddVoteForRoleEncodeObject,
-  isMsgTransferEncodeObject,
-  MsgSuggestRoleEncodeObject,
-  MsgSetBridgeStatusEncodeObject,
-  isMsgSetBridgeStatusEncodeObject,
-} from "./fbridge/messages";
-export {
-  AminoMsgAddVoteForRole,
-  AminoMsgSetBridgeStatus,
-  AminoMsgSuggestRole,
-  AminoMsgTransfer,
-  isAminoMsgAddVoteForRole,
-  isAminoMsgSetBridgeStatus,
-  isAminoMsgSuggestRole,
-  isAminoMsgTransfer,
-  createFbridgeAminoConverters,
-} from "./fbridge/aminomessages";

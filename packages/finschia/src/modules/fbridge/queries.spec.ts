@@ -165,7 +165,7 @@ describe("FswapExtension", () => {
       const [client, tmClient] = await makeClientWithFbridge(simapp.tendermintUrl);
 
       const seq = await client.fbridge.nextSeqSend();
-      expect(seq.toNumber()).toEqual(1);
+      expect(seq.toNumber()).toEqual(2);
 
       tmClient.disconnect();
     });

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
+import { coins, encodeSecp256k1Pubkey, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import {
   ChangeAdminResult,
   ExecuteInstruction,
@@ -21,7 +21,7 @@ import {
 } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
-import { Int53, Uint53 } from "@cosmjs/math";
+import { Decimal, Int53, Uint53 } from "@cosmjs/math";
 import {
   EncodeObject,
   encodePubkey,
@@ -51,6 +51,8 @@ import {
 } from "@cosmjs/stargate";
 import { HttpEndpoint, Tendermint34Client, TendermintClient } from "@cosmjs/tendermint-rpc";
 import { assert, assertDefined } from "@cosmjs/utils";
+import { MsgTransfer as MsgFBridgeTransfer } from "@finschia/finschia-proto/lbm/fbridge/v1/tx";
+import { MsgSwap } from "@finschia/finschia-proto/lbm/fswap/v1/tx";
 import { MsgStoreCodeAndInstantiateContract } from "@finschia/finschia-proto/lbm/wasm/v1/tx";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 import { MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
@@ -72,6 +74,7 @@ import Long from "long";
 import pako from "pako";
 
 import { FinschiaClient } from "./finschiaclient";
+import { MsgFBridgeTransferEncodeObject, MsgSwapEncodeObject } from "./modules";
 import { createDefaultRegistry, createDefaultTypes } from "./types";
 
 export interface UploadAndInstantiateOptions extends InstantiateOptions {
@@ -552,6 +555,70 @@ export class SigningFinschiaClient extends FinschiaClient {
       gasWanted: result.gasWanted,
       gasUsed: result.gasUsed,
     };
+  }
+
+  public async swapAndBridge(
+    senderAddress: string,
+    toAddress: string,
+    gas: StdFee | number = 150_000,
+    memo = "",
+  ): Promise<DeliverTxResponse> {
+    // query swap rate
+    const swapsRes = await this.forceGetQueryClientForV4().fswap.swaps();
+    if (swapsRes.swaps.length == 0) {
+      throw new Error("There is no swap in chain.");
+    }
+    const swap = swapsRes.swaps[0];
+
+    // query balance
+    const balance = await this.getBalance(senderAddress, swap.fromDenom);
+    if (balance.amount === "0") {
+      throw new Error("User don't have balance.");
+    }
+
+    // calculate gas fee
+    let usedFee: StdFee;
+    if (typeof gas === "number") {
+      // const n = await this.forceGetQueryClient().node.config();
+      // console.log("config: ", n);
+
+      const gasLimit = gas;
+      usedFee = {
+        amount: coins(gasLimit * 0.015, swap.fromDenom),
+        gas: gasLimit.toString(),
+      };
+    } else {
+      usedFee = gas;
+    }
+
+    // calculate swapRate and total swapAmount, amount to transfer by bridge
+    const swapRate = Decimal.fromAtomics(swap.swapRate, 18);
+    const swapAmount = BigInt(balance.amount) - BigInt(usedFee.amount[0].amount);
+    const swappedAmount = swapAmount * BigInt(swapRate.toString());
+
+    const msgSwap: MsgSwapEncodeObject = {
+      typeUrl: "/lbm.fswap.v1.MsgSwap",
+      value: MsgSwap.fromPartial({
+        fromAddress: senderAddress,
+        fromCoinAmount: { amount: swapAmount.toString(), denom: swap.fromDenom },
+        toDenom: swap.toDenom,
+      }),
+    };
+    const msgBridge: MsgFBridgeTransferEncodeObject = {
+      typeUrl: "/lbm.fbridge.v1.MsgTransfer",
+      value: MsgFBridgeTransfer.fromPartial({
+        sender: senderAddress,
+        receiver: toAddress,
+        amount: swappedAmount.toString(),
+      }),
+    };
+
+    const result = await this.signAndBroadcast(senderAddress, [msgSwap, msgBridge], usedFee, memo);
+    if (isDeliverTxFailure(result)) {
+      throw new Error(createDeliverTxResponseErrorMessage(result));
+    }
+
+    return result;
   }
 
   /**

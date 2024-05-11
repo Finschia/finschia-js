@@ -115,8 +115,8 @@ describe("FswapExtension", () => {
       const expected: Swap = {
         fromDenom: "cony",
         toDenom: "pdt",
-        amountCapForToDenom: "100000000000000",
-        swapRate: Decimal.fromUserInput("148", 18).atomics,
+        amountCapForToDenom: "10000000000000000000000000000000000000",
+        swapRate: Decimal.fromUserInput("148079656000000000000", 18).atomics,
       };
       expect(response.swaps[0]).toEqual(expected);
 
@@ -132,9 +132,9 @@ describe("FswapExtension", () => {
       expect(coin).toBeDefined();
       expect(coin?.denom).toEqual("pdt");
       const totalSwappedCony =
-        parseInt(swapAmount, 10) + (parseInt(swapAllAmount, 10) - parseInt(defaultFee.amount[0].amount, 10));
+        BigInt(swapAmount) + (BigInt(swapAllAmount) - BigInt(defaultFee.amount[0].amount));
       const expectedTotalSwappableToCoinAmount =
-        parseInt(beforeTotalSwappableToAmount, 10) - totalSwappedCony * 148;
+        BigInt(beforeTotalSwappableToAmount) - totalSwappedCony * BigInt("148079656000000000000");
       expect(coin?.amount).toEqual(expectedTotalSwappableToCoinAmount.toString());
 
       tmClient.disconnect();
@@ -149,11 +149,14 @@ describe("FswapExtension", () => {
       expect(response.fromCoinAmount).toBeDefined();
       expect(response.toCoinAmount).toBeDefined();
       const expectedTotalCony =
-        parseInt(beforeSwappedFromAmount, 10) +
-        parseInt(swapAmount, 10) +
-        (parseInt(swapAllAmount, 10) - parseInt(defaultFee.amount[0].amount, 10));
+        BigInt(beforeSwappedFromAmount) +
+        BigInt(swapAmount) +
+        (BigInt(swapAllAmount) - BigInt(defaultFee.amount[0].amount));
       expect(response.fromCoinAmount).toEqual({ denom: "cony", amount: expectedTotalCony.toString() });
-      expect(response.toCoinAmount).toEqual({ denom: "pdt", amount: (expectedTotalCony * 148).toString() });
+      expect(response.toCoinAmount).toEqual({
+        denom: "pdt",
+        amount: (expectedTotalCony * BigInt("148079656000000000000")).toString(),
+      });
 
       tmClient.disconnect();
     });

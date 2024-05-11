@@ -66,13 +66,17 @@ import { Channel } from "cosmjs-types/ibc/core/channel/v1/channel";
 import {
   CollectionExtension,
   EvidenceExtension,
+  FbridgeExtension,
   FeeGrantExtension,
   FoundationExtension,
+  FswapExtension,
   NodeExtension,
   setupCollectionExtension,
   setupEvidenceExtension,
+  setupFbridgeExtension,
   setupFeeGrantExtension,
   setupFoundationExtension,
+  setupFswapExtension,
   setupNodeExtension,
   setupTokenExtension,
   setupTx2Extension,
@@ -102,6 +106,8 @@ export type QueryClientWithExtensions = QueryClient &
   WasmplusExtension &
   NodeExtension;
 
+export type QueryClientForV4WithExtensions = QueryClient & FswapExtension & FbridgeExtension;
+
 function createQueryClientWithExtensions(tmClient: TendermintClient): QueryClientWithExtensions {
   return QueryClient.withExtensions(
     tmClient,
@@ -126,15 +132,21 @@ function createQueryClientWithExtensions(tmClient: TendermintClient): QueryClien
   );
 }
 
+function createQueryClientForV4WithExtension(tmClient: TendermintClient): QueryClientForV4WithExtensions {
+  return QueryClient.withExtensions(tmClient, setupFswapExtension, setupFbridgeExtension);
+}
+
 /** Use for testing only */
 export interface PrivateFinschiaClient {
   readonly tmClient: TendermintClient | undefined;
   readonly queryClient: QueryClientWithExtensions | undefined;
+  readonly queryClientForV4: QueryClientForV4WithExtensions | undefined;
 }
 
 export class FinschiaClient {
   private readonly tmClient: TendermintClient | undefined;
   private readonly queryClient: QueryClientWithExtensions | undefined;
+  private readonly queryClientForV4: QueryClientForV4WithExtensions | undefined;
   private readonly codesCache = new Map<number, CodeDetails>();
   private chainId: string | undefined;
   private readonly accountParser: AccountParser;
@@ -151,6 +163,7 @@ export class FinschiaClient {
     if (tmClient) {
       this.tmClient = tmClient;
       this.queryClient = createQueryClientWithExtensions(tmClient);
+      this.queryClientForV4 = createQueryClientForV4WithExtension(tmClient);
     }
     const { accountParser = accountFromAny } = options;
     this.accountParser = accountParser;
@@ -178,6 +191,15 @@ export class FinschiaClient {
       throw new Error("Query client not available. You cannot use online functionality in offline mode.");
     }
     return this.queryClient;
+  }
+
+  protected forceGetQueryClientForV4(): QueryClientForV4WithExtensions {
+    if (!this.queryClientForV4) {
+      throw new Error(
+        "Query client for v4 not avaliable. You cannot use online functionality in offline mode.",
+      );
+    }
+    return this.queryClientForV4;
   }
 
   public async getChainId(): Promise<string> {

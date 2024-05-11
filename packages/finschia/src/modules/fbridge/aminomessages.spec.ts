@@ -268,24 +268,24 @@ describe("Amino Sign", () => {
 
     const beforeAmount = await signingFinschiaClient.getBalance(fromAddr, "pdt");
 
-    const bridgingAmount = longify(swapFromAmount).mul(148).toString();
+    const bridgingAmount = BigInt(swapFromAmount) * BigInt("148079656000000000000");
     const msgTransfer: MsgTransferEncodeObject = {
       typeUrl: "/lbm.fbridge.v1.MsgTransfer",
       value: {
         sender: fromAddr,
         receiver: toAddr,
-        amount: bridgingAmount,
+        amount: bridgingAmount.toString(),
       },
     };
     const result = await signingFinschiaClient.signAndBroadcast(faucet.address0, [msgTransfer], defaultFee);
     assertIsDeliverTxSuccess(result);
     const parsedLogs = parseRawLog(result.rawLog);
     expect(findAttribute(parsedLogs, "lbm.fbridge.v1.EventTransfer", "amount").value).toEqual(
-      '"' + bridgingAmount + '"',
+      '"' + bridgingAmount.toString() + '"',
     );
 
     const afterAmount = await signingFinschiaClient.getBalance(fromAddr, "pdt");
-    expect(afterAmount.amount).toEqual(longify(beforeAmount.amount).sub(bridgingAmount).toString());
+    expect(afterAmount.amount).toEqual((BigInt(beforeAmount.amount) - bridgingAmount).toString());
   });
 
   it("MsgSuggestRole", async () => {

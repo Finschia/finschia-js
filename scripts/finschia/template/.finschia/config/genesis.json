@@ -292,6 +292,25 @@
           "display": "finschia",
           "name": "FINSCHIA",
           "symbol": "FNSA"
+        },
+        {
+          "description": "kaia chain token",
+          "denom_units": [
+            {
+              "denom": "pdt",
+              "exponent": 0,
+              "aliases": []
+            },
+            {
+              "denom": "PDT",
+              "exponent": 18,
+              "aliases": []
+            }
+          ],
+          "base": "pdt",
+          "display": "PDT",
+          "name": "PDT",
+          "symbol": "PDT"
         }
       ]
     },
