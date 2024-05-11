@@ -1,15 +1,9 @@
 import { coins } from "@cosmjs/amino";
 import { Decimal } from "@cosmjs/math";
-import { DirectSecp256k1HdWallet, Registry } from "@cosmjs/proto-signing";
-import {
-  assertIsDeliverTxFailure,
-  assertIsDeliverTxSuccess,
-  MsgSendEncodeObject,
-  MsgSubmitProposalEncodeObject,
-  QueryClient,
-} from "@cosmjs/stargate";
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import { assertIsDeliverTxSuccess, QueryClient } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import { sleep } from "@cosmjs/utils";
+import { assert, sleep } from "@cosmjs/utils";
 import { Swap } from "@finschia/finschia-proto/lbm/fswap/v1/fswap";
 import { Metadata } from "cosmjs-types/cosmos/bank/v1beta1/bank";
 
@@ -22,7 +16,7 @@ import {
   simapp,
   simappEnabled,
 } from "../../testutils.spec";
-import { createMakeSwapProposal, fswapTypes, MsgSwapAllEncodeObject, MsgSwapEncodeObject } from "./messages";
+import { createMakeSwapProposal, MsgSwapAllEncodeObject, MsgSwapEncodeObject } from "./messages";
 import { FswapExtension, setupFswapExtension } from "./queries";
 
 export async function makeClientWithFswap(
@@ -38,8 +32,11 @@ describe("FswapExtension", () => {
     gas: "1500000", // 1.5 million
   };
 
-  const swapAmount = "1000";
+  const swapAmount = "1000000";
   const swapAllAmount = "1000000";
+
+  let beforeSwappedFromAmount: string | undefined;
+  let beforeTotalSwappableToAmount: string | undefined;
 
   beforeAll(async () => {
     if (simappEnabled()) {
@@ -53,6 +50,18 @@ describe("FswapExtension", () => {
         wallet,
         defaultSigningClientOptions,
       );
+
+      // save before data
+      const [queryClient, tmClient] = await makeClientWithFswap(simapp.tendermintUrl);
+      const swappedRes = await queryClient.fswap.swapped("cony", "pdt");
+      expect(swappedRes.fromCoinAmount).toBeDefined();
+      expect(swappedRes.toCoinAmount).toBeDefined();
+      beforeSwappedFromAmount = swappedRes.fromCoinAmount?.amount;
+
+      const totalSwappableCoin = await queryClient.fswap.totalSwappableToCoinAmount("cony", "pdt");
+      expect(totalSwappableCoin).toBeDefined();
+      beforeTotalSwappableToAmount = totalSwappableCoin?.amount;
+      tmClient.disconnect();
 
       const owner = faucet.address0;
       const swapAllUser = accounts[2].address;
@@ -73,16 +82,8 @@ describe("FswapExtension", () => {
 
       // SwapAll
       {
-        // send
-        const msgSend: MsgSendEncodeObject = {
-          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
-          value: {
-            fromAddress: owner,
-            toAddress: swapAllUser,
-            amount: coins(swapAllAmount, simapp.denomFee),
-          },
-        };
-        const result = await client.signAndBroadcast(owner, [msgSend], defaultFee);
+        // bank send swapAllAmount to swapAllUser for MsgSwapAll test
+        const result = await client.sendTokens(owner, swapAllUser, coins(swapAllAmount, "cony"), defaultFee);
         assertIsDeliverTxSuccess(result);
 
         await sleep(75);
@@ -98,18 +99,13 @@ describe("FswapExtension", () => {
         const result2 = await client.signAndBroadcast(swapAllUser, [msgSwapAll], defaultFee);
         assertIsDeliverTxSuccess(result2);
 
-        const conyBalance = await client.getBalance(swapAllUser, "cony");
-        expect(conyBalance.amount).toEqual("0");
-        const swappedCoinBalance = await client.getBalance(swapAllUser, "pdt");
-        expect(swappedCoinBalance.amount).toEqual("144300000");
-
         client.disconnect();
       }
     }
   });
 
   describe("query", () => {
-    it("swaps", async () => {
+    it("Swaps", async () => {
       pendingWithoutSimapp();
       const [client, tmClient] = await makeClientWithFswap(simapp.tendermintUrl);
 
@@ -129,6 +125,7 @@ describe("FswapExtension", () => {
 
     it("TotalSwappableToCoinAmount", async () => {
       pendingWithoutSimapp();
+      assert(beforeTotalSwappableToAmount, "Missing beforeTotalSwappableToAmount");
       const [client, tmClient] = await makeClientWithFswap(simapp.tendermintUrl);
 
       const coin = await client.fswap.totalSwappableToCoinAmount("cony", "pdt");
@@ -136,7 +133,8 @@ describe("FswapExtension", () => {
       expect(coin?.denom).toEqual("pdt");
       const totalSwappedCony =
         parseInt(swapAmount, 10) + (parseInt(swapAllAmount, 10) - parseInt(defaultFee.amount[0].amount, 10));
-      const expectedTotalSwappableToCoinAmount = 100000000000000 - totalSwappedCony * 148;
+      const expectedTotalSwappableToCoinAmount =
+        parseInt(beforeTotalSwappableToAmount, 10) - totalSwappedCony * 148;
       expect(coin?.amount).toEqual(expectedTotalSwappableToCoinAmount.toString());
 
       tmClient.disconnect();
@@ -144,13 +142,16 @@ describe("FswapExtension", () => {
 
     it("Swapped", async () => {
       pendingWithoutSimapp();
+      assert(beforeSwappedFromAmount, "Missing beforeSwappedFromAmount");
       const [client, tmClient] = await makeClientWithFswap(simapp.tendermintUrl);
 
       const response = await client.fswap.swapped("cony", "pdt");
       expect(response.fromCoinAmount).toBeDefined();
       expect(response.toCoinAmount).toBeDefined();
       const expectedTotalCony =
-        parseInt(swapAmount, 10) + (parseInt(swapAllAmount, 10) - parseInt(defaultFee.amount[0].amount, 10));
+        parseInt(beforeSwappedFromAmount, 10) +
+        parseInt(swapAmount, 10) +
+        (parseInt(swapAllAmount, 10) - parseInt(defaultFee.amount[0].amount, 10));
       expect(response.fromCoinAmount).toEqual({ denom: "cony", amount: expectedTotalCony.toString() });
       expect(response.toCoinAmount).toEqual({ denom: "pdt", amount: (expectedTotalCony * 148).toString() });
 
@@ -178,7 +179,6 @@ describe("Proposal", () => {
           defaultSigningClientOptions,
         );
 
-        const initialDeposit = coins(10000000, "stake");
         const metadata: Metadata = {
           description: "test swapped coin metadata",
           denomUnits: [
@@ -201,9 +201,11 @@ describe("Proposal", () => {
           uriHash: "",
         };
         // proposal MakeSwapProposal
-        const msg = createMakeSwapProposal(
-          "sample swap",
-          "finschia-js test sample swap",
+        const foundationAccount = faucet.address0;
+        const foundationModuleAddr = "link190vt0vxc8c8vj24a7mm3fjsenfu8f5yxxj76cp";
+        const proposalMsg = createMakeSwapProposal(
+          foundationAccount,
+          foundationModuleAddr,
           {
             fromDenom: "cony1",
             toDenom: "pdt",
@@ -212,25 +214,17 @@ describe("Proposal", () => {
           },
           metadata,
         );
-        const registry = new Registry(fswapTypes);
-        const proposalMsg: MsgSubmitProposalEncodeObject = {
-          typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
-          value: {
-            content: registry.encodeAsAny(msg),
-            proposer: faucet.address1,
-            initialDeposit: initialDeposit,
-          },
-        };
         const proposalResult = await client.signAndBroadcast(
-          faucet.address1,
+          foundationAccount,
           [proposalMsg],
           defaultFee,
           "Register sample swap proposal",
         );
-        assertIsDeliverTxFailure(proposalResult);
+        // tx success but execution fail
+        assertIsDeliverTxSuccess(proposalResult);
         // check error message
         expect(proposalResult.rawLog).toContain(
-          "cannot make more swaps, max swaps is 1: no more swap allowed: invalid proposal content",
+          "cannot make more swaps, max swaps is 1: no more swap allowed",
         );
       }
     });

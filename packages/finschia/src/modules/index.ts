@@ -129,3 +129,45 @@ export {
   wasmplusTypes,
 } from "./wasmplus/messages";
 export { setupWasmplusExtension, WasmplusExtension } from "./wasmplus/queries";
+export {
+  isAminoMsgSwap,
+  AminoMsgSwap,
+  AminoMsgSwapAll,
+  isAminoMsgSwapAll,
+  createFswapAminoConverters,
+} from "./fswap/aminomessages";
+export { setupFswapExtension, FswapExtension } from "./fswap/queries";
+export {
+  MsgSetSwapEncodeObject,
+  MsgSwapAllEncodeObject,
+  MsgSwapEncodeObject,
+  isMsgSetSwapEncodeObject,
+  fswapTypes,
+  createMakeSwapProposal,
+  isMsgSwapAllEncodeObject,
+  isMsgSwapEncodeObject,
+} from "./fswap/messages";
+export { FbridgeExtension, setupFbridgeExtension, FbridgeProposalId } from "./fbridge/queries";
+export {
+  MsgTransferEncodeObject,
+  createFbridgeTransfer,
+  fbridgeTypes,
+  isMsgSuggestRoleEncodeObject,
+  isMsgAddVoteForRoleEncodeObject,
+  MsgAddVoteForRoleEncodeObject,
+  isMsgTransferEncodeObject,
+  MsgSuggestRoleEncodeObject,
+  MsgSetBridgeStatusEncodeObject,
+  isMsgSetBridgeStatusEncodeObject,
+} from "./fbridge/messages";
+export {
+  AminoMsgAddVoteForRole,
+  AminoMsgSetBridgeStatus,
+  AminoMsgSuggestRole,
+  AminoMsgTransfer,
+  isAminoMsgAddVoteForRole,
+  isAminoMsgSetBridgeStatus,
+  isAminoMsgSuggestRole,
+  isAminoMsgTransfer,
+  createFbridgeAminoConverters,
+} from "./fbridge/aminomessages";

@@ -360,7 +360,7 @@
         },
         "timelock_period": "86400000000000",
         "proposal_period": "3600000000000",
-        "target_denom": "stake"
+        "target_denom": "pdt"
       },
       "sending_state": {
         "next_seq": "1",

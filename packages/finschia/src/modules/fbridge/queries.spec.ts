@@ -153,7 +153,7 @@ describe("FswapExtension", () => {
         judgeTrustLevel: { numerator: longify(1), denominator: longify(1) },
         timelockPeriod: longify(86400000000000),
         proposalPeriod: longify(3600000000000),
-        targetDenom: "stake",
+        targetDenom: "pdt",
       };
       expect(params).toEqual(expected);
 

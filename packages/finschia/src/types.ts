@@ -16,7 +16,9 @@ import {
 // eslint-disable-next-line import/no-cycle
 import {
   createCollectionAminoConverters,
+  createFbridgeAminoConverters,
   createFoundationAminoConverters,
+  createFswapAminoConverters,
   createTokenAminoConverters,
   createWasmplusAminoConverters,
 } from "./modules";
@@ -58,6 +60,8 @@ export function createDefaultTypesWithoutFoundation(): AminoConverters {
     ...createCollectionAminoConverters(),
     ...createTokenAminoConverters(),
     ...createWasmplusAminoConverters(),
+    ...createFswapAminoConverters(),
+    ...createFbridgeAminoConverters(),
   };
 }
 
