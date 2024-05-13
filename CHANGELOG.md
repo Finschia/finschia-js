@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [\#111](https://github.com/Finschia/finschia-js/pull/111) add `fswap` and `fbridge` module apis of Finschia v4
 
 ### Changed
+- [\#112](https://github.com/Finschia/finschia-js/pull/112) change package version from v0.9.0 to v0.10.0-rc1
 
 ### Deprecated
 
