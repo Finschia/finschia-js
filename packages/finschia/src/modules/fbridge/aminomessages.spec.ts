@@ -268,7 +268,7 @@ describe("Amino Sign", () => {
 
     const beforeAmount = await signingFinschiaClient.getBalance(fromAddr, "pdt");
 
-    const bridgingAmount = BigInt(swapFromAmount) * BigInt("148079656000000000000");
+    const bridgingAmount = BigInt(swapFromAmount) * BigInt("148079656000000");
     const msgTransfer: MsgTransferEncodeObject = {
       typeUrl: "/lbm.fbridge.v1.MsgTransfer",
       value: {

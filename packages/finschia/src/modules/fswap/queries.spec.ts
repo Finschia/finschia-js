@@ -116,7 +116,7 @@ describe("FswapExtension", () => {
         fromDenom: "cony",
         toDenom: "pdt",
         amountCapForToDenom: "1000000000000000000000000000000000000000000000",
-        swapRate: Decimal.fromUserInput("148079656000000000000", 18).atomics,
+        swapRate: Decimal.fromUserInput("148079656000000", 18).atomics,
       };
       expect(response.swaps[0]).toEqual(expected);
 
@@ -134,7 +134,7 @@ describe("FswapExtension", () => {
       const totalSwappedCony =
         BigInt(swapAmount) + (BigInt(swapAllAmount) - BigInt(defaultFee.amount[0].amount));
       const expectedTotalSwappableToCoinAmount =
-        BigInt(beforeTotalSwappableToAmount) - totalSwappedCony * BigInt("148079656000000000000");
+        BigInt(beforeTotalSwappableToAmount) - totalSwappedCony * BigInt("148079656000000");
       expect(coin?.amount).toEqual(expectedTotalSwappableToCoinAmount.toString());
 
       tmClient.disconnect();
@@ -155,7 +155,7 @@ describe("FswapExtension", () => {
       expect(response.fromCoinAmount).toEqual({ denom: "cony", amount: expectedTotalCony.toString() });
       expect(response.toCoinAmount).toEqual({
         denom: "pdt",
-        amount: (expectedTotalCony * BigInt("148079656000000000000")).toString(),
+        amount: (expectedTotalCony * BigInt("148079656000000")).toString(),
       });
 
       tmClient.disconnect();

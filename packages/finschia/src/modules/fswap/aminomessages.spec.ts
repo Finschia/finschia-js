@@ -142,7 +142,7 @@ describe("Amino Sign", () => {
     const afterAmount = (await client.fswap.swapped("cony", "pdt")).toCoinAmount?.amount;
     assertDefined(afterAmount);
     // beforeAmount + swapAmount(100000) * swapRate(148)
-    const expectedAmount = BigInt(beforeAmount) + BigInt(swapAmount) * BigInt("148079656000000000000");
+    const expectedAmount = BigInt(beforeAmount) + BigInt(swapAmount) * BigInt("148079656000000");
     expect(afterAmount).toEqual(expectedAmount.toString());
 
     tmClient.disconnect();
@@ -190,10 +190,10 @@ describe("Amino Sign", () => {
 
     const afterAmount = (await client.fswap.swapped("cony", "pdt")).toCoinAmount?.amount;
     assertDefined(afterAmount);
-    // beforeAmount + (swapAmount(100000) - defaultFee(25000)) * swapRate(148079656000000000000)
+    // beforeAmount + (swapAmount(100000) - defaultFee(25000)) * swapRate(148079656000000)
     const expectedAmount =
       BigInt(beforeAmount) +
-      (BigInt(swapAmount) - BigInt(defaultFee.amount[0].amount)) * BigInt("148079656000000000000");
+      (BigInt(swapAmount) - BigInt(defaultFee.amount[0].amount)) * BigInt("148079656000000");
     expect(afterAmount).toEqual(expectedAmount.toString());
 
     tmClient.disconnect();
