@@ -13,14 +13,19 @@ import {
   defaultRegistryTypes,
 } from "@cosmjs/stargate";
 
+// eslint-disable-next-line import/no-cycle
 import {
   createCollectionAminoConverters,
+  createFbridgeAminoConverters,
   createFoundationAminoConverters,
+  createFswapAminoConverters,
   createTokenAminoConverters,
   createWasmplusAminoConverters,
 } from "./modules";
 import { collectionTypes } from "./modules/collection/messages";
+import { fbridgeTypes } from "./modules/fbridge/messages";
 import { foundationTypes } from "./modules/foundation/messages";
+import { fswapTypes } from "./modules/fswap/messages";
 import { stakingplusTypes } from "./modules/stakingplus/messages";
 import { tokenTypes } from "./modules/token/messages";
 import { wasmplusTypes } from "./modules/wasmplus/messages";
@@ -33,6 +38,8 @@ export const finschiaRegistryTypes: ReadonlyArray<[string, GeneratedType]> = [
   ...tokenTypes,
   ...wasmTypes,
   ...wasmplusTypes,
+  ...fswapTypes,
+  ...fbridgeTypes,
 ];
 
 export function createDefaultRegistry(): Registry {
@@ -53,6 +60,8 @@ export function createDefaultTypesWithoutFoundation(): AminoConverters {
     ...createCollectionAminoConverters(),
     ...createTokenAminoConverters(),
     ...createWasmplusAminoConverters(),
+    ...createFswapAminoConverters(),
+    ...createFbridgeAminoConverters(),
   };
 }
 
