@@ -115,7 +115,7 @@ describe("FswapExtension", () => {
       const expected: Swap = {
         fromDenom: "cony",
         toDenom: "pdt",
-        amountCapForToDenom: "10000000000000000000000000000000000000",
+        amountCapForToDenom: "1000000000000000000000000000000000000000000000",
         swapRate: Decimal.fromUserInput("148079656000000000000", 18).atomics,
       };
       expect(response.swaps[0]).toEqual(expected);

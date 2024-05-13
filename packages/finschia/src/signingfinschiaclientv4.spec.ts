@@ -16,7 +16,7 @@ describe("SigningFinschiaClient", () => {
     it("works", async () => {
       pendingWithoutSimapp();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeLinkPath(0), makeLinkPath(100)],
+        hdPaths: [makeLinkPath(0), makeLinkPath(200)],
         prefix: simapp.prefix,
       });
       const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
@@ -40,7 +40,7 @@ describe("SigningFinschiaClient", () => {
     it("works with legacy Amino signer", async () => {
       pendingWithoutSimapp();
       const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
-        hdPaths: [makeLinkPath(0), makeLinkPath(100)],
+        hdPaths: [makeLinkPath(0), makeLinkPath(200)],
         prefix: simapp.prefix,
       });
       const options = { ...defaultSigningClientOptions, prefix: simapp.prefix };
@@ -55,7 +55,6 @@ describe("SigningFinschiaClient", () => {
       }
       const toAddr = "0xf7bAc63fc7CEaCf0589F25454Ecf5C2ce904997c";
       const result = await client.swapAndBridge(addrs[1], toAddr);
-      console.log("result: ", result);
       assertIsDeliverTxSuccess(result);
 
       const balance = await client.getBalance(addrs[1], "pdt");

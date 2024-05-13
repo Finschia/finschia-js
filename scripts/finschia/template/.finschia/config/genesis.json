@@ -379,7 +379,7 @@
         },
         "timelock_period": "86400000000000",
         "proposal_period": "3600000000000",
-        "target_denom": "stake"
+        "target_denom": "pdt"
       },
       "sending_state": {
         "next_seq": "1",
@@ -449,8 +449,8 @@
         {
           "from_denom": "cony",
           "to_denom": "pdt",
-          "amount_cap_for_to_denom": "100000000000000",
-          "swap_rate": "148.000000000000000000"
+          "amount_cap_for_to_denom": "1000000000000000000000000000000000000000000000",
+          "swap_rate": "148079656000000000000"
         }
       ],
       "swap_stats": {
