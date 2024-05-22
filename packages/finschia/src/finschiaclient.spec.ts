@@ -702,7 +702,7 @@ describe("FinschiaClient", () => {
         );
         const memo = "Cross-chain fun";
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(2700, "cony"),
           gas: "180000", // 180k
         };
 
