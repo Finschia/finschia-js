@@ -149,6 +149,7 @@ describe("Amino Sign", () => {
   });
 
   it("MsgSwapAll", async () => {
+    pendingWithoutSimapp();
     const [client, tmClient] = await makeClientWithFswap(simapp.tendermintUrl);
     const wallet = await Secp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
       hdPaths: [makeLinkPath(0), makeLinkPath(100)],

@@ -221,7 +221,7 @@ describe("FinschiaClient", () => {
         },
       };
       const fee: StdFee = {
-        amount: coins(5000, "cony"),
+        amount: coins(13400, "cony"),
         gas: "890000",
       };
 
@@ -358,7 +358,7 @@ describe("FinschiaClient", () => {
             ...defaultSigningClientOptions,
           });
           await client.delegateTokens(faucet.address4, validator.validatorAddress, coin(1234, "stake"), {
-            amount: coins(2000, "cony"),
+            amount: coins(3000, "cony"),
             gas: "200000",
           });
         }
@@ -662,7 +662,7 @@ describe("FinschiaClient", () => {
       const client = await FinschiaClient.connect(simapp.tendermintUrl);
       const minimumGasPrice = await client.queryMinimumGasPrice();
       expect(minimumGasPrice).not.toBeNull();
-      expect(minimumGasPrice).toBe("0.000100000000000000cony");
+      expect(minimumGasPrice).toBe("0.015000000000000000cony,0.015000000000000000stake");
     });
   });
 

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   finschia-app:
-    image: "finschia/finschianode:4.0.0-rc3"
+    image: "finschia/finschianode:4.0.0-rc4"
     ports:
       - "26658:26657"
       - "1317:1317"
@@ -15,7 +15,7 @@ services:
       - host.docker.internal:host-gateway
 
   finschia2-app:
-    image: "finschia/finschianode:4.0.0-rc3"
+    image: "finschia/finschianode:4.0.0-rc4"
     ports:
       - "26558:26657"
       - "1318:1317"

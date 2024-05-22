@@ -269,7 +269,7 @@ export class ModifyingSecp256k1HdWallet extends Secp256k1HdWallet {
     const modifiedSignDoc = {
       ...signDoc,
       fee: {
-        amount: coins(3000, "cony"),
+        amount: coins(5000, "cony"),
         gas: "333333",
       },
       memo: "This was modified",
@@ -302,7 +302,7 @@ export class ModifyingDirectSecp256k1HdWallet extends DirectSecp256k1HdWallet {
       pubkey: signerInfo.publicKey!,
       sequence: signerInfo.sequence.toNumber(),
     }));
-    const modifiedFeeAmount = coins(3000, "cony");
+    const modifiedFeeAmount = coins(5000, "cony");
     const modifiedGasLimit = 333333;
     const modifiedFeeGranter = undefined;
     const modifiedFeePayer = undefined;
