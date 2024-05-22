@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - [\#112](https://github.com/Finschia/finschia-js/pull/112) change package version from v0.9.0 to v0.10.0-rc1
+- [\#113](https://github.com/Finschia/finschia-js/pull/113) bump up @finschia/finschia v4.0.0-rc4
 
 ### Deprecated
 
