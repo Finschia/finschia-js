@@ -40,7 +40,7 @@
     "@cosmjs/encoding": "^0.31.0",
     "@cosmjs/proto-signing": "^0.31.0",
     "@cosmjs/stargate": "^0.31.0",
-    "@finschia/finschia": "0.10.0-rc1",
+    "@finschia/finschia": "0.10.0-rc2",
     "eslint": "^7.5",
     "karma-chrome-launcher": "^3.1.0",
     "karma-jasmine": "^4.0.1",
