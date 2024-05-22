@@ -8,7 +8,7 @@
     "account-prefix": "link",
     "keyring-backend": "test",
     "gas-adjustment": 1.5,
-    "gas-prices": "0.001cony",
+    "gas-prices": "0.015cony",
     "debug": true,
     "timeout": "10s",
     "output-format": "json",
