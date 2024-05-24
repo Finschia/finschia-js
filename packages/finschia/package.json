@@ -47,7 +47,7 @@
     "@cosmjs/stargate": "^0.31.0",
     "@cosmjs/tendermint-rpc": "^0.31.0",
     "@cosmjs/utils": "^0.31.0",
-    "@finschia/finschia-proto": "4.0.0-rc4",
+    "@finschia/finschia-proto": "4.0.0-rc5",
     "cosmjs-types": "^0.8.0",
     "long": "^4.0.0",
     "pako": "^2.0.2",
