@@ -213,7 +213,7 @@ describe("SigningFinschiaClient", () => {
       );
       const memo = "Cross-chain fun";
       const fee = {
-        amount: coins(2000, "cony"),
+        amount: coins(3000, "cony"),
         gas: "180000", // 180k
       };
       const sendAmount = coin(1234, "cony");
@@ -294,7 +294,7 @@ describe("SigningFinschiaClient", () => {
       );
       const memo = "Cross-chain fun";
       const fee = {
-        amount: coins(2000, "cony"),
+        amount: coins(3000, "cony"),
         gas: "180000", // 180k
       };
       const sendAmount = coin(1234, "cony");
@@ -1093,7 +1093,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -1125,7 +1125,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "99000",
         };
         const result = await client.signAndBroadcast(faucet.address0, [msgAny], fee);
@@ -1186,7 +1186,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(5000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -1200,7 +1200,7 @@ describe("SigningFinschiaClient", () => {
         const tx = decodeTxRaw(searchResult.tx);
         // From ModifyingDirectSecp256k1HdWallet
         expect(tx.body.memo).toEqual("This was modified");
-        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
+        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(5000, "cony"));
         expect(tx.authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         client.disconnect();
@@ -1230,7 +1230,7 @@ describe("SigningFinschiaClient", () => {
           value: msgSend,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "ampersand:&,lt:<,gt:>";
@@ -1258,7 +1258,7 @@ describe("SigningFinschiaClient", () => {
           value: msgSend,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1289,7 +1289,7 @@ describe("SigningFinschiaClient", () => {
           value: msgDelegate,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1320,7 +1320,7 @@ describe("SigningFinschiaClient", () => {
           value: msgStoreCode,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(22500, "cony"),
           gas: "1500000",
         };
         const memo = "Use your tokens wisely";
@@ -1438,7 +1438,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -1469,7 +1469,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(5000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -1483,7 +1483,7 @@ describe("SigningFinschiaClient", () => {
         const tx = decodeTxRaw(searchResult.tx);
         // From ModifyingSecp256k1HdWallet
         expect(tx.body.memo).toEqual("This was modified");
-        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
+        expect({ ...tx.authInfo.fee!.amount[0] }).toEqual(coin(5000, "cony"));
         expect(tx.authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         client.disconnect();
@@ -1513,7 +1513,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -1546,7 +1546,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(5000, "cony"),
           gas: "180000", // 180k
         };
         const memo = "Use your power wisely";
@@ -1556,7 +1556,7 @@ describe("SigningFinschiaClient", () => {
         const authInfo = AuthInfo.decode(signed.authInfoBytes);
         // From ModifyingDirectSecp256k1HdWallet
         expect(body.memo).toEqual("This was modified");
-        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
+        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(5000, "cony"));
         expect(authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         // ensure signature is valid
@@ -1588,7 +1588,7 @@ describe("SigningFinschiaClient", () => {
           value: msgSend,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1622,7 +1622,7 @@ describe("SigningFinschiaClient", () => {
           value: msgDelegate,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "Use your tokens wisely";
@@ -1740,7 +1740,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(3000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -1774,7 +1774,7 @@ describe("SigningFinschiaClient", () => {
           value: msg,
         };
         const fee = {
-          amount: coins(2000, "cony"),
+          amount: coins(5000, "cony"),
           gas: "200000",
         };
         const memo = "Use your power wisely";
@@ -1784,7 +1784,7 @@ describe("SigningFinschiaClient", () => {
         const authInfo = AuthInfo.decode(signed.authInfoBytes);
         // From ModifyingSecp256k1HdWallet
         expect(body.memo).toEqual("This was modified");
-        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(3000, "cony"));
+        expect({ ...authInfo.fee!.amount[0] }).toEqual(coin(5000, "cony"));
         expect(authInfo.fee!.gasLimit.toNumber()).toEqual(333333);
 
         // ensure signature is valid

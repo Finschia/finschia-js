@@ -76,7 +76,7 @@ async function sendTokens(
   const { accountNumber, sequence } = (await client.getSequence(walletAddress))!;
   const feeAmount = [
     {
-      amount: "2000",
+      amount: "3000",
       denom: "cony",
     },
   ];

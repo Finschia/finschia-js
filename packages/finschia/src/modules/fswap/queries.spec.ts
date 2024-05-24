@@ -123,6 +123,23 @@ describe("FswapExtension", () => {
       tmClient.disconnect();
     });
 
+    it("Swap", async () => {
+      pendingWithoutSimapp();
+      const [client, tmClient] = await makeClientWithFswap(simapp.tendermintUrl);
+
+      const swap = await client.fswap.swap("cony", "pdt");
+      expect(swap).toBeDefined();
+      const expected: Swap = {
+        fromDenom: "cony",
+        toDenom: "pdt",
+        amountCapForToDenom: "1000000000000000000000000000000000000000000000",
+        swapRate: Decimal.fromUserInput("148079656000000", 18).atomics,
+      };
+      expect(swap).toEqual(expected);
+
+      tmClient.disconnect();
+    });
+
     it("TotalSwappableToCoinAmount", async () => {
       pendingWithoutSimapp();
       assert(beforeTotalSwappableToAmount, "Missing beforeTotalSwappableToAmount");

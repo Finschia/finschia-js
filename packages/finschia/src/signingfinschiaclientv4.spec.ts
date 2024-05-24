@@ -12,7 +12,7 @@ describe("SigningFinschiaClient", () => {
     gas: "1500000", // 1.5 million
   };
 
-  describe("signAndBridge", () => {
+  describe("swapAndBridge", () => {
     it("works", async () => {
       pendingWithoutSimapp();
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(faucet.mnemonic, {
