@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [\#112](https://github.com/Finschia/finschia-js/pull/112) change package version from v0.9.0 to v0.10.0-rc1
 - [\#113](https://github.com/Finschia/finschia-js/pull/113) bump up @finschia/finschia v4.0.0-rc4
 - [\#114](https://github.com/Finschia/finschia-js/pull/114) bump up @finschia/finschia v4.0.0-rc5
--
+- [\#115](https://github.com/Finschia/finschia-js/pull/115) bump up @finschia/finschia v4.0.0
 
 ## [v0.9.0] - 2023-10-24
 
