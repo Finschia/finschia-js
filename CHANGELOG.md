@@ -6,12 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- [\#111](https://github.com/Finschia/finschia-js/pull/111) add `fswap` and `fbridge` module apis of Finschia v4
 
 ### Changed
-- [\#112](https://github.com/Finschia/finschia-js/pull/112) change package version from v0.9.0 to v0.10.0-rc1
-- [\#113](https://github.com/Finschia/finschia-js/pull/113) bump up @finschia/finschia v4.0.0-rc4
-- [\#114](https://github.com/Finschia/finschia-js/pull/114) bump up @finschia/finschia v4.0.0-rc5
 
 ### Deprecated
 
@@ -21,6 +17,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+
+## [v0.10.0] - 2024-05-28
+
+### Added
+- [\#111](https://github.com/Finschia/finschia-js/pull/111) add `fswap` and `fbridge` module apis of Finschia v4
+
+### Changed
+- [\#112](https://github.com/Finschia/finschia-js/pull/112) change package version from v0.9.0 to v0.10.0-rc1
+- [\#113](https://github.com/Finschia/finschia-js/pull/113) bump up @finschia/finschia v4.0.0-rc4
+- [\#114](https://github.com/Finschia/finschia-js/pull/114) bump up @finschia/finschia v4.0.0-rc5
+-
 
 ## [v0.9.0] - 2023-10-24
 
@@ -146,7 +153,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.9.0...HEAD
+[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.10.0...HEAD
+[v0.10.0]: https://github.com/Finschia/finschia-js/compare/v0.9.0...v0.10.0
 [v0.9.0]: https://github.com/Finschia/finschia-js/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/Finschia/finschia-js/compare/v0.7.2...v0.8.0
 [v0.7.2]: https://github.com/Finschia/finschia-js/compare/v0.7.1...v0.7.2
