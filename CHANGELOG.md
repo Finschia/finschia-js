@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+* [\#116](https://github.com/Finschia/finschia-js/pull/116) Update swapAndBridge function
 
 ### Deprecated
 
