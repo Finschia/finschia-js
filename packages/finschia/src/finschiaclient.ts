@@ -580,4 +580,57 @@ export class FinschiaClient {
       };
     });
   }
+
+  /**
+   * poll and get the tx result of txHash.
+   */
+  public async pollForTxResult(
+    txId: Uint8Array,
+    timeoutMs = 60_000,
+    pollIntervalMs = 3_000,
+  ): Promise<DeliverTxResponse> {
+    let timedOut = false;
+    const txPollTimeout = setTimeout(() => {
+      timedOut = true;
+    }, timeoutMs);
+    const pollForTx = async (txId: string): Promise<DeliverTxResponse> => {
+      if (timedOut) {
+        throw new TimeoutError(
+          `Transaction with ID ${txId} was submitted but was not yet found on the chain. You might want to check later. There was a wait of ${
+            timeoutMs / 10000
+          } seconds.`,
+          txId,
+        );
+      }
+      await sleep(pollIntervalMs);
+      const result = await this.getTx(txId);
+      return result === null
+        ? pollForTx(txId)
+        : {
+            code: result.code,
+            height: result.height,
+            txIndex: result.txIndex,
+            events: result.events,
+            rawLog: result.rawLog,
+            transactionHash: txId,
+            msgResponses: result.msgResponses,
+            gasUsed: result.gasUsed,
+            gasWanted: result.gasWanted,
+          };
+    };
+
+    const transactionId = toHex(txId).toUpperCase();
+    return new Promise((resolve, reject) =>
+      pollForTx(transactionId).then(
+        (value) => {
+          clearTimeout(txPollTimeout);
+          resolve(value);
+        },
+        (error) => {
+          clearTimeout(txPollTimeout);
+          reject(error);
+        },
+      ),
+    );
+  }
 }

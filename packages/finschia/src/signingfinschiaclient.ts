@@ -8,16 +8,14 @@ import {
   InstantiateResult,
   JsonObject,
   MigrateResult,
-  MsgInstantiateContract2EncodeObject,
-  MsgStoreCodeEncodeObject,
-  UploadResult,
-} from "@cosmjs/cosmwasm-stargate";
-import {
   MsgClearAdminEncodeObject,
   MsgExecuteContractEncodeObject,
+  MsgInstantiateContract2EncodeObject,
   MsgInstantiateContractEncodeObject,
   MsgMigrateContractEncodeObject,
+  MsgStoreCodeEncodeObject,
   MsgUpdateAdminEncodeObject,
+  UploadResult,
 } from "@cosmjs/cosmwasm-stargate";
 import { sha256 } from "@cosmjs/crypto";
 import { fromBase64, toHex, toUtf8 } from "@cosmjs/encoding";
@@ -62,11 +60,11 @@ import {
   MsgClearAdmin,
   MsgExecuteContract,
   MsgInstantiateContract,
+  MsgInstantiateContract2,
   MsgMigrateContract,
+  MsgStoreCode,
   MsgUpdateAdmin,
 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { MsgInstantiateContract2 } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { MsgStoreCode } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import { AccessConfig } from "cosmjs-types/cosmwasm/wasm/v1/types";
 import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
 import { Height } from "cosmjs-types/ibc/core/client/v1/client";
@@ -98,6 +96,15 @@ export interface UploadAndInstantiateResult {
   readonly transactionHash: string;
   readonly gasWanted: number;
   readonly gasUsed: number;
+}
+
+export interface SwapAndBridgeOptions {
+  readonly gas?: StdFee | number;
+  readonly memo?: string;
+  /** The balance to swap and bridge. */
+  readonly amount?: string | number;
+  /** Set broadcast mode. If true, BROADCAST_ASYNC_MODE, if false, BROADCAST_SYNC_MODE */
+  readonly asyncBroadcast?: boolean;
 }
 
 function createDeliverTxResponseErrorMessage(result: DeliverTxResponse): string {
@@ -560,9 +567,8 @@ export class SigningFinschiaClient extends FinschiaClient {
   public async swapAndBridge(
     senderAddress: string,
     toAddress: string,
-    gas: StdFee | number = 150_000,
-    memo = "",
-  ): Promise<DeliverTxResponse> {
+    { gas = 150_000, memo = "", amount = undefined, asyncBroadcast = false }: SwapAndBridgeOptions = {},
+  ): Promise<Uint8Array | DeliverTxResponse> {
     // query swap rate
     const swapsRes = await this.forceGetQueryClientForV4().fswap.swaps();
     if (swapsRes.swaps.length == 0) {
@@ -587,13 +593,24 @@ export class SigningFinschiaClient extends FinschiaClient {
         amount: coins(gasLimit * 0.015, swap.fromDenom),
         gas: gasLimit.toString(),
       };
-    } else {
+    } else if (gas !== undefined) {
       usedFee = gas;
+    } else {
+      throw new Error("No gas value provided.");
+    }
+
+    let swapAmount: bigint;
+    if (amount === undefined) {
+      swapAmount = BigInt(balance.amount) - BigInt(usedFee.amount[0].amount);
+    } else {
+      if (BigInt(amount) + BigInt(usedFee.amount[0].amount) > BigInt(balance.amount)) {
+        throw new Error("no enough balance");
+      }
+      swapAmount = BigInt(amount);
     }
 
     // calculate swapRate and total swapAmount, amount to transfer by bridge
     const swapRate = Decimal.fromAtomics(swap.swapRate, 18);
-    const swapAmount = BigInt(balance.amount) - BigInt(usedFee.amount[0].amount);
     const swappedAmount = swapAmount * BigInt(swapRate.toString());
 
     const msgSwap: MsgSwapEncodeObject = {
@@ -613,12 +630,16 @@ export class SigningFinschiaClient extends FinschiaClient {
       }),
     };
 
-    const result = await this.signAndBroadcast(senderAddress, [msgSwap, msgBridge], usedFee, memo);
-    if (isDeliverTxFailure(result)) {
-      throw new Error(createDeliverTxResponseErrorMessage(result));
+    const txRaw = await this.sign(senderAddress, [msgSwap, msgBridge], usedFee, memo);
+    const txBytes = TxRaw.encode(txRaw).finish();
+
+    // If BROADCAST_ASYNC_MODE
+    if (asyncBroadcast) {
+      const broadcasted = await this.forceGetTmClient().broadcastTxAsync({ tx: txBytes });
+      return broadcasted.hash;
     }
 
-    return result;
+    return this.broadcastTx(txBytes, this.broadcastTimeoutMs, this.broadcastPollIntervalMs);
   }
 
   /**
