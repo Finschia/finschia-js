@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
-* [\#116](https://github.com/Finschia/finschia-js/pull/116) Update swapAndBridge function
 
 ### Deprecated
 
@@ -17,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+
+## [v0.10.1] - 2024-06-17
+
+### Changed
+* [\#116](https://github.com/Finschia/finschia-js/pull/116) Update swapAndBridge function
 
 
 ## [v0.10.0] - 2024-05-28
@@ -154,7 +159,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.10.0...HEAD
+[unreleased]: https://github.com/Finschia/finschia-js/compare/v0.10.1...HEAD
+[v0.10.1]: https://github.com/Finschia/finschia-js/compare/v0.10.0...v0.10.1
 [v0.10.0]: https://github.com/Finschia/finschia-js/compare/v0.9.0...v0.10.0
 [v0.9.0]: https://github.com/Finschia/finschia-js/compare/v0.8.0...v0.9.0
 [v0.8.0]: https://github.com/Finschia/finschia-js/compare/v0.7.2...v0.8.0
