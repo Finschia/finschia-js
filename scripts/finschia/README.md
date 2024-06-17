@@ -4,6 +4,10 @@
 
 Run the following:
 
+```npm
+npm run build
+```
+
 ```shell
 cd scripts/finschia
 ./start.sh
